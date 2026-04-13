@@ -1,4 +1,5 @@
 
+import 'package:fin_wise/core/app_colors.dart';
 import 'package:flutter/material.dart';
 
 // Service Categories
@@ -31,10 +32,20 @@ enum ServiceProvider{
   mtn('MTN', 'mtn.jpeg'),
   glo('Glo', 'glo.jpeg'),
   airtel('Airtel', 'airtel.jpeg'),
-  nineMobile('9Mobile', 'nineMobile.jpeg');
+  nineMobile('9Mobile', 'et.jpeg');
 
   final String label;
   final String imgPath;
 
   const ServiceProvider(this.label, this.imgPath);
+}
+
+enum TransactionStatus{
+  pending('Pending', AppColors.pending),
+  declined('Declined', AppColors.declined),
+  complete('Complete', AppColors.primary);
+
+  final String label;
+  final Color color;
+  const TransactionStatus(this.label, this.color);
 }

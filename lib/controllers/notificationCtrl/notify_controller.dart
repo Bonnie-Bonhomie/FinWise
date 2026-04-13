@@ -13,6 +13,7 @@ class NotifyCtrl extends GetxController{
   List<NotifyModel> yesterNote =[];
   List<NotifyModel> otherNote= [];
   DateTime now = DateTime.now().toUtc();
+  var isRead = false.obs;
 
 
 
@@ -45,9 +46,22 @@ class NotifyCtrl extends GetxController{
   }
 
 
+  void deleteNotify(index, List list){
+    list.removeAt(index);
+    update();
+  }
 
+  void deleteAll(){
+    notifications.clear();
+    update();
+  }
+  void markAsRead(index, List list){
+    list[index];
+    isRead.value = true;
+    update();
+  }
 
-
+  var notifies = <NotifyModel>[].obs;
 
 
       List<NotifyModel> notifications =[

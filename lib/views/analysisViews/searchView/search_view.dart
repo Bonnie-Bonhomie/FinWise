@@ -24,7 +24,7 @@ class SearchView extends StatelessWidget {
         topMargin: 5,
         topChild: Column(
           children: [
-            CustomAppBar.header('Search', 10, () {}),
+            CustomAppBar.header(title: 'Search', leftRight: 10, onPressed: () {}),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: SizedBox(

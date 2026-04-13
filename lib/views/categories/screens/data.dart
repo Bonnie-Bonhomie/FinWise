@@ -1,9 +1,13 @@
 import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 import 'package:fin_wise/controllers/categoryCtrl/data_controller.dart';
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/widgets/custom_app_bar.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/data_model.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:fin_wise/views/categories/widgets/top_form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
@@ -19,10 +23,13 @@ class DataView extends StatefulWidget {
 
 class _DataViewState extends State<DataView>
     with SingleTickerProviderStateMixin {
-  final TextEditingController numberCtrl = TextEditingController();
+
   final paymentCtrl = Get.find<CategoryNavCtrl>();
-  final dataCtrl = Get.put(DataController());
+  final dataCtrl = Get.find<DataController>();
+  final loading = Get.find<LoaderController>();
   late TabController _tabCtrl;
+
+  final TextEditingController numberCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -40,54 +47,56 @@ class _DataViewState extends State<DataView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageContainer(
-        topMargin: 20,
-        bottomPadding: 10,
-        topChild: CustomAppBar.header('Buy Data', 15, () => Get.back()),
-        child: TopFormWidget(
-          selected: paymentCtrl.selected.value,
-          numberCtrl: numberCtrl,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
-                  Spacer(),
-                  Icon(Icons.grid_view_rounded, color: AppColors.primary),
-                  // Icon(Icons.grid_4x4),
-                ],
-              ),
 
-              TabBar(
-                labelStyle: TextStyle(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.bold,
-                ),
-                // isScrollable: true,
-                // physics: ScrollPhysics(),
-                padding: const EdgeInsets.all(10),
-                indicatorColor: AppColors.primary,
-                dividerColor: AppColors.lightGreen,
-                controller: _tabCtrl,
-                tabs: List.generate(dataCtrl.sections.length, ((index) {
-                  final tab = dataCtrl.sections[index];
-                  return Tab(text: tab);
-                })),
-              ),
-              SizedBox(
-                height: 400,
-                child: TabBarView(
-                  controller: _tabCtrl,
+    return Scaffold(
+      body: LoaderWrapper(
+        child: PageContainer(
+          topMargin: 20,
+          bottomPadding: 10,
+          topChild: CustomAppBar.header(title: 'Buy Data', leftRight: 15, onPressed: () => Get.back()),
+          child: TopFormWidget(
+            numberCtrl: numberCtrl,
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    sectionDataList(dataCtrl.hotUp, 'Weekly'),
-                    sectionDataList(dataCtrl.daily, 'Daily'),
-                    sectionDataList(dataCtrl.weekly, 'Weekly'),
-                    sectionDataList(dataCtrl.weekly, 'Monthly'),
+                    AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
+                    Spacer(),
+                    Icon(Icons.grid_view_rounded, color: AppColors.primary),
+                    // Icon(Icons.grid_4x4),
                   ],
                 ),
-              ),
-            ],
+
+                TabBar(
+                  labelStyle: TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  // isScrollable: true,
+                  // physics: ScrollPhysics(),
+                  padding: const EdgeInsets.all(10),
+                  indicatorColor: AppColors.primary,
+                  dividerColor: AppColors.lightGreen,
+                  controller: _tabCtrl,
+                  tabs: List.generate(dataCtrl.sections.length, ((index) {
+                    final tab = dataCtrl.sections[index];
+                    return Tab(text: tab);
+                  })),
+                ),
+                SizedBox(
+                  height: 400,
+                  child: TabBarView(
+                    controller: _tabCtrl,
+                    children: [
+                      sectionDataList(dataCtrl.hotUp, 'Weekly'),
+                      sectionDataList(dataCtrl.daily, 'Daily'),
+                      sectionDataList(dataCtrl.weekly, 'Weekly'),
+                      sectionDataList(dataCtrl.weekly, 'Monthly'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -105,16 +114,21 @@ class _DataViewState extends State<DataView>
           final data = dataPlan[index];
           return InkWell(
             onTap: () {
-              numberCtrl.text.isNotEmpty
-                  ? ConfirmBottomSheet().confirmBottomSheet(
-                      context,
-                      amount: data.price,
-                      numberCtrl: numberCtrl,
-                productName: 'Mobile Data',
-                data: true,
-                plan: '${data.name} ${data.type} $section Plan'
-                    )
-                  : Get.snackbar('Error', 'Enter Recipient Number', backgroundColor: AppColors.lightGreen);
+              FocusScope.of(context).unfocus();
+              final imgPath= paymentCtrl.selectProvider.value.imgPath;
+              // numberCtrl.text.isNotEmpty
+              //     ? loading.offLoading((){
+              //   ConfirmBottomSheet().confirmBottomSheet(
+              //       context,
+              //       amount: data.price,
+              //       numberCtrl: numberCtrl,
+              //       productName: 'Mobile Data',
+              //       data: true,
+              //       plan: '${data.name} ${data.type} $section Plan',
+              //       imgPath: imgPath,
+              //   );
+              // })
+              //     : CustomSnackbar.showSnackbar(message: 'Enter recipient number');
             },
             child: Container(
               padding: const EdgeInsets.all(20),

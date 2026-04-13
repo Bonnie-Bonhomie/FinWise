@@ -1,6 +1,7 @@
 
 import 'package:fin_wise/binding/initial_binding.dart';
 import 'package:fin_wise/core/Routes/app_routes.dart';
+import 'package:fin_wise/utils/Helpers/life_cycle_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,15 +12,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialBinding: InitialBindings(),
-      theme: ThemeData(
-        // fontFamily: 'Poppins',
+    return AppLifeCycleHelper(
+      child: GetMaterialApp(
+        transitionDuration: Duration(milliseconds: 300),
+        defaultTransition: Transition.leftToRight,
+        debugShowCheckedModeBanner: false,
+        initialBinding: InitialBindings(),
+        theme: ThemeData(
+          // fontFamily: 'Poppins',
 
+        ),
+        initialRoute: Routes.initRoute,
+        getPages: AppRoutes.pageRoutes,
       ),
-      initialRoute: Routes.initRoute,
-      getPages: AppRoutes.pageRoutes,
     );
   }
 }

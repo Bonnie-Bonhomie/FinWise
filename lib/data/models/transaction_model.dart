@@ -9,6 +9,7 @@ class TransactionModel {
   final Categories category;
   final double amount;
   final bool isIncome;
+  final TransactionStatus status;
 
   TransactionModel({
     required this.id,
@@ -17,6 +18,7 @@ class TransactionModel {
     required this.category,
     required this.amount,
     required this.isIncome,
+    required this.status,
   });
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class TransactionModel {
       category: json['category'],
       amount: json['amount'],
       isIncome: json['isIncome'],
+      status: json['status'],
     );
   }
 
@@ -37,7 +40,8 @@ class TransactionModel {
       'time': card.time,
       'category': card.category,
       'amount': card.amount,
-      'isIncome': card.isIncome
+      'isIncome': card.isIncome,
+      'status': card.status,
     };
   }
 }

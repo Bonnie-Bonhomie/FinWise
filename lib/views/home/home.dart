@@ -3,7 +3,6 @@ import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
-import 'package:fin_wise/data/models/transaction_model.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -29,80 +28,79 @@ class HomePage extends GetView<AccBalanceCtrl> {
     return Scaffold(
       body: SafeArea(
         top: false,
-        child: PageContainer(
-          topMargin: 10,
-          topChild: Obx(
-            () => Column(
-              children: [
-                _header(viewModel.greeting()),
-                headerCard(context, percent.toDouble(), controller),
-              ],
+        child: SingleChildScrollView(
+          child: PageContainer(
+            topMargin: 10,
+            topChild: Obx(
+              () => Column(
+                children: [
+                  _header(viewModel.greeting()),
+                  headerCard(context, percent.toDouble(), controller),
+                ],
+              ),
             ),
-          ),
-          //The Bottom Section [Transaction lists]
-          child: Container(
-            padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CategoriesCard(
-                      width: 50,
-                      iconSize: 25,
-                      icon: Categories.airtime.icon,
-                      title: Categories.airtime.label,
-                      onTap: () => Get.toNamed(Routes.airtime),
-                    ),
-                    CategoriesCard(
-                      width: 50,
-                      iconSize: 30,
-                      icon: Categories.data.icon,
-                      title: Categories.data.label,
-                      onTap: () => Get.toNamed(Routes.data),
-                    ),
-                    CategoriesCard(
-                      width: 50,
-                      iconSize: 25,
-                      icon: Categories.cable.icon,
-                      title: Categories.cable.label,
-                      onTap: () => Get.toNamed(Routes.tv),
-                    ),
-                    CategoriesCard(
-                      width: 50,
-                      iconSize: 25,
-                      icon: Icons.category_outlined,
-                      title: 'More',
-                      onTap: () {
-                        nav.selectInd.value = 3;
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: [
-                    const AppText(
-                      text: "Transactions",
-                      textSize: 20,
-                      textWeigh: FontWeight.bold,
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        nav.selectInd.value = 2;
-                      },
-                      child: const AppText(text: 'See all'),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: Obx(() {
-                    final transact = trans.monthlyTransacts;
-                    return buildTransaction(transact);
-                  }),
-                ),
-              ],
+            //The Bottom Section [Transaction lists]
+            child: Container(
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CategoriesCard(
+                        width: 50,
+                        iconSize: 25,
+                        icon: Categories.airtime.icon,
+                        title: Categories.airtime.label,
+                        onTap: () => Get.toNamed(Routes.airtime),
+                      ),
+                      CategoriesCard(
+                        width: 50,
+                        iconSize: 30,
+                        icon: Categories.data.icon,
+                        title: Categories.data.label,
+                        onTap: () => Get.toNamed(Routes.data),
+                      ),
+                      CategoriesCard(
+                        width: 50,
+                        iconSize: 25,
+                        icon: Categories.cable.icon,
+                        title: Categories.cable.label,
+                        onTap: () => Get.toNamed(Routes.tv),
+                      ),
+                      CategoriesCard(
+                        width: 50,
+                        iconSize: 25,
+                        icon: Icons.category_outlined,
+                        title: 'More',
+                        onTap: () {
+                          nav.selectInd.value = 1;
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const AppText(
+                        text: "Transactions",
+                        textSize: 20,
+                        textWeigh: FontWeight.bold,
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          nav.selectInd.value = 2;
+                        },
+                        child: const AppText(text: 'See all'),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: buildTransaction(trans)
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -110,10 +108,31 @@ class HomePage extends GetView<AccBalanceCtrl> {
     );
   }
 
-  Widget buildTransaction(List<TransactionModel> transact) {
+  Widget buildTransaction(TransactionCtrl trans) {
+    final transact = trans.transacts;
+    int getLen(){
+      int len;
+      if(transact.length < 3){
+        len = transact.length;
+      }else{
+        len = 3;
+      }
+      return len;
+    }
+    if(transact.isEmpty){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(image: AssetImage('Assets/images/green_empty.png'), height: 120, width: 120,),
+          AppText(text: 'Oops!', textSize: 18,),
+          AppText(text: 'No transaction history ', textSize: 17,textWeigh: FontWeight.w300,)
+        ],
+      );
+    }
     return ListView.builder(
       padding: EdgeInsets.only(top: 5),
-      itemCount: 3,
+      itemCount: getLen(),
       itemBuilder: (context, index) {
         final tx = transact[index];
         return TransactionCard(tx: tx);
@@ -134,7 +153,7 @@ class HomePage extends GetView<AccBalanceCtrl> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
                 totalBox(
@@ -144,17 +163,36 @@ class HomePage extends GetView<AccBalanceCtrl> {
                   color: AppColors.bgColor,
                 ),
                 Spacer(),
-                SectDivider(colors: AppColors.bgColor),
-                Spacer(),
-                totalBox(
-                  title: "Virtual Account",
-                  value: acc.virtualAcc.value.isEmpty? 'Generate': acc.virtualAcc.value.toString(),
-                  onTap:  acc.virtualAcc.value.isEmpty? (){
-                    Get.toNamed(Routes.generateVirtual);
-                  }: (){},
-                  color: Color(0xFF0000FF),
-                  icon: Icons.arrow_circle_down_outlined,
-                ),
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(onTap: (){
+                      Get.toNamed(Routes.fundWallet);
+                    },
+                        child: Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                                color: AppColors.bgColor,
+                                borderRadius: BorderRadius.circular(8.0)
+                            ),
+                            child: const AppText(text: 'Fund Wallet'))),
+                    acc.virtualAcc.value.isEmpty? SizedBox.shrink(): AppText(text: acc.virtualAcc.value),
+                  ],
+                )
+
+                // SectDivider(colors: AppColors.bgColor),
+                // Spacer(),
+                // totalBox(
+                //   title: "Virtual Account",
+                //   value: acc.virtualAcc.value.isEmpty? 'Generate': acc.virtualAcc.value.toString(),
+                //   onTap:  acc.virtualAcc.value.isEmpty? (){
+                //     Get.toNamed(Routes.generateVirtual);
+                //   }: (){},
+                //   color: Color(0xFF0000FF),
+                //   icon: Icons.arrow_circle_down_outlined,
+                // ),
               ],
             ),
           ),
@@ -235,7 +273,7 @@ class HomePage extends GetView<AccBalanceCtrl> {
     VoidCallback? onTap,
   }) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -249,7 +287,8 @@ class HomePage extends GetView<AccBalanceCtrl> {
             text: value,
             textWeigh: FontWeight.bold,
             textColor: color,
-            textSize: 17,
+            textSize: 20,
+            // textAlign: TextAlign.center,
           ),
         ),
       ],
@@ -259,7 +298,7 @@ class HomePage extends GetView<AccBalanceCtrl> {
   //Name and header greeting
   Widget _header(String greet) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15, 15, 15, 5.0),
+      padding: const EdgeInsets.fromLTRB(20, 15, 20, 5.0),
       child: Row(
         children: [
           Column(
@@ -274,16 +313,7 @@ class HomePage extends GetView<AccBalanceCtrl> {
             ],
           ),
           const Spacer(),
-          IconButton(
-            onPressed: () {
-              Get.toNamed(Routes.notify);
-            },
-            icon: const Icon(
-              Icons.circle_notifications_rounded,
-              color: Colors.white,
-              size: 35,
-            ),
-          ),
+          Icon(Icons.person, color: AppColors.bgColor,)
         ],
       ),
     );

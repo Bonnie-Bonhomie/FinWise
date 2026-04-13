@@ -1,8 +1,14 @@
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
+import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class KeyPadController extends GetxController{
+
+  late LoaderController load = Get.find<LoaderController>();
+
 
   final TextEditingController pinText = TextEditingController();
   RxString input = ''.obs;
@@ -24,29 +30,26 @@ class KeyPadController extends GetxController{
     pinText.text = '';
   }
 
-  void loadPin(pin){
+  void loadPin(pin) async{
 
     if(pin.length == 4) {
-      loading.value = true;
-      Future.delayed(Duration(seconds: 3));
-      FocusManager.instance.primaryFocus?.context;
-
-      Future.microtask(() {
-        Get.offNamed(Routes.transSuccess, arguments: 200);
+      Get.back();
+      // load.show();
+      load.offLoading(() async {
+       validatePin(pin);
       });
     }
-    loading.value = false;
   }
 
   Future<void> validatePin(pin) async {
 
-    // bool isValid = await repo.verifyPin();
+    bool isValid = pin == '2345';
 
-    // if(isValid){
-    //   Get.offNamed(Routes.transReceipt);
-    // }else{
-    //   Get.snackbar('Recheck', 'Incorrect pin', backgroundColor: AppColors.lightGreen);
-    // }
+    if(isValid){
+      Get.offNamed(Routes.transSuccess, arguments: 200);
+    }else{
+      CustomSnackbar.warningSnack('Incorrect Pin. Recheck and try again');
+    }
   }
 
   @override

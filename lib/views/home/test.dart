@@ -1,79 +1,77 @@
 import 'package:flutter/material.dart';
 
-class ExpandOverPage extends StatefulWidget {
-  @override
-  State<ExpandOverPage> createState() => _ExpandOverPageState();
-}
+class AnimatedBottomSheet extends StatelessWidget {
+  final bool isOpen;
+  final bool focused;
+  final Widget page;
+  final Widget child;
 
-class _ExpandOverPageState extends State<ExpandOverPage> {
-  bool isOpen = false;
+  const AnimatedBottomSheet({
+    super.key,
+    required this.focused,
+    required this.isOpen,
+    required this.page,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
+    return Stack(
+      children: [
+        page,
+        BottomSwitcher(isOpen: isOpen, focused: focused, child: child)
+      ],
+    );
+  }
+}
 
-          // 👇 Main Page Content
-          Column(
-            children: [
-              SizedBox(height: 120),
-              Center(child: Text("Main Content Here")),
-            ],
-          ),
+class BottomSwitcher extends StatelessWidget {
+  final bool isOpen;
+  final Widget child;
+  final bool focused;
 
-          // 👇 Button
-          Positioned(
-            top: 50,
-            left: 20,
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  isOpen = !isOpen;
-                });
-              },
-              child: Text("Open"),
-            ),
-          ),
+  const BottomSwitcher({
+    super.key,
+    required this.isOpen,
+    required this.child,
+    required this.focused,
+  });
 
-          // 👇 Expanding Container (OVERLAY)
-          if (isOpen)
-            Positioned(
-              top: 100,
-              left: 20,
-              right: 20,
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      color: Colors.black26,
-                    )
-                  ],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Expanded Content"),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isOpen = false;
-                        });
-                      },
-                      child: Text("Close"),
-                    )
-                  ],
-                ),
-              ),
-            ),
-        ],
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 300),
+      switchInCurve: Curves.easeInOutQuad,
+      child: isOpen
+          ? Container(
+              key: ValueKey('bottom-sheet'),
+              color: Colors.green.withOpacity(0.4),
+              child: BottomChild(focused: focused, child: child),
+            )
+          : const SizedBox(),
+    );
+  }
+}
+
+class BottomChild extends StatelessWidget {
+  final Widget child;
+  final bool focused;
+
+  const BottomChild({super.key, required this.child, required this.focused});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        AnimatedPositioned(
+          duration: Duration(milliseconds: 300),
+          // top: 200,
+          bottom: focused ? 50 : 20,
+          child: Container(
+              // width: 300,
+              child: child),
+        ),
+      ],
     );
   }
 }

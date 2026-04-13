@@ -17,4 +17,8 @@ class AppColors{
   static const Color blue = Color(0xFF3299FF);
   static const Color subBlue = Color(0xFF6DB6FE);
   static const Color superBlue = Color(0xFF0068FF);
+
+  //transaction status color
+  static const Color pending = Color(0xB0FCAC04);
+  static const Color declined = Color(0xB0FA0303);
 }

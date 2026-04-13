@@ -19,9 +19,9 @@ class FingerprintListView extends StatelessWidget {
       body: PageContainer(
         topMargin: 20,
         topChild: CustomAppBar.header(
-          'FingerPrints',
-          15,
-          () => Get.find<ProfileMainControl>().back(),
+          title: 'FingerPrints',
+          leftRight: 15,
+          onPressed: () => Get.find<ProfileMainControl>().back(),
         ),
         child: Column(
           children: [

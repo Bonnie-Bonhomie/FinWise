@@ -21,7 +21,7 @@ class _SuccessfulPageState extends State<SuccessfulPage>{
 
 
     Future.delayed(Duration(seconds: 2), (){
-      Get.offNamed(Routes.mainS);
+      Get.offAllNamed(Routes.mainS);
     });
     // This make the init wait till the page is stacked before pop
     //

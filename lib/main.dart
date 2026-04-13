@@ -1,6 +1,7 @@
 import 'package:fin_wise/app.dart';
 import 'package:fin_wise/dependencies/depend_injection.dart';
 import 'package:fin_wise/utils/Helpers/dismiss_keyboard.dart';
+import 'package:fin_wise/utils/Helpers/life_cycle_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,7 +22,7 @@ void main() {
         statusBarColor: Colors.transparent,
       )
   );
-
+    print('App Started');
 
   runApp(
     DismissKeyboard(child: const MyApp())

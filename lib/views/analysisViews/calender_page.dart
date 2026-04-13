@@ -22,9 +22,7 @@ class CalenderPage extends StatelessWidget {
     final lastDay = DateTime(2100);
     return Scaffold(
       body: PageContainer(
-        topChild: CustomAppBar.header('Calender', 15, () {
-          Get.back();
-        }),
+        topChild: CustomAppBar.header(title: 'Calender',leftRight: 15, onPressed: () => Get.back()),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(

@@ -1,16 +1,15 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/core/widgets/app_btn.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/datePicker.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
-import 'package:fin_wise/utils/widgets/phone_number_formatter.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:fin_wise/utils/widgets/phone_number_form.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../core/Routes/routes.dart';
@@ -39,6 +38,7 @@ class _SignInViewState extends State<SignInView> {
   final TextEditingController confirmPwdCtrl = TextEditingController();
   final TextEditingController dobCtrl = TextEditingController();
   final AuthCtrl authCtrl = Get.find<AuthCtrl>();
+  final loader = Get.find<LoaderController>();
 
   bool pwdObscure = true;
   bool confirmPwdObscure = true;
@@ -64,24 +64,42 @@ class _SignInViewState extends State<SignInView> {
 
   Future<void> _register() async {
     if (formKey.currentState!.validate()) {
-      await authCtrl.registerUser(
-        name: nameCtrl.text.trim(),
-        mail: mailCtrl.text,
-        dob: dobCtrl.text,
-        phone: numberCtrl.text,
-        password: pwdCtrl.text,
-        confirmPassword: confirmPwdCtrl.text,
-      );
+      // await authCtrl.registerUser(
+      //   name: nameCtrl.text.trim(),
+      //   mail: mailCtrl.text,
+      //   dob: dobCtrl.text,
+      //   phone: numberCtrl.text,
+      //   password: pwdCtrl.text,
+      //   confirmPassword: confirmPwdCtrl.text,
+      // );
+      loader.offLoading((){
+        CustomSnackbar.successSnack('Sign up successfully');
+        Get.offNamed(Routes.verAcc);
+      });
+    }
+    else{
+      CustomSnackbar.warningSnack('Fill all the required field to continue');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: PageContainer(
-          topChild: const HeadingText(headingText: "Create Account"),
-          child: formSection(),
+      backgroundColor: AppColors.primary,
+      body: LoaderWrapper(
+        child: ListView(
+          children: [
+            Padding(padding: const EdgeInsets.fromLTRB(25, 25, 25, 0), child: HeadingText(headingText: 'Create Account'),),
+            Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(60),),
+                color: AppColors.bgColor
+              ),
+              child: formSection(),
+            )
+          ],
         ),
       ),
     );
@@ -90,155 +108,131 @@ class _SignInViewState extends State<SignInView> {
   Form formSection() {
     return Form(
       key: formKey,
-      child: SizedBox(
-        height: 670,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(height: 20),
-                labelText("Full Name"),
-                const SizedBox(height: 8.0),
-                FormWidget(
-                  valController: nameCtrl,
-                  fieldKey: nameKey,
-                  validator: (val) => Validator.validateText(val, 'Full Name'),
-                  onChanged: (val) => nameKey.currentState?.validate(),
-                  hintText: "john due",
-                ),
-                const SizedBox(height: 15),
-                labelText("Email"),
-                const SizedBox(height: 8.0),
-                FormWidget(
-                  // label: '',
-                  valController: mailCtrl,
-                  fieldKey: mailKey,
-                  textType: TextInputType.emailAddress,
-                  validator: (val) => Validator.validateEmail(val),
-                  onChanged: (val) => mailKey.currentState?.validate(),
-                  hintText: "johndue@example.com",
-                ),
-                const SizedBox(height: 15),
-                labelText("Mobile Number"),
-                const SizedBox(height: 8.0),
-                TextFormField(
-                  controller: numberCtrl,
-                  key: numberKey,
-                  autofocus: false,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    PhoneNumberFormatter(),
-                  ],
-                  validator: (value) => Validator.validatePhoneNumber(value!) ,
-                  keyboardType: TextInputType.number,
-                  onChanged: (val) => numberKey.currentState!.validate(),
-                  decoration: InputDecoration(
-                    hintText: '080X XXX XXXX',
-                    fillColor: AppColors.lightGreen,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                labelText("Date of Birth"),
-                const SizedBox(height: 15.0),
-                SizedBox(height: 40, child: DatePicker(dateControl: dobCtrl)),
-                labelText("Password"),
-                const SizedBox(height: 15.0),
-                const SizedBox(height: 8.0),
-                FormWidget(
-                  valController: pwdCtrl,
-                  fieldKey: pwdKey,
-                  obscure: pwdObscure,
-                  validator: (val) => Validator.validatePassword(val),
-                  onChanged: (val) => pwdKey.currentState?.validate(),
-                  hintText: "Password",
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      showPass();
-                    },
-                    icon: pwdObscure
-                        ? const Icon(Icons.visibility_off_outlined)
-                        : const Icon(Icons.visibility_outlined),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                labelText("Confirm Password"),
-                const SizedBox(height: 8.0),
-                FormWidget(
-                  valController: confirmPwdCtrl,
-                  fieldKey: confirmPwdKey,
-                  obscure: confirmPwdObscure,
-                  onChanged: (val) => confirmPwdKey.currentState?.validate(),
-                  validator: (val) => Validator.validateConfirmPassword(
-                    firstPassword: pwdCtrl.text,
-                    value: val,
-                  ),
-                  hintText: "confirm password",
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      showCfmPass();
-                    },
-                    icon: confirmPwdObscure
-                        ? const Icon(Icons.visibility_off_outlined)
-                        : const Icon(Icons.visibility_outlined),
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const AppText(text: "By continuing, you agree to"),
-                    TextButton(onPressed: (){
-                      Get.toNamed(Routes.terms);
-                    }, child: const AppText(
-                      text: "Terms of Use and Privacy Policy.",
-                      textWeigh: FontWeight.bold,textColor: AppColors.darkGreen,
-                    ),),
-                    AppBtn(
-                      onPressed: () {
-                        // _register();
-                        Get.find<SharedPreferService>().saveData<bool>(PrefStoreKeys.isFirstTime, true );
-
-                        Get.offNamed(Routes.transPin);
-                      },
-                      label: 'Sign Up',
-                      loading: authCtrl.loading.value,
-                      loadWidget: CircularProgressIndicator(),
-                    ),
-                    const SizedBox(height: 20),
-                    RichText(
-                      text: TextSpan(
-                        text: "Already have an account? ",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w300,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'Log in',
-                            style: TextStyle(color: Colors.blue),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.offNamed(Routes.login);
-                              },
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 15,)
-                  ],
-                ),
-              ],
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // const SizedBox(height: 20),
+          labelText("Full Name"),
+          const SizedBox(height: 5.0),
+          FormWidget(
+            valController: nameCtrl,
+            fieldKey: nameKey,
+            validator: (val) => Validator.validateText(val, 'Full Name'),
+            onChanged: (val) => nameKey.currentState?.validate(),
+            hintText: "john due",
+          ),
+          const SizedBox(height: 15),
+          labelText("Email"),
+          const SizedBox(height: 8.0),
+          FormWidget(
+            // label: '',
+            valController: mailCtrl,
+            fieldKey: mailKey,
+            textType: TextInputType.emailAddress,
+            validator: (val) => Validator.validateEmail(val!.trim()),
+            onChanged: (val) => mailKey.currentState?.validate(),
+            hintText: "johndue@example.com",
+          ),
+          const SizedBox(height: 15),
+          labelText("Mobile Number"),
+          const SizedBox(height: 8.0),
+          PhoneNumberFormField(
+            numberCtrl: numberCtrl,
+            numberKey: numberKey,
+            validator: (value) => Validator.validateNumber(value!),
+            onChanged: (val) => numberKey.currentState!.validate(),
+          ),
+          const SizedBox(height: 15),
+          labelText("Date of Birth"),
+          const SizedBox(height: 8.0),
+          DatePicker(dateControl: dobCtrl),
+          const SizedBox(height: 15.0),
+          labelText("Password"),
+          const SizedBox(height: 8.0),
+          FormWidget(
+            valController: pwdCtrl,
+            fieldKey: pwdKey,
+            obscure: pwdObscure,
+            validator: (val) => Validator.validatePassword(val),
+            onChanged: (val) => pwdKey.currentState?.validate(),
+            hintText: "Password",
+            suffixIcon: IconButton(
+              onPressed: () {
+                showPass();
+              },
+              icon: pwdObscure
+                  ? const Icon(Icons.visibility_off_outlined)
+                  : const Icon(Icons.visibility_outlined),
             ),
           ),
-        ),
+          const SizedBox(height: 15),
+          labelText("Confirm Password"),
+          const SizedBox(height: 8.0),
+          FormWidget(
+            valController: confirmPwdCtrl,
+            fieldKey: confirmPwdKey,
+            obscure: confirmPwdObscure,
+            onChanged: (val) => confirmPwdKey.currentState?.validate(),
+            validator: (val) => Validator.validateConfirmPassword(
+              firstPassword: pwdCtrl.text,
+              value: val,
+            ),
+            hintText: "confirm password",
+            suffixIcon: IconButton(
+              onPressed: () {
+                showCfmPass();
+              },
+              icon: confirmPwdObscure
+                  ? const Icon(Icons.visibility_off_outlined)
+                  : const Icon(Icons.visibility_outlined),
+            ),
+          ),
+          const SizedBox(height: 20.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const AppText(text: "By continuing, you agree to"),
+              InkWell(onTap: (){
+                Get.toNamed(Routes.terms);
+              },
+                child: const AppText(
+                text: "Terms of Use and Privacy Policy.",
+                textWeigh: FontWeight.bold,textColor: AppColors.darkGreen,
+              ),),
+              const SizedBox(height: 20,),
+              AppBtn(
+                onPressed: () {
+                  _register();
+                },
+                label: 'Sign Up',
+                loading: authCtrl.loading.value,
+                loadWidget: CircularProgressIndicator(),
+              ),
+              const SizedBox(height: 20),
+              RichText(
+                text: TextSpan(
+                  text: "Already have an account? ",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: 'Log in',
+                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Get.offNamed(Routes.login);
+                        },
+                    ),
+                  ],
+                ),
+              ),
+              // const SizedBox(height: 15,)
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -3,45 +3,37 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/phone_number_formatter.dart';
+import 'package:fin_wise/viewModel/top_form_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class TopFormWidget extends StatefulWidget {
-  const TopFormWidget({
+   const TopFormWidget({
     super.key,
     required this.child,
-    required this.selected,
     required this.numberCtrl,
   });
 
   final TextEditingController numberCtrl;
-  final String selected;
   final Widget child;
+
 
   @override
   State<TopFormWidget> createState() => _TopFormWidgetState();
 }
 
 class _TopFormWidgetState extends State<TopFormWidget> {
+
   final paymentCtrl = Get.find<CategoryNavCtrl>();
+  // ServiceProvider selest = ServiceProvider.mtn;
 
-  String formatted(text) {
-    final formated =
-        "0${text.substring(0, 3)} "
-        "${text.substring(3, 7)} "
-        "${text.substring(7)}";
 
-    return formated;
-  }
 
   String? selectedNumber;
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
-  final List<String> images = [
-    'images/onboard-1.png',
-    'images/onboard-2.png',
-    'logos/Vector.png',
-  ];
+
+  bool correctNum = false;
 
   bool cleared = false;
 
@@ -64,7 +56,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                 children: [
                   SizedBox(
                     width: 70,
-                    child: dropdownServiceProvider(widget.selected),
+                    child: dropdownServiceProvider(),
                   ),
 
                   Expanded(
@@ -96,6 +88,20 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                               : Icon(Icons.cancel_outlined),
                         ),
                       ),
+                      onChanged: (val){
+                        correctNum = val.length == 13;
+                        bool chev = false;
+                        if(correctNum == true){
+                           chev = TopViewModel.checkProvider(val);
+
+                        }else{
+                          print('Not filled yet');
+                        }
+                        if(chev == true){
+                          paymentCtrl.selectProvider.value = ServiceProvider.mtn;
+                        }
+                        // print(correctNum);
+                      },
                     ),
                   ),
                 ],
@@ -135,6 +141,19 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                     Expanded(
                       child: Obx(() {
                         final len = paymentCtrl.allNumbers.length;
+                        if(paymentCtrl.allNumbers.isEmpty){
+                          return Center(
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: AssetImage('Assets/images/green_empty.png'), height: 100, width: 100,
+                                ),
+                                AppText(text: 'No Beneficiary for you'),
+                              ],
+                            ),
+                          );
+                        }
                         return ListView.builder(
                           padding: const EdgeInsets.all(15),
                           itemCount: len,
@@ -144,9 +163,10 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                               onTap: () {
                                 FocusScope.of(context).unfocus();
                                 setState(() {
-                                  widget.numberCtrl.text = formatted(
+                                  widget.numberCtrl.text = TopViewModel.formatted(
                                     item.number.toString(),
                                   );
+                                  paymentCtrl.selectProvider.value = item.provider;
                                   cleared = false;
                                 });
                                 FocusScope.of(context).unfocus();
@@ -154,14 +174,14 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                               child: Row(
                                 children: [
                                   AppText(
-                                    text: formatted(item.number.toString()),
+                                    text: TopViewModel.formatted(item.number.toString()),
                                   ),
                                   SizedBox(width: 10),
                                   AppText(text: item.provider.name),
                                   Spacer(),
                                   IconButton(
                                     onPressed: () {
-                                      paymentCtrl.deleteNumber(index);
+                                      paymentCtrl.deleteBene(index);
                                     },
                                     icon: Icon(Icons.cancel_outlined),
                                   ),
@@ -173,7 +193,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                       }),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {paymentCtrl.deleteAllBene(); Get.back();},
                       style: TextButton.styleFrom(
                         iconColor: AppColors.primary,
                         backgroundColor: AppColors.bgColor,
@@ -198,26 +218,30 @@ class _TopFormWidgetState extends State<TopFormWidget> {
     );
   }
 
-  DropdownButton<String> dropdownServiceProvider(String value) {
+  DropdownButton dropdownServiceProvider() {
     return DropdownButton(
-      value: value,
+      value: paymentCtrl.selectProvider.value,
       underline: SizedBox(),
+      dropdownColor: Colors.white,
       items: List.generate(ServiceProvider.values.length, (index) {
         final service = ServiceProvider.values[index];
-
+        String img = service.imgPath;
         return DropdownMenuItem(
-          value: service.label,
+          value: service,
+          onTap: (){setState(() {
+            img =service.imgPath;
+          });},
+          // child: AppText(text: service.label[0]),
           child: CircleAvatar(
-            child: Image(
-              image: AssetImage('Assets/productLogo/${service.imgPath}'), //Edit the image part
-              height: 80,
-              width: 80,
+              // backgroundColor: AppColors.bgColor,
+              backgroundImage:  AssetImage('Assets/productLogo/$img',), //Edit the image part
             ),
-          ),
         );
       }),
       onChanged: (val) {
-        value = val!;
+
+          paymentCtrl.selectProvider.value = val;
+          print(paymentCtrl.selectProvider.value);
       },
     );
   }

@@ -19,9 +19,9 @@ class DeleteAccount extends StatelessWidget {
       body: PageContainer(
         topMargin: 20,
         topChild: CustomAppBar.header(
-          'Delete Account',
-          15,
-          () => Get.find<ProfileMainControl>().back(),
+          title: 'Delete Account',
+          leftRight: 15,
+          onPressed: () => Get.find<ProfileMainControl>().back(),
         ),
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),

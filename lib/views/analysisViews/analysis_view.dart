@@ -35,9 +35,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
         topPadding: 35,
         topChild: Column(
           children: [
-            CustomAppBar.header('Analysis', 15, () {
-              Get.back();
-            }),
+            CustomAppBar.header(title: 'Analysis',leftRight: 15, onPressed: () => Get.back()),
             const SizedBox(height: 5),
             headerCard(context, percent),
           ],
@@ -370,7 +368,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
           Icon(icon, color: iconColor ?? AppColors.primary),
           Text(title),
           AppText(
-            text: '#${value.toStringAsFixed(2)}',
+            text: '₦${value.toStringAsFixed(2)}',
             textColor: iconColor,
             textWeigh: FontWeight.bold,
             textSize: 25,

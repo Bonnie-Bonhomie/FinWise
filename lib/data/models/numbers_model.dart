@@ -1,15 +1,33 @@
 import 'package:fin_wise/core/constant.dart';
+class AirtimeApiModel{
 
-class AirtimeModel{
+  final String status;
+  final String reference ;
+  final DateTime date;
+  final String narration;
+  final NumbersModel message;
 
-  ServiceProvider provider;
-  int number;
-  String id;
+  AirtimeApiModel({
+    required this.status,
+    required this.date,
+    required this.narration,
+    required this.reference,
+    required this.message,
+});
 
-  AirtimeModel({
+}
+
+
+class NumbersModel{
+
+  final ServiceProvider provider;
+  final String number;
+  final double amount;
+
+  NumbersModel({
     required this.provider,
     required this.number,
-    required this.id,
+    required this.amount,
 });
 
 }

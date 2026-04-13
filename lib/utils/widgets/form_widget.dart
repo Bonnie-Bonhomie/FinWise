@@ -1,5 +1,5 @@
 
-import 'package:fin_wise/core/widgets/text_widget.dart';
+
 import 'package:flutter/material.dart';
 import '../../../core/app_colors.dart';
 
@@ -20,6 +20,7 @@ class FormWidget extends StatelessWidget {
     this.prefixIcon,
     this.maxLength = 800,
     this.needMax = false,
+    this.readOnly,
     required this.fieldKey,
     required this.validator,
     super.key,
@@ -41,44 +42,44 @@ class FormWidget extends StatelessWidget {
   final Widget? prefixIcon;
   final int maxLength;
   final bool needMax;
+  final bool? readOnly;
   final GlobalKey<FormFieldState> fieldKey;
 
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: TextFormField(
-        obscureText: obscure ?? false,
-        key: fieldKey,
-        onChanged: onChanged,
-        validator: validator,
-        controller: valController,
-        maxLength: maxLength,
-        // minLines: min,
-        // maxLines: max,
-        // keyboardType: TextInputType.multiline, // For address where the input box expands
-        decoration: InputDecoration(
-          // label: Text(label ?? ''),
-          counterText: '',
-          filled: true,
-            hintText: hintText,
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon,
-            fillColor: AppColors.lightGreen,
+    return TextFormField(
+      obscureText: obscure ?? false,
+      key: fieldKey,
+      onChanged: onChanged,
+      validator: validator,
+      controller: valController,
+      maxLength: maxLength,
+      readOnly: readOnly ?? false,
+      // minLines: min,
+      // maxLines: max,
+      // keyboardType: TextInputType.multiline, // For address where the input box expands
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.all(2.0),
+        // label: Text(label ?? ''),
+        counterText: '',
+        filled: true,
+          hintText: hintText,
+          suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon,
+          fillColor: AppColors.lightGreen,
 
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide.none
-            ), focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide.none
-        )
-        ),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide.none
+          ), focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide.none
+      )
       ),
     );
   }

@@ -28,9 +28,9 @@ class _HelpCenterState extends State<HelpCenter> {
       body: PageContainer(
         topMargin: 20,
         topChild: CustomAppBar.header(
-          'Helps & FAQS',
-          15,
-          () => Get.find<ProfileMainControl>().back(),
+          title: 'Helps & FAQS',
+          leftRight: 15,
+          onPressed: () => Get.find<ProfileMainControl>().back(),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),

@@ -36,11 +36,7 @@ class _DatePickerState extends State<DatePicker> {
         hintText: formatInit,
         filled: true,
         fillColor: AppColors.lightGreen,
-        suffixIcon: CircleAvatar(
-          radius: 3,
-          backgroundColor: AppColors.primary,
-          child: Icon(Icons.date_range_outlined, color: AppColors.bgColor),
-        ),
+        suffixIcon:  Icon(Icons.date_range_outlined, color: AppColors.bgColor),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15.0),
           borderSide: BorderSide.none,

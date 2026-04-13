@@ -41,7 +41,7 @@ class BiometricScreen extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    "USe fingerPrint to Log in",
+                    "Use fingerPrint to Log in",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -60,7 +60,7 @@ class BiometricScreen extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.offNamed(Routes.login);
+                      Get.back();
                     },
                     child: const Text("¿Or prefer to use pin code?"),
                   ),

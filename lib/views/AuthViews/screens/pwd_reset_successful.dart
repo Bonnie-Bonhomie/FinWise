@@ -19,7 +19,7 @@ class _ResetSuccessfulState extends State<ResetSuccessful>{
     super.initState();
 
     Future.delayed(Duration(seconds: 5), (){
-      Get.toNamed(Routes.mainS);
+      Get.offNamed(Routes.mainS);
     });
   }
 

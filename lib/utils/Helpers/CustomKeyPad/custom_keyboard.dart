@@ -34,14 +34,14 @@ class CustomKeyboard extends StatelessWidget{
          });
         }
         else if(index == 11){
-         return keypadKeys(text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey.withOpacity(0.2));
+         return keypadKeys(text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey.withOpacity(0.2), textSize: 30);
         }
         return keypadKeys(text: index.toString(), onTap: () => controller.addValue(index.toString(), 4));
       }, ),
     );
   }
 
-  Widget keypadKeys({ required String text, required VoidCallback onTap, Color? color}) {
+  Widget keypadKeys({ required String text, required VoidCallback onTap, Color? color, double? textSize}) {
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -54,7 +54,7 @@ class CustomKeyboard extends StatelessWidget{
               BoxShadow(color: AppColors.lightGreen)
             ]
         ),
-        child: Center(child: AppText(text: text, textSize: 20, textWeigh: FontWeight.bold,)),
+        child: Center(child: AppText(text: text, textSize: textSize ?? 20, textWeigh: FontWeight.bold,)),
       ),
     );
   }

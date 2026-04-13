@@ -11,7 +11,7 @@ class BiometricService {
   Future<bool> authenticate() async {
     try {
       return await _auth.authenticate(
-        localizedReason: 'Scan your fingerprint to continue',
+        localizedReason: 'Scan your fingerprint to continue',authMessages: [],
         options: const AuthenticationOptions(
           biometricOnly: true,
           stickyAuth: true,

@@ -1,8 +1,12 @@
 import 'package:fin_wise/controllers/categoryCtrl/television_ctrl.dart';
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/widgets/custom_app_bar.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/tv_model.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:fin_wise/utils/widgets/price_form_field.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:fin_wise/views/categories/widgets/price_input_filed.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
@@ -29,6 +33,7 @@ class _TvSubscriptionState extends State<TvSubscription>
   bool correctNumber = false;
 
   final tvCtrl = Get.find<TelevisionCtrl>();
+  final loaderCtrl = Get.find<LoaderController>();
 
   @override
   void initState() {
@@ -48,120 +53,125 @@ class _TvSubscriptionState extends State<TvSubscription>
   Widget build(BuildContext context) {
     print(tvDetails.abbrev);
     return Scaffold(
-      body: PageContainer(
-        topMargin: 10,
-        bottomPadding: 10,
-        topChild: CustomAppBar.header(tvDetails.abbrev, 15, () => Get.back()),
-        child: ListView(
-          padding: const EdgeInsets.all(15),
-          children: [
-            ListTile(
-              title: AppText(text: tvDetails.name),
-              titleTextStyle: TextStyle(
-                overflow: TextOverflow.ellipsis,
-                color: Colors.black,
+      body: LoaderWrapper(
+        child: PageContainer(
+          topMargin: 10,
+          bottomPadding: 10,
+          topChild: CustomAppBar.header(title: tvDetails.abbrev, leftRight: 15, onPressed: () => Get.back()),
+          child: ListView(
+            padding: const EdgeInsets.all(15),
+            children: [
+              ListTile(
+                title: AppText(text: tvDetails.name),
+                titleTextStyle: TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  color: Colors.black,
+                ),
+                leading: CircleAvatar(),
               ),
-              leading: CircleAvatar(),
-            ),
-            const Divider(color: AppColors.lightGreen),
-            const SizedBox(height: 10),
-            AppText(
-              text: tvDetails.description,
-              textColor: AppColors.primary,
-            ),
+              const Divider(color: AppColors.lightGreen),
+              const SizedBox(height: 10),
+              AppText(
+                text: tvDetails.description,
+                textColor: AppColors.primary,
+              ),
 
-            Container(
-              padding: EdgeInsets.all(15),
-              margin: const EdgeInsets.fromLTRB(0, 25, 0, 25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                gradient: LinearGradient(
-                  colors: [AppColors.lightGreen, Colors.white],
-                  begin: Alignment.topCenter,
-                  end: Alignment.center,
-                ),
-              ),
-              child: Column(
-                children: [
-                  rowTile(
-                    text: 'Smartcard Number Number',
-                    child: InkWell(
-                      onTap: () {},
-                      child: const Row(
-                        children: [
-                          AppText(text: 'Beneficiaries'),
-                          Icon(Icons.arrow_right),
-                        ],
-                      ),
-                    ),
+              Container(
+                padding: EdgeInsets.all(15),
+                margin: const EdgeInsets.fromLTRB(0, 25, 0, 25),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    colors: [AppColors.lightGreen, Colors.white],
+                    begin: Alignment.topCenter,
+                    end: Alignment.center,
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: smartCardCtrl,
-                    decoration: InputDecoration(
-                      hint: const AppText(
-                        text: 'Enter Your Smartcard Number',
-                      ),
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        correctNumber = value.length == 11;
-                      });
-                    },
-                  ),
-                  const Divider(color: AppColors.lightGreen,)
-                ],
-              ),
-            ),
-            TabBar(
-              controller: _tabController,
-              indicatorColor: AppColors.primary,
-              labelColor: AppColors.primary,
-              dividerColor: Colors.transparent,
-              indicator: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: AppColors.primary, width: 4),
                 ),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              labelStyle: TextStyle(fontSize: 20),
-              tabs: [
-                const Tab(text: 'Hot Offers'),
-                const Tab(text: 'Premium'),
-              ],
-            ),
-            SizedBox(
-              height: 400,
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
+                  children: [
+                    rowTile(
+                      text: 'Smartcard Number',
+                      child: InkWell(
+                        onTap: () {},
+                        child: const Row(
                           children: [
-                            buildProductColumn(
-                              list: tvCtrl.leftService,
-                              isLeft: true,
-                            ),
-                            buildProductColumn(list: tvCtrl.rightService),
+                            AppText(text: 'Beneficiaries'),
+                            Icon(Icons.arrow_right),
                           ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: PriceFormField(
+                            numberCtrl: smartCardCtrl,
+                              hint: const AppText(
+                                text: 'Enter Your Smartcard Number',),
+                            onChanged: (value) {
+                              setState(() {
+                                correctNumber = value.length == 11;
+                              });
+                            },
+                          ),
                         ),
                       ],
                     ),
+                    const Divider(color: AppColors.lightGreen, height: 2, )
+                  ],
+                ),
+              ),
+              TabBar(
+                controller: _tabController,
+                indicatorColor: AppColors.primary,
+                labelColor: AppColors.primary,
+                dividerColor: Colors.transparent,
+                indicator: BoxDecoration(
+                  border: const Border(
+                    bottom: BorderSide(color: AppColors.primary, width: 4),
                   ),
-                  premiumBuild(),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                labelStyle: const TextStyle(fontSize: 20),
+                tabs: [
+                  const Tab(text: 'Hot Offers'),
+                  const Tab(text: 'Premium'),
                 ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 400,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      child: ListView(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              buildProductColumn(
+                                list: tvCtrl.leftService,
+                                isLeft: true,
+                              ),
+                              buildProductColumn(list: tvCtrl.rightService),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 18),
+                      child: premiumBuild(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -180,18 +190,16 @@ class _TvSubscriptionState extends State<TvSubscription>
           duration: '${serv.duration} Month',
           onTap: () {
             final amount = double.parse(serv.amount);
-            smartCardCtrl.text.isNotEmpty
-                ? ConfirmBottomSheet().confirmBottomSheet(
-                    context,
-                    amount: amount,
-                    numberCtrl: smartCardCtrl,
-                    productName: 'cable',
-                  )
-                : Get.snackbar(
-                    '',
-                    'Enter your smartcard number',
-                    backgroundColor: AppColors.lightGreen,
-                  );
+            // smartCardCtrl.text.isNotEmpty
+            //     ? loaderCtrl.offLoading((){
+            //   ConfirmBottomSheet().confirmBottomSheet(
+            //     context,
+            //     amount: amount,
+            //     numberCtrl: smartCardCtrl,
+            //     productName: 'cable',
+            //   );
+            // })
+            //     : CustomSnackbar.showSnackbar(message: 'Enter your smartcard number');
           },
         );
       }),
@@ -245,18 +253,16 @@ class _TvSubscriptionState extends State<TvSubscription>
           amount: '₦${serv.amount}',
           duration: '${serv.duration} Month',
           onTap: () {
-            smartCardCtrl.text.isNotEmpty
-                ? ConfirmBottomSheet().confirmBottomSheet(
-                    context,
-                    amount: amount,
-                    numberCtrl: smartCardCtrl,
-                    productName: 'cable',
-                  )
-                : Get.snackbar(
-                    '',
-                    'Enter your smartcard number',
-                    backgroundColor: AppColors.lightGreen,
-                  );
+            // smartCardCtrl.text.isNotEmpty
+            //     ? loaderCtrl.offLoading((){
+            //   ConfirmBottomSheet().confirmBottomSheet(
+            //     context,
+            //     amount: amount,
+            //     numberCtrl: smartCardCtrl,
+            //     productName: 'cable',
+            //   );
+            // })
+            //     :CustomSnackbar.showSnackbar(message: 'Enter your smart card number');
           },
         );
       }),
@@ -320,7 +326,7 @@ class _TvSubscriptionState extends State<TvSubscription>
   Row rowTile({required String text, required Widget child}) {
     return Row(
       children: [
-        AppText(text: text),
+        AppText(text: text, textSize: 14,),
         const Spacer(),
         child,
       ],

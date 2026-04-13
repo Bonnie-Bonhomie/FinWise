@@ -1,9 +1,11 @@
 
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:fin_wise/utils/widgets/price_form_field.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class PriceInputField extends StatefulWidget {
@@ -29,6 +31,7 @@ class PriceInputField extends StatefulWidget {
 }
 
 class _PriceInputFieldState extends State<PriceInputField> {
+  final loadCtrl = Get.find<LoaderController>();
   bool hasText = false;
 
   double amount = 0.00;
@@ -44,6 +47,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: const EdgeInsets.only(top: 40, bottom: 20),
       padding: const EdgeInsets.all(20),
@@ -57,26 +61,15 @@ class _PriceInputFieldState extends State<PriceInputField> {
             children: [
               AppText(text: '₦', textWeigh: FontWeight.bold),
               Expanded(
-                child: TextFormField(
-                    controller: widget.amountCtrl,
-                    keyboardType: TextInputType.number,
-                    autofocus: false,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))
-                    ],
+                child: PriceFormField(
+                    numberCtrl: widget.amountCtrl,
                     onChanged: (value){
+                      print(value);
                       setState(() {
                         hasText = (parseAmount(value) >= widget.lowestAmount) && (parseAmount(value) <= widget.highestAmount);
                       });
                     },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hint: Text('${(widget.lowestAmount.toInt()).toString()} - 5,000,000'),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+                    hint: Text('${(widget.lowestAmount.toInt()).toString()} - 5,000,000')
                   ),
                 ),
 
@@ -86,22 +79,24 @@ class _PriceInputFieldState extends State<PriceInputField> {
                 child:  ElevatedButton(
                   onPressed: () {
                     // if(am)
+
                     FocusScope.of(context).unfocus();
-                    amount = parseAmount(widget.amountCtrl.text.trim());
+                    widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
                     widget.numberCtrl.text.isNotEmpty
-                        ? ConfirmBottomSheet().confirmBottomSheet(
-                      context,
-                      amount: amount,
-                      numberCtrl: widget.numberCtrl,
-                      productName: widget.productName,
-                    )
-                        : Get.snackbar(
-                      'Error',
-                      widget.errMessage,
-                      backgroundColor: AppColors.lightGreen,
-                    );
-                    widget.numberCtrl.text.isNotEmpty? widget.amountCtrl.text ='': null;
-                    amount = 0.00;
+                        ?
+                      loadCtrl.offLoading((){
+                        print(widget.amountCtrl.text);
+                        // ConfirmBottomSheet().confirmBottomSheet(
+                        //   context,
+                        //   amount: parseAmount(widget.amountCtrl.text.trim()),
+                        //   numberCtrl: widget.numberCtrl,
+                        //   productName: widget.productName,
+                        // );
+                        widget.numberCtrl.text.isNotEmpty? widget.amountCtrl.text ='': null;
+                        amount = 0.00;
+                    })
+                        : CustomSnackbar.showSnackbar(title: 'Error', message: widget.errMessage);
+
                     setState(() {
                       hasText = false;
                     });
@@ -127,3 +122,4 @@ class _PriceInputFieldState extends State<PriceInputField> {
     );
   }
 }
+

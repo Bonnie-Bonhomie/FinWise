@@ -16,9 +16,9 @@ class DeleteFingerprint extends StatelessWidget {
       body: PageContainer(
         topMargin: 20,
         topChild: CustomAppBar.header(
-          'FingerPrint',
-          15,
-          () => Get.find<ProfileMainControl>().back(),
+          title: 'FingerPrint',
+          leftRight: 15,
+          onPressed: () => Get.find<ProfileMainControl>().back(),
         ),
         child: Padding(
           padding: const EdgeInsets.all(15.0),

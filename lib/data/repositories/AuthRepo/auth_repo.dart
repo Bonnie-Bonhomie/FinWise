@@ -3,7 +3,7 @@ import 'package:fin_wise/core/connection/network.dart';
 import 'package:fin_wise/data/dataSource/api_service.dart';
 import 'package:fin_wise/data/models/AuthModel/user_model.dart';
 import 'package:fin_wise/data/models/profile_model.dart';
-import 'package:fin_wise/data_state.dart';
+import 'package:fin_wise/core/resources/data_state.dart';
 
 import '../../../core/Routes/Api_endpoints/api_endpoints.dart';
 

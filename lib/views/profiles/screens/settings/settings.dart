@@ -15,9 +15,9 @@ class SettingsView extends StatelessWidget {
       body: PageContainer(
         topMargin: 20,
         topChild: CustomAppBar.header(
-          'Settings',
-          15,
-          () => Get.find<ProfileMainControl>().back(),
+         title: 'Settings',
+         leftRight: 15,
+          onPressed: () => Get.find<ProfileMainControl>().back(),
         ),
         child: Column(
           children: [

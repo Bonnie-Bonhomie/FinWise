@@ -1,5 +1,8 @@
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/core/widgets/custom_app_bar.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:fin_wise/views/transaction/widget/bottom_sheet.dart';
 import 'package:fin_wise/views/transaction/widget/transaction_list.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
@@ -19,6 +22,7 @@ class TransactionView extends StatefulWidget {
 
 class _TransactionViewState extends State<TransactionView> {
   final trans = Get.find<TransactionCtrl>();
+  final loader = Get.find<LoaderController>();
 
 
   int isSelected = 1;
@@ -41,13 +45,13 @@ class _TransactionViewState extends State<TransactionView> {
           topMargin: 15,
           topChild: Column(
             children: [
-              CustomAppBar.header("Transactions", 10, () {}),
+              CustomAppBar.header(title: "Transactions", leftRight: 10, onPressed: () {}),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   children: [
                     Container(
-                      height: 60,
+                      // height: 60,
                       width: MediaQuery
                           .of(context)
                           .size
@@ -94,11 +98,13 @@ class _TransactionViewState extends State<TransactionView> {
             children: [
               InkWell(
                 onTap: () {
-                 MonthBottomSheet().showMonthBottomSheet(context, trans);
+                 MonthBottomSheet().showMonthBottomSheet(context, trans, loader);
                 },
+                  //Display the select month and year
                 child: topTitle()
               ),
-              Expanded(child: TransactionListView(trans: trans))
+
+              Expanded(child: TransactionListView(trans: trans, loader: loader,))
             ],
           ),
 
@@ -109,20 +115,20 @@ class _TransactionViewState extends State<TransactionView> {
   }
 
 Widget topTitle(){
-    
+
     return Container(
       padding: EdgeInsets.all(5),
       margin: const EdgeInsets.only(left: 20, right: 20),
       decoration: BoxDecoration(
           color: AppColors.bgColor,
           boxShadow: [
-            BoxShadow(color: Colors.black12, offset: Offset(0,3))
+            BoxShadow(color: AppColors.lightGreen, offset: Offset(0,3))
           ]
       ),
       child: Row(
         children: [
           Obx(() {
-            final month = trans.selectedMonth.value;
+            final month = DateTime(trans.selectY.value, trans.selectMon.value);
               return AppText(
                   text: DateFormat('MMM yyyy').format(month), textWeigh: FontWeight.bold, textSize: 20,);
             }

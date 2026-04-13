@@ -58,9 +58,9 @@ class _ChangePasswordState extends State<ChangePassword> {
         topMargin: 20,
         bottomPadding: 0,
         topChild: CustomAppBar.header(
-          'Password Settings',
-          15,
-              () => Get.find<ProfileMainControl>().back(),
+          title: 'Password Settings',
+          leftRight: 15,
+           onPressed: () => Get.find<ProfileMainControl>().back(),
         ),
         child: Form(
           key: formKey,

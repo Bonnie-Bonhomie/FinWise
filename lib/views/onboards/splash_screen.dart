@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>{
 
   Future<void> checkingOnboardShown() async {
     final bool? hasShown = await storage.retrieve<bool>(PrefStoreKeys.isFirstTime);
-
+      // print(hasShown);
     if(hasShown == true){
       Get.offNamed(Routes.login);
     }else {
@@ -33,7 +33,9 @@ class _SplashScreenState extends State<SplashScreen>{
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration(seconds: 3), (){checkingOnboardShown();});
+    // FocusScope.of(context).unfocus();
 
   }
 

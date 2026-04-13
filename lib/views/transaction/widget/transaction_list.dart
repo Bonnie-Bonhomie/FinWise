@@ -1,4 +1,6 @@
 
+import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,26 +12,34 @@ class TransactionListView extends StatelessWidget {
   const TransactionListView({
     super.key,
     required this.trans,
+    required this.loader,
   });
 
   final TransactionCtrl trans;
-
+  // final bool loading;
+  final LoaderController loader;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final transact = trans.monthlyTransacts;
+      print(loader.isLoading.value);
+      final transact = trans.transacts;
+      if(loader.isLoading.value == true){
 
-      if (trans.loading.value) {
-        const CircularProgressIndicator();
+        return Center(
+          child: SkeletonLoader.shimmerLines(len: 5),
+        );
+
       }
+
       if (transact.isEmpty) {
-        return Container(
-          child: Column(
-            children: [
-              const Icon(Icons.hourglass_empty),
-              const AppText(text: 'Sell More data to make history'),
-            ],
-          ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(image: AssetImage('Assets/images/green_empty.png'), height: 150, width: 150,),
+            AppText(text: 'Oops!', textSize: 18,),
+            AppText(text: 'No Transaction History', textSize: 17,)
+          ],
         );
       }
       return ListView.builder(

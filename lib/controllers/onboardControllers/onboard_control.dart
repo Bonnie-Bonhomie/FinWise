@@ -24,7 +24,7 @@ class OnboardControl extends GetxController{
     else{
       loading.value = true;
       Future.delayed(Duration(seconds: 2));
-      Navigator.popAndPushNamed(context, Routes.signIn);
+      Navigator.popAndPushNamed(context, Routes.login);
     }
     loading.value = false;
   }

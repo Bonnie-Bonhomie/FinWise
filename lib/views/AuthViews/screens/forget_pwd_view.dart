@@ -1,5 +1,6 @@
 
 import 'package:fin_wise/core/widgets/app_btn.dart';
+import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
@@ -22,6 +23,8 @@ class ForgetPwdView extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: PageContainer(
+          topPadding: 80,
+          topMargin: 20,
           topChild: const HeadingText(headingText: "Forget Password"),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -36,10 +39,10 @@ class ForgetPwdView extends StatelessWidget {
                     "Reset Password",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 17,
+                      fontSize: 20,
                     ),
                   ),
-                  const Text(
+                  const AppText(text:
                     "We will send a you an Otp to your email address. Enter your recovery email address",
                   ),
                  const  SizedBox(height: 30),
@@ -84,7 +87,7 @@ class ForgetPwdView extends StatelessWidget {
                           children: [
                             TextSpan(
                               text: 'Log in',
-                              style: const TextStyle(color: Colors.blue),
+                              style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
                               recognizer: TapGestureRecognizer()..onTap= (){
                                 Get.offNamed(Routes.login);
                               },

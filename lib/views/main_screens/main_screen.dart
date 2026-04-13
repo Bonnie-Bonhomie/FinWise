@@ -1,39 +1,43 @@
 
 import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/app_colors.dart';
 
-class MainScreen extends GetView<NavControl> {
+class MainScreen extends StatelessWidget{
   const MainScreen({super.key});
 
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<NavControl>();
     return WillPopScope(
       onWillPop: () => controller.willPopHandler(),
-      child: Scaffold(
-        body: Obx(()=> controller.screens[controller.selectInd.value]),
-        backgroundColor: AppColors.bgColor,
-        bottomNavigationBar: ClipRRect(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(60), topLeft: Radius.circular(60)),
-          child: Obx(()=> BottomAppBar(
-              color: AppColors.lightGreen,
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(5, (index) {
-
-                  final isSelected = controller.selectInd.value == index;
-                  return IconButton(onPressed: (){
-                    controller.selectInd.value = index;
-                  },
-                      style: IconButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                        backgroundColor: isSelected? AppColors.primary : AppColors.lightGreen,),
-                      icon: Icon(controller.icons[index]), color: AppColors.darkGreen);
-                }),
+      child: LoaderWrapper(
+        child: Scaffold(
+          body: Obx(()=> controller.screens[controller.selectInd.value]),
+          backgroundColor: AppColors.bgColor,
+          bottomNavigationBar: ClipRRect(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(60), topLeft: Radius.circular(60)),
+            child: Obx(()=> BottomAppBar(
+                color: AppColors.lightGreen,
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(5, (index) {
+        
+                    final isSelected = controller.selectInd.value == index;
+                    return IconButton(onPressed: (){
+                      controller.selectInd.value = index;
+                    },
+                        style: IconButton.styleFrom(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                          backgroundColor: isSelected? AppColors.primary : AppColors.lightGreen,),
+                        icon: Icon(controller.icons[index]), color: AppColors.darkGreen);
+                  }),
+                ),
               ),
             ),
           ),

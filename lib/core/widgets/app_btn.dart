@@ -59,3 +59,18 @@ class AppBtn extends StatelessWidget {
     );
   }
 }
+
+
+class DisableButton extends StatelessWidget {
+  final String label;
+  const DisableButton({super.key, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green
+        ),
+        onPressed: (){}, child: Text(label, style: TextStyle(color: Colors.white),));
+  }
+}

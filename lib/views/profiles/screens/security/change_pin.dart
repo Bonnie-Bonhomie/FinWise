@@ -32,7 +32,7 @@ class _ChangePinViewState extends State<ChangePinView> {
     return Scaffold(
       body: PageContainer(
         topMargin: 20,
-        topChild: CustomAppBar.header('Change Pin', 15, ()
+        topChild: CustomAppBar.header(title: 'Change Pin', leftRight: 15, onPressed: ()
         {Get.find<ProfileMainControl>().back();}),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),

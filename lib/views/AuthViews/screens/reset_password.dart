@@ -1,5 +1,6 @@
 
 import 'package:fin_wise/core/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
@@ -32,11 +33,22 @@ class _ResetPasswordState extends State<ResetPassword> {
     });
   }
 
+  Future<void> changePwd() async {
+    if (formKey.currentState!.validate()) {
+      // await
+      Get.offNamed(Routes.successful);
+    }else{
+      CustomSnackbar.warningSnack('Fill all the required field to continue');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: PageContainer(
+          topMargin: 20,
+          topPadding: 90,
           topChild: const HeadingText(headingText: "New Password"),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -101,7 +113,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AppBtn(onPressed: () {
-                        Get.toNamed(Routes.rst);
+                       changePwd();
                       }, label: "Change Password"),
 
                     ],

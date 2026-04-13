@@ -9,16 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TelevisionBillView extends StatelessWidget {
-  TelevisionBillView({super.key});
-
-  final ctrl = Get.put(TelevisionCtrl());
+  const TelevisionBillView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ctrl = Get.find<TelevisionCtrl>();
     return Scaffold(
       body: PageContainer(
         topMargin: 20,
-        topChild: CustomAppBar.header('Cables & Tv', 15, () => Get.back()),
+        topChild: CustomAppBar.header(title: 'Cables & Tv', leftRight: 15, onPressed: () => Get.back()),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(

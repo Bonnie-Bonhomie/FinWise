@@ -15,7 +15,7 @@ class SecurityPage extends StatelessWidget {
     return Scaffold(
       body: PageContainer(
         topMargin: 20,
-        topChild: CustomAppBar.header('Security', 15, () => Get.find<ProfileMainControl>().back()),
+        topChild: CustomAppBar.header(title: 'Security',leftRight: 15, onPressed: () => Get.find<ProfileMainControl>().back()),
         child: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(

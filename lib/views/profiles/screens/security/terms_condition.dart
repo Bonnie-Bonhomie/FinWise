@@ -29,9 +29,9 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
       body: PageContainer(
         topMargin: 20,
         topChild: CustomAppBar.header(
-          'Terms And Condition',
-          15,
-          () => Get.back(),
+          title: 'Terms And Condition',
+          leftRight: 15,
+          onPressed: () => Get.back(),
         ),
         child: ListView(
           padding: EdgeInsets.fromLTRB(15, 0, 15, 10),

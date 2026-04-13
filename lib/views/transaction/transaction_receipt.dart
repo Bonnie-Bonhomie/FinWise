@@ -21,7 +21,8 @@ class TransactionReceipt extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: TextButton(onPressed: (){
-                Get.back(); FocusScope.of(context).unfocus();
+                Get.back();
+                FocusScope.of(context).unfocus();
               }, child: AppText(text: 'Done', textColor: AppColors.primary,)),
             ),
             Center(
@@ -35,7 +36,7 @@ class TransactionReceipt extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
-                      BoxShadow(color: AppColors.darkGreen, offset: Offset(3, 4),)
+                      BoxShadow(color: AppColors.subBlue, offset: Offset(3, 4), blurRadius: 2)
                     ]
                   ),
                   child: Column(
@@ -113,11 +114,11 @@ class TransactionReceipt extends StatelessWidget {
 
 
   Divider dividerBuild() =>
-      const Divider(color: AppColors.lightGreen, height: 2);
+      const Divider(color: AppColors.lightGreen, thickness: 2,);
 
   Widget rowTile(String title, String value) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5,bottom: 5),
+      padding: const EdgeInsets.only(top: 5,),
       child: Row(
         children: [
           AppText(text: title, textWeigh: FontWeight.bold),

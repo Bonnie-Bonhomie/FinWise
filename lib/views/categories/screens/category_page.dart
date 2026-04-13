@@ -37,73 +37,75 @@ class _CategoryPageState extends State<CategoryPage> {
     final percent = (acc.spentPercent * 100);
 
     return Scaffold(
-      body: PageContainer(
-        topMargin: 30,
-        bottomPadding: 15,
-        topChild: Column(
-          children: [
-            CustomAppBar.header('Categories', 15, () {}),
-            headerCard(context, percent),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 25,
-            runSpacing: 40,
+      body: SingleChildScrollView(
+        child: PageContainer(
+          topMargin: 30,
+          bottomPadding: 15,
+          topChild: Column(
             children: [
-              CategoriesCard(
-                icon: airtime.icon,
-                title: airtime.label,
-                onTap: () => Get.toNamed(Routes.airtime),
-              ),
-              CategoriesCard(
-                icon: data.icon,
-                title: data.label,
-                onTap: () => Get.toNamed(Routes.data),
-              ),
-              CategoriesCard(
-                icon: cable.icon,
-                title: cable.label,
-                onTap: () => Get.toNamed(Routes.tv),
-              ),
-              CategoriesCard(
-                icon: elect.icon,
-                title: elect.label,
-                onTap: () => Get.toNamed(Routes.elect),
-              ),
-              CategoriesCard(
-                icon: education.icon,
-                title: education.label,
-                onTap: () => Get.toNamed(Routes.education),
-              ),
-              CategoriesCard(
-                icon: chow.icon,
-                title: chow.label,
-                onTap: () {showToast();},
-                color: AppColors.subBlue,
-              ),
-              CategoriesCard(
-                icon: invite.icon,
-                title: invite.label,
-                color: AppColors.subBlue,
-                onTap: () {showToast();},
-              ),
-              CategoriesCard(
-                icon: solar.icon,
-                title: solar.label,
-                color: AppColors.subBlue,
-                onTap: () {showToast();}),
-              CategoriesCard(
-                icon: gift.icon,
-                title: gift.label,
-                onTap: () {
-                 showToast();
-                },
-                color: AppColors.subBlue,
-              ),
+              CustomAppBar.header(title: 'Services', leftRight: 15, onPressed: () {}),
+              headerCard(context, percent),
             ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 25,
+              runSpacing: 40,
+              children: [
+                CategoriesCard(
+                  icon: airtime.icon,
+                  title: airtime.label,
+                  onTap: () => Get.toNamed(Routes.airtime),
+                ),
+                CategoriesCard(
+                  icon: data.icon,
+                  title: data.label,
+                  onTap: () => Get.toNamed(Routes.data),
+                ),
+                CategoriesCard(
+                  icon: cable.icon,
+                  title: cable.label,
+                  onTap: () => Get.toNamed(Routes.tv),
+                ),
+                CategoriesCard(
+                  icon: elect.icon,
+                  title: elect.label,
+                  onTap: () => Get.toNamed(Routes.elect),
+                ),
+                CategoriesCard(
+                  icon: education.icon,
+                  title: education.label,
+                  onTap: () => Get.toNamed(Routes.education),
+                ),
+                CategoriesCard(
+                  icon: chow.icon,
+                  title: chow.label,
+                  onTap: () {showToast();},
+                  color: AppColors.subBlue,
+                ),
+                CategoriesCard(
+                  icon: invite.icon,
+                  title: invite.label,
+                  color: AppColors.subBlue,
+                  onTap: () {showToast();},
+                ),
+                CategoriesCard(
+                  icon: solar.icon,
+                  title: solar.label,
+                  color: AppColors.subBlue,
+                  onTap: () {showToast();}),
+                CategoriesCard(
+                  icon: gift.icon,
+                  title: gift.label,
+                  onTap: () {
+                   showToast();
+                  },
+                  color: AppColors.subBlue,
+                ),
+              ],
+            ),
           ),
         ),
       ),

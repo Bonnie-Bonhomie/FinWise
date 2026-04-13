@@ -1,18 +1,22 @@
 import 'package:fin_wise/Services/biometric_serv.dart';
+import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/AuthModel/user_model.dart';
 import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
+import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../core/Routes/routes.dart';
-import '../../data_state.dart';
+import '../../core/resources/data_state.dart';
 
 class AuthCtrl extends GetxController {
 
   final AuthRepository authRepo;
   final StorageFile storage;
-  AuthCtrl(this.authRepo, this.storage);
+  final SharedPreferService store;
+  AuthCtrl(this.authRepo, this.storage, this.store);
   final BiometricService biometricService = BiometricService();
   var isAuthenticate = false.obs;
 
@@ -30,6 +34,7 @@ class AuthCtrl extends GetxController {
   String? err;
 
 
+
   Future<void> registerUser({
     required String name,
     required String mail,
@@ -38,7 +43,7 @@ class AuthCtrl extends GetxController {
     required String password,
     required String confirmPassword,
   }) async{
-    loading.value = true;
+    LoaderController.to.show();
     final response = await authRepo.registerUser(
       name: name,
       mail: mail,
@@ -60,7 +65,7 @@ class AuthCtrl extends GetxController {
       GetSnackBar(message: err,);
       print(err);
     }
-    loading.value = false;
+    LoaderController.to.hide();
   }
 
 
@@ -81,9 +86,10 @@ class AuthCtrl extends GetxController {
   }
   Future<void> loginWithFingerprint() async {
     isAuthenticate.value = true;
+    final bool hasShown = await store.retrieve<bool>(PrefStoreKeys.isFirstTime) ?? false;
     final canAuth = await biometricService.canAuthenticate();
 
-    if(!canAuth){
+    if(!canAuth && hasShown){
       GetSnackBar(title: "Unavailable", message: "Biometric authentication is not available",);
       isAuthenticate.value = false;
     }
@@ -92,7 +98,7 @@ class AuthCtrl extends GetxController {
     isAuthenticate.value = false;
 
     if(success){
-      Get.toNamed(Routes.mainS);
+      Get.offAllNamed(Routes.mainS);
     }else{
       GetSnackBar(title: "Oops", message: "Fingerprint authentication failed", );
     }

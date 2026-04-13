@@ -19,6 +19,7 @@ class Routes{
   static const String generateVirtual = '/generateVirtual';
   static const String search = '/search';
   static const String transact = '/transact';
+  static const String fundWallet = '/fundWallet';
 
   static const String notify = '/notify';
   static const String analysis = '/analysis';
@@ -54,6 +55,7 @@ class Routes{
   static const String buyPin = '/buyPin';
 
   static const String elect = '/elect';
+  static const String availableElect = '/availableElect';
   static const String tv = '/tv';
   static const String tvSubscription = '/tvSubscription';
 

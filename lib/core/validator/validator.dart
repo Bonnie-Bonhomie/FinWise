@@ -29,18 +29,18 @@ class Validator {
   }
 
   static String? validatePhoneNumber(String value) {
-    String pattern = r'(^(?:[+0]9)?[0-9]{10,13}$)';
+    String pattern = r'(^(?:[+0]9)?[0-9 ]{10,13})';
     RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return 'Please enter mobile number';
     } else if (!regExp.hasMatch(value)) {
       return 'Please enter valid mobile number';
     }
-    // else if (value.length < 11) {
-    //   return 'Please enter valid mobile number';
-    // } else if (value.length > 11) {
-    //   return 'Please enter valid mobile number';
-    // }
+    else if (value.length < 11) {
+      return 'Please enter valid mobile number';
+    } else if (value.length > 11) {
+      return 'Please enter valid mobile number';
+    }
     return null;
   }
 
@@ -88,6 +88,40 @@ class Validator {
       return 'Enter your BVN';
     }else if(!regExp.hasMatch(value)){
       return 'Enter valid BVN';
+    }
+    return null;
+  }
+
+  static String? validatePin(String value){
+    String regPat = r'^[0-9]{4}';
+    RegExp regExp = RegExp(regPat);
+    if(value.isEmpty){
+      return 'Enter your Pin';
+    }else if(!regExp.hasMatch(value)){
+      return 'Enter only 4 digits';
+    }return null;
+
+  }
+
+  static String? validateNumber(String value) {
+    String pattern = r'(^(?:[+0]9)?[0-9 ]{13})';
+    RegExp regExp = RegExp(pattern);
+    if (value.isEmpty) {
+      return 'Please enter mobile number';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Please enter valid mobile number';
+    }
+    // else if (value.length < 11) {
+    //   return 'Please enter valid mobile number';
+    // } else if (value.length > 11) {
+    //   return 'Please enter valid mobile number';
+    // }
+    return null;
+  }
+
+  static String? validatePrice(String val){
+    if(val.isEmpty){
+      return 'Please enter amount you want to fund';
     }
     return null;
   }

@@ -1,4 +1,9 @@
 
+import 'package:fin_wise/binding/CategorieBindings/airtime_binding.dart';
+import 'package:fin_wise/binding/CategorieBindings/data_binding.dart';
+import 'package:fin_wise/binding/CategorieBindings/education_category_binding.dart';
+import 'package:fin_wise/binding/CategorieBindings/electricity_binding.dart';
+import 'package:fin_wise/binding/CategorieBindings/television_bindings.dart';
 import 'package:fin_wise/binding/calender_binding.dart';
 import 'package:fin_wise/binding/notification_binding.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
@@ -14,13 +19,15 @@ import 'package:fin_wise/views/AuthViews/screens/verify_email.dart';
 import 'package:fin_wise/views/analysisViews/analysis_view.dart';
 import 'package:fin_wise/views/analysisViews/calender_page.dart';
 import 'package:fin_wise/views/analysisViews/searchView/search_view.dart';
+import 'package:fin_wise/views/categories/screens/Electricity/electricity.dart';
 import 'package:fin_wise/views/categories/screens/airtime.dart';
 import 'package:fin_wise/views/categories/screens/data.dart';
 import 'package:fin_wise/views/categories/screens/education/buy_pin.dart';
 import 'package:fin_wise/views/categories/screens/education/education_view.dart';
-import 'package:fin_wise/views/categories/screens/electricity_view.dart';
+import 'package:fin_wise/views/categories/screens/Electricity/electricity_view.dart';
 import 'package:fin_wise/views/categories/screens/tv/tv_subscription.dart';
 import 'package:fin_wise/views/home/create_virtual_account.dart';
+import 'package:fin_wise/views/home/fund_wallet_page.dart';
 import 'package:fin_wise/views/transaction/transaction_receipt.dart';
 import 'package:fin_wise/views/categories/screens/tv/television_bill_view.dart';
 import 'package:fin_wise/views/home/notification.dart';
@@ -57,6 +64,7 @@ class AppRoutes{
     GetPage(name: Routes.mainS, page: ()=> MainScreen()),
     GetPage(name: Routes.home, page: ()=> HomePage()),
     GetPage(name: Routes.generateVirtual, page: () => CreateVirtualAccount()),
+    GetPage(name: Routes.fundWallet, page: () => FundWalletPage()),
 
 
     GetPage(name: Routes.transact, page: ()=> TransactionView(),),
@@ -69,13 +77,15 @@ class AppRoutes{
     GetPage(name: Routes.successful, page: () => SuccessfulPage()),
     GetPage(name: Routes.terms, page: () => TermsAndCondition()),
 //Categories Pages
-    GetPage(name: Routes.airtime, page: () => AirtimeView()),
-    GetPage(name: Routes.data, page: () => DataView()),
-    GetPage(name: Routes.elect, page: () => ElectricityView()),
-    GetPage(name: Routes.tv, page: () => TelevisionBillView()),
-    GetPage(name: Routes.tvSubscription, page: () => TvSubscription()),
-    GetPage(name: Routes.education, page: () => EducationView()),
-    GetPage(name: Routes.buyPin, page: () => BuyPinView()),
+    GetPage(name: Routes.airtime, page: () => AirtimeView(), binding: AirtimeBinding()),
+    GetPage(name: Routes.data, page: () => DataView(), binding: DataBindings()),
+    GetPage(name: Routes.elect, page: () => ElectricityView(), binding: ElectricityBinding()),
+    GetPage(name: Routes.availableElect, page: () => AvailableElect(), binding: ElectricityBinding()),
+
+    GetPage(name: Routes.tv, page: () => TelevisionBillView(), binding: TvBindings()),
+    GetPage(name: Routes.tvSubscription, page: () => TvSubscription(), binding: TvBindings()),
+    GetPage(name: Routes.education, page: () => EducationView(), binding: EducationBinding()),
+    GetPage(name: Routes.buyPin, page: () => BuyPinView(), binding: EducationBinding()),
 
     GetPage(name: Routes.transSuccess, page: () => TransactionSuccessfulView()),
     GetPage(name: Routes.transReceipt, page: () => TransactionReceipt()),

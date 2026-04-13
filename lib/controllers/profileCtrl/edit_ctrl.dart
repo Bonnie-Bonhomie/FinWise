@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/data/models/profile_model.dart';
 import 'package:fin_wise/data/repositories/profileRepo/edit_profile_repo.dart';
 import 'package:flutter/cupertino.dart';
@@ -64,7 +65,10 @@ class EditProfileCtrl extends GetxController{
 
     final selected = await imagePicker.pickImage(source: ImageSource.gallery);
     if(selected != null){
+      LoaderController.to.show();
+      Future.delayed(Duration(seconds: 1));
       picked.value = File(selected.path);
+      LoaderController.to.hide();
     }
     else{
       Get.snackbar("No image", "Select an Image");

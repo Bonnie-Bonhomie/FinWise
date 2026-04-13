@@ -3,6 +3,7 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class TransactionSuccessfulView extends StatelessWidget {
   TransactionSuccessfulView({super.key});
@@ -20,24 +21,54 @@ class TransactionSuccessfulView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              SizedBox(height: 50),
-              TextButton(onPressed: (){Get.back(); FocusScope.of(context).unfocus();}, child: const AppText(text: 'Done', textColor: AppColors.primary,)),
-              SizedBox(height: 50),
-              Center(child: const AppText(text: 'Successful')),
-              SizedBox(height: 20),
-              Center(child: AppText(text: '₦$amount', textWeigh: FontWeight.bold, textSize: 25,)),
-              SizedBox(height: 50),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  Get.until((route) {
+                    return route.isFirst;
+                  });
+                  FocusScope.of(context).unfocus();
+                },
+                child: const AppText(
+                  text: 'Done',
+                  textColor: AppColors.primary,
+                ),
+              ),
+
+              // const SizedBox(height: 20),
+              Center(
+                child: SizedBox(
+                  height: 120,
+                  child: Lottie.asset(
+                    'Assets/animations/Success.json',
+                    repeat: false,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+
+              const Center(child: AppText(text: 'Successful')),
+              const SizedBox(height: 20),
+              Center(
+                child: AppText(
+                  text: '₦$amount',
+                  textWeigh: FontWeight.bold,
+                  textSize: 25,
+                ),
+              ),
+              const SizedBox(height: 50),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  receiptContainer('Share Receipt', (){Get.toNamed(Routes.transReceipt);}, Icons.share),
-                  receiptContainer('View Details', (){
-                    Get.toNamed(Routes.transReceipt);
+                  receiptContainer('Share Receipt', () {
+                    Get.offNamed(Routes.transReceipt);
+                  }, Icons.share),
+                  receiptContainer('View Details', () {
+                    Get.offNamed(Routes.transReceipt);
                   }, Icons.view_list),
                 ],
               ),
-
             ],
           ),
         ),

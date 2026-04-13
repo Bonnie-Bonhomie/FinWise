@@ -11,13 +11,13 @@ class EducationView extends StatelessWidget {
    EducationView({super.key});
 
   final TextEditingController searchCtrl = TextEditingController();
-  final ctrl = Get.put(EducationController());
+  final ctrl = Get.find<EducationController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageContainer(
         topMargin: 20,
-        topChild: CustomAppBar.header('Education', 15, () => Get.back()),
+        topChild: CustomAppBar.header(title: 'Education',leftRight: 15, onPressed: () => Get.back()),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -41,7 +41,7 @@ class EducationView extends StatelessWidget {
                   itemBuilder: (context, index){
                     final school = ctrl.schools[index];
                 return ListTile(
-                  onTap: (){Get.toNamed(Routes.buyPin, arguments: school.abbrev); },
+                  onTap: (){Get.toNamed(Routes.buyPin, arguments: school); },
                   title: Text(school.schoolName, overflow: TextOverflow.ellipsis,),
                   subtitle: Text(school.abbrev.toUpperCase(), style: TextStyle(color: AppColors.primary),),
                   leading: CircleAvatar(backgroundColor: AppColors.subBlue, child: AppText(text: school.schoolName[0], textColor: AppColors.bgColor, textSize: 25,),),

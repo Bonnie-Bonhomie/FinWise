@@ -5,6 +5,7 @@ import 'package:fin_wise/core/widgets/app_btn.dart';
 import 'package:fin_wise/core/widgets/custom_app_bar.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/AuthModel/user_model.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,26 +36,28 @@ class _EditProfileState extends State<EditProfile> {
     token: '',
   );
 
+  final nav = Get.find<EditProfileCtrl>();
 
   String imgPath = '';
   @override
   Widget build(BuildContext context) {
-    final nav = Get.find<EditProfileCtrl>();
+
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          SizedBox(height: 40),
-          CustomAppBar.header('Profile', 15, () {
-            Get.find<ProfileMainControl>().back();
-          }),
-          Expanded(
-            child: Stack(
+      body: LoaderWrapper(
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+
+            CustomAppBar.header(title: 'Profile', leftRight: 15, onPressed: () {
+              Get.find<ProfileMainControl>().back();
+            }),
+            const SizedBox(height: 20),
+            Stack(
               alignment: Alignment.topCenter,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height,
+                  // height: MediaQuery.of(context).size.height,
                   margin: EdgeInsets.only(top: 50),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
@@ -64,7 +67,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     color: AppColors.bgColor,
                   ),
-                  child: SingleChildScrollView(
+                  child: Padding(
                     padding: const EdgeInsets.all(15),
                     child: Column(
                       children: [
@@ -83,7 +86,7 @@ class _EditProfileState extends State<EditProfile> {
                             const AppText(
                               text: 'Account Settings',
                               textWeigh: FontWeight.bold,
-                              textSize: 18,
+                              textSize: 20,
                             ),
                             const SizedBox(height: 20),
                             labelText('UserName'),
@@ -139,8 +142,8 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

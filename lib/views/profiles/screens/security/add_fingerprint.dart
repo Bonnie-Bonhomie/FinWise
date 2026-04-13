@@ -19,7 +19,7 @@ class AddFingerprint extends StatelessWidget {
     return Scaffold(
       body: PageContainer(
         topMargin: 20,
-        topChild: CustomAppBar.header('Add Fingerprint', 15, () => Get.find<ProfileMainControl>().back()),
+        topChild: CustomAppBar.header(title: 'Add Fingerprint', leftRight: 15, onPressed: () => Get.find<ProfileMainControl>().back()),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
