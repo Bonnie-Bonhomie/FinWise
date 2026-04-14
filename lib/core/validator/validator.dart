@@ -13,7 +13,7 @@ class Validator {
   static String? validateText(String? value, String? label) {
     if (value == null || value.isEmpty) {
       return 'Your $label cannot be empty';
-    } else if (value.length < 3) {
+    } else if (value.length < 5) {
       return "Your $label is too short";
     }
     return null; // Removed space restriction for full name

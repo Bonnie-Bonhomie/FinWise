@@ -63,23 +63,18 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> _register() async {
-    if (formKey.currentState!.validate()) {
-      // await authCtrl.registerUser(
-      //   name: nameCtrl.text.trim(),
-      //   mail: mailCtrl.text,
-      //   dob: dobCtrl.text,
-      //   phone: numberCtrl.text,
-      //   password: pwdCtrl.text,
-      //   confirmPassword: confirmPwdCtrl.text,
-      // );
-      loader.offLoading((){
-        CustomSnackbar.successSnack('Sign up successfully');
-        Get.offNamed(Routes.verAcc);
-      });
-    }
-    else{
-      CustomSnackbar.warningSnack('Fill all the required field to continue');
-    }
+
+      await authCtrl.registerUser(
+        name: nameCtrl.text.trim(),
+        mail: mailCtrl.text.trim(),
+        dob: dobCtrl.text.trim(),
+        phone: numberCtrl.text.trim(),
+        password: pwdCtrl.text.trim(),
+        confirmPassword: confirmPwdCtrl.text.trim(),
+      );
+      print('done');
+
+
   }
 
   @override
@@ -89,7 +84,10 @@ class _SignInViewState extends State<SignInView> {
       body: LoaderWrapper(
         child: ListView(
           children: [
-            Padding(padding: const EdgeInsets.fromLTRB(25, 25, 25, 0), child: HeadingText(headingText: 'Create Account'),),
+            Padding(padding: const EdgeInsets.fromLTRB(25, 40, 25, 0), child: Padding(
+              padding: const EdgeInsets.only(bottom: 25),
+              child: HeadingText(headingText: 'Create Account'),
+            ),),
             Container(
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.all(20),
@@ -202,8 +200,13 @@ class _SignInViewState extends State<SignInView> {
               ),),
               const SizedBox(height: 20,),
               AppBtn(
-                onPressed: () {
-                  _register();
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                  loader.offLoading(()=>  _register());
+                  }
+                  else{
+                    CustomSnackbar.warningSnack('Fill all the required field to continue');
+                  }
                 },
                 label: 'Sign Up',
                 loading: authCtrl.loading.value,

@@ -5,6 +5,7 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/AuthModel/user_model.dart';
 import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -44,6 +45,8 @@ class AuthCtrl extends GetxController {
     required String confirmPassword,
   }) async{
     LoaderController.to.show();
+
+
     final response = await authRepo.registerUser(
       name: name,
       mail: mail,
@@ -52,18 +55,22 @@ class AuthCtrl extends GetxController {
       password: password,
       confirmPassword: confirmPassword,
     );
-    final token = response.data['token'];
-    await storage.saveToken(token);
+    print(response.data);
+    // final token = response.data['token'];
+    // await storage.saveToken(token);
 
-    if(DataState is DataSuccess && response.data['status'] == 'success'){
+    if(DataState is DataSuccess && response.data['status'] == 'true'){
       user = UserModel.fromJson(response.data['user']);
-
+      // print(user);
+    //   // print
+      CustomSnackbar.successSnack('Sign up successfully');
+      Get.offNamed(Routes.verAcc);
       Get.find();
     }
-    else if (DataState is DataFailed){
+    else {
       err = response.exception?.error.toString() ?? 'Unable to create account';
       GetSnackBar(message: err,);
-      print(err);
+      // print(err);
     }
     LoaderController.to.hide();
   }

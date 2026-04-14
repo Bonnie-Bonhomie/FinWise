@@ -4,10 +4,8 @@ import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_pin_code_field.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../core/Routes/routes.dart';
 
@@ -36,7 +34,7 @@ class VerifyEmail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 50,),
-                    const AppText(text: 'Enter Security pin send to your email', ),
+                    const AppText(text: 'Enter verification code send to your email', ),
                     const SizedBox(height: 20,),
                     Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -59,7 +57,7 @@ class VerifyEmail extends StatelessWidget {
                     const SizedBox(height: 40),
                     AppBtn(
                       onPressed: () {},
-                      label: "Send Again",
+                      label: "Resend Otp",
                       bgColor: AppColors.lightGreen,
                     ),
                     const SizedBox(height: 80),

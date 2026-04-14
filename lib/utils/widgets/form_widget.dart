@@ -60,7 +60,7 @@ class FormWidget extends StatelessWidget {
       // maxLines: max,
       // keyboardType: TextInputType.multiline, // For address where the input box expands
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(2.0),
+        // contentPadding: const EdgeInsets.all(2.0),
         // label: Text(label ?? ''),
         counterText: '',
         filled: true,
