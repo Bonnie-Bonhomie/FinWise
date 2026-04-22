@@ -70,7 +70,7 @@ class AuthCtrl extends GetxController {
     else {
       err = response.exception?.error.toString() ?? 'Unable to create account';
       GetSnackBar(message: err,);
-      print(err);
+      // print(err);
       // print(err);
     }
     LoaderController.to.hide();

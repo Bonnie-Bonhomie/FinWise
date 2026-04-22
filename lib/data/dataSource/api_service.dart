@@ -16,12 +16,13 @@ class ApiServices {
       data: data,
       options: Options(
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
+          // 'Content-Type': 'application/json',
+          // 'Accept': 'application/json',
         },
       ),
     );
-    return response.data;
+    // print(response.data);
+    return response;
   }
 
   Future<Response> postRequestsWithToken(
