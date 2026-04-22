@@ -37,6 +37,7 @@ class AuthRepository{
         'password': password,
 
       });
+      print(response.data);
       return DataSuccess(ProfileModel.fromJson(response.data));
     } catch (e){
       if(e is DioException){

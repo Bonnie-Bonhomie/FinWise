@@ -55,7 +55,7 @@ class AuthCtrl extends GetxController {
       password: password,
       confirmPassword: confirmPassword,
     );
-    print(response.data);
+    // print(response.data);
     // final token = response.data['token'];
     // await storage.saveToken(token);
 
@@ -63,13 +63,14 @@ class AuthCtrl extends GetxController {
       user = UserModel.fromJson(response.data['user']);
       // print(user);
     //   // print
-      CustomSnackbar.successSnack('Sign up successfully');
+      CustomSnackbar.successSnack(response.message.toString());
       Get.offNamed(Routes.verAcc);
       Get.find();
     }
     else {
       err = response.exception?.error.toString() ?? 'Unable to create account';
       GetSnackBar(message: err,);
+      print(err);
       // print(err);
     }
     LoaderController.to.hide();

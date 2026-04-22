@@ -44,7 +44,7 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> login() async {
     if (formKey.currentState!.validate()) {
-      // await authCtrl.loginUser(mailCtrl.text, pwdCtrl.text.tr);
+      await authCtrl.loginUser(mailCtrl.text, pwdCtrl.text.tr);
       CustomSnackbar.successSnack('Login Successfully');
     }else{
       CustomSnackbar.warningSnack('Fill all the required field to continue');
@@ -55,7 +55,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     // showPass();
     // TODO: implement initState
-    mailCtrl.text = 'John Doe';
+    mailCtrl.text ='';
     super.initState();
   }
 

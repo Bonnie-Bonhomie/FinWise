@@ -57,22 +57,22 @@ class Validator {
     if (password == null) return 'Password cannot be empty';
 
     // Check for at least one uppercase letter
-    final upperRegex = RegExp('[A-Z]');
-    if (!upperRegex.hasMatch(password)) {
-      return 'Your password must contain at least one uppercase letter';
-    }
-
-    // // Check for at least one lowercase letter
-    final lowerRegex = RegExp('[a-z]');
-    if (!lowerRegex.hasMatch(password)) {
-      return 'Your password must contain at least one lowercase letter';
-    }
-
-    // // Check for at least one special character
-    final specialCharRegex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
-    if (!specialCharRegex.hasMatch(password)) {
-      return 'Your password must contain a special character';
-    }
+    // final upperRegex = RegExp('[A-Z]');
+    // if (!upperRegex.hasMatch(password)) {
+    //   return 'Your password must contain at least one uppercase letter';
+    // }
+    //
+    // // // Check for at least one lowercase letter
+    // final lowerRegex = RegExp('[a-z]');
+    // if (!lowerRegex.hasMatch(password)) {
+    //   return 'Your password must contain at least one lowercase letter';
+    // }
+    //
+    // // // Check for at least one special character
+    // final specialCharRegex = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+    // if (!specialCharRegex.hasMatch(password)) {
+    //   return 'Your password must contain a special character';
+    // }
 
     // Check length
     if (password.length < 8) {

@@ -1,9 +1,9 @@
 class ApiEndpoints{
 
-  static const String url = "https://pantherfinder.online";
+  static const String url = "https://pantherfinder.online/api/v1/";
   static const String api = 'api/v1/';
 
-  static const String baseUrl = '$url/$api';
+  static const String baseUrl = url;
   static const String register = 'auth/register';
   static const String verifyAcc = 'auth/verify_account';
   static const String login = 'auth/login';
