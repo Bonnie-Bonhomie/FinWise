@@ -1,7 +1,8 @@
 class ProfileModel {
 
   String name;
-  String mail;
+  String id;
+  String email;
   String createdAt;
   String updateAt;
   String phone;
@@ -17,7 +18,8 @@ class ProfileModel {
 
   ProfileModel({
     required this.name,
-    required this.mail,
+    required this.id,
+    required this.email,
     required this.createdAt,
     required this.updateAt,
     required this.phone,
@@ -32,11 +34,12 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json){
-    return ProfileModel(name: json['name'],
-        mail: json['mail'],
-        createdAt: json['created_at'],
-        updateAt: json['update_at'],
-        phone: json['phone'],
+    return ProfileModel(name: json['name'] ?? '',
+        id: json['id'].toString() ,
+        email: json['email'],
+        createdAt: json['created_at'] ?? '',
+        updateAt: json['updated_at']?? '',
+        phone: json['phone'] ?? '',
         transactionPin: json['transaction_pin'],
       verificationCode: json['verification_code'],
       verificationExpireAt: json['verification_expire_at'],
@@ -52,10 +55,11 @@ class ProfileModel {
   Map<String, dynamic> toJson(){
 
     return{
-      'mail': mail,
+      'email': email,
+      'id': id,
       'name': name,
-      'create_at': createdAt,
-      'update_at': updateAt,
+      'created_at': createdAt,
+      'updated_at': updateAt,
       'transaction_pin': transactionPin,
       'verification_code': verificationCode,
       'verification_expire_at': verificationExpireAt,

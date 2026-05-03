@@ -19,7 +19,7 @@ class ProfileView extends StatelessWidget {
 
   final user = UserModel(
     name: 'John Smith',
-    mail: 'johnsmith@gmail.com',
+    email: 'johnsmith@gmail.com',
     pNumber: '08034623771',
     id: '1235728949',
     token: '',

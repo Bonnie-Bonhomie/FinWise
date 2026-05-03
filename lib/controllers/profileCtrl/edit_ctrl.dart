@@ -41,7 +41,7 @@ class EditProfileCtrl extends GetxController{
 
     nameCtrl.text = user.name;
     numberCtrl.text = user.phone;
-    mailCtrl.text = user.mail;
+    mailCtrl.text = user.email;
     dobCtrl.text = user.dateOfBirth!;
 
   }

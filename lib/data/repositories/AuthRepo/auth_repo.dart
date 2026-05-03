@@ -25,24 +25,26 @@ class AuthRepository{
   }) async{
     try{
       if (!await internetInfo.connected) {
+        print('No internet');
         return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
             error: "No Internet Connection"));
       }
       final response = await apiServices.postRequests(ApiEndpoints.register, {
         'name': name,
         'email': mail,
-        // 'dob': dob,
+        'dob': dob,
         'phone': phone,
         'username': confirmPassword,
         'password': password,
 
       });
-      print(response.data);
-      return DataSuccess(ProfileModel.fromJson(response.data));
+      // print(response.data);
+      return DataSuccess(response.data);
     } catch (e){
       if(e is DioException){
         print(e.response?.data);
       }
+
       return DataFailed(DioException(
         requestOptions: RequestOptions(),
         error:  e.toString(),

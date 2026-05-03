@@ -30,7 +30,7 @@ class _EditProfileState extends State<EditProfile> {
 
   final user = UserModel(
     name: 'John Smith',
-    mail: 'johnsmith@gmail.com',
+    email: 'johnsmith@gmail.com',
     pNumber: '08034623771',
     id: '1235728949',
     token: '',
@@ -98,7 +98,7 @@ class _EditProfileState extends State<EditProfile> {
                               type: TextInputType.number,
                             ),
                             labelText('Email Address'),
-                            inputField(ctrl: malCtrl, label: user.mail),
+                            inputField(ctrl: malCtrl, label: user.email),
                             const SizedBox(height: 30.0,),
                             AppBtn(onPressed: () {
                                 Get.find<ProfileMainControl>().back();

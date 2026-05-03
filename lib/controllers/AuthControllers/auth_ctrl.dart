@@ -3,6 +3,7 @@ import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/AuthModel/user_model.dart';
+import 'package:fin_wise/data/models/profile_model.dart';
 import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
@@ -31,7 +32,7 @@ class AuthCtrl extends GetxController {
 
 
   RxBool loading = false.obs;
-  UserModel? user;
+  ProfileModel? user;
   String? err;
 
 
@@ -55,22 +56,22 @@ class AuthCtrl extends GetxController {
       password: password,
       confirmPassword: confirmPassword,
     );
-    // print(response.data);
+    print(response.data);
     // final token = response.data['token'];
     // await storage.saveToken(token);
 
-    if(DataState is DataSuccess && response.data['status'] == 'true'){
-      user = UserModel.fromJson(response.data['user']);
-      // print(user);
-    //   // print
-      CustomSnackbar.successSnack(response.message.toString());
+    if(response.data['status'] == true ){
+
+      user = ProfileModel.fromJson(response.data['data']);
+      print(user?.name);
+
+      CustomSnackbar.successSnack(response.data['message']);
       Get.offNamed(Routes.verAcc);
-      Get.find();
-    }
-    else {
-      err = response.exception?.error.toString() ?? 'Unable to create account';
+      // Get.find();
+    } else  if(response.data['status'] == false){
+      err = response.data['message'];
       GetSnackBar(message: err,);
-      // print(err);
+      print(err);
       // print(err);
     }
     LoaderController.to.hide();
@@ -84,7 +85,7 @@ class AuthCtrl extends GetxController {
     await storage.saveToken(token);
 
     if(DataState is DataSuccess && response.data['status'] == 'success'){
-      user = UserModel.fromJson(response.data);
+      // user = UserModel.fromJson(response.data);
     }else if (DataState is DataSuccess && response.data['invalid credential']){
       err = 'Invalid email or password';
     }

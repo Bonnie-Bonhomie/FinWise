@@ -1,6 +1,6 @@
 class UserModel {
   String name;
-  String mail;
+  String email;
   String id;
   String token;
   String pNumber;
@@ -9,7 +9,7 @@ class UserModel {
 
   UserModel({
     required this.name,
-    required this.mail,
+    required this.email,
     required this.id,
     required this.token,
     required this.pNumber,
@@ -17,9 +17,9 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      pNumber: json['pNumber'],
+      pNumber: json['phone'],
       name: json["name"],
-      mail: json['mail'],
+      email: json['mail'],
       id: json['id'].toString(),
       token: json['token'],
     );
@@ -28,9 +28,9 @@ class UserModel {
   Map<String, dynamic> toJson(UserModel card) {
     return {
       'name': card.name,
-      'number': card.pNumber,
-      'mail': card.mail,
-      'password': card.id,
+      'phone': card.pNumber,
+      'email': card.email,
+      'id': card.id,
       'token': card.token,
     };
   }

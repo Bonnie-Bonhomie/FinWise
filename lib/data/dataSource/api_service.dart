@@ -21,7 +21,7 @@ class ApiServices {
         },
       ),
     );
-    // print(response.data);
+
     return response;
   }
 
