@@ -8,12 +8,11 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../core/Routes/Api_endpoints/api_endpoints.dart';
 
-class AuthRepository{
-
+class AuthRepository {
   final ApiServices apiServices;
   final InternetInfo internetInfo;
-  AuthRepository({required this.apiServices, required this.internetInfo});
 
+  AuthRepository({required this.apiServices, required this.internetInfo});
 
   Future<DataState> registerUser({
     required String name,
@@ -22,29 +21,32 @@ class AuthRepository{
     required String phone,
     required String password,
     required String confirmPassword,
-  }) async{
+  }) async {
     try{
-      if (!await internetInfo.connected) {
-        print('No internet');
-        return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
-            error: "No Internet Connection"));
-      }
-      final response = await apiServices.postRequests(ApiEndpoints.register, {
-        'name': name,
-        'email': mail,
-        'dob': dob,
-        'phone': phone,
-        'username': confirmPassword,
-        'password': password,
+    if (!await internetInfo.connected) {
+      print('No internet');
+      return DataFailed(
+        DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: "No Internet Connection",
+        ),
+      );
+    }
+    final response = await apiServices.postRequests(ApiEndpoints.register, {
+      'name': name,
+      'email': mail,
+      'dob': dob,
+      'phone': phone,
+      'username': confirmPassword,
+      'password': password,
+    });
+    // print('Response: ${response.data}');
 
-      });
-      // print(response.data);
       return DataSuccess(response.data);
-    } catch (e){
-      if(e is DioException){
-        print(e.response?.data);
-      }
 
+    }
+    on DioException catch (e){
+      // print('Error: ${e.toString()}');
       return DataFailed(DioException(
         requestOptions: RequestOptions(),
         error:  e.toString(),
@@ -53,45 +55,54 @@ class AuthRepository{
   }
 
   Future<DataState> loginUser({
-    required String mail,
+    required String email,
     required String password,
-  }) async{
+  }) async {
     try {
       if (!await internetInfo.connected) {
-        return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
-            error: "No Internet Connection"));
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            error: "No Internet Connection",
+          ),
+        );
       }
       final response = await apiServices.postRequests(ApiEndpoints.login, {
-        'mail': mail,
+        'email': email,
         'password': password,
       });
-      return DataSuccess(ProfileModel.fromJson(response.data));
-    } catch(e){
-      return DataFailed(DioException(requestOptions: RequestOptions(
-        path: ''),
-        error: e.toString()
-      ));
+      return DataSuccess(response.data);
+    } catch (e) {
+      return DataFailed(
+        DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: e.toString(),
+        ),
+      );
     }
   }
-
 
   Future<DataState> verifyEmail({required int otp}) async {
-    try{
+    try {
       if (!await internetInfo.connected) {
-        return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
-            error: "No Internet Connection"));
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            error: "No Internet Connection",
+          ),
+        );
       }
-      final response = await apiServices.postRequests(ApiEndpoints.verifyAcc,{'otp': otp} );
+      final response = await apiServices.postRequests(ApiEndpoints.verifyAcc, {
+        'otp': otp,
+      });
       return DataSuccess(response.data);
-      // if(response.statusCode == 200){
-      //   return DataSuccess(response.data);
-      // }
-      // else{
-      //   return DataFailed(DioException(requestOptions: RequestOptions(), error: 'Something went wrong'));
-      // }
-    }on DioException catch(e){
-      return DataFailed(DioException(requestOptions: RequestOptions(path: ''), error: e.toString()));
+    } on DioException catch (e) {
+      return DataFailed(
+        DioException(
+          requestOptions: RequestOptions(path: ''),
+          error: e.toString(),
+        ),
+      );
     }
   }
-
 }

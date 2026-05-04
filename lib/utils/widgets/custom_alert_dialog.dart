@@ -1,3 +1,4 @@
+import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/widgets/app_btn.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   const CustomAlertDialog({super.key});
+
 
 
   @override
@@ -33,4 +35,19 @@ class CustomAlertDialog extends StatelessWidget {
       ],
     );
   }
+
+
 }
+void showCustomDiag(BuildContext context){
+  showDialog(context: context, builder: (context){
+    return AlertDialog(
+      backgroundColor: AppColors.bgColor,
+      title: Icon(Icons.verified_outlined, size: 100,),
+      content: AppText(text: 'Your account has been verified successfully', textAlign: TextAlign.center,),
+      actions: [AppBtn(onPressed: (){
+        Get.offNamed(Routes.transPin);
+      }, label: 'Continue')],
+    );
+  });
+}
+

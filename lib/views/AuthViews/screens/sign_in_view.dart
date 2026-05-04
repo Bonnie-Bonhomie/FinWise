@@ -16,7 +16,6 @@ import '../../../core/Routes/routes.dart';
 import '../../../core/validator/validator.dart';
 import '../../../core/widgets/text_widget.dart';
 
-
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
 
@@ -63,18 +62,22 @@ class _SignInViewState extends State<SignInView> {
   }
 
   Future<void> _register() async {
+    if (formKey.currentState!.validate()) {
+      loader.offLoading(() async {
+        await authCtrl.registerUser(
+          name: nameCtrl.text.trim(),
+          mail: mailCtrl.text.trim(),
+          dob: dobCtrl.text.trim(),
+          phone: numberCtrl.text.trim(),
+          password: pwdCtrl.text.trim(),
+          confirmPassword: confirmPwdCtrl.text.trim(),
+        );
+      });
+    } else {
+      CustomSnackbar.warningSnack('Fill all the required field to continue');
+    }
 
-      await authCtrl.registerUser(
-        name: nameCtrl.text.trim(),
-        mail: mailCtrl.text.trim(),
-        dob: dobCtrl.text.trim(),
-        phone: numberCtrl.text.trim(),
-        password: pwdCtrl.text.trim(),
-        confirmPassword: confirmPwdCtrl.text.trim(),
-      );
-      print('done');
-
-
+    // print('done');
   }
 
   @override
@@ -84,19 +87,22 @@ class _SignInViewState extends State<SignInView> {
       body: LoaderWrapper(
         child: ListView(
           children: [
-            Padding(padding: const EdgeInsets.fromLTRB(25, 40, 25, 0), child: Padding(
-              padding: const EdgeInsets.only(bottom: 25),
-              child: HeadingText(headingText: 'Create Account'),
-            ),),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 40, 25, 0),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 25),
+                child: HeadingText(headingText: 'Create Account'),
+              ),
+            ),
             Container(
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(60),),
-                color: AppColors.bgColor
+                borderRadius: BorderRadius.vertical(top: Radius.circular(60)),
+                color: AppColors.bgColor,
               ),
               child: formSection(),
-            )
+            ),
           ],
         ),
       ),
@@ -191,23 +197,19 @@ class _SignInViewState extends State<SignInView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const AppText(text: "By continuing, you agree to"),
-              InkWell(onTap: (){
-                Get.toNamed(Routes.terms);
-              },
-                child: const AppText(
-                text: "Terms of Use and Privacy Policy.",
-                textWeigh: FontWeight.bold,textColor: AppColors.darkGreen,
-              ),),
-              const SizedBox(height: 20,),
-              AppBtn(
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                  loader.offLoading(()=>  _register());
-                  }
-                  else{
-                    CustomSnackbar.warningSnack('Fill all the required field to continue');
-                  }
+              InkWell(
+                onTap: () {
+                  Get.toNamed(Routes.terms);
                 },
+                child: const AppText(
+                  text: "Terms of Use and Privacy Policy.",
+                  textWeigh: FontWeight.bold,
+                  textColor: AppColors.darkGreen,
+                ),
+              ),
+              const SizedBox(height: 20),
+              AppBtn(
+                onPressed: () async { _register();},
                 label: 'Sign Up',
                 loading: authCtrl.loading.value,
                 loadWidget: CircularProgressIndicator(),
@@ -223,7 +225,10 @@ class _SignInViewState extends State<SignInView> {
                   children: [
                     TextSpan(
                       text: 'Log in',
-                      style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Get.offNamed(Routes.login);
