@@ -3,7 +3,6 @@ import 'package:fin_wise/Services/biometric_serv.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/AuthModel/user_model.dart';
 import 'package:fin_wise/data/models/profile_model.dart';
 import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
@@ -62,9 +61,9 @@ class AuthCtrl extends GetxController {
         user = ProfileModel.fromJson(response.data['data']);
         print(user?.name);
 
-        if(user?.email != null){
+        // if(user?.email != null){
           await store.saveData<String>(PrefStoreKeys.username, user!.email);
-        }
+        // }
         CustomSnackbar.successSnack(response.data['message']);
         Get.offNamed(Routes.verAcc);
         // Get.find();
@@ -164,12 +163,14 @@ class AuthCtrl extends GetxController {
   }
 
   Future<void> verifyEmail({required BuildContext context, required int otp}) async {
-    final response = await authRepo.verifyEmail(otp: otp);
-    // final token = response.data['token'];
-    // await storage.saveToken(token);
+    final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
+    // final response = await authRepo.verifyEmail(otp: otp, email: 'akinyemialabaaishat@gmail.com');
 
+    // showCustomDiag(context);
     if (response is DataSuccess && response.data['status'] == 'true') {
-      // user = UserModel.fromJson(response.data);
+      final token = response.data['token'];
+      await storage.saveToken(token);
+      print('Done');
       showCustomDiag(context);
     } else if (response is DataFailed) {
       final err = response.exception?.error;

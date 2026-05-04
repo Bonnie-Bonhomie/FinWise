@@ -6,6 +6,7 @@ class ApiEndpoints{
   static const String baseUrl = url;
   static const String register = 'auth/register';
   static const String verifyAcc = 'auth/verify_account';
+  static const String resendOtp = 'auth/resend_activation';
   static const String login = 'auth/login';
   static const String transact = 'auth/user/transact';
   static const String accDetail = 'auth/user/acc';

@@ -82,7 +82,7 @@ class AuthRepository {
     }
   }
 
-  Future<DataState> verifyEmail({required int otp}) async {
+  Future<DataState> verifyEmail({required int otp, required String email}) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
@@ -93,7 +93,8 @@ class AuthRepository {
         );
       }
       final response = await apiServices.postRequests(ApiEndpoints.verifyAcc, {
-        'otp': otp,
+        'email': email,
+        'token': otp,
       });
       return DataSuccess(response.data);
     } on DioException catch (e) {

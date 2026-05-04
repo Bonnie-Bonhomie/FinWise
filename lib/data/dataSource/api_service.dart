@@ -16,7 +16,7 @@ class ApiServices {
       data: data,
       options: Options(
         headers: {
-          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
       ),

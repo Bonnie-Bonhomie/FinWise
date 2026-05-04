@@ -39,6 +39,7 @@ class CustomAlertDialog extends StatelessWidget {
 
 }
 void showCustomDiag(BuildContext context){
+  print('Iam called');
   showDialog(context: context, builder: (context){
     return AlertDialog(
       backgroundColor: AppColors.bgColor,

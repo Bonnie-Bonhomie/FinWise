@@ -55,7 +55,7 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     // showPass();
     // TODO: implement initState
-    mailCtrl.text ='';
+    mailCtrl.text = authCtrl.user?.email ?? 'JohnDoe';
     super.initState();
   }
 
