@@ -133,7 +133,7 @@ class _SignInViewState extends State<SignInView> {
             // label: '',
             valController: mailCtrl,
             fieldKey: mailKey,
-            textType: TextInputType.emailAddress,
+            // textType: TextInputType.emailAddress,
             validator: (val) => Validator.validateEmail(val!.trim()),
             onChanged: (val) => mailKey.currentState?.validate(),
             hintText: "johndue@example.com",

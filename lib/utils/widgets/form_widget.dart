@@ -58,7 +58,7 @@ class FormWidget extends StatelessWidget {
       readOnly: readOnly ?? false,
       // minLines: min,
       // maxLines: max,
-      // keyboardType: TextInputType.multiline, // For address where the input box expands
+      keyboardType: textType ?? TextInputType.text, // For address where the input box expands TextInputType.multiline
       decoration: InputDecoration(
         // contentPadding: const EdgeInsets.all(2.0),
         // label: Text(label ?? ''),

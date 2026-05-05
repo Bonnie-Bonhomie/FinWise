@@ -1,4 +1,5 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
+import 'package:fin_wise/controllers/AuthControllers/timer_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/widgets/app_btn.dart';
@@ -13,7 +14,7 @@ import 'package:get/get.dart';
 
 
 class VerifyEmail extends StatefulWidget {
-  VerifyEmail({super.key});
+  const VerifyEmail({super.key});
 
   @override
   State<VerifyEmail> createState() => _VerifyEmailState();
@@ -27,6 +28,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   final TextEditingController pinTextCtrl = TextEditingController();
   final AuthCtrl authCtrl = Get.find<AuthCtrl>();
   final loader = Get.find<LoaderController>();
+  final TimerCtrl timer = Get.put(TimerCtrl());
 
   Future<void> _verify() async {
     if (formKey.currentState!.validate()) {
@@ -39,6 +41,20 @@ class _VerifyEmailState extends State<VerifyEmail> {
     }
   }
 
+  Future<void> resendOtp() async{
+    loader.offLoading(() async{
+      await authCtrl.resendOtp();
+      timer.resetTimer();
+      timer.startTimer();
+    });
+}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    timer.startTimer();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return LoaderWrapper(
@@ -69,8 +85,15 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       }, label: "Accept"),
 
                       const SizedBox(height: 40),
+
                       AppBtn(
-                        onPressed: () {},
+                        onPressed: () {
+                          if(0 != timer.seconds.value){
+                            CustomSnackbar.warningSnack('Try again after ${timer.seconds.value} seconds');
+                          }else{
+                            resendOtp();
+                          }
+                        },
                         label: "Resend Otp",
                         bgColor: AppColors.lightGreen,
                       ),

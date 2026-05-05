@@ -41,7 +41,7 @@ class _TransactionPinState extends State<TransactionPin> {
    void setPin() async{
      if(formKey.currentState!.validate()){
        // await
-       Get.offNamed(Routes.successful, arguments: 'Transaction Pin has been set successfully');
+
      }else{
        CustomSnackbar.warningSnack('Fill all the required field to continue');
      }

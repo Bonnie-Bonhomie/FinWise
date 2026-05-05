@@ -30,16 +30,6 @@ class TimerCtrl extends GetxController{
     _timer?.cancel();
   }
 
-  void validateOtp(BuildContext context, String text)async{
-    if(text == '123456'){
-      // VerifyDialog().verifiedDialog(context,  "Account created", () {
-      //   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.mainScreen, (routes)=> false);
-      // });
-    }else{
-      // _inCorrectCode = true;
-      text = '';
-    }
-  }
 
   @override
   void dispose() {

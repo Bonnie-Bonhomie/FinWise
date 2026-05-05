@@ -14,6 +14,7 @@ class AuthRepository {
 
   AuthRepository({required this.apiServices, required this.internetInfo});
 
+  //Register function
   Future<DataState> registerUser({
     required String name,
     required String mail,
@@ -22,37 +23,32 @@ class AuthRepository {
     required String password,
     required String confirmPassword,
   }) async {
-    try{
-    if (!await internetInfo.connected) {
-      print('No internet');
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          error: "No Internet Connection",
-        ),
-      );
-    }
-    final response = await apiServices.postRequests(ApiEndpoints.register, {
-      'name': name,
-      'email': mail,
-      'dob': dob,
-      'phone': phone,
-      'username': confirmPassword,
-      'password': password,
-    });
-    // print('Response: ${response.data}');
-
+    try {
+      if (!await internetInfo.connected) {
+        print('No internet');
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await apiServices.postRequests(ApiEndpoints.register, {
+        'name': name,
+        'email': mail,
+        'dob': dob,
+        'phone': phone,
+        'username': name,
+        'password': password,
+      });
       return DataSuccess(response.data);
-
-    }
-    on DioException catch (e){
-      // print('Error: ${e.toString()}');
-      return DataFailed(DioException(
-        requestOptions: RequestOptions(),
-        error:  e.toString(),
-      ));
+    } on DioException catch (e) {
+      print(e.response?.data);
+      //Passing the real error by returning DataFailed(e)
+      return DataFailed(e);
     }
   }
+  //Register function end
 
   Future<DataState> loginUser({
     required String email,
@@ -71,18 +67,16 @@ class AuthRepository {
         'email': email,
         'password': password,
       });
-      return DataSuccess(response.data);
-    } catch (e) {
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          error: e.toString(),
-        ),
-      );
+      return DataSuccess(ProfileModel.fromJson(response.data));
+    } on DioException catch (e) {
+      return DataFailed(e);
     }
   }
 
-  Future<DataState> verifyEmail({required int otp, required String email}) async {
+  Future<DataState> verifyEmail({
+    required int otp,
+    required String email,
+  }) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
@@ -98,12 +92,58 @@ class AuthRepository {
       });
       return DataSuccess(response.data);
     } on DioException catch (e) {
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          error: e.toString(),
-        ),
-      );
+      return DataFailed(e);
     }
   }
+//Resend OTP function
+  Future<DataState> resendOtp({
+    required String email,
+  }) async {
+    try {
+      if (!await internetInfo.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await apiServices.postRequests(ApiEndpoints.resendOtp, {
+        'email': email,
+      });
+      return DataSuccess(response.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  //Transaction Pin function
+  Future<DataState> setTransactPin({
+    required int pin,
+  }) async {
+    try {
+      if (!await internetInfo.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await apiServices.postRequests(ApiEndpoints.transactPin, {
+        'pin': pin,
+      });
+      return DataSuccess(response.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
 }
+
+// if(response.statusCode == 200){
+//   return DataSuccess(response.data);
+// }
+// else{
+//   return DataFailed(DioException(requestOptions: RequestOptions(), error: 'Something went wrong'));
+// }

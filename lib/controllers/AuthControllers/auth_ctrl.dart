@@ -34,6 +34,7 @@ class AuthCtrl extends GetxController {
   RxBool loading = false.obs;
   ProfileModel? user;
   String? err;
+  String? successMessage;
 
   Future<void> registerUser({
     required String name,
@@ -42,8 +43,7 @@ class AuthCtrl extends GetxController {
     required String phone,
     required String password,
     required String confirmPassword,
-  })
-  async {
+  }) async {
     LoaderController.to.show();
       final response = await authRepo.registerUser(
         name: name,
@@ -53,49 +53,58 @@ class AuthCtrl extends GetxController {
         password: password,
         confirmPassword: confirmPassword,
       );
-      print(response);
+      // print(response);
       // final token = response.data['token'];
       // await storage.saveToken(token);
 
-      if (response is DataSuccess && response.data['status'] == true) {
-        user = ProfileModel.fromJson(response.data['data']);
-        print(user?.name);
+    if (response is DataSuccess) {
+      final data = response.data;
 
-        // if(user?.email != null){
-          await store.saveData<String>(PrefStoreKeys.username, user!.email);
-        // }
-        CustomSnackbar.successSnack(response.data['message']);
+      if (data['status'] == true) {
+        user = ProfileModel.fromJson(data['data']);
+
+        await store.saveData<String>(PrefStoreKeys.username, user!.email);
+
+        CustomSnackbar.successSnack(data['message']);
         Get.offNamed(Routes.verAcc);
-        // Get.find();
+      } else {
+        // ✅ backend handled inside success (if API returns 200 with status false)
+        CustomSnackbar.showSnackbar(message: data['message']);
       }
-      else if (response is DataFailed) {
-        final err = response.exception?.error;
-        print(err.toString());
-        //Network error
-        if (err is DioException) {
-          if (err.type == DioExceptionType.connectionError ||
-              err.type == DioExceptionType.receiveTimeout ||
-              err.type == DioExceptionType.connectionError) {
-            CustomSnackbar.showSnackbar(message: 'No internet connection');
-          }
-          //Server error
-          else if(err.response != null){
-            final errData = err.response?.data;
-            if (errData != null && errData['message'] != null) {
-              CustomSnackbar.showSnackbar(message: errData['message']);
-            } else {
-              CustomSnackbar.showSnackbar(
-                message: err.response?.data ?? 'Server Error, try again later',
-              );
-            }
-          }
-          else{
-            CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
-          }
-        }else{
-          CustomSnackbar.showSnackbar(message: 'Unknown error occur, try again later');
+
+    }
+    else if (response is DataFailed) {
+      final err = response.exception;
+
+      if (err is DioException) {
+
+        //  Network issues
+        if (err.type == DioExceptionType.connectionError ||
+            err.type == DioExceptionType.receiveTimeout ||
+            err.type == DioExceptionType.connectionTimeout) {
+
+          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          return;
         }
+
+        //  Server error
+        final errData = err.response?.data;
+        // print(err.response?.data);
+
+        if (errData != null && errData['message'] != null) {
+          CustomSnackbar.showSnackbar(message: errData['message']);
+        } else {
+          CustomSnackbar.showSnackbar(
+            message: 'Server error, try again later',
+          );
+        }
+
+      } else {
+        CustomSnackbar.showSnackbar(
+          message: 'Unknown error occurred',
+        );
       }
+    }
 
     LoaderController.to.hide();
   }
@@ -109,7 +118,7 @@ class AuthCtrl extends GetxController {
       // user = UserModel.fromJson(response.data);
       CustomSnackbar.successSnack(response.data['message']);
     } else if (response is DataFailed) {
-      final err = response.exception?.error;
+      final err = response.exception;
       print(err.toString());
       //Network error
       if (err is DioException) {
@@ -119,25 +128,29 @@ class AuthCtrl extends GetxController {
           CustomSnackbar.showSnackbar(message: 'No internet connection');
         }
         //Server error
-        else if(err.response != null){
+        else if (err.response != null) {
           final errData = err.response?.data;
           if (errData != null && errData['message'] != null) {
             CustomSnackbar.showSnackbar(message: errData['message']);
           } else {
             CustomSnackbar.showSnackbar(
-              message: err.response?.data ?? 'Something went wrong, try again later',
+              message:
+                  err.response?.data ?? 'Something went wrong, try again later',
             );
           }
         }
         // else{
         //   CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
         // }
-      }else{
-        CustomSnackbar.showSnackbar(message: 'Unknown error occur, try again later');
+      } else {
+        CustomSnackbar.showSnackbar(
+          message: 'Unknown error occur, try again later',
+        );
       }
     }
   }
 
+  //LOginWIth Finger print
   Future<void> loginWithFingerprint() async {
     isAuthenticate.value = true;
     final bool hasShown =
@@ -161,44 +174,153 @@ class AuthCtrl extends GetxController {
       GetSnackBar(title: "Oops", message: "Fingerprint authentication failed");
     }
   }
-
-  Future<void> verifyEmail({required BuildContext context, required int otp}) async {
+  //LOginWIth Finger print
+  //Email verification
+  Future<void> verifyEmail({
+    required BuildContext context,
+    required int otp,
+  }) async {
     final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
-    // final response = await authRepo.verifyEmail(otp: otp, email: 'akinyemialabaaishat@gmail.com');
+    if (response is DataSuccess) {
+      final data = response.data;
 
-    // showCustomDiag(context);
-    if (response is DataSuccess && response.data['status'] == 'true') {
-      final token = response.data['token'];
-      await storage.saveToken(token);
-      print('Done');
-      showCustomDiag(context);
+      if (data['status'] == true) {
+        showCustomDiag(context);
+        print('Done');
+
+      } else {
+        // backend handled inside success (if API returns 200 with status false)
+        CustomSnackbar.showSnackbar(message: data['message']);
+      }
+
     } else if (response is DataFailed) {
-      final err = response.exception?.error;
-      print(err.toString());
-      //Network error
+      final err = response.exception;
+
       if (err is DioException) {
+
+        //  Network issues
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.receiveTimeout ||
-            err.type == DioExceptionType.connectionError) {
+            err.type == DioExceptionType.connectionTimeout) {
+
           CustomSnackbar.showSnackbar(message: 'No internet connection');
+          return;
         }
-        //Server error
-        else if(err.response != null){
-          final errData = err.response?.data;
-          if (errData != null && errData['message'] != null) {
-            CustomSnackbar.showSnackbar(message: errData['message'] ?? 'Incorrect OTP');
-          } else {
-            CustomSnackbar.showSnackbar(
-              message: err.response?.data ?? 'Something went wrong, try again later',
-            );
-          }
+
+        //  Server error
+        final errData = err.response?.data;
+        // print(err.response?.data);
+
+        if (errData != null && errData['message'] != null) {
+          CustomSnackbar.showSnackbar(message: errData['message']);
+        } else {
+          CustomSnackbar.showSnackbar(
+            message: 'Server error, try again later',
+          );
         }
-        // else{
-        //   CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
-        // }
-      }else{
-        CustomSnackbar.showSnackbar(message: 'Unknown error occur, try again later');
+
+      } else {
+        CustomSnackbar.showSnackbar(
+          message: 'Unknown error occurred',
+        );
       }
     }
   }
+  //Email verification
+  //Resend Otp function
+
+  Future<void> resendOtp() async {
+    final response = await authRepo.resendOtp(email: user!.email);
+    // final response = await authRepo.verifyEmail(otp: otp, email: 'alabaakinyemi09@gmail.com');
+
+    if (response is DataSuccess) {
+      final data = response.data;
+
+      if (data['status'] == true) {
+        CustomSnackbar.successSnack(data['message'] ?? 'Check your email for the verification code');
+
+      } else {
+        // backend handled inside success (if API returns 200 with status false)
+        CustomSnackbar.showSnackbar(message: data['message']);
+      }
+
+    } else if (response is DataFailed) {
+      final err = response.exception;
+
+      if (err is DioException) {
+
+        //  Network issues
+        if (err.type == DioExceptionType.connectionError ||
+            err.type == DioExceptionType.receiveTimeout ||
+            err.type == DioExceptionType.connectionTimeout) {
+
+          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          return;
+        }
+
+        //  Server error
+        final errData = err.response?.data;
+        // print(err.response?.data);
+
+        if (errData != null && errData['message'] != null) {
+          CustomSnackbar.showSnackbar(message: errData['message']);
+        } else {
+          CustomSnackbar.showSnackbar(
+            message: 'Server error, try again later',
+          );
+        }
+
+      } else {
+        CustomSnackbar.showSnackbar(
+          message: 'Unknown error occurred',
+        );
+      }
+    }
+  }//Resend Otp function
+  //Transaction PIn FUnction
+
+  Future<void> setPin({required int pin}) async {
+    final response = await authRepo.setTransactPin(pin: pin);
+
+    if (response is DataSuccess) {
+      final data = response.data;
+
+      if (data['status'] == true) {
+        successMessage = data['message'] ?? 'Transaction Pin has been set successfully';
+        Get.offNamed(Routes.successful, arguments: successMessage);
+      } else {
+        // backend handled inside success (if API returns 200 with status false)
+        CustomSnackbar.showSnackbar(message: data['message']);
+      }
+    } else if (response is DataFailed) {
+      final err = response.exception;
+
+      if (err is DioException) {
+        //  Network issues
+        if (err.type == DioExceptionType.connectionError ||
+            err.type == DioExceptionType.receiveTimeout ||
+            err.type == DioExceptionType.connectionTimeout) {
+          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          return;
+        }
+
+        //  Server error
+        final errData = err.response?.data;
+        // print(err.response?.data);
+
+        if (errData != null && errData['message'] != null) {
+          CustomSnackbar.showSnackbar(message: errData['message']);
+        } else {
+          CustomSnackbar.showSnackbar(
+            message: 'Server error, try again later',
+          );
+        }
+      } else {
+        CustomSnackbar.showSnackbar(
+          message: 'Unknown error occurred',
+        );
+      }
+    }
+
+}
 }
