@@ -9,20 +9,26 @@ class ApiEndpoints{
   static const String resendOtp = 'auth/resend_activation';
   static const String transactPin = 'auth/transact_pin';
   static const String login = 'auth/login';
-  static const String transact = 'auth/user/transact';
-  static const String accDetail = 'auth/user/acc';
-  static const String profile = 'auth/user/acc';
+  static const String logOut = 'auth/logout';
+
+  static const String accDetail = 'profile/accdetails';
+  static const String balance = 'profile/walletbalance';
+  static const String profile = 'profile/';
   static const String changePwd = 'auth/user/acc';
   static const String changePin = 'auth/user/acc';
   static const String forgetPin = 'auth/user/acc';
   static const String recoverPwd = 'auth/user/acc';
-  static const String logOut = 'auth/user/acc';
 
+  static const String airtimeNetwork = 'airtime/networks';
+  static const String buyAirtime = 'airtime/buy';
+
+  static const String buyData = 'data/data_charge';
+  static const String dataNet = 'data/networks';
+  static const String dataPlans = 'data/data_plans';
   static const String buyTv = 'tv';
-  static const String buyAirtime = 'airtime';
-  static const String buyData = 'data';
   static const String buyEduCard = 'education';
   static const String buyElect = 'elect';
 
-  static const String virtual = 'elect';
+  static const String virtual = 'virtual';
+  static const String transact = 'auth/user/transact';
 }

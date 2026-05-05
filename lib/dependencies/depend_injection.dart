@@ -12,7 +12,7 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
 import 'package:fin_wise/data/repositories/analysis_repo.dart';
 import 'package:fin_wise/data/repositories/transacetionRepository/transact_repo.dart';
-import 'package:fin_wise/data/repositories/virtual_repo.dart';
+import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:get/get.dart';

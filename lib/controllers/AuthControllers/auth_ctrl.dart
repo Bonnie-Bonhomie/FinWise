@@ -43,8 +43,7 @@ class AuthCtrl extends GetxController {
     required String phone,
     required String password,
     required String confirmPassword,
-  })
-  async {
+  }) async {
     LoaderController.to.show();
     final response = await authRepo.registerUser(
       name: name,
@@ -111,7 +110,7 @@ class AuthCtrl extends GetxController {
       CustomSnackbar.successSnack(response.data['message']);
     } else if (response is DataFailed) {
       final err = response.exception;
-      print(err.toString());
+      // print(err.toString());
       //Network error
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError ||
