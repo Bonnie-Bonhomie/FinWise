@@ -19,6 +19,7 @@ class ApiEndpoints{
   static const String forgetPin = 'auth/user/acc';
   static const String recoverPwd = 'auth/user/acc';
 
+  //Services
   static const String airtimeNetwork = 'airtime/networks';
   static const String buyAirtime = 'airtime/buy';
 
