@@ -43,19 +43,20 @@ class AuthCtrl extends GetxController {
     required String phone,
     required String password,
     required String confirmPassword,
-  }) async {
+  })
+  async {
     LoaderController.to.show();
-      final response = await authRepo.registerUser(
-        name: name,
-        mail: mail,
-        dob: dob,
-        phone: phone,
-        password: password,
-        confirmPassword: confirmPassword,
-      );
-      // print(response);
-      // final token = response.data['token'];
-      // await storage.saveToken(token);
+    final response = await authRepo.registerUser(
+      name: name,
+      mail: mail,
+      dob: dob,
+      phone: phone,
+      password: password,
+      confirmPassword: confirmPassword,
+    );
+    // print(response);
+    // final token = response.data['token'];
+    // await storage.saveToken(token);
 
     if (response is DataSuccess) {
       final data = response.data;
@@ -68,21 +69,17 @@ class AuthCtrl extends GetxController {
         CustomSnackbar.successSnack(data['message']);
         Get.offNamed(Routes.verAcc);
       } else {
-        // ✅ backend handled inside success (if API returns 200 with status false)
+        //  backend handled inside success (if API returns 200 with status false)
         CustomSnackbar.showSnackbar(message: data['message']);
       }
-
-    }
-    else if (response is DataFailed) {
+    } else if (response is DataFailed) {
       final err = response.exception;
 
       if (err is DioException) {
-
         //  Network issues
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.receiveTimeout ||
             err.type == DioExceptionType.connectionTimeout) {
-
           CustomSnackbar.showSnackbar(message: 'No internet connection');
           return;
         }
@@ -94,20 +91,15 @@ class AuthCtrl extends GetxController {
         if (errData != null && errData['message'] != null) {
           CustomSnackbar.showSnackbar(message: errData['message']);
         } else {
-          CustomSnackbar.showSnackbar(
-            message: 'Server error, try again later',
-          );
+          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
         }
-
       } else {
-        CustomSnackbar.showSnackbar(
-          message: 'Unknown error occurred',
-        );
+        CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
     }
 
     LoaderController.to.hide();
-  }
+  }//Register user Function
 
   Future<void> loginUser(String mail, String password) async {
     final response = await authRepo.loginUser(email: mail, password: password);
@@ -173,13 +165,12 @@ class AuthCtrl extends GetxController {
     } else {
       GetSnackBar(title: "Oops", message: "Fingerprint authentication failed");
     }
-  }
-  //LOginWIth Finger print
+  }//LOginWIth Finger print
+
   //Email verification
   Future<void> verifyEmail({
     required BuildContext context,
-    required int otp,
-  }) async {
+    required int otp,}) async {
     final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
     if (response is DataSuccess) {
       final data = response.data;
@@ -187,22 +178,18 @@ class AuthCtrl extends GetxController {
       if (data['status'] == true) {
         showCustomDiag(context);
         print('Done');
-
       } else {
         // backend handled inside success (if API returns 200 with status false)
         CustomSnackbar.showSnackbar(message: data['message']);
       }
-
     } else if (response is DataFailed) {
       final err = response.exception;
 
       if (err is DioException) {
-
         //  Network issues
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.receiveTimeout ||
             err.type == DioExceptionType.connectionTimeout) {
-
           CustomSnackbar.showSnackbar(message: 'No internet connection');
           return;
         }
@@ -214,71 +201,66 @@ class AuthCtrl extends GetxController {
         if (errData != null && errData['message'] != null) {
           CustomSnackbar.showSnackbar(message: errData['message']);
         } else {
-          CustomSnackbar.showSnackbar(
-            message: 'Server error, try again later',
-          );
+          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
         }
-
       } else {
-        CustomSnackbar.showSnackbar(
-          message: 'Unknown error occurred',
-        );
+        CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
     }
-  }
-  //Email verification
+  }//Email verification
+
   //Resend Otp function
-
   Future<void> resendOtp() async {
-    final response = await authRepo.resendOtp(email: user!.email);
-    // final response = await authRepo.verifyEmail(otp: otp, email: 'alabaakinyemi09@gmail.com');
+    final String mail = await store.retrieve(PrefStoreKeys.username);
+    if (mail.isNotEmpty) {
+      final response = await authRepo.resendOtp(email: mail.toString());
 
-    if (response is DataSuccess) {
-      final data = response.data;
+      if (response is DataSuccess) {
+        final data = response.data;
 
-      if (data['status'] == true) {
-        CustomSnackbar.successSnack(data['message'] ?? 'Check your email for the verification code');
-
-      } else {
-        // backend handled inside success (if API returns 200 with status false)
-        CustomSnackbar.showSnackbar(message: data['message']);
-      }
-
-    } else if (response is DataFailed) {
-      final err = response.exception;
-
-      if (err is DioException) {
-
-        //  Network issues
-        if (err.type == DioExceptionType.connectionError ||
-            err.type == DioExceptionType.receiveTimeout ||
-            err.type == DioExceptionType.connectionTimeout) {
-
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
-          return;
-        }
-
-        //  Server error
-        final errData = err.response?.data;
-        // print(err.response?.data);
-
-        if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
-        } else {
-          CustomSnackbar.showSnackbar(
-            message: 'Server error, try again later',
+        if (data['status'] == true) {
+          CustomSnackbar.successSnack(
+            data['message'] ?? 'Check your email for the verification code',
           );
+        } else {
+          // backend handled inside success (if API returns 200 with status false)
+          CustomSnackbar.showSnackbar(message: data['message']);
         }
+      } else
+        if (response is DataFailed) {
+        final err = response.exception;
 
-      } else {
-        CustomSnackbar.showSnackbar(
-          message: 'Unknown error occurred',
-        );
+        print(err.toString());
+        if (err is DioException) {
+          //  Network issues
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.receiveTimeout ||
+              err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(message: 'No internet connection');
+            return;
+          }
+
+          //  Server error
+          final errData = err.response?.data;
+          print(response);
+
+          if (errData != null && errData['message'] != null) {
+            print(errData['message']);
+            CustomSnackbar.showSnackbar(message: errData['message'].toString());
+          } else {
+            CustomSnackbar.showSnackbar(
+              message: 'Server error, try again later',
+            );
+          }
+        } else {
+          CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
+        }
       }
     }
-  }//Resend Otp function
-  //Transaction PIn FUnction
+  } //Resend Otp function
 
+
+  //Transaction PIn FUnction
   Future<void> setPin({required int pin}) async {
     final response = await authRepo.setTransactPin(pin: pin);
 
@@ -286,7 +268,8 @@ class AuthCtrl extends GetxController {
       final data = response.data;
 
       if (data['status'] == true) {
-        successMessage = data['message'] ?? 'Transaction Pin has been set successfully';
+        successMessage =
+            data['message'] ?? 'Transaction Pin has been set successfully';
         Get.offNamed(Routes.successful, arguments: successMessage);
       } else {
         // backend handled inside success (if API returns 200 with status false)
@@ -311,16 +294,43 @@ class AuthCtrl extends GetxController {
         if (errData != null && errData['message'] != null) {
           CustomSnackbar.showSnackbar(message: errData['message']);
         } else {
-          CustomSnackbar.showSnackbar(
-            message: 'Server error, try again later',
-          );
+          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
         }
       } else {
-        CustomSnackbar.showSnackbar(
-          message: 'Unknown error occurred',
-        );
+        CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
     }
+  }  //Transaction PIn FUnction
 
-}
+  //LogOut function
+  Future<void> logOut() async {
+    final response = await authRepo.logOut();
+
+    if (response is DataSuccess) {
+      final data = response.data;
+
+      if (data['status'] == true) {
+        successMessage =
+            data['message'] ?? 'Log out successfully';
+        Get.offNamed(Routes.successful, arguments: successMessage);
+      } else {
+        // backend handled inside success (if API returns 200 with status false)
+        CustomSnackbar.showSnackbar(message: data['message']);
+      }
+    } else if (response is DataFailed) {
+      final err = response.exception;
+
+      if (err is DioException) {
+        //  Network issues
+        if (err.type == DioExceptionType.connectionError ||
+            err.type == DioExceptionType.receiveTimeout ||
+            err.type == DioExceptionType.connectionTimeout) {
+          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          return;
+        }
+      } else {
+        CustomSnackbar.showSnackbar(message: 'Unable to log out, try again later.');
+      }
+    }
+  }
 }

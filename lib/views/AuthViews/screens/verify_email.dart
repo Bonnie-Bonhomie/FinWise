@@ -89,7 +89,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       AppBtn(
                         onPressed: () {
                           if(0 != timer.seconds.value){
-                            CustomSnackbar.warningSnack('Try again after ${timer.seconds.value} seconds');
+                            CustomSnackbar.warningSnack('Try again after ${timer.seconds.value.toString()} seconds');
                           }else{
                             resendOtp();
                           }
@@ -114,6 +114,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   Text labelText(String label) => Text(
     label,
-    style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+    style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
   );
 }

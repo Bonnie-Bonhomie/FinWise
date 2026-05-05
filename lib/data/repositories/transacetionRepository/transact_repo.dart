@@ -19,7 +19,7 @@ class TransactionRepo {
             error: "No Internet Connection"));
       }
 
-      final transact = await apiServices.getRequest(
+      final transact = await apiServices.getRequestWIthToken(
         ApiEndpoints.transact, //Url
         token,);
       return DataSuccess(TransactionModel.fromJson(transact.data));

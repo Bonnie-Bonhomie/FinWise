@@ -94,11 +94,10 @@ class AuthRepository {
     } on DioException catch (e) {
       return DataFailed(e);
     }
-  }
+  }//Verify Email
+
 //Resend OTP function
-  Future<DataState> resendOtp({
-    required String email,
-  }) async {
+  Future<DataState> resendOtp({required String email,}) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
@@ -108,19 +107,15 @@ class AuthRepository {
           ),
         );
       }
-      final response = await apiServices.postRequests(ApiEndpoints.resendOtp, {
-        'email': email,
-      });
+      final response = await apiServices.getRequest('${ApiEndpoints.resendOtp}/$email');
       return DataSuccess(response.data);
     } on DioException catch (e) {
       return DataFailed(e);
     }
-  }
+  } // Resend OTP function
 
   //Transaction Pin function
-  Future<DataState> setTransactPin({
-    required int pin,
-  }) async {
+  Future<DataState> setTransactPin({required int pin,}) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
@@ -137,7 +132,25 @@ class AuthRepository {
     } on DioException catch (e) {
       return DataFailed(e);
     }
-  }
+  }  // Transaction pin
+
+  //Log out function
+  Future<DataState> logOut() async {
+    try {
+      if (!await internetInfo.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await apiServices.getRequest(ApiEndpoints.logOut );
+      return DataSuccess(response.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }  //Logout function
 
 }
 

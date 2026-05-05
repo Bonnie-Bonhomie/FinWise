@@ -1,3 +1,5 @@
+import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
@@ -24,6 +26,8 @@ class _TransactionPinState extends State<TransactionPin> {
   final confirmPinKey = GlobalKey<FormFieldState>();
   final TextEditingController pinCtrl = TextEditingController();
   final TextEditingController confirmPinCtrl = TextEditingController();
+  final loader = Get.find<LoaderController>();
+  final AuthCtrl auth = Get.find<AuthCtrl>();
 
     bool pinObscure = false;
    bool confirmPinObscure = false;
@@ -40,8 +44,10 @@ class _TransactionPinState extends State<TransactionPin> {
 
    void setPin() async{
      if(formKey.currentState!.validate()){
-       // await
-
+       final pin = int.parse(pinCtrl.text.trim());
+       loader.offLoading(() async{
+         await auth.setPin(pin: pin);
+       });
      }else{
        CustomSnackbar.warningSnack('Fill all the required field to continue');
      }

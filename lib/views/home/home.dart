@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 
 import '../../core/Routes/routes.dart';
 import '../../core/app_colors.dart';
-import '../../core/widgets/section_divider.dart';
 import '../../utils/widgets/custom_linear_progress.dart';
 import '../view_widgets/category_card.dart';
 import '../view_widgets/transaction_card.dart';
@@ -130,6 +129,7 @@ class HomePage extends GetView<AccBalanceCtrl> {
         ],
       );
     }
+    //Add animation
     return ListView.builder(
       padding: EdgeInsets.only(top: 5),
       itemCount: getLen(),

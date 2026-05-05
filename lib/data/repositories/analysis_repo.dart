@@ -21,7 +21,7 @@ class AnalysisRepo {
         );
       }
 
-      final dayAnls = await apiServices.getRequest(
+      final dayAnls = await apiServices.getRequestWIthToken(
         ApiEndpoints.transact,
         token,
       );

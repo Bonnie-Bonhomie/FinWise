@@ -45,7 +45,7 @@ class ApiServices {
   }
 
 
-  Future<Response> getRequest(
+  Future<Response> getRequestWIthToken(
     String endpoint, String token,{
     Map<String, dynamic>? queryParam,
   }) async {
@@ -58,6 +58,20 @@ class ApiServices {
         }),
       );
       return response;
+
+  }
+
+
+
+  Future<Response> getRequest(
+      String endpoint) async {
+    final response = await mDio.get(
+      endpoint,
+      options: Options(headers: {
+        'Accept': 'application/json',
+      }),
+    );
+    return response;
 
   }
 
