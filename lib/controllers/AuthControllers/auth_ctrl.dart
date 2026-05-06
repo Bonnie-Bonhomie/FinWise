@@ -6,8 +6,7 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/profile_model.dart';
 import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/utils/widgets/custom_alert_dialog.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -27,7 +26,7 @@ class AuthCtrl extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    debugPrint('Auth Control');
+    getEmail();
     super.onInit();
   }
 
@@ -35,6 +34,13 @@ class AuthCtrl extends GetxController {
   ProfileModel? user;
   String? err;
   String? successMessage;
+  RxString email = ''.obs;
+  RxString name = ''.obs;
+
+  Future<void> getEmail() async {
+    email.value = await store.retrieve(PrefStoreKeys.mail);
+    name.value = await store.retrieve(PrefStoreKeys.username);
+  }
 
   Future<void> registerUser({
     required String name,
@@ -63,7 +69,8 @@ class AuthCtrl extends GetxController {
       if (data['status'] == true) {
         user = ProfileModel.fromJson(data['data']);
 
-        await store.saveData<String>(PrefStoreKeys.username, user!.email);
+        await store.saveData<String>(PrefStoreKeys.mail, user!.email);
+        await store.saveData<String>(PrefStoreKeys.username, user!.name);
 
         CustomSnackbar.successSnack(data['message']);
         Get.offNamed(Routes.verAcc);
@@ -79,7 +86,7 @@ class AuthCtrl extends GetxController {
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.receiveTimeout ||
             err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          CustomSnackbar.showSnackbar(message: 'No internet connection', title: 'Network Error');
           return;
         }
 
@@ -90,7 +97,7 @@ class AuthCtrl extends GetxController {
         if (errData != null && errData['message'] != null) {
           CustomSnackbar.showSnackbar(message: errData['message']);
         } else {
-          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
+          CustomSnackbar.showSnackbar(message: err.response.toString() );
         }
       } else {
         CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
@@ -102,12 +109,14 @@ class AuthCtrl extends GetxController {
 
   Future<void> loginUser(String mail, String password) async {
     final response = await authRepo.loginUser(email: mail, password: password);
-    // final token = response.data['token'];
-    // await storage.saveToken(token);
+
 
     if (response is DataSuccess && response.data['status'] == 'true') {
+      final token = response.data['token'];
+      await storage.saveToken(token);
       // user = UserModel.fromJson(response.data);
       CustomSnackbar.successSnack(response.data['message']);
+      Get.offNamed(Routes.mainS);
     } else if (response is DataFailed) {
       final err = response.exception;
       // print(err.toString());
@@ -139,7 +148,7 @@ class AuthCtrl extends GetxController {
         );
       }
     }
-  }
+  } // Login function
 
   //LOginWIth Finger print
   Future<void> loginWithFingerprint() async {
@@ -169,12 +178,18 @@ class AuthCtrl extends GetxController {
   //Email verification
   Future<void> verifyEmail({
     required BuildContext context,
-    required int otp,}) async {
-    final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
+    required int otp,})
+  async {
+    final String mail = await store.retrieve(PrefStoreKeys.mail);
+    if (mail.isNotEmpty) {
+    final response = await authRepo.verifyEmail(otp: otp, email: mail);
+
     if (response is DataSuccess) {
       final data = response.data;
 
       if (data['status'] == true) {
+        final token = response.data['token'];
+        await storage.saveToken(token);
         showCustomDiag(context);
         print('Done');
       } else {
@@ -205,12 +220,12 @@ class AuthCtrl extends GetxController {
       } else {
         CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
-    }
+    }}
   }//Email verification
 
   //Resend Otp function
   Future<void> resendOtp() async {
-    final String mail = await store.retrieve(PrefStoreKeys.username);
+    final String mail = await store.retrieve(PrefStoreKeys.mail);
     if (mail.isNotEmpty) {
       final response = await authRepo.resendOtp(email: mail.toString());
 

@@ -2,9 +2,9 @@
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
-import 'package:fin_wise/core/widgets/custom_app_bar.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
@@ -14,17 +14,21 @@ import 'package:get/get.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../data/models/AuthModel/user_model.dart';
 
-class ProfileView extends StatelessWidget {
-  ProfileView({super.key});
+class ProfileView extends StatefulWidget {
+  const ProfileView({super.key});
 
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
   final user = UserModel(
     name: 'John Smith',
     email: 'johnsmith@gmail.com',
     pNumber: '08034623771',
     id: '1235728949',
-    token: '',
+    // token: '',
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +148,7 @@ class ProfileView extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 20),
           child: AppText(text: 'Are you sure you want to log out?', textAlign: TextAlign.center,),
         ),
-        
+
         actions: [
           AppBtn(onPressed: (){
             Get.back();

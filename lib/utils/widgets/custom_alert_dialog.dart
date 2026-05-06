@@ -1,7 +1,6 @@
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,14 +38,14 @@ class CustomAlertDialog extends StatelessWidget {
 
 }
 void showCustomDiag(BuildContext context){
-  print('Iam called');
+  // print('Iam called');
   showDialog(context: context, builder: (context){
     return AlertDialog(
       backgroundColor: AppColors.bgColor,
       title: Icon(Icons.verified_outlined, size: 100,),
       content: AppText(text: 'Your account has been verified successfully', textAlign: TextAlign.center,),
       actions: [AppBtn(onPressed: (){
-        Get.offNamed(Routes.transPin);
+        Get.offNamed(Routes.mainS);
       }, label: 'Continue')],
     );
   });

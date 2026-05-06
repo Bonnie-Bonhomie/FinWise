@@ -26,7 +26,7 @@ class DependencyInjection{
     final authRepo = AuthRepository(apiServices: apiService, internetInfo: internetService);
     final sharedPref = SharedPreferService();
     final authCtrl = AuthCtrl(authRepo, store,sharedPref);
-    final accRepo = VirtualRepo(apiService, internetService);
+    final accRepo = AccountRepo(apiService, internetService);
 
 
 

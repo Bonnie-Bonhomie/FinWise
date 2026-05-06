@@ -1,9 +1,9 @@
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/controllers/notificationCtrl/notify_controller.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
-import 'package:fin_wise/core/widgets/custom_app_bar.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/notification_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';

@@ -1,6 +1,6 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 import '../../../core/Routes/routes.dart';
 import '../../../core/validator/validator.dart';
-import '../../../core/widgets/app_btn.dart';
+import '../../../utils/widgets/app_btn.dart';
 
 class TransactionPin extends StatefulWidget {
    const TransactionPin({super.key});

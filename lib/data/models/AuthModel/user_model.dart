@@ -2,7 +2,7 @@ class UserModel {
   String name;
   String email;
   String id;
-  String token;
+  // String token;
   String pNumber;
 
   // String
@@ -11,7 +11,7 @@ class UserModel {
     required this.name,
     required this.email,
     required this.id,
-    required this.token,
+    // required this.token,
     required this.pNumber,
   });
 
@@ -21,7 +21,7 @@ class UserModel {
       name: json["name"],
       email: json['mail'],
       id: json['id'].toString(),
-      token: json['token'],
+
     );
   }
 
@@ -31,7 +31,7 @@ class UserModel {
       'phone': card.pNumber,
       'email': card.email,
       'id': card.id,
-      'token': card.token,
+      // 'token': card.token,
     };
   }
 }

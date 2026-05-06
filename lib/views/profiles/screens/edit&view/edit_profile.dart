@@ -1,9 +1,9 @@
 import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/edit_ctrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
-import 'package:fin_wise/core/widgets/custom_app_bar.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/AuthModel/user_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class _EditProfileState extends State<EditProfile> {
     email: 'johnsmith@gmail.com',
     pNumber: '08034623771',
     id: '1235728949',
-    token: '',
+    // token: '',
   );
 
   final nav = Get.find<EditProfileCtrl>();

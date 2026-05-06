@@ -3,7 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_colors.dart';
-import '../../core/widgets/text_widget.dart';
+import 'text_widget.dart';
 
 class DoubleBarChart extends StatelessWidget {
   const DoubleBarChart({

@@ -1,12 +1,12 @@
 import 'package:fin_wise/controllers/profileCtrl/fingerprint_ctrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/core/widgets/custom_app_bar.dart';
+import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/app_colors.dart';
-import '../../../../core/widgets/text_widget.dart';
+import '../../../../utils/widgets/text_widget.dart';
 
 class FingerprintListView extends StatelessWidget {
   FingerprintListView({super.key});

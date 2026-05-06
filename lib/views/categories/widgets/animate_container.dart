@@ -1,5 +1,5 @@
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class AnimateContainer extends StatelessWidget {

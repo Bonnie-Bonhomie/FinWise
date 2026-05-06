@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../core/widgets/text_widget.dart';
+import 'text_widget.dart';
 
 class CustomLinearProgress extends StatelessWidget {
   const CustomLinearProgress({

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 class AccBalanceCtrl extends GetxController{
 
-  final VirtualRepo repo;
+  final AccountRepo repo;
   AccBalanceCtrl(this.repo);
 
   var accountBalance = 7777.63.obs;
@@ -17,6 +17,7 @@ class AccBalanceCtrl extends GetxController{
   var virtualAcc = ''.obs;
   var selectPay =''.obs;
   var filled = false.obs;
+  bool loading = false;
 
 
 
@@ -34,6 +35,12 @@ class AccBalanceCtrl extends GetxController{
  ].obs;
 
 
+  Future<void> getBalance() async{
+
+    final response = await repo.getBalance();
+
+  }
+
   //
   Future<void> generateVirtual({
     required String fullname, required String phoneNumber, required String bvn, required String dob
@@ -41,7 +48,7 @@ class AccBalanceCtrl extends GetxController{
     await runWithLoader(() async{
       final result = await repo.generateVirtual(fullname: fullname, bvn: bvn, phoneNumber: phoneNumber, dob: dob);
 
-      if(DataState == DataSuccess && result.data['status'] == 'success'){
+      if(DataState == DataSuccess && result.data['status'] == 'true'){
         virtualAcc.value = result.data['accountNumber'];
       }
       else{

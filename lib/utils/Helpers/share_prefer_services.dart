@@ -1,3 +1,4 @@
+import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,6 +50,12 @@ class SharedPreferService {
     if(kDebugMode){
       print('Saved $key, $value');
     }
+  }
+
+  Future<void> saveUser({required String name, required String email}) async{
+    await _pref.setString(PrefStoreKeys.username, name);
+    await _pref.setString(PrefStoreKeys.mail, email);
+
   }
 
 

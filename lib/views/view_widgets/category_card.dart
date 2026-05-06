@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/app_colors.dart';
-import '../../core/widgets/text_widget.dart';
+import '../../utils/widgets/text_widget.dart';
 
 class CategoriesCard extends StatelessWidget {
   final IconData icon;

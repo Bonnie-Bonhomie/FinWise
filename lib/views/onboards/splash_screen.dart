@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../core/Routes/routes.dart';
 import '../../core/app_colors.dart';
-import '../../core/widgets/text_widget.dart';
+import '../../utils/widgets/text_widget.dart';
 
 
 class SplashScreen extends StatefulWidget {

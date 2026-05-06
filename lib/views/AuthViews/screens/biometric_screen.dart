@@ -1,5 +1,5 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
 import 'package:flutter/material.dart';

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/transaction/transaction_ctrl.dart';
-import '../../../core/widgets/text_widget.dart';
+import '../../../utils/widgets/text_widget.dart';
 import '../../view_widgets/transaction_card.dart';
 
 class TransactionListView extends StatelessWidget {

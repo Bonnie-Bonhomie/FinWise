@@ -3,8 +3,9 @@ import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/connection/network.dart';
 import 'package:fin_wise/core/validator/validator.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/data/dataSource/storage_file.dart';
+import 'package:fin_wise/utils/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
@@ -32,7 +33,8 @@ class _LoginViewState extends State<LoginView> {
 
   //Controllers
   final AuthCtrl authCtrl = Get.find<AuthCtrl>();
-  final InternetService network = Get.find<InternetService>();
+  final StorageFile storage = StorageFile();
+  final loader = Get.find<LoaderController>();
 
   bool pwdObscure = false;
 
@@ -44,8 +46,9 @@ class _LoginViewState extends State<LoginView> {
 
   Future<void> login() async {
     if (formKey.currentState!.validate()) {
-      await authCtrl.loginUser(mailCtrl.text, pwdCtrl.text.tr);
-      CustomSnackbar.successSnack('Login Successfully');
+      loader.offLoading(() async{
+        await authCtrl.loginUser(mailCtrl.text, pwdCtrl.text.tr);
+      });
     }else{
       CustomSnackbar.warningSnack('Fill all the required field to continue');
     }
@@ -55,13 +58,13 @@ class _LoginViewState extends State<LoginView> {
   void initState() {
     // showPass();
     // TODO: implement initState
-    mailCtrl.text = authCtrl.user?.email ?? 'JohnDoe';
+    mailCtrl.text = authCtrl.email.value;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final loadCtrl = Get.find<LoaderController>();
+
     return Scaffold(
       body: LoaderWrapper(
         child: SingleChildScrollView(
@@ -79,7 +82,7 @@ class _LoginViewState extends State<LoginView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        labelText("Username Or Email"),
+                        labelText("Email Address"),
                         const SizedBox(height: 8.0),
                         FormWidget(
                           valController: mailCtrl,
@@ -112,9 +115,7 @@ class _LoginViewState extends State<LoginView> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             AppBtn(
-                              onPressed: () async {
-                                loadCtrl.offLoading((){Get.offAllNamed(Routes.mainS);});
-                              },
+                              onPressed: () async => login(),
                               label: "Log in",
                             ),
                             const SizedBox(height: 20),

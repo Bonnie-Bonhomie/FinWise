@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 
 import '../../core/Routes/routes.dart';
 import '../../core/app_colors.dart';
-import '../../core/widgets/app_btn.dart';
-import '../../core/widgets/text_widget.dart';
+import '../../utils/widgets/app_btn.dart';
+import '../../utils/widgets/text_widget.dart';
 
 class PreOnboard extends StatelessWidget {
   PreOnboard({super.key});

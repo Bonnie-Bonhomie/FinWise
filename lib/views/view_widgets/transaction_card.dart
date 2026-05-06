@@ -3,7 +3,7 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../core/widgets/text_widget.dart';
+import '../../utils/widgets/text_widget.dart';
 import '../../data/models/transaction_model.dart';
 
 class TransactionCard extends StatelessWidget {

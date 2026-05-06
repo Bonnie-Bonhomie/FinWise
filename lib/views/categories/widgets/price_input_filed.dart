@@ -1,7 +1,7 @@
 
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/price_form_field.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';

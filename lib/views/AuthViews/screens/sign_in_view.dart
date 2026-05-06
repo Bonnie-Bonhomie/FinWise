@@ -1,12 +1,8 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/utils/widgets/datePicker.dart';
-import 'package:fin_wise/utils/widgets/form_widget.dart';
-import 'package:fin_wise/utils/widgets/phone_number_form.dart';
+import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +10,6 @@ import 'package:get/get.dart';
 
 import '../../../core/Routes/routes.dart';
 import '../../../core/validator/validator.dart';
-import '../../../core/widgets/text_widget.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});

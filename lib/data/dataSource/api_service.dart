@@ -17,11 +17,10 @@ class ApiServices {
       options: Options(
         headers: {
           // 'Content-Type': 'application/json',
-          // 'Accept': 'application/json',
+          'Accept': 'application/json',
         },
       ),
     );
-    print(response);
     return response;
   }
 

@@ -2,7 +2,7 @@ import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';

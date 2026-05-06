@@ -1,9 +1,10 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/AuthControllers/timer_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_pin_code_field.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
@@ -98,7 +99,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         bgColor: AppColors.lightGreen,
                       ),
                       const SizedBox(height: 80),
-
+                            TextButton(onPressed: (){Get.offNamed(Routes.login);}, child: Text('Login')),
                       const SizedBox(height: 20),
                       //Reset the gesture detector
                     ],

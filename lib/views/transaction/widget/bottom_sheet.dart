@@ -4,7 +4,7 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/widgets/text_widget.dart';
+import '../../../utils/widgets/text_widget.dart';
 
 class MonthBottomSheet {
   final List<int> years = [2026, 2025];

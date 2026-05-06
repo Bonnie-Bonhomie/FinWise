@@ -1,7 +1,7 @@
 import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/phone_number_formatter.dart';
 import 'package:fin_wise/viewModel/top_form_view_model.dart';
 import 'package:flutter/material.dart';

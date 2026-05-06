@@ -1,5 +1,5 @@
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/Helpers/generate_image_service.dart';
 import 'package:fin_wise/utils/Helpers/pdf_generator.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';

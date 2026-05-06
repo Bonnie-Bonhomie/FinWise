@@ -1,6 +1,6 @@
 
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_pin_code_field.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';

@@ -1,8 +1,8 @@
 import 'package:fin_wise/controllers/analysis/analysis_ctrl.dart';
 import 'package:fin_wise/controllers/analysis/calender_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/custom_app_bar.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/views/view_widgets/transaction_card.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';

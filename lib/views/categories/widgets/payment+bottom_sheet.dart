@@ -1,5 +1,5 @@
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/custom_keyboard.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
 import 'package:fin_wise/utils/widgets/custom_alert_dialog.dart';

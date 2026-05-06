@@ -25,10 +25,11 @@ class AuthRepository {
   }) async {
     try {
       if (!await internetInfo.connected) {
-        print('No internet');
+
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: "No Internet Connection",
           ),
         );

@@ -2,7 +2,7 @@ import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/widgets/text_widget.dart';
+import '../../../../utils/widgets/text_widget.dart';
 
 
 class Profiles extends StatelessWidget {

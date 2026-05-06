@@ -9,5 +9,6 @@ class PrefStoreKeys{
   static const String enableFingerprint = 'Enable';
   static const String authKey = 'auth-token';
   static const String username = 'username';
+  static const String mail = 'email';
 
 }
