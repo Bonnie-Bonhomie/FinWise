@@ -13,7 +13,6 @@ import 'package:fin_wise/views/view_widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
 
@@ -35,20 +34,20 @@ class _VerifyEmailState extends State<VerifyEmail> {
     if (formKey.currentState!.validate()) {
       final otp = int.parse(pinTextCtrl.text.trim());
       loader.offLoading(() async {
-        await authCtrl.verifyEmail(context: context, otp: otp,);
+        await authCtrl.verifyEmail(context: context, otp: otp);
       });
     } else {
       CustomSnackbar.warningSnack('Fill all the required field to continue');
     }
   }
 
-  Future<void> resendOtp() async{
-    loader.offLoading(() async{
+  Future<void> resendOtp() async {
+    loader.offLoading(() async {
       await authCtrl.resendOtp();
       timer.resetTimer();
       timer.startTimer();
     });
-}
+  }
 
   @override
   void initState() {
@@ -56,6 +55,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
     timer.startTimer();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return LoaderWrapper(
@@ -73,33 +73,55 @@ class _VerifyEmailState extends State<VerifyEmail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 50,),
-                      const AppText(text: 'Enter verification code send to your email', ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(height: 50),
+                      const AppText(
+                        text: 'Enter verification code send to your email',
+                      ),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: CustomPinCodeField(pinTextCtrl: pinTextCtrl, len: 6, size: 40, textSize: 15, ),
+                        child: CustomPinCodeField(
+                          pinTextCtrl: pinTextCtrl,
+                          len: 6,
+                          size: 40,
+                          textSize: 15,
+                        ),
                       ),
-                      const SizedBox(height: 30,),
-                      AppBtn(onPressed: () {
-                        _verify();
-                      }, label: "Accept"),
+                      const SizedBox(height: 30),
+                      AppBtn(
+                        onPressed: () {
+                          _verify();
+                        },
+                        label: "Accept",
+                      ),
 
                       const SizedBox(height: 40),
 
                       AppBtn(
                         onPressed: () {
-                          if(0 != timer.seconds.value){
-                            CustomSnackbar.warningSnack('Try again after ${timer.seconds.value.toString()} seconds');
-                          }else{
+                          if (0 != timer.seconds.value) {
+                            CustomSnackbar.warningSnack(
+                              'Try again after ${timer.seconds.value.toString()} seconds',
+                            );
+                          } else {
                             resendOtp();
                           }
                         },
                         label: "Resend Otp",
                         bgColor: AppColors.lightGreen,
                       ),
-                      const SizedBox(height: 80),
-                            TextButton(onPressed: (){Get.offNamed(Routes.login);}, child: Text('Login')),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.offNamed(Routes.login);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: AppColors.primary,
+                          backgroundColor: AppColors.lightGreen,
+
+                        ),
+                        child: Text('Login'),
+                      ),
                       const SizedBox(height: 20),
                       //Reset the gesture detector
                     ],

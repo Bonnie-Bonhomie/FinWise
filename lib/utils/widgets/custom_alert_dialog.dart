@@ -43,9 +43,14 @@ void showCustomDiag(BuildContext context){
     return AlertDialog(
       backgroundColor: AppColors.bgColor,
       title: Icon(Icons.verified_outlined, size: 100,),
-      content: AppText(text: 'Your account has been verified successfully', textAlign: TextAlign.center,),
+      content: Column(
+        children: [
+          AppText(text: 'Your account has been verified successfully', textAlign: TextAlign.center,),
+          AppText(text: 'Press continue to set pin', textAlign: TextAlign.center,),
+        ],
+      ),
       actions: [AppBtn(onPressed: (){
-        Get.offNamed(Routes.mainS);
+        Get.offNamed(Routes.transPin);
       }, label: 'Continue')],
     );
   });

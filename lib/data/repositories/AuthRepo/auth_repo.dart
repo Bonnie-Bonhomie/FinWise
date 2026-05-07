@@ -22,7 +22,8 @@ class AuthRepository {
     required String phone,
     required String password,
     required String confirmPassword,
-  }) async {
+  })
+  async {
     try {
       if (!await internetInfo.connected) {
 
@@ -54,12 +55,14 @@ class AuthRepository {
   Future<DataState> loginUser({
     required String email,
     required String password,
-  }) async {
+  })
+  async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: "No Internet Connection",
           ),
         );
@@ -68,21 +71,20 @@ class AuthRepository {
         'email': email,
         'password': password,
       });
-      return DataSuccess(ProfileModel.fromJson(response.data));
+      // print(response.data);
+      return DataSuccess(response.data);
     } on DioException catch (e) {
       return DataFailed(e);
     }
-  }
+  }//Login
 
-  Future<DataState> verifyEmail({
-    required int otp,
-    required String email,
-  }) async {
+  Future<DataState> verifyEmail({required int otp, required String email,}) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: "No Internet Connection",
           ),
         );
@@ -104,6 +106,7 @@ class AuthRepository {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: "No Internet Connection",
           ),
         );
@@ -116,18 +119,21 @@ class AuthRepository {
   } // Resend OTP function
 
   //Transaction Pin function
-  Future<DataState> setTransactPin({required int pin,}) async {
+  Future<DataState> setTransactPin({required int oldPin, required int newPin, required int cfmPin}) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: "No Internet Connection",
           ),
         );
       }
       final response = await apiServices.postRequests(ApiEndpoints.transactPin, {
-        'pin': pin,
+        'newpin': newPin,
+        'cnewpin': cfmPin,
+        'oldpin': oldPin,
       });
       return DataSuccess(response.data);
     } on DioException catch (e) {
@@ -142,6 +148,7 @@ class AuthRepository {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: "No Internet Connection",
           ),
         );
@@ -152,6 +159,70 @@ class AuthRepository {
       return DataFailed(e);
     }
   }  //Logout function
+
+  Future<DataState> forgetPwd({required String email}) async {
+    try {
+      if (!await internetInfo.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await apiServices.postRequests(ApiEndpoints.forgetPwd, {
+        'email': email
+      });
+      return DataSuccess(response.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }  // forget password
+
+  Future<DataState> verifyPwd({required String email, required int token}) async {
+    try {
+      if (!await internetInfo.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await apiServices.postRequests(ApiEndpoints.verifyPwd, {
+        'email': email,
+        'token': token,
+      });
+      return DataSuccess(response.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }  // forget password
+
+
+  Future<DataState> updatePwd({required String email, required int token, required String pwd}) async {
+    try {
+      if (!await internetInfo.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await apiServices.postRequests(ApiEndpoints.updatePwd, {
+        'email': email,
+        'token': token,
+        'password': pwd,
+      });
+      return DataSuccess(response.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }  // forget password
 
 }
 

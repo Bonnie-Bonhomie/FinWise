@@ -10,6 +10,9 @@ class ApiEndpoints{
   static const String transactPin = 'auth/transact_pin';
   static const String login = 'auth/login';
   static const String logOut = 'auth/logout';
+  static const String forgetPwd = 'auth/forget_password';
+  static const String verifyPwd = 'auth/verify_password';
+  static const String updatePwd = 'auth/update_password';
 
   static const String accDetail = 'profile/accdetails';
   static const String balance = 'profile/walletbalance';

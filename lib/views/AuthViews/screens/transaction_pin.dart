@@ -45,8 +45,9 @@ class _TransactionPinState extends State<TransactionPin> {
    void setPin() async{
      if(formKey.currentState!.validate()){
        final pin = int.parse(pinCtrl.text.trim());
+       final cfmPin = int.parse(confirmPinCtrl.text.trim());
        loader.offLoading(() async{
-         await auth.setPin(pin: pin);
+         await auth.setPin(oldPin: 1234, newPin: pin, cfmPin: cfmPin);
        });
      }else{
        CustomSnackbar.warningSnack('Fill all the required field to continue');

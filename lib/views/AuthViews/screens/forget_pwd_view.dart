@@ -1,5 +1,9 @@
 
+import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
+import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
+import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
@@ -17,11 +21,23 @@ class ForgetPwdView extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final mailKey = GlobalKey<FormFieldState>();
   final TextEditingController mailCtrl = TextEditingController();
+  final AuthCtrl auth = Get.find<AuthCtrl>();
+  final loader = Get.find<LoaderController>();
+
+  void forgetPwd(){
+    if(formKey.currentState!.validate()){
+      loader.offLoading(() async{
+        await auth.forgetPwd(mailCtrl.text.trim());
+      });
+    }else{
+      CustomSnackbar.showSnackbar(message: 'Enter a recovery email address');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: LoaderWrapper(
         child: PageContainer(
           topPadding: 80,
           topMargin: 20,
@@ -30,74 +46,76 @@ class ForgetPwdView extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Form(
               key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 30),
-                  const Text(
-                    "Reset Password",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const AppText(text:
-                    "We will send a you an Otp to your email address. Enter your recovery email address",
-                  ),
-                 const  SizedBox(height: 30),
-                  //Email
-                  labelText("Enter Email Address"),
-                  const SizedBox(height: 10.0),
-                  FormWidget(
-                    valController: mailCtrl,
-                    fieldKey: mailKey,
-                    textType: TextInputType.emailAddress,
-                    validator: (val) => Validator.validateEmail(val),
-                    onChanged: (val) => mailKey.currentState?.validate(),
-                    hintText: "johndue@example.com",
-                  ),
-
-                  const SizedBox(height: 40),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppBtn(onPressed: () {
-                        Get.toNamed(Routes.otp);
-                      }, label: "Next Step"),
-
-
-                      const SizedBox(height: 80),
-                      const Text("Contact us on "),
-                      const SizedBox(height: 10),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.facebook_outlined),
-                          Icon(Icons.g_mobiledata),
-                        ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 30),
+                    const Text(
+                      "Reset Password",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
-                      const SizedBox(height: 20),
-                      //Reset the gesture detector
-                      RichText(
-                        text: TextSpan(
-                          text: "Already have an account? ",
-                          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w200),
+                    ),
+                    const AppText(text:
+                      "We will send a you a verification code to your email address. Enter your recovery email address",
+                    ),
+                   const  SizedBox(height: 30),
+                    //Email
+                    labelText("Enter Email Address"),
+                    const SizedBox(height: 10.0),
+                    FormWidget(
+                      valController: mailCtrl,
+                      fieldKey: mailKey,
+                      textType: TextInputType.emailAddress,
+                      validator: (val) => Validator.validateEmail(val),
+                      onChanged: (val) => mailKey.currentState?.validate(),
+                      hintText: "johndue@example.com",
+                    ),
+
+                    const SizedBox(height: 40),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppBtn(onPressed: () {
+                          forgetPwd();
+                        }, label: "Next Step"),
+
+
+                        const SizedBox(height: 80),
+                        const Text("Contact us on "),
+                        const SizedBox(height: 10),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            TextSpan(
-                              text: 'Log in',
-                              style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-                              recognizer: TapGestureRecognizer()..onTap= (){
-                                Get.offNamed(Routes.login);
-                              },
-                            ),
+                            Icon(Icons.facebook_outlined),
+                            Icon(Icons.g_mobiledata),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        const SizedBox(height: 20),
+                        //Reset the gesture detector
+                        RichText(
+                          text: TextSpan(
+                            text: "Remember your password? ",
+                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w200),
+                            children: [
+                              TextSpan(
+                                text: 'Log in',
+                                style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                                recognizer: TapGestureRecognizer()..onTap= (){
+                                  Get.offNamed(Routes.login);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

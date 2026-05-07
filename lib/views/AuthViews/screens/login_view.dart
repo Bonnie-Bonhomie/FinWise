@@ -36,7 +36,7 @@ class _LoginViewState extends State<LoginView> {
   final StorageFile storage = StorageFile();
   final loader = Get.find<LoaderController>();
 
-  bool pwdObscure = false;
+  bool pwdObscure = true;
 
   void showPass() {
     setState(() {
@@ -47,7 +47,9 @@ class _LoginViewState extends State<LoginView> {
   Future<void> login() async {
     if (formKey.currentState!.validate()) {
       loader.offLoading(() async{
-        await authCtrl.loginUser(mailCtrl.text, pwdCtrl.text.tr);
+        print(mailCtrl.text);
+        print(pwdCtrl.text);
+        await authCtrl.loginUser(mailCtrl.text, pwdCtrl.text.trim());
       });
     }else{
       CustomSnackbar.warningSnack('Fill all the required field to continue');
@@ -106,8 +108,8 @@ class _LoginViewState extends State<LoginView> {
                               showPass();
                             },
                             icon: pwdObscure
-                                ? const Icon(Icons.visibility_outlined)
-                                : const Icon(Icons.visibility_off_outlined),
+                                ? const Icon(Icons.visibility_off_outlined)
+                                : const Icon(Icons.visibility_outlined),
                           ),
                         ),
                         const SizedBox(height: 60),

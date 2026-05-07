@@ -1,4 +1,6 @@
 
+import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
@@ -23,9 +25,11 @@ class _ResetPasswordState extends State<ResetPassword> {
   final confirmPwdKey = GlobalKey<FormFieldState>();
   final TextEditingController pwdCtrl = TextEditingController();
   final TextEditingController confirmPwdCtrl = TextEditingController();
+  final loader = Get.find<LoaderController>();
+  final AuthCtrl auth = Get.find<AuthCtrl>();
 
-  final bool pwdObscure = false;
-  final bool confirmPwdObscure = false;
+  final bool pwdObscure = true;
+  final bool confirmPwdObscure = true;
 
   void showPass(obscure){
     setState(() {
@@ -33,10 +37,11 @@ class _ResetPasswordState extends State<ResetPassword> {
     });
   }
 
-  Future<void> changePwd() async {
+  Future<void> updatePwd() async {
     if (formKey.currentState!.validate()) {
-      // await
-      Get.offNamed(Routes.successful);
+      loader.offLoading(() async{
+        await auth.updatePwd(newPwd: pwdCtrl.text.trim());
+      });
     }else{
       CustomSnackbar.warningSnack('Fill all the required field to continue');
     }
@@ -113,7 +118,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       AppBtn(onPressed: () {
-                       changePwd();
+                       updatePwd();
                       }, label: "Change Password"),
 
                     ],
