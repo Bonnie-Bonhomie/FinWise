@@ -23,7 +23,7 @@ class _PremiumLoaderState extends State<PremiumLoader>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 600),
     )..repeat();
   }
 

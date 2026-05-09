@@ -109,36 +109,40 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                 ),
-                Obx((){
-                  final image = nav.picked.value;
-                  return
-                  image != null ?  SizedBox(
-                    height: 90,
-                    width: 90,
-                    child: ClipOval(
-                      child: Image.file(image, fit: BoxFit.cover,),
-                    ),
-                  ):
-                    CircleAvatar(
-                  radius: 45,
-                    backgroundColor: AppColors.lightGreen,
-                    // backgroundImage: Image(image: Image.file(file)),
-                    child:Icon(Icons.person_outline_outlined, size: 80, color: AppColors.blue,),
-                  );}
-                ),
-                Positioned(
-                  top: 45,
-                  right: 130,
-                  child: InkWell(
-                    onTap: () {
-                      nav.selectImage();
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primary,
-                      radius: 15,
-                      child: Icon(Icons.photo_camera_back, size: 20, color: AppColors.darkGreen,),
-                    ),
+                Container(
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Obx((){
+                        final image = nav.picked.value;
+                        return
+                        image != null ?  SizedBox(
+                          height: 90,
+                          width: 90,
+                          child: ClipOval(
+                            child: Image.file(image, fit: BoxFit.cover,),
+                          ),
+                        ):
+                          CircleAvatar(
+                        radius: 45,
+                          backgroundColor: AppColors.lightGreen,
+                          // backgroundImage: Image(image: Image.file(file)),
+                          child:Icon(Icons.person_outline_outlined, size: 80, color: AppColors.blue,),
+                        );}
+                      ),
+                      InkWell(
+                        onTap: () {
+                          nav.selectImage();
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: AppColors.primary,
+                          radius: 15,
+                          child: Icon(Icons.photo_camera_back, size: 20, color: AppColors.lightGreen,),
+                        ),
+                      ),
+                    ],
                   ),
+
                 ),
               ],
             ),

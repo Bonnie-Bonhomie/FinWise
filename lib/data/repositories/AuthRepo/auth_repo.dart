@@ -1,10 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fin_wise/core/connection/network.dart';
 import 'package:fin_wise/data/dataSource/api_service.dart';
-import 'package:fin_wise/data/models/AuthModel/user_model.dart';
-import 'package:fin_wise/data/models/profile_model.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../../core/Routes/Api_endpoints/api_endpoints.dart';
 
@@ -119,7 +116,7 @@ class AuthRepository {
   } // Resend OTP function
 
   //Transaction Pin function
-  Future<DataState> setTransactPin({required int oldPin, required int newPin, required int cfmPin}) async {
+  Future<DataState> setTransactPin({required int oldPin, required int newPin, required int cfmPin, required String token}) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
@@ -130,7 +127,7 @@ class AuthRepository {
           ),
         );
       }
-      final response = await apiServices.postRequests(ApiEndpoints.transactPin, {
+      final response = await apiServices.postRequestsWithToken(ApiEndpoints.transactPin, token,{
         'newpin': newPin,
         'cnewpin': cfmPin,
         'oldpin': oldPin,
@@ -142,7 +139,7 @@ class AuthRepository {
   }  // Transaction pin
 
   //Log out function
-  Future<DataState> logOut() async {
+  Future<DataState> logOut(String token) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(
@@ -153,7 +150,7 @@ class AuthRepository {
           ),
         );
       }
-      final response = await apiServices.getRequest(ApiEndpoints.logOut );
+      final response = await apiServices.getRequestWIthToken(ApiEndpoints.logOut, token);
       return DataSuccess(response.data);
     } on DioException catch (e) {
       return DataFailed(e);

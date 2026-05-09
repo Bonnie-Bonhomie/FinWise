@@ -12,6 +12,7 @@ class PaymentBottomSheet {
 
   //This make the controller refresh and create a new TextEditingController for the form field
   final TextEditingController pinText = TextEditingController();
+  final GlobalKey<FormFieldState> pinKey = GlobalKey<FormFieldState>();
 
   void paymentBottomSheet(BuildContext context) {
     FocusScope.of(context).unfocus();
@@ -82,6 +83,7 @@ class PaymentBottomSheet {
               obscure: true,
               readOnly: true,
               showCursor: false,
+              pinKey: pinKey,
               onComplete: (pin)=> controller.loadPin(pin),
             ),
           ),

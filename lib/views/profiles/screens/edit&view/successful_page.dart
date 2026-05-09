@@ -20,7 +20,7 @@ class _SuccessfulPageState extends State<SuccessfulPage>{
     super.initState();
 
 
-    Future.delayed(Duration(seconds: 2), (){
+    Future.delayed(Duration(seconds: 3), (){
       Get.offAllNamed(Routes.mainS);
     });
     // This make the init wait till the page is stacked before pop

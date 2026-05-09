@@ -29,8 +29,8 @@ class _TransactionPinState extends State<TransactionPin> {
   final loader = Get.find<LoaderController>();
   final AuthCtrl auth = Get.find<AuthCtrl>();
 
-    bool pinObscure = false;
-   bool confirmPinObscure = false;
+    bool pinObscure = true;
+   bool confirmPinObscure = true;
 
    void showPin(){
      setState(() {
@@ -47,7 +47,7 @@ class _TransactionPinState extends State<TransactionPin> {
        final pin = int.parse(pinCtrl.text.trim());
        final cfmPin = int.parse(confirmPinCtrl.text.trim());
        loader.offLoading(() async{
-         await auth.setPin(oldPin: 1234, newPin: pin, cfmPin: cfmPin);
+         await auth.setPin(oldPin: 123456, newPin: pin, cfmPin: cfmPin);
        });
      }else{
        CustomSnackbar.warningSnack('Fill all the required field to continue');
@@ -88,8 +88,8 @@ class _TransactionPinState extends State<TransactionPin> {
                           showPin();
                         },
                         icon: pinObscure
-                            ? const Icon(Icons.visibility_outlined)
-                            : const Icon(Icons.visibility_off_outlined),
+                            ? const Icon(Icons.visibility_off_outlined)
+                            : const Icon(Icons.visibility_outlined),
                       ),
                     ),
                     const SizedBox(height: 25,),
@@ -110,8 +110,8 @@ class _TransactionPinState extends State<TransactionPin> {
 
                         },
                         icon: confirmPinObscure
-                            ? const Icon(Icons.visibility_outlined)
-                            : const Icon(Icons.visibility_off_outlined),
+                            ? const Icon(Icons.visibility_off_outlined)
+                            : const Icon(Icons.visibility_outlined),
                       ),
                     ),
 

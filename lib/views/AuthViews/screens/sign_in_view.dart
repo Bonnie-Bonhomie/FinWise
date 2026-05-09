@@ -68,6 +68,7 @@ class _SignInViewState extends State<SignInView> {
           confirmPassword: confirmPwdCtrl.text.trim(),
         );
       });
+      authCtrl.signMail.value = mailCtrl.text.trim();
     } else {
       CustomSnackbar.warningSnack('Fill all the required field to continue');
     }

@@ -36,9 +36,9 @@ class TransactionListView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(image: AssetImage('Assets/images/green_empty.png'), height: 150, width: 150,),
+            Image(image: AssetImage('Assets/images/green_empty.png'), height: 100, width: 100,),
             AppText(text: 'Oops!', textSize: 18,),
-            AppText(text: 'No Transaction History', textSize: 17,)
+            AppText(text: 'No Transaction History', textSize: 12,)
           ],
         );
       }

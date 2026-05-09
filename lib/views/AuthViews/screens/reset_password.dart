@@ -1,6 +1,7 @@
 
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/form_widget.dart';
@@ -50,12 +51,12 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: LoaderWrapper(
         child: PageContainer(
           topMargin: 20,
           topPadding: 90,
           topChild: const HeadingText(headingText: "New Password"),
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(20.0),
             child: Form(
               key: formKey,

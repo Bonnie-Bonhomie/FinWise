@@ -119,14 +119,16 @@ class HomePage extends GetView<AccBalanceCtrl> {
       return len;
     }
     if(transact.isEmpty){
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image(image: AssetImage('Assets/images/green_empty.png'), height: 120, width: 120,),
-          AppText(text: 'Oops!', textSize: 18,),
-          AppText(text: 'No transaction history ', textSize: 17,textWeigh: FontWeight.w300,)
-        ],
+      return SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(image: AssetImage('Assets/images/green_empty.png'), height: 80, width: 80,),
+            AppText(text: 'Oops!', textSize: 18,),
+            AppText(text: 'No transaction history ', textSize: 12,textWeigh: FontWeight.w300,)
+          ],
+        ),
       );
     }
     //Add animation

@@ -30,8 +30,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
   final loader = Get.find<LoaderController>();
   final TimerCtrl timer = Get.put(TimerCtrl());
 
-  Future<void> _verify() async {
-    if (formKey.currentState!.validate()) {
+  void _verify()  {
+    if (pinTextCtrl.text.isNotEmpty) {
       final otp = int.parse(pinTextCtrl.text.trim());
       loader.offLoading(() async {
         await authCtrl.verifyEmail(context: context, otp: otp);
@@ -85,6 +85,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           len: 6,
                           size: 40,
                           textSize: 15,
+                          pinKey: pinKey,
                         ),
                       ),
                       const SizedBox(height: 30),

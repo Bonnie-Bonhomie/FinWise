@@ -12,23 +12,28 @@ class CustomPinCodeField extends StatelessWidget {
   final bool readOnly;
   final bool showCursor;
   final bool obscure;
+  final GlobalKey<FormFieldState> pinKey;
+  final FormFieldValidator? validator;
 
   const CustomPinCodeField({
     super.key,
     required this.pinTextCtrl,
     required this.len,
+    required this.pinKey,
     this.onComplete,
     this.size = 50,
     this.textSize = 20,
     this.readOnly = false,
     this.showCursor = true,
-    this.obscure = false
+    this.obscure = false,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
       appContext: context,
+      key: pinKey,
       controller: pinTextCtrl,
       keyboardType: TextInputType.number,
       length: len,
@@ -37,6 +42,7 @@ class CustomPinCodeField extends StatelessWidget {
       obscureText: obscure,
       textStyle: TextStyle(fontSize: textSize),
       onCompleted: onComplete,
+      validator: validator,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,6}'))
       ],

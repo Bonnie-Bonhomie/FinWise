@@ -54,9 +54,7 @@ class OnboardOne extends StatelessWidget {
                 onPressed: () {
                   dotCtrl.nextPage(context);
                 },
-                child: dotCtrl.loading.value
-                    ? CircularProgressIndicator(color: AppColors.primary)
-                    : const Text(
+                child:  const Text(
                         "Next",
                         style: TextStyle(
                           color: AppColors.darkGreen,
