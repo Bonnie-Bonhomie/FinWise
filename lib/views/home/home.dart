@@ -276,6 +276,7 @@ class HomePage extends GetView<AccBalanceCtrl> {
     required IconData icon,
     required Color? color,
     VoidCallback? onTap,
+    Widget? error,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
