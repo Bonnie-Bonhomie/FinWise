@@ -19,6 +19,7 @@ class AirtimeRepository {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet connection',
           ),
         );
@@ -29,13 +30,27 @@ class AirtimeRepository {
         });
         return DataSuccess(result.data);
       }
-    } catch (e) {
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          error: 'Something went wrong ${e.toString()}',
-        ),
-      );
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  Future<DataState> airtimeNetwork() async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      } else {
+        final result = await services.getRequest(ApiEndpoints.airtimeNetwork);
+        return DataSuccess(result.data);
+      }
+    } on DioException catch (e) {
+      return DataFailed(e);
     }
   }
 }

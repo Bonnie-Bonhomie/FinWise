@@ -21,6 +21,7 @@ class AccountRepo {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet connection',
           ),
         );
@@ -43,6 +44,7 @@ class AccountRepo {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet connection',
           ),
         );
@@ -53,4 +55,5 @@ class AccountRepo {
       return DataFailed(e);
     }
   }
+
 }

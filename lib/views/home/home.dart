@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
@@ -18,12 +19,14 @@ class HomePage extends GetView<AccBalanceCtrl> {
   HomePage({super.key});
 
   final HomeViewModel viewModel = HomeViewModel();
+  final auth = Get.find<AuthCtrl>();
 
   @override
   Widget build(BuildContext context) {
     final percent = (controller.spentPercent * 100).round();
     final nav = Get.find<NavControl>();
     final trans = Get.find<TransactionCtrl>();
+
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -306,12 +309,12 @@ class HomePage extends GetView<AccBalanceCtrl> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AppText(
-                text: 'Hi, Welcome Back',
+              AppText(
+                text: 'Hi ${auth.name.value.split(' ').first}',
                 textWeigh: FontWeight.bold,
                 textSize: 15,
               ),
-              AppText(text: greet),
+              AppText(text: greet, textSize: 10,),
             ],
           ),
           const Spacer(),

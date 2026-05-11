@@ -357,41 +357,6 @@ class AuthCtrl extends GetxController {
     } else {
       final response = await authRepo.logOut(token);
 
-      print(response);
-      if (response is DataSuccess) {
-        final data = response.data;
-
-        if (data['status'] == true) {
-          await storage.deleteToken();
-          Get.offAllNamed(Routes.login);
-        } else {
-          // backend handled inside success (if API returns 200 with status false)
-          CustomSnackbar.showSnackbar(message: data['message']);
-        }
-      } else if (response is DataFailed) {
-        final err = response.exception;
-        print(err.toString());
-
-        if (err is DioException) {
-          //  Network issues
-          if (err.type == DioExceptionType.connectionError ||
-              err.type == DioExceptionType.receiveTimeout ||
-              err.type == DioExceptionType.connectionTimeout) {
-            CustomSnackbar.showSnackbar(message: 'No internet connection');
-            return;
-          }else {
-            print('This is the error');
-            CustomSnackbar.showSnackbar(
-              message: 'Unable to log out, try again later.',
-            );
-          }
-
-        }else {
-          CustomSnackbar.showSnackbar(
-            message: 'Unable to log out, try again later.',
-          );
-        }
-      }
     }
   } //Logout
 

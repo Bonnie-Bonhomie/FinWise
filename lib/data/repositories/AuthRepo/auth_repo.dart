@@ -151,7 +151,10 @@ class AuthRepository {
         );
       }
       final response = await apiServices.getRequestWIthToken(ApiEndpoints.logOut, token);
-      return DataSuccess(response.data);
+      if(response.statusCode == 200){
+        return DataSuccess(response.data);
+      }return DataFailed(DioException(requestOptions: RequestOptions()));
+
     } on DioException catch (e) {
       return DataFailed(e);
     }
