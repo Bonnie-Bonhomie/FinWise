@@ -10,24 +10,21 @@ class AccBalanceCtrl extends GetxController {
   final AccountRepo repo;
   final StorageFile storage;
 
+
   AccBalanceCtrl(this.repo, this.storage);
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    print('I have start');
-    getBalance();
-    super.onInit();
-  }
 
-  var accountBalance = 30.00.obs;
+
+
+  var accountBalance = 10.00.obs;
   var expense = 1000.00.obs;
   var income = 4000.45.obs;
   var spendingLimit = 2000.00.obs;
   var virtualAcc = ''.obs;
   var selectPay = ''.obs;
   var filled = false.obs;
-  bool loading = false;
+  var name = ''.obs;
+  RxBool loading = false.obs;
   var balanceErr = ''.obs;
 
   double get spentPercent => expense.value / spendingLimit.value;
@@ -51,13 +48,16 @@ class AccBalanceCtrl extends GetxController {
   ].obs;
 
   Future<void> getBalance() async {
+    loading.value = true;
     final String? token = await storage.getToken();
+
+    if(token != null){
     final response = await repo.getWallet(token);
 
     if (response is DataSuccess) {
       final data = response.data;
-      print(data);
-      if (data['status'] == 'true') {
+      // print(data['data']['bal']);
+      if (data['status'] == true) {
         accountBalance.value = double.parse(data['data']['bal']);
       }else {
         balanceErr.value = 'Reload the page';
@@ -76,14 +76,15 @@ class AccBalanceCtrl extends GetxController {
         // print(err.response?.data);
 
         if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
+          balanceErr.value = 'unable to load balance';
         } else {
-          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
+          balanceErr.value = 'unable to load balance';
         }
-      } else {
-        CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
-      }
+      } }else{
+      balanceErr.value = 'unable to load balance';
     }
+    }
+    loading.value = false;
   }
 
   //
@@ -102,7 +103,7 @@ class AccBalanceCtrl extends GetxController {
       );
 
       if (response is DataSuccess) {
-        if (response.data['status'] == 'true') {
+        if (response.data['status'] == true) {
           virtualAcc.value = response.data['accountNumber'];
         }else {
           CustomSnackbar.showSnackbar(
@@ -114,9 +115,7 @@ class AccBalanceCtrl extends GetxController {
 
         if (err is DioException) {
           //  Network issues
-          if (err.type == DioExceptionType.connectionError ||
-              err.type == DioExceptionType.receiveTimeout ||
-              err.type == DioExceptionType.connectionTimeout) {
+          if (err.type == DioExceptionType.connectionError) {
             CustomSnackbar.showSnackbar(message: 'No internet connection');
             return;
           }

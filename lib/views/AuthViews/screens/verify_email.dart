@@ -10,6 +10,7 @@ import 'package:fin_wise/utils/widgets/custom_pin_code_field.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -93,35 +94,47 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         onPressed: () {
                           _verify();
                         },
-                        label: "Accept",
+                        label: "Submit",
                       ),
 
                       const SizedBox(height: 40),
-
-                      AppBtn(
-                        onPressed: () {
-                          if (0 != timer.seconds.value) {
-                            CustomSnackbar.warningSnack(
-                              'Try again after ${timer.seconds.value.toString()} seconds',
-                            );
-                          } else {
-                            resendOtp();
-                          }
-                        },
-                        label: "Resend Otp",
-                        bgColor: AppColors.lightGreen,
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          Get.offNamed(Routes.login);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: AppColors.primary,
-                          backgroundColor: AppColors.lightGreen,
-
+                      RichText(
+                        text: TextSpan(
+                          text: 'Don`t receive verification code ',
+                          style: TextStyle(color: AppColors.darkGreen),
+                          children: [
+                            TextSpan(
+                              text: 'Resend now',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.superBlue),
+                              recognizer: TapGestureRecognizer()..onTap = () {
+                                if (0 != timer.seconds.value) {
+                                  CustomSnackbar.warningSnack(
+                                    'Try again after ${timer.seconds.value.toString()} seconds',
+                                  );
+                                } else {
+                                  resendOtp();
+                                }
+                              },// Not yet filled
+                            ),
+                          ],
                         ),
-                        child: Text('Login'),
+                      ),
+                      const SizedBox(height: 60),
+                      RichText(
+                        text: TextSpan(
+                          text: "Already have an account? ",
+                          style: TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                              text: 'Log in',
+                              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.offNamed(Routes.login);
+                                },
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 20),
                       //Reset the gesture detector

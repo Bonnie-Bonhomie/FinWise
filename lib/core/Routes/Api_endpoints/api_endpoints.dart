@@ -17,6 +17,7 @@ class ApiEndpoints{
   static const String accDetail = 'profile/accdetails';
   static const String balance = 'profile/walletbalance';
   static const String profile = 'profile/';
+
   static const String changePwd = 'auth/user/acc';
   static const String changePin = 'auth/user/acc';
   static const String forgetPin = 'auth/user/acc';

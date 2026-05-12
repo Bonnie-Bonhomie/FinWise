@@ -1,8 +1,9 @@
-import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/core/constant.dart';
+import 'package:fin_wise/core/resources/storage_keys.dart';
+import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
@@ -15,12 +16,37 @@ import '../../utils/widgets/custom_linear_progress.dart';
 import '../view_widgets/category_card.dart';
 import '../view_widgets/transaction_card.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final HomeViewModel viewModel = HomeViewModel();
-  final auth = Get.find<AuthCtrl>();
+  final store = SharedPreferService();
+  String name = '';
   final acc = Get.find<AccBalanceCtrl>();
+
+  void getName() async {
+    final getNam =
+        (await store.retrieve<String>(PrefStoreKeys.username)) ??
+        'Welcome back';
+    setState(() => name = getNam);
+    print(name);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() {
+      getName();
+      acc.getBalance();
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,119 +59,81 @@ class HomePage extends StatelessWidget {
       body: SafeArea(
         top: false,
         child: SingleChildScrollView(
-          child: PageContainer(
-            topMargin: 10,
-            topChild:
-            // Obx(
-            //   () =>
-                  Column(
+          child: Obx(() {
+            return PageContainer(
+              topMargin: 10,
+              topChild: Column(
                 children: [
                   _header(viewModel.greeting()),
                   headerCard(context, percent.toDouble(), acc),
                 ],
-              // ),
-            ),
-            //The Bottom Section [Transaction lists]
-            child: Container(
-              padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CategoriesCard(
-                        width: 50,
-                        iconSize: 25,
-                        icon: Categories.airtime.icon,
-                        title: Categories.airtime.label,
-                        onTap: () => Get.toNamed(Routes.airtime),
-                      ),
-                      CategoriesCard(
-                        width: 50,
-                        iconSize: 30,
-                        icon: Categories.data.icon,
-                        title: Categories.data.label,
-                        onTap: () => Get.toNamed(Routes.data),
-                      ),
-                      CategoriesCard(
-                        width: 50,
-                        iconSize: 25,
-                        icon: Categories.cable.icon,
-                        title: Categories.cable.label,
-                        onTap: () => Get.toNamed(Routes.tv),
-                      ),
-                      CategoriesCard(
-                        width: 50,
-                        iconSize: 25,
-                        icon: Icons.category_outlined,
-                        title: 'More',
-                        onTap: () {
-                          nav.selectInd.value = 1;
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      const AppText(
-                        text: "Transactions",
-                        textSize: 20,
-                        textWeigh: FontWeight.bold,
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          nav.selectInd.value = 2;
-                        },
-                        child: const AppText(text: 'See all'),
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: buildTransaction(trans)
-                  ),
-                ],
               ),
-            ),
-          ),
+
+              //The Bottom Section [Transaction lists]
+              child: Container(
+                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CategoriesCard(
+                          width: 50,
+                          iconSize: 25,
+                          icon: Categories.airtime.icon,
+                          title: Categories.airtime.label,
+                          onTap: () => Get.toNamed(Routes.airtime),
+                        ),
+                        CategoriesCard(
+                          width: 50,
+                          iconSize: 30,
+                          icon: Categories.data.icon,
+                          title: Categories.data.label,
+                          onTap: () => Get.toNamed(Routes.data),
+                        ),
+                        CategoriesCard(
+                          width: 50,
+                          iconSize: 25,
+                          icon: Categories.cable.icon,
+                          title: Categories.cable.label,
+                          onTap: () => Get.toNamed(Routes.tv),
+                        ),
+                        CategoriesCard(
+                          width: 50,
+                          iconSize: 25,
+                          icon: Icons.category_outlined,
+                          title: 'More',
+                          onTap: () {
+                            nav.selectInd.value = 1;
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const AppText(
+                          text: "Transactions",
+                          textSize: 20,
+                          textWeigh: FontWeight.bold,
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () {
+                            nav.selectInd.value = 2;
+                          },
+                          child: const AppText(text: 'See all'),
+                        ),
+                      ],
+                    ),
+                    Expanded(child: BuildTransaction(trans: trans)),
+                  ],
+                ),
+              ),
+            );
+          }),
         ),
       ),
-    );
-  }
-
-  Widget buildTransaction(TransactionCtrl trans) {
-    final transact = trans.transacts;
-    int getLen(){
-      int len;
-      if(transact.length < 3){
-        len = transact.length;
-      }else{
-        len = 3;
-      }
-      return len;
-    }
-    if(transact.isEmpty){
-      return SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(image: AssetImage('Assets/images/green_empty.png'), height: 80, width: 80,),
-            AppText(text: 'Oops!', textSize: 18,),
-            AppText(text: 'No transaction history ', textSize: 12,textWeigh: FontWeight.w300,)
-          ],
-        ),
-      );
-    }
-    //Add animation
-    return ListView.builder(
-      padding: EdgeInsets.only(top: 5),
-      itemCount: getLen(),
-      itemBuilder: (context, index) {
-        final tx = transact[index];
-        return TransactionCard(tx: tx);
-      },
     );
   }
 
@@ -165,35 +153,69 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                Obx((){
-                    return totalBox(
-                      title: "Acc. Balance",
-                      value: '₦${acc.accountBalance.value.toStringAsFixed(2)}',
-                      icon: Icons.arrow_circle_up_outlined,
-                      color: AppColors.bgColor,
-                    );
-                  }
-                ),
+                Obx(() {
+                  return Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.local_pizza_outlined, color: Colors.white),
+                          Text('Acc. Balance'),
+                        ],
+                      ),
+                      acc.loading.value
+                          ? SizedBox(
+                              height: 15,
+                              width: 15,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3,
+                              ),
+                            )
+                          : Container(
+                              margin: const EdgeInsets.only(top: 3.0),
+                              child: acc.balanceErr.value.isEmpty
+                                  ? AppText(
+                                      text: '₦${acc.accountBalance.value.toStringAsFixed(2)}', textColor: AppColors.lightGreen, textWeigh: FontWeight.bold, textSize: 20)
+                                  : Container(
+                                      padding: const EdgeInsets.all(3.0), // height: 30,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.lightGreen,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Text(
+                                        acc.balanceErr.value,
+                                        style: TextStyle(fontSize: 10.0),
+                                      ),
+                                    ),
+                            ),
+                    ],
+                  );
+                }),
                 Spacer(),
 
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    InkWell(onTap: (){
-                      acc.getBalance();
-                      // Get.toNamed(Routes.fundWallet);
-                    },
-                        child: Container(
-                            padding: const EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                                color: AppColors.bgColor,
-                                borderRadius: BorderRadius.circular(8.0)
-                            ),
-                            child: const AppText(text: 'Fund Wallet'))),
-                    acc.virtualAcc.value.isEmpty? SizedBox.shrink(): AppText(text: acc.virtualAcc.value),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(Routes.fundWallet);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          color: AppColors.bgColor,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: const AppText(text: 'Fund Wallet'),
+                      ),
+                    ),
+                    acc.virtualAcc.value.isEmpty
+                        ? SizedBox.shrink()
+                        : AppText(text: acc.virtualAcc.value),
                   ],
-                )
+                ),
 
                 // SectDivider(colors: AppColors.bgColor),
                 // Spacer(),
@@ -236,7 +258,7 @@ class HomePage extends StatelessWidget {
               Icon(Icons.check_circle_outline),
               AppText(
                 text:
-                    ' $percent% of Your Expenses, Look ${accountState[viewModel.getState(percent)]}.',
+                    '$percent% of Your Expenses, Look ${accountState[viewModel.getState(percent)]}.',
               ),
             ],
           ),
@@ -319,16 +341,16 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                text: 'Hi ${auth.name.value.split(' ').first}',
+                text: 'Hi ${name.split(' ').first}',
                 textWeigh: FontWeight.bold,
                 textColor: Colors.white,
                 textSize: 20,
               ),
-              AppText(text: greet, textSize: 13,textColor: Colors.white,),
+              AppText(text: greet, textSize: 13, textColor: Colors.white),
             ],
           ),
           const Spacer(),
-          Icon(Icons.person, color: AppColors.bgColor,)
+          Icon(Icons.person, color: AppColors.bgColor),
         ],
       ),
     );

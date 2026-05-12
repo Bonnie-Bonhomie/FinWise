@@ -1,5 +1,6 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/utils/widgets/custom_pin_code_field.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
@@ -14,7 +15,7 @@ import '../../../core/validator/validator.dart';
 import '../../../utils/widgets/app_btn.dart';
 
 class TransactionPin extends StatefulWidget {
-   const TransactionPin({super.key});
+  const TransactionPin({super.key});
 
   @override
   State<TransactionPin> createState() => _TransactionPinState();
@@ -29,30 +30,32 @@ class _TransactionPinState extends State<TransactionPin> {
   final loader = Get.find<LoaderController>();
   final AuthCtrl auth = Get.find<AuthCtrl>();
 
-    bool pinObscure = true;
-   bool confirmPinObscure = true;
+  // bool pinObscure = true;
+  // bool confirmPinObscure = true;
+  //
+  // void showPin() {
+  //   setState(() {
+  //     pinObscure = !pinObscure;
+  //   });
+  // }
+  //
+  // void showCfmPin() {
+  //   setState(() {
+  //     confirmPinObscure = !confirmPinObscure;
+  //   });
+  // }
 
-   void showPin(){
-     setState(() {
-       pinObscure = !pinObscure;
-     });
-   }void showCfmPin(){
-    setState(() {
-      confirmPinObscure = !confirmPinObscure;
-    });
+  void setPin() async {
+    if (pinCtrl.text.isNotEmpty && confirmPinCtrl.text.isNotEmpty) {
+      final pin = int.parse(pinCtrl.text.trim());
+      final cfmPin = int.parse(confirmPinCtrl.text.trim());
+      loader.offLoading(() async {
+        await auth.setPin(oldPin: 1234, newPin: pin, cfmPin: cfmPin);
+      });
+    } else {
+      CustomSnackbar.warningSnack('Fill all the required field to continue');
+    }
   }
-
-   void setPin() async{
-     if(formKey.currentState!.validate()){
-       final pin = int.parse(pinCtrl.text.trim());
-       final cfmPin = int.parse(confirmPinCtrl.text.trim());
-       loader.offLoading(() async{
-         await auth.setPin(oldPin: 123456, newPin: pin, cfmPin: cfmPin);
-       });
-     }else{
-       CustomSnackbar.warningSnack('Fill all the required field to continue');
-     }
-   }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +64,11 @@ class _TransactionPinState extends State<TransactionPin> {
         child: SingleChildScrollView(
           child: PageContainer(
             topPadding: 70,
-            topChild: SizedBox(width: 200,child: HeadingText(headingText: 'Set Transaction Pin')),
-            child:  Padding(
+            topChild: SizedBox(
+              width: 200,
+              child: HeadingText(headingText: 'Set Transaction Pin'),
+            ),
+            child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(
                 key: formKey,
@@ -72,57 +78,38 @@ class _TransactionPinState extends State<TransactionPin> {
                   children: [
                     const SizedBox(height: 30),
                     //Email
-                   const AppText(text: "Enter Pin"),
+                    const AppText(text: "Enter Pin"),
                     const SizedBox(height: 10.0),
-                    FormWidget(
-                      valController: pinCtrl,
-                      fieldKey: pinKey,
-                      obscure: pinObscure,
-                      maxLength: 4,
-                      textType: TextInputType.number,
-                      validator: (val) => Validator.validatePin(val!),
-                      onChanged: (val) => pinKey.currentState?.validate(),
-                      hintText: "Enter Pin",
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          showPin();
-                        },
-                        icon: pinObscure
-                            ? const Icon(Icons.visibility_off_outlined)
-                            : const Icon(Icons.visibility_outlined),
-                      ),
+                    CustomPinCodeField(
+                      pinTextCtrl: pinCtrl,
+                      len: 4,
+                      pinKey: pinKey,
+                      // validator: (val) => Validator.validatePin(val!),
                     ),
-                    const SizedBox(height: 25,),
+
+                    const SizedBox(height: 25),
                     const AppText(text: "Confirm Pin"),
                     const SizedBox(height: 10.0),
-                    FormWidget(
-                      valController: confirmPinCtrl,
-                      fieldKey: confirmPinKey,
-                      obscure: confirmPinObscure,
-                      textType: TextInputType.number,
-                      maxLength: 4,
-                      validator: (val) => Validator.validateConfirmPassword(firstPassword: pinCtrl.text.trim(), value: val),
-                      onChanged: (val) => confirmPinKey.currentState?.validate(),
-                      hintText: "Confirm Pin",
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          showCfmPin();
-
-                        },
-                        icon: confirmPinObscure
-                            ? const Icon(Icons.visibility_off_outlined)
-                            : const Icon(Icons.visibility_outlined),
-                      ),
+                    CustomPinCodeField(
+                      pinTextCtrl: confirmPinCtrl,
+                      len: 4,
+                      pinKey: confirmPinKey,
+                      // validator: (val) => Validator.validateConfirmPassword(
+                      //   firstPassword: pinCtrl.text.trim(),
+                      //   value: val,
+                      // ),
                     ),
 
                     const SizedBox(height: 80),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        AppBtn(onPressed: () {
-                         setPin();
-                        }, label: "Set Pin"),
-
+                        AppBtn(
+                          onPressed: () {
+                            setPin();
+                          },
+                          label: "Set Pin",
+                        ),
                       ],
                     ),
                   ],

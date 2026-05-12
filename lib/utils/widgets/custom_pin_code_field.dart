@@ -36,6 +36,8 @@ class CustomPinCodeField extends StatelessWidget {
       key: pinKey,
       controller: pinTextCtrl,
       keyboardType: TextInputType.number,
+      // enableActiveFill: true,
+
       length: len,
       readOnly: readOnly,
       showCursor: showCursor,
@@ -46,14 +48,22 @@ class CustomPinCodeField extends StatelessWidget {
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,6}'))
       ],
+
       pinTheme: PinTheme(
-        fieldOuterPadding: EdgeInsets.all(1),
-        shape: PinCodeFieldShape.circle,
-        fieldHeight: size,
+        // fieldOuterPadding: EdgeInsets.all(5),
+        //     activeBorderWidth: 10,
+        shape: PinCodeFieldShape.box,
+        borderRadius: BorderRadius.circular(8),
+        fieldHeight: 55,
         fieldWidth: size,
         activeColor: AppColors.primary,
         selectedColor: AppColors.lightGreen,
         inactiveColor: Colors.grey,
+        activeFillColor: Colors.yellow,
+
+        borderWidth: 3,
+        activeBorderWidth: 2,
+        // inactiveBorderWidth: 2
       ),
     );
   }

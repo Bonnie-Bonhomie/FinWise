@@ -1,4 +1,3 @@
-
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/AuthControllers/timer_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
@@ -12,6 +11,7 @@ import 'package:fin_wise/views/view_widgets/text_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../core/Routes/routes.dart';
 
@@ -23,7 +23,6 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-
   final formKey = GlobalKey<FormState>();
   final pinKey = GlobalKey<FormFieldState>();
   final TextEditingController pinTextCtrl = TextEditingController();
@@ -31,14 +30,16 @@ class _OtpScreenState extends State<OtpScreen> {
   final loader = Get.find<LoaderController>();
   final TimerCtrl timer = Get.put(TimerCtrl());
 
-  void verifyPwd(){
-    if(pinTextCtrl.text.trim().isNotEmpty){
+  void verifyPwd() {
+    if (pinTextCtrl.text.trim().isNotEmpty) {
       final token = int.parse(pinTextCtrl.text);
-      loader.offLoading(() async{
+      loader.offLoading(() async {
         await auth.verifyPwd(token);
       });
-    }else{
-      CustomSnackbar.showSnackbar(message: 'Check your email and enter the verification code sent to you');
+    } else {
+      CustomSnackbar.showSnackbar(
+        message: 'Check your email and enter the verification code sent to you',
+      );
     }
   }
 
@@ -68,42 +69,63 @@ class _OtpScreenState extends State<OtpScreen> {
                     const SizedBox(height: 50),
                     const Text(
                       "Enter the verification code sent to your email",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    const SizedBox(height: 20),
-                    CustomPinCodeField(pinTextCtrl: pinTextCtrl, len: 6, size: 30,textSize: 15, pinKey: pinKey, ),
-                    const SizedBox(height: 30),
-                    AppBtn(
-                      onPressed: () {
-                       verifyPwd();
-                      },
-                      label: "Accept",
-                    ),
-
-                    const SizedBox(height: 20),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Don`t receive verification code ',
-                        style: TextStyle(color: AppColors.darkGreen),
-                        children: [
-                          TextSpan(
-                            text: 'Resend now',
-                            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.superBlue),
-                            recognizer: TapGestureRecognizer()..onTap = () {
-                              if (0 != timer.seconds.value) {
-                                CustomSnackbar.warningSnack(
-                                  'Try again after ${timer.seconds.value.toString()} seconds',
-                                );
-                              } else {
-                                auth.resendOtp();
-                              }
-                            },// Not yet filled
-                          ),
-                        ],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 20),
+                    CustomPinCodeField(
+                      pinTextCtrl: pinTextCtrl,
+                      len: 6,
+                      size: 30,
+                      textSize: 15,
+                      pinKey: pinKey,
+                    ),
+                    const SizedBox(height: 30),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.lightGreen,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Don`t receive verification code ',
+                          style: TextStyle(color: AppColors.darkGreen),
+                          children: [
+                            TextSpan(
+                              text: 'Resend now',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.superBlue,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  if (0 != timer.seconds.value) {
+                                    CustomSnackbar.warningSnack(
+                                      'Try again after ${timer.seconds.value.toString()} seconds',
+                                    );
+                                  } else {
+                                    auth.resendOtp();
+                                  }
+                                }, // Not yet filled
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 60),
+                    AppBtn(
+                      onPressed: () {
+                        verifyPwd();
+                      },
+                      label: "Submit",
+                    ),
 
+                    const SizedBox(height: 40),
 
                     //Reset the gesture detector
                     RichText(
@@ -113,7 +135,10 @@ class _OtpScreenState extends State<OtpScreen> {
                         children: [
                           TextSpan(
                             text: 'Log in',
-                            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 Get.offNamed(Routes.login);

@@ -47,9 +47,7 @@ class _LoginViewState extends State<LoginView> {
   Future<void> login() async {
     if (formKey.currentState!.validate()) {
       loader.offLoading(() async{
-        print(mailCtrl.text);
-        print(pwdCtrl.text);
-        await authCtrl.loginUser(mailCtrl.text, pwdCtrl.text.trim());
+        await authCtrl.loginUser(mailCtrl.text.trim(), pwdCtrl.text);
       });
     }else{
       CustomSnackbar.warningSnack('Fill all the required field to continue');

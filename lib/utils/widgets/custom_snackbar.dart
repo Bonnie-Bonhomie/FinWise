@@ -10,7 +10,7 @@ class CustomSnackbar {
     String title = 'Error',
     required String message,
     Color backgroundColor = AppColors.declined,
-    Color textColor = AppColors.bgColor,
+    Color textColor = AppColors.lightGreen,
     SnackPosition position = SnackPosition.TOP,
     Duration duration = const Duration(seconds: 3),
     IconData? icon,
@@ -43,6 +43,7 @@ class CustomSnackbar {
     Get.snackbar(
       'Successful',
       message,
+      messageText: Text(message, style: TextStyle(fontSize: 12.0), overflow: TextOverflow.ellipsis, maxLines: 2,),
       backgroundColor: AppColors.bgColor,
       forwardAnimationCurve: Curves.easeOutBack,
     );

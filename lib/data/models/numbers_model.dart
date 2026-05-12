@@ -31,3 +31,27 @@ class NumbersModel{
 });
 
 }
+
+class NetworksModel{
+
+  String name;
+  String imgPath;
+  int id;
+  String serviceId;
+  String? createdAt;
+  String? updatedAt;
+  String networkCode;
+  String status;
+
+  NetworksModel({
+    required this.name,
+    required this.id,
+    required this.imgPath,
+    required this.status,
+    required this.networkCode,
+    required this.serviceId,
+    this.createdAt,
+    this.updatedAt
+});
+
+}

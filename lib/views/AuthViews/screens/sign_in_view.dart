@@ -64,8 +64,8 @@ class _SignInViewState extends State<SignInView> {
           mail: mailCtrl.text.trim(),
           dob: dobCtrl.text.trim(),
           phone: numberCtrl.text.trim(),
-          password: pwdCtrl.text.trim(),
-          confirmPassword: confirmPwdCtrl.text.trim(),
+          password: pwdCtrl.text,
+          confirmPassword: confirmPwdCtrl.text,
         );
       });
       authCtrl.signMail.value = mailCtrl.text.trim();

@@ -1,5 +1,7 @@
+import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -58,12 +60,51 @@ class TransactionCard extends StatelessWidget {
               child: AppText(text: tx.status.label, textColor: AppColors.bgColor),
             ),
             AppText(
-              text: '${tx.isIncome ? '+' : '-'}#${tx.amount}',
+              text: '${tx.isIncome ? '+' : '-'}₦${tx.amount}',
               textColor: tx.isIncome ? Colors.black : AppColors.blue,
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+
+
+class BuildTransaction extends StatelessWidget {
+  const BuildTransaction({
+    super.key,
+    required this.trans,
+  });
+
+  final TransactionCtrl trans;
+
+  @override
+  Widget build(BuildContext context) {
+    final transact = trans.transacts;
+    int getLen(){
+      int len;
+      if(transact.length < 3){
+        len = transact.length;
+      }else{
+        len = 3;
+      }
+      return len;
+    }
+    if(transact.isEmpty){
+      return SingleChildScrollView(
+        child: EmptyState()
+      );
+    }
+    //Add animation
+    return ListView.builder(
+      padding: EdgeInsets.only(top: 5),
+      itemCount: getLen(),
+      itemBuilder: (context, index) {
+        final tx = transact[index];
+        return TransactionCard(tx: tx);
+      },
     );
   }
 }

@@ -35,7 +35,7 @@ class AirtimeRepository {
     }
   }
 
-  Future<DataState> airtimeNetwork() async {
+  Future<DataState> airtimeNetwork(String token) async {
     try {
       if (!await info.connected) {
         return DataFailed(
@@ -46,7 +46,7 @@ class AirtimeRepository {
           ),
         );
       } else {
-        final result = await services.getRequest(ApiEndpoints.airtimeNetwork);
+        final result = await services.getRequestWIthToken(ApiEndpoints.airtimeNetwork, token);
         return DataSuccess(result.data);
       }
     } on DioException catch (e) {
