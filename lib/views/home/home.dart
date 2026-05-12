@@ -15,16 +15,18 @@ import '../../utils/widgets/custom_linear_progress.dart';
 import '../view_widgets/category_card.dart';
 import '../view_widgets/transaction_card.dart';
 
-class HomePage extends GetView<AccBalanceCtrl> {
+class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final HomeViewModel viewModel = HomeViewModel();
   final auth = Get.find<AuthCtrl>();
+  final acc = Get.find<AccBalanceCtrl>();
 
   @override
   Widget build(BuildContext context) {
-    final percent = (controller.spentPercent * 100).round();
+    final percent = (acc.spentPercent * 100).round();
     final nav = Get.find<NavControl>();
+    // final acc = Get.find<AccBalanceCtrl>();
     final trans = Get.find<TransactionCtrl>();
 
     return Scaffold(
@@ -33,13 +35,15 @@ class HomePage extends GetView<AccBalanceCtrl> {
         child: SingleChildScrollView(
           child: PageContainer(
             topMargin: 10,
-            topChild: Obx(
-              () => Column(
+            topChild:
+            // Obx(
+            //   () =>
+                  Column(
                 children: [
                   _header(viewModel.greeting()),
-                  headerCard(context, percent.toDouble(), controller),
+                  headerCard(context, percent.toDouble(), acc),
                 ],
-              ),
+              // ),
             ),
             //The Bottom Section [Transaction lists]
             child: Container(
@@ -161,11 +165,14 @@ class HomePage extends GetView<AccBalanceCtrl> {
             padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                totalBox(
-                  title: "Acc. Balance",
-                  value: '₦${acc.accountBalance.value.toStringAsFixed(2)}',
-                  icon: Icons.arrow_circle_up_outlined,
-                  color: AppColors.bgColor,
+                Obx((){
+                    return totalBox(
+                      title: "Acc. Balance",
+                      value: '₦${acc.accountBalance.value.toStringAsFixed(2)}',
+                      icon: Icons.arrow_circle_up_outlined,
+                      color: AppColors.bgColor,
+                    );
+                  }
                 ),
                 Spacer(),
 
@@ -174,7 +181,8 @@ class HomePage extends GetView<AccBalanceCtrl> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(onTap: (){
-                      Get.toNamed(Routes.fundWallet);
+                      acc.getBalance();
+                      // Get.toNamed(Routes.fundWallet);
                     },
                         child: Container(
                             padding: const EdgeInsets.all(5.0),
@@ -313,9 +321,10 @@ class HomePage extends GetView<AccBalanceCtrl> {
               AppText(
                 text: 'Hi ${auth.name.value.split(' ').first}',
                 textWeigh: FontWeight.bold,
-                textSize: 15,
+                textColor: Colors.white,
+                textSize: 20,
               ),
-              AppText(text: greet, textSize: 10,),
+              AppText(text: greet, textSize: 13,textColor: Colors.white,),
             ],
           ),
           const Spacer(),

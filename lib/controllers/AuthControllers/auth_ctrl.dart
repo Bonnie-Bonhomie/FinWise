@@ -84,9 +84,7 @@ class AuthCtrl extends GetxController {
 
       if (err is DioException) {
         //  Network issues
-        if (err.type == DioExceptionType.connectionError ||
-            err.type == DioExceptionType.receiveTimeout ||
-            err.type == DioExceptionType.connectionTimeout) {
+        if (err.type == DioExceptionType.connectionError ) {
           CustomSnackbar.showSnackbar(
             message: 'No internet connection',
             title: 'Network Error',
@@ -121,8 +119,11 @@ class AuthCtrl extends GetxController {
       if (data['status'] == true) {
         final token = data['data']['token'];
         await storage.saveToken(token);
+        final name = data['data']['name'];
+        final phone = data['data']['phone'];
+        await store.saveData<String>(PrefStoreKeys.username, name);
+        await store.saveData<String>(PrefStoreKeys.phone, phone);
         // user = UserModel.fromJson(response.data);
-
         CustomSnackbar.successSnack(data['message'].toString());
 
         Get.offAllNamed(Routes.mainS);
@@ -136,9 +137,7 @@ class AuthCtrl extends GetxController {
       print(err.toString());
       // Network error
       if (err is DioException) {
-        if (err.type == DioExceptionType.connectionError ||
-            err.type == DioExceptionType.receiveTimeout ||
-            err.type == DioExceptionType.connectionError) {
+        if (err.type == DioExceptionType.connectionError) {
           CustomSnackbar.showSnackbar(message: 'No internet connection');
         }
         //   //Server error
@@ -219,9 +218,7 @@ class AuthCtrl extends GetxController {
 
       if (err is DioException) {
         //  Network issues
-        if (err.type == DioExceptionType.connectionError ||
-            err.type == DioExceptionType.receiveTimeout ||
-            err.type == DioExceptionType.connectionTimeout) {
+        if (err.type == DioExceptionType.connectionError ) {
           CustomSnackbar.showSnackbar(message: 'No internet connection');
           return;
         }
@@ -264,9 +261,7 @@ class AuthCtrl extends GetxController {
         print(err.toString());
         if (err is DioException) {
           //  Network issues
-          if (err.type == DioExceptionType.connectionError ||
-              err.type == DioExceptionType.receiveTimeout ||
-              err.type == DioExceptionType.connectionTimeout) {
+          if (err.type == DioExceptionType.connectionError ) {
             CustomSnackbar.showSnackbar(message: 'No internet connection');
             return;
           }

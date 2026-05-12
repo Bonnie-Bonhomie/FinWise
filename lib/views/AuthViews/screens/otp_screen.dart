@@ -108,7 +108,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     //Reset the gesture detector
                     RichText(
                       text: TextSpan(
-                        text: "Already have an account? ",
+                        text: "Remember your password? ",
                         style: TextStyle(color: Colors.black),
                         children: [
                           TextSpan(

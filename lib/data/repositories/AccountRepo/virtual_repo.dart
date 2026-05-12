@@ -38,7 +38,7 @@ class AccountRepo {
     }
   }
 
-  Future<DataState> getBalance() async {
+  Future<DataState> getWallet(String token) async {
     try {
       if (!await info.connected) {
         return DataFailed(
@@ -49,7 +49,7 @@ class AccountRepo {
           ),
         );
       }
-      final result = await services.getRequest(ApiEndpoints.balance);
+      final result = await services.getRequestWIthToken(ApiEndpoints.balance, token);
       return DataSuccess(result.data);
     } on DioException catch (e) {
       return DataFailed(e);

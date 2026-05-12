@@ -41,7 +41,7 @@ class DependencyInjection{
 
     //Pages
     Get.put(accRepo, permanent: true);
-    Get.put(AccBalanceCtrl(accRepo), permanent: true);
+    Get.put(AccBalanceCtrl(accRepo, store), permanent: true);
     //Transaction
     Get.put(TransactionRepo(internetInfo: internetService, apiServices: apiService), permanent: true);
     Get.put<TransactionCtrl>(TransactionCtrl(Get.find<TransactionRepo>(), Get.find()), permanent: true);

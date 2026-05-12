@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
+import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
 import 'package:fin_wise/utils/Helpers/loader_helper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
@@ -7,17 +8,19 @@ import 'package:get/get.dart';
 
 class AccBalanceCtrl extends GetxController {
   final AccountRepo repo;
+  final StorageFile storage;
 
-  AccBalanceCtrl(this.repo);
+  AccBalanceCtrl(this.repo, this.storage);
 
   @override
   void onInit() {
     // TODO: implement onInit
+    print('I have start');
     getBalance();
     super.onInit();
   }
 
-  var accountBalance = 7777.63.obs;
+  var accountBalance = 30.00.obs;
   var expense = 1000.00.obs;
   var income = 4000.45.obs;
   var spendingLimit = 2000.00.obs;
@@ -48,10 +51,12 @@ class AccBalanceCtrl extends GetxController {
   ].obs;
 
   Future<void> getBalance() async {
-    final response = await repo.getBalance();
+    final String? token = await storage.getToken();
+    final response = await repo.getWallet(token);
 
     if (response is DataSuccess) {
       final data = response.data;
+      print(data);
       if (data['status'] == 'true') {
         accountBalance.value = double.parse(data['data']['bal']);
       }else {

@@ -173,18 +173,16 @@ class ConfirmBottomSheet {
                     ],
                   ),
                 ),
-                Center(
-                  child: notEnoughAmount? AppBtn(
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                      Get.back();
-                     PaymentBottomSheet().paymentBottomSheet(context);
-                        navCtrl.addBeneficiary.value = false;
-                      FocusScope.of(context).unfocus();
-                    },
-                    label:'Pay',
-                  ): DisableButton(label: 'Pay')
-                ),
+                notEnoughAmount? AppBtn(
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    Get.back();
+                   PaymentBottomSheet().paymentBottomSheet(context);
+                      navCtrl.addBeneficiary.value = false;
+                    FocusScope.of(context).unfocus();
+                  },
+                  label:'Pay',
+                ): DisableButton(label: 'Pay'),
                 const SizedBox(height: 10),
               ],
             ),
