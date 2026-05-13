@@ -75,7 +75,7 @@ class Validator {
     // }
 
     // Check length
-    if (password.length < 6) {
+    if (password.length < 8) {
       return 'Your password must be at least 8 characters';
     }
     return null;

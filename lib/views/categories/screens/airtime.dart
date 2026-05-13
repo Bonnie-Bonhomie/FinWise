@@ -47,6 +47,9 @@ class _AirtimeViewState extends State<AirtimeView> {
           topChild: CustomAppBar.header(title: 'Buy Airtime', leftRight: 15,onPressed: () => Get.back()),
           child: TopFormWidget(
               numberCtrl: numberCtrl,
+              networks: ctrl.airtimeNet,
+              numSelect: ctrl.airtimeBenes[0],
+              beneficiaries: ctrl.airtimeBenes,
               child: Column(
                 children: [
                   Container(

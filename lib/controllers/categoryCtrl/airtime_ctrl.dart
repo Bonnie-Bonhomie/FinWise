@@ -13,11 +13,17 @@ class AirtimeCtrl extends GetxController {
   final StorageFile store;
 
   AirtimeCtrl(this.repo, this.store);
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    getNetworks();
+    super.onInit();
+  }
 
-  var selected = ServiceProvider.glo.obs;
+  var selected;
   var amountCtrl = TextEditingController().obs;
   var allNumbers = [08030039725, 09052378291].obs;
-  var airtimeBenes = [].obs;
+  var airtimeBenes = <NumbersModel>[NumbersModel(provider: ServiceProvider.mtn, number: '09067567878', amount: 200)].obs;
   var airtimeNet = <NetworksModel>[].obs;
 
   var cleared = false.obs;
@@ -58,7 +64,17 @@ class AirtimeCtrl extends GetxController {
     if (result is DataSuccess) {
       final data = result.data;
       if (data['status'] == true) {
-        airtimeNet.value = result.data['networks'] as List<NetworksModel>;
+
+        //To solve JsArray<dynamic> error
+        //1. Save the data from the response in a list
+        List netw = data['data']['networks'];
+        //2. Loop through the list
+        final netwok = netw.map((e)=> NetworksModel.fromJson(e)).toList();
+
+        //3. Then add the list in your own list
+        airtimeNet.addAll(netwok);
+        // selected.value = airtimeNet[0];
+        print(airtimeNet);
       } else {
 
         CustomSnackbar.showSnackbar(message: 'Unable to load networks', title: 'Oops');

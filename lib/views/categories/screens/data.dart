@@ -3,6 +3,7 @@ import 'package:fin_wise/controllers/categoryCtrl/data_controller.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
+import 'package:fin_wise/data/models/numbers_model.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/data_model.dart';
@@ -55,6 +56,10 @@ class _DataViewState extends State<DataView>
           bottomPadding: 10,
           topChild: CustomAppBar.header(title: 'Buy Data', leftRight: 15, onPressed: () => Get.back()),
           child: TopFormWidget(
+            networks: [],
+            numSelect: NumbersModel(provider: ServiceProvider.mtn, number: '09089890009', amount: 300),
+            // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
+            beneficiaries: [],
             numberCtrl: numberCtrl,
             child: Column(
               children: [

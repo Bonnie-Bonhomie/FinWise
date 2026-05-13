@@ -1,8 +1,9 @@
 import 'package:fin_wise/core/constant.dart';
-class AirtimeApiModel{
 
+class AirtimeApiModel {
   final String status;
-  final String reference ;
+  final String reference;
+
   final DateTime date;
   final String narration;
   final NumbersModel message;
@@ -13,14 +14,11 @@ class AirtimeApiModel{
     required this.narration,
     required this.reference,
     required this.message,
-});
-
+  });
 }
 
-
-class NumbersModel{
-
-  final ServiceProvider provider;
+class NumbersModel {
+  ServiceProvider provider;
   final String number;
   final double amount;
 
@@ -28,12 +26,10 @@ class NumbersModel{
     required this.provider,
     required this.number,
     required this.amount,
-});
-
+  });
 }
 
-class NetworksModel{
-
+class NetworksModel {
   String name;
   String imgPath;
   int id;
@@ -51,7 +47,19 @@ class NetworksModel{
     required this.networkCode,
     required this.serviceId,
     this.createdAt,
-    this.updatedAt
-});
+    this.updatedAt,
+  });
 
+  factory NetworksModel.fromJson(Map<String, dynamic> json) {
+    return NetworksModel(
+      name: json['name'],
+      id: json['id'],
+      imgPath: json['image'],
+      status: json['status'],
+      networkCode: json['network_code'],
+      serviceId: json['service_id'],
+      updatedAt: json['updated_at'],
+      createdAt: json['created_at'],
+    );
+  }
 }

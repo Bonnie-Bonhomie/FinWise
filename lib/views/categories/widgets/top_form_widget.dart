@@ -1,6 +1,7 @@
 import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
+import 'package:fin_wise/data/models/numbers_model.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/phone_number_formatter.dart';
 import 'package:fin_wise/viewModel/top_form_view_model.dart';
@@ -9,14 +10,23 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class TopFormWidget extends StatefulWidget {
-   const TopFormWidget({
+  TopFormWidget({
     super.key,
     required this.child,
     required this.numberCtrl,
+    required this.networks,
+    // required this.select,
+    required this.beneficiaries,
+    required this.numSelect,
+
   });
 
   final TextEditingController numberCtrl;
   final Widget child;
+  final List<NetworksModel> networks;
+  final List<NumbersModel> beneficiaries;
+  // NetworksModel select;
+  NumbersModel numSelect;
 
 
   @override
@@ -26,14 +36,13 @@ class TopFormWidget extends StatefulWidget {
 class _TopFormWidgetState extends State<TopFormWidget> {
 
   final paymentCtrl = Get.find<CategoryNavCtrl>();
-  // ServiceProvider selest = ServiceProvider.mtn;
-
 
 
   String? selectedNumber;
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
 
   bool correctNum = false;
+  int number = 1;
 
   bool cleared = false;
 
@@ -54,6 +63,10 @@ class _TopFormWidgetState extends State<TopFormWidget> {
             children: [
               Row(
                 children: [
+              widget.networks.isEmpty? Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SizedBox(height: 15, width: 15,child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 3,)),
+              ):
                   SizedBox(
                     width: 70,
                     child: dropdownServiceProvider(),
@@ -82,24 +95,24 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                             setState(() {
                               cleared = !cleared;
                             });
+                            print(widget.networks);
                           },
                           icon: cleared
                               ? Icon(Icons.arrow_drop_down_sharp)
                               : Icon(Icons.cancel_outlined),
                         ),
                       ),
-                      onChanged: (val){
+                      onChanged: (val) {
                         correctNum = val.length == 13;
                         bool chev = false;
-                        if(correctNum == true){
-                           chev = TopViewModel.checkProvider(val);
-
-                        }else{
+                        if (correctNum == true) {
+                          chev = TopViewModel.checkProvider(val);
+                        } else {
                           print('Not filled yet');
                         }
-                        if(chev == true){
-                          paymentCtrl.selectProvider.value = ServiceProvider.mtn;
-                        }
+                        // if(chev == true){
+                        //   select = ServiceProvider.mtn;
+                        // }
                         // print(correctNum);
                       },
                     ),
@@ -112,7 +125,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
             ],
           ),
         ),
-        //Numbers Dropdown Part
+        // Numbers Dropdown Part
         if (cleared)
           Positioned(
             top: 90,
@@ -128,7 +141,10 @@ class _TopFormWidgetState extends State<TopFormWidget> {
               child: Container(
                 height: 250,
                 padding: const EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
                 decoration: BoxDecoration(
                   color: AppColors.bgColor,
                   borderRadius: BorderRadiusGeometry.directional(
@@ -140,14 +156,17 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                   children: [
                     Expanded(
                       child: Obx(() {
-                        final len = paymentCtrl.allNumbers.length;
-                        if(paymentCtrl.allNumbers.isEmpty){
+                        final len = widget.beneficiaries.length;
+                        if (widget.beneficiaries.isEmpty) {
                           return Center(
                             child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image(
-                                  image: AssetImage('Assets/images/green_empty.png'), height: 100, width: 100,
+                                  image: AssetImage(
+                                      'Assets/images/green_empty.png'),
+                                  height: 100,
+                                  width: 100,
                                 ),
                                 AppText(text: 'No Beneficiary for you'),
                               ],
@@ -156,17 +175,19 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                         }
                         return ListView.builder(
                           padding: const EdgeInsets.all(15),
-                          itemCount: len,
+                          itemCount: widget.beneficiaries.length,
                           itemBuilder: (context, index) {
-                            final item = paymentCtrl.allNumbers[index];
+                            final item = widget.beneficiaries[index];
                             return InkWell(
                               onTap: () {
                                 FocusScope.of(context).unfocus();
                                 setState(() {
-                                  widget.numberCtrl.text = TopViewModel.formatted(
-                                    item.number.toString(),
-                                  );
-                                  paymentCtrl.selectProvider.value = item.provider;
+                                  widget.numberCtrl.text =
+                                      TopViewModel.formatted(
+                                        item.number.toString(),
+                                      );
+                                  widget.numSelect.provider = item.provider;
+                                  print(widget.numSelect.provider);
                                   cleared = false;
                                 });
                                 FocusScope.of(context).unfocus();
@@ -174,7 +195,8 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                               child: Row(
                                 children: [
                                   AppText(
-                                    text: TopViewModel.formatted(item.number.toString()),
+                                    text: TopViewModel.formatted(
+                                        item.number.toString()),
                                   ),
                                   SizedBox(width: 10),
                                   AppText(text: item.provider.name),
@@ -193,7 +215,10 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                       }),
                     ),
                     TextButton(
-                      onPressed: () {paymentCtrl.deleteAllBene(); Get.back();},
+                      onPressed: () {
+                        paymentCtrl.deleteAllBene();
+                        Get.back();
+                      },
                       style: TextButton.styleFrom(
                         iconColor: AppColors.primary,
                         backgroundColor: AppColors.bgColor,
@@ -220,28 +245,36 @@ class _TopFormWidgetState extends State<TopFormWidget> {
 
   DropdownButton dropdownServiceProvider() {
     return DropdownButton(
-      value: paymentCtrl.selectProvider.value,
+      value: number,
       underline: SizedBox(),
       dropdownColor: Colors.white,
-      items: List.generate(ServiceProvider.values.length, (index) {
-        final service = ServiceProvider.values[index];
+      items: List.generate(widget.networks.length, (index) {
+        final service = widget.networks[index];
         String img = service.imgPath;
         return DropdownMenuItem(
-          value: service,
-          onTap: (){setState(() {
-            img =service.imgPath;
-          });},
-          // child: AppText(text: service.label[0]),
-          child: CircleAvatar(
-              // backgroundColor: AppColors.bgColor,
-              backgroundImage:  AssetImage('Assets/productLogo/$img',), //Edit the image part
-            ),
+            value: service.id,
+            onTap: () {
+              setState(() {
+                img = service.imgPath;
+              });
+            },
+            // child: AppText(text: service.label[0]),
+            child: Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle
+              ),
+              child: Image(image: NetworkImage(img,), errorBuilder: (_, _, _) {
+                return Container(decoration: BoxDecoration(
+                    color: Colors.grey, shape: BoxShape.circle),);
+              },),
+            )
         );
       }),
       onChanged: (val) {
+        // widget.select = val;
 
-          paymentCtrl.selectProvider.value = val;
-          print(paymentCtrl.selectProvider.value);
       },
     );
   }
