@@ -8,8 +8,6 @@ import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/data_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:fin_wise/views/categories/widgets/top_form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +54,7 @@ class _DataViewState extends State<DataView>
           bottomPadding: 10,
           topChild: CustomAppBar.header(title: 'Buy Data', leftRight: 15, onPressed: () => Get.back()),
           child: TopFormWidget(
-            networks: [],
+            networks: dataCtrl.dataNet,
             numSelect: NumbersModel(provider: ServiceProvider.mtn, number: '09089890009', amount: 300),
             // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
             beneficiaries: [],
@@ -93,10 +91,14 @@ class _DataViewState extends State<DataView>
                   child: TabBarView(
                     controller: _tabCtrl,
                     children: [
-                      sectionDataList(dataCtrl.hotUp, 'Weekly'),
-                      sectionDataList(dataCtrl.daily, 'Daily'),
-                      sectionDataList(dataCtrl.weekly, 'Weekly'),
-                      sectionDataList(dataCtrl.weekly, 'Monthly'),
+                      Text('HotUp'),
+                      Text('HotUp'),
+                      Text('HotUp'),
+                      Text('HotUp'),
+                      // sectionDataList(dataCtrl.hotUp, 'Weekly'),
+                      // sectionDataList(dataCtrl.daily, 'Daily'),
+                      // sectionDataList(dataCtrl.weekly, 'Weekly'),
+                      // sectionDataList(dataCtrl.weekly, 'Monthly'),
                     ],
                   ),
                 ),
@@ -130,7 +132,7 @@ class _DataViewState extends State<DataView>
               //       productName: 'Mobile Data',
               //       data: true,
               //       plan: '${data.name} ${data.type} $section Plan',
-              //       imgPath: imgPath,
+              //       imgPath: imgPath, list: [], element: ,
               //   );
               // })
               //     : CustomSnackbar.showSnackbar(message: 'Enter recipient number');
@@ -152,7 +154,7 @@ class _DataViewState extends State<DataView>
                       text: data.name,
                       children: [
                         TextSpan(
-                          text: data.type,
+                          text: data.frequency,
                           style: TextStyle(fontSize: 10),
                         ),
                       ],
@@ -164,7 +166,7 @@ class _DataViewState extends State<DataView>
                     ),
                   ),
                   const SizedBox(height: 5.0),
-                  AppText(text: data.days),
+                  AppText(text: data.frequency),
                   const SizedBox(height: 5.0),
                   AppText(text: '₦${data.price.toString()}'),
                 ],

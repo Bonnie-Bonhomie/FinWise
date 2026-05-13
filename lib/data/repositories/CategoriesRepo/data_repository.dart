@@ -22,22 +22,55 @@ class DataRepository {
     try {
       if (!await info.connected) {
         return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet connection'));
       }else{
-        final result = await services.postRequests(ApiEndpoints.buyData, {
+        final response = await services.postRequests(ApiEndpoints.buyData, {
           'amount':amount,
           'number': number,
           'type': type
         });
-        return DataSuccess(DataApiModel.fromJson(result.data));
+        return DataSuccess(response.data);
       }
-    }catch(e){
-      return DataFailed(DioException(requestOptions: RequestOptions(path: ''), error: e.toString()));
+    }on DioException catch(e){
+      return DataFailed(e);
     }
   }
-  //
-  // Future<DataApiModel> getAvailableData(){
-  //
-  //
-  // }
+  Future<DataState> dataNetwork(String token) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      } else {
+        final response = await services.getRequestWIthToken(ApiEndpoints.dataNet, token);
+        return DataSuccess(response.data);
+      }
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  Future<DataState> dataPlans(String token, int networkId) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      } else {
+        final response = await services.getRequestWIthToken('${ApiEndpoints.dataNet}/$networkId', token);
+        return DataSuccess(response.data);
+      }
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
 }

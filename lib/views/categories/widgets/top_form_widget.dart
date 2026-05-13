@@ -1,7 +1,7 @@
 import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/data/models/numbers_model.dart';
+import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/phone_number_formatter.dart';
 import 'package:fin_wise/viewModel/top_form_view_model.dart';
@@ -18,25 +18,22 @@ class TopFormWidget extends StatefulWidget {
     // required this.select,
     required this.beneficiaries,
     required this.numSelect,
-
   });
 
   final TextEditingController numberCtrl;
   final Widget child;
   final List<NetworksModel> networks;
   final List<NumbersModel> beneficiaries;
+
   // NetworksModel select;
   NumbersModel numSelect;
-
 
   @override
   State<TopFormWidget> createState() => _TopFormWidgetState();
 }
 
 class _TopFormWidgetState extends State<TopFormWidget> {
-
   final paymentCtrl = Get.find<CategoryNavCtrl>();
-
 
   String? selectedNumber;
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
@@ -61,63 +58,65 @@ class _TopFormWidgetState extends State<TopFormWidget> {
           child: ListView(
             padding: const EdgeInsets.only(top: 10),
             children: [
-              Row(
-                children: [
-              widget.networks.isEmpty? Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: SizedBox(height: 15, width: 15,child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 3,)),
-              ):
-                  SizedBox(
-                    width: 70,
-                    child: dropdownServiceProvider(),
-                  ),
-
-                  Expanded(
-                    child: TextFormField(
-                      controller: widget.numberCtrl,
-                      key: numKey,
-                      autofocus: false,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        PhoneNumberFormatter(),
-                      ],
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: '080X XXX XXXX',
-                        fillColor: AppColors.lightGreen,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              cleared = !cleared;
-                            });
-                            print(widget.networks);
-                          },
-                          icon: cleared
-                              ? Icon(Icons.arrow_drop_down_sharp)
-                              : Icon(Icons.cancel_outlined),
-                        ),
+              // Obx(() =>
+                  Row(
+                  children: [
+                    SizedBox(height: 50, width: 70, child: widget.networks.isEmpty
+                        ? SkeletonLoader.shimmerLines(
+                      len: 1,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
                       ),
-                      onChanged: (val) {
-                        correctNum = val.length == 13;
-                        bool chev = false;
-                        if (correctNum == true) {
-                          chev = TopViewModel.checkProvider(val);
-                        } else {
-                          print('Not filled yet');
-                        }
-                        // if(chev == true){
-                        //   select = ServiceProvider.mtn;
-                        // }
-                        // print(correctNum);
-                      },
+                    ): dropdownServiceProvider()),
+
+                    Expanded(
+                      child: TextFormField(
+                        controller: widget.numberCtrl,
+                        key: numKey,
+                        autofocus: false,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          PhoneNumberFormatter(),
+                        ],
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: '080X XXX XXXX',
+                          fillColor: AppColors.lightGreen,
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none,
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                cleared = !cleared;
+                              });
+                            },
+                            icon: cleared
+                                ? Icon(Icons.arrow_drop_down_sharp)
+                                : Icon(Icons.cancel_outlined),
+                          ),
+                        ),
+                        onChanged: (val) {
+                          correctNum = val.length == 13;
+                          bool chev = false;
+                          if (correctNum == true) {
+                            chev = TopViewModel.checkProvider(val);
+                          } else {
+                            print('Not filled yet');
+                          }
+                          // if(chev == true){
+                          //   select = ServiceProvider.mtn;
+                          // }
+                          // print(correctNum);
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                // )
               ),
               const Divider(color: AppColors.lightGreen),
               // SizedBox(height: 20,),
@@ -141,10 +140,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
               child: Container(
                 height: 250,
                 padding: const EdgeInsets.all(20),
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: AppColors.bgColor,
                   borderRadius: BorderRadiusGeometry.directional(
@@ -164,7 +160,8 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                               children: [
                                 Image(
                                   image: AssetImage(
-                                      'Assets/images/green_empty.png'),
+                                    'Assets/images/green_empty.png',
+                                  ),
                                   height: 100,
                                   width: 100,
                                 ),
@@ -196,7 +193,8 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                                 children: [
                                   AppText(
                                     text: TopViewModel.formatted(
-                                        item.number.toString()),
+                                      item.number.toString(),
+                                    ),
                                   ),
                                   SizedBox(width: 10),
                                   AppText(text: item.provider.name),
@@ -252,29 +250,35 @@ class _TopFormWidgetState extends State<TopFormWidget> {
         final service = widget.networks[index];
         String img = service.imgPath;
         return DropdownMenuItem(
-            value: service.id,
-            onTap: () {
-              setState(() {
-                img = service.imgPath;
-              });
-            },
-            // child: AppText(text: service.label[0]),
-            child: Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle
-              ),
-              child: Image(image: NetworkImage(img,), errorBuilder: (_, _, _) {
-                return Container(decoration: BoxDecoration(
-                    color: Colors.grey, shape: BoxShape.circle),);
-              },),
-            )
+          value: service.id,
+          onTap: () {
+            setState(() {
+              img = service.imgPath;
+              print(service.imgPath);
+            });
+          },
+          // child: AppText(text: service.label[0]),
+          child: Container(
+            height: 45,
+            width: 45,
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: Image(
+              image: NetworkImage(img),
+              errorBuilder: (_, _, _) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade400,
+                    shape: BoxShape.circle,
+                  ),
+                );
+              },
+            ),
+          ),
         );
       }),
       onChanged: (val) {
-        // widget.select = val;
-
+        number = val;
+        print(number);
       },
     );
   }

@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
@@ -27,15 +28,17 @@ class AirtimeCtrl extends GetxController {
   var airtimeNet = <NetworksModel>[].obs;
 
   var cleared = false.obs;
-  var airtimeReceipt = [];
-  var error = ''.obs;
 
-  Future<void> buyAirtime({required double amount, required int number}) async {
-    final result = await repo.buyAirtime(amount: amount, number: number);
+  var error = ''.obs;
+  Future<void> buyAirtime({required String amount, required int number, required String netId, required String pin}) async {
+    final String? token = await store.getToken();
+    if(token == null)return;
+    final result = await repo.buyAirtime(amount: amount, number: number, token: token, networkId: netId, transPin: pin);
     if (result is DataSuccess) {
       final data = result.data;
       if (data['status'] == true) {
-        airtimeReceipt = result.data;
+       AirtimeApiModel airtimeReceipt = result.data['data'];
+
       } else {
         error.value = 'Unable to complete transaction';
         CustomSnackbar.showSnackbar(message: error.value, title: 'Oops');

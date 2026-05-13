@@ -11,8 +11,11 @@ class AirtimeRepository {
   AirtimeRepository(this.services, this.info);
 
   Future<DataState> buyAirtime({
-    required double amount,
+    required String amount,
     required int number,
+    required String networkId,
+    required String token,
+    required String transPin,
   }) async {
     try {
       if (!await info.connected) {
@@ -24,9 +27,11 @@ class AirtimeRepository {
           ),
         );
       } else {
-        final result = await services.postRequests(ApiEndpoints.buyAirtime, {
-          'amount': amount,
-          'number': number,
+        final result = await services.postRequestsWithToken(ApiEndpoints.buyAirtime, token, {
+          'AirtimeAmount': amount,
+          'AirtimePhone': number,
+          'airtimeNetId': networkId,
+          'transaction_pin': transPin
         });
         return DataSuccess(result.data);
       }

@@ -2,19 +2,25 @@ import 'package:fin_wise/core/constant.dart';
 
 class AirtimeApiModel {
   final String status;
-  final String reference;
-
-  final DateTime date;
-  final String narration;
-  final NumbersModel message;
+  final String transactionId;
+  final String beneficiary;
+  final String productName;
 
   AirtimeApiModel({
     required this.status,
-    required this.date,
-    required this.narration,
-    required this.reference,
-    required this.message,
+    required this.beneficiary,
+    required this.productName,
+    required this.transactionId,
   });
+
+  factory AirtimeApiModel.fromJson(Map<String, dynamic> json) {
+    return AirtimeApiModel(
+      status: json['status'],
+      beneficiary: json['beneficiary'],
+      productName: json['product_name'],
+      transactionId: json['transaction_id'],
+    );
+  }
 }
 
 class NumbersModel {

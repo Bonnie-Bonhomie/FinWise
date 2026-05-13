@@ -1,5 +1,6 @@
 class DataApiModel {
 
+
   final bool status;
   final List<DataPlan> data;
   final Map<String, dynamic> error;
@@ -23,26 +24,41 @@ class DataApiModel {
 
 class DataPlan {
   final String name;
-  final String type;
-  final double price;
-  final String days;
-  final String uid;
+  final String dataCode;
+  final String price;
+  final String id;
+  int status;
+  int networkId;
+  String frequency;
+  int? hotPlans;
+  String createdAt;
+  String updatedAt;
 
   DataPlan({
     required this.name,
-    required this.type,
-    required this.uid,
-    required this.days,
+    required this.dataCode,
+    required this.id,
+    required this.status,
     required this.price,
+    required this.updatedAt,
+    required this.createdAt,
+    required this.frequency,
+    required this.networkId,
+    this.hotPlans
   });
 
   factory DataPlan.fromJson(Map<String, dynamic> json) {
     return DataPlan(
       name: json['name'] ?? '',
-      type: json['type'] ?? '',
-      uid: json['uid'] ?? '',
-      days: json['days'] ?? '',
+      dataCode: json['datacode'] ?? '',
+      id: json['id'] ?? '',
+      frequency: json['frequency'] ?? '',
       price: json['price'] ?? '',
+      status: json['status']?? 1,
+      networkId: json['network_id'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      hotPlans: json['hot_plans']
     );
   }
 }
