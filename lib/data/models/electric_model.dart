@@ -28,14 +28,14 @@ class ElectDisco {
 
   factory ElectDisco.fromJson(Map<String, dynamic> json) {
     return ElectDisco(
-      id: json['id'],
-      name: json['name'],
-      electricCode: json['electricode'],
-      imgPath: json['image'],
-      price: json['price'],
-      status: json['status'],
-      updatedAt: json['updated_at'],
-      createdAt: json['created_at'],
+      id: json['id'].toString(),
+      name: json['name'].toString(),
+      electricCode: json['electricode'].toString(),
+      imgPath: json['image'].toString(),
+      price: json['price'].toString(),
+      status: json['status'].toString(),
+      updatedAt: json['updated_at'].toString(),
+      createdAt: json['created_at'].toString(),
     );
   }
 }
@@ -45,7 +45,7 @@ class ElectAmount {
 
   String amount;
   int id;
-  int status;
+  String status;
   String createdAt;
   String updatedAt;
 
@@ -61,8 +61,8 @@ class ElectAmount {
   factory ElectAmount.fromJson(Map<String, dynamic> json){
     return ElectAmount(amount: json['amount'],
         id: json['id'],
-        status: json['status'],
-        createdAt: json['created_at'],
-        updatedAt: json['updated_at']);
+        status: json['status'].toString(),
+        createdAt: json['created_at'].toString(),
+        updatedAt: json['updated_at'].toString());
   }
 }

@@ -120,9 +120,9 @@ class ElectricityCtrl  extends GetxController{
 
         final disco = elect.map((e)=> ElectDisco.fromJson(e)).toList();
         electDiscos.addAll(disco);
-
+          print(electDiscos);
         ///Collect all the available amount
-        List suggestAmount = data['suggested_amount'];
+        List suggestAmount = data['suggested_amounts'];
         final amt = suggestAmount.map((e)=> ElectAmount.fromJson(e)).toList();
         availableAmount.addAll(amt);
       }
