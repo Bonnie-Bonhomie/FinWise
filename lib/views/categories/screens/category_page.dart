@@ -22,6 +22,14 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
   final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
 
+
+  @override
+  void initState() {
+    acc.getBalance();
+    // TODO: implement initState
+    super.initState();
+  }
+
   final airtime = Categories.airtime;
   final data = Categories.data;
   final cable = Categories.cable;

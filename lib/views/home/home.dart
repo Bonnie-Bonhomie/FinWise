@@ -1,6 +1,4 @@
-import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
-import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
-import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
@@ -26,8 +24,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final HomeViewModel viewModel = HomeViewModel();
   final store = SharedPreferService();
-  String name = '';
+
   final acc = Get.find<AccBalanceCtrl>();
+  String name = '';
 
   void getName() async {
     final getNam =
@@ -42,7 +41,6 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     Future.microtask(() {
       getName();
-      acc.getBalance();
     });
 
     super.initState();
@@ -101,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                         CategoriesCard(
                           width: 50,
                           iconSize: 25,
-                          icon: Icons.category_outlined,
+                          icon: Icons.interests,
                           title: 'More',
                           onTap: () {
                             nav.selectInd.value = 1;
@@ -149,8 +147,19 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                colors: [AppColors.primary, AppColors.gradientGreen],
+              ),
+              boxShadow: [
+                BoxShadow(color: Colors.black12, blurRadius: 10.0, offset: Offset(3, 10)),
+              ],
+            ),
             padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(5.0),
             child: Row(
               children: [
                 Obx(() {
@@ -159,7 +168,10 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.local_pizza_outlined, color: Colors.white),
+                          Icon(
+                            Icons.local_pizza_outlined,
+                            color: AppColors.primary,
+                          ),
                           Text('Acc. Balance'),
                         ],
                       ),
@@ -176,9 +188,16 @@ class _HomePageState extends State<HomePage> {
                               margin: const EdgeInsets.only(top: 3.0),
                               child: acc.balanceErr.value.isEmpty
                                   ? AppText(
-                                      text: '₦${acc.accountBalance.value.toStringAsFixed(2)}', textColor: AppColors.lightGreen, textWeigh: FontWeight.bold, textSize: 20)
+                                      text:
+                                          '₦${acc.accountBalance.value.toStringAsFixed(2)}',
+                                      textColor: AppColors.lightGreen,
+                                      textWeigh: FontWeight.bold,
+                                      textSize: 20,
+                                    )
                                   : Container(
-                                      padding: const EdgeInsets.all(3.0), // height: 30,
+                                      padding: const EdgeInsets.all(
+                                        3.0,
+                                      ), // height: 30,
                                       decoration: BoxDecoration(
                                         color: AppColors.lightGreen,
                                         borderRadius: BorderRadius.circular(5),
@@ -205,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: const EdgeInsets.all(5.0),
                         decoration: BoxDecoration(
-                          color: AppColors.bgColor,
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: const AppText(text: 'Fund Wallet'),

@@ -94,7 +94,7 @@ class BuildTransaction extends StatelessWidget {
     }
     if(transact.isEmpty){
       return SingleChildScrollView(
-        child: EmptyState()
+        child: EmptyState(message: 'No transaction history ',)
       );
     }
     //Add animation

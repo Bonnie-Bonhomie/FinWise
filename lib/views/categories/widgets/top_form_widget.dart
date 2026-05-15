@@ -5,6 +5,7 @@ import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/phone_number_formatter.dart';
 import 'package:fin_wise/viewModel/top_form_view_model.dart';
+import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class TopFormWidget extends StatefulWidget {
     required this.child,
     required this.numberCtrl,
     required this.networks,
-    // required this.select,
+    required this.select,
     required this.beneficiaries,
     required this.numSelect,
   });
@@ -24,8 +25,7 @@ class TopFormWidget extends StatefulWidget {
   final Widget child;
   final List<NetworksModel> networks;
   final List<NumbersModel> beneficiaries;
-
-  // NetworksModel select;
+  int select;
   NumbersModel numSelect;
 
   @override
@@ -39,7 +39,6 @@ class _TopFormWidgetState extends State<TopFormWidget> {
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
 
   bool correctNum = false;
-  int number = 1;
 
   bool cleared = false;
 
@@ -58,64 +57,72 @@ class _TopFormWidgetState extends State<TopFormWidget> {
           child: ListView(
             padding: const EdgeInsets.only(top: 10),
             children: [
-              // Obx(() =>
-                  Row(
-                  children: [
-                    SizedBox(height: 50, width: 70, child: widget.networks.isEmpty
-                        ? SkeletonLoader.shimmerLines(
-                      len: 1,
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade300),
-                      ),
-                    ): dropdownServiceProvider()),
-
-                    Expanded(
-                      child: TextFormField(
-                        controller: widget.numberCtrl,
-                        key: numKey,
-                        autofocus: false,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          PhoneNumberFormatter(),
-                        ],
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: '080X XXX XXXX',
-                          fillColor: AppColors.lightGreen,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide.none,
-                          ),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                cleared = !cleared;
-                              });
-                            },
-                            icon: cleared
-                                ? Icon(Icons.arrow_drop_down_sharp)
-                                : Icon(Icons.cancel_outlined),
-                          ),
-                        ),
-                        onChanged: (val) {
-                          correctNum = val.length == 13;
-                          bool chev = false;
-                          if (correctNum == true) {
-                            chev = TopViewModel.checkProvider(val);
-                          } else {
-                            print('Not filled yet');
-                          }
-                          // if(chev == true){
-                          //   select = ServiceProvider.mtn;
-                          // }
-                          // print(correctNum);
-                        },
-                      ),
+              Row(
+                children: [
+                  Obx(
+                    () => SizedBox(
+                      height: 50,
+                      width: 70,
+                      child: widget.networks.isEmpty
+                          ? SkeletonLoader.shimmerLines(
+                              len: 1,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                            )
+                          : dropdownServiceProvider(),
                     ),
-                  ],
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      controller: widget.numberCtrl,
+                      key: numKey,
+                      autofocus: false,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        PhoneNumberFormatter(),
+                      ],
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        hintText: '080X XXX XXXX',
+                        fillColor: AppColors.lightGreen,
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              cleared = !cleared;
+                            });
+                          },
+                          icon: cleared
+                              ? Icon(Icons.arrow_drop_down_sharp)
+                              : Icon(Icons.cancel_outlined),
+                        ),
+                      ),
+                      onChanged: (val) {
+                        correctNum = val.length == 13;
+                        bool chev = false;
+                        if (correctNum == true) {
+                          chev = TopViewModel.checkProvider(val);
+                        } else {
+                          print('Not filled yet');
+                        }
+                        // if(chev == true){
+                        //   select = ServiceProvider.mtn;
+                        // }
+                        // print(correctNum);
+                      },
+                    ),
+                  ),
+                ],
                 // )
               ),
               const Divider(color: AppColors.lightGreen),
@@ -151,26 +158,9 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Obx(() {
-                        final len = widget.beneficiaries.length;
-                        if (widget.beneficiaries.isEmpty) {
-                          return Center(
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                    'Assets/images/green_empty.png',
-                                  ),
-                                  height: 100,
-                                  width: 100,
-                                ),
-                                AppText(text: 'No Beneficiary for you'),
-                              ],
-                            ),
-                          );
-                        }
-                        return ListView.builder(
+                      child: (widget.beneficiaries.isEmpty) ?Center(
+                            child: EmptyState(message: 'No Beneficiary for you')
+                          ): ListView.builder(
                           padding: const EdgeInsets.all(15),
                           itemCount: widget.beneficiaries.length,
                           itemBuilder: (context, index) {
@@ -209,8 +199,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                               ),
                             );
                           },
-                        );
-                      }),
+                        ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -243,7 +232,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
 
   DropdownButton dropdownServiceProvider() {
     return DropdownButton(
-      value: number,
+      value: paymentCtrl.select.value,
       underline: SizedBox(),
       dropdownColor: Colors.white,
       items: List.generate(widget.networks.length, (index) {
@@ -254,7 +243,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
           onTap: () {
             setState(() {
               img = service.imgPath;
-              print(service.imgPath);
+              print(service.name);
             });
           },
           // child: AppText(text: service.label[0]),
@@ -277,8 +266,8 @@ class _TopFormWidgetState extends State<TopFormWidget> {
         );
       }),
       onChanged: (val) {
-        number = val;
-        print(number);
+        paymentCtrl.select.value = val;
+        print(widget.select);
       },
     );
   }

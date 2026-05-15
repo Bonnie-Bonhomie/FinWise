@@ -67,10 +67,13 @@ class DisableButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green
-        ),
-        onPressed: (){}, child: Text(label, style: TextStyle(color: Colors.white),));
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey
+          ),
+          onPressed: (){}, child: Text(label, style: TextStyle(color: Colors.white),)),
+    );
   }
 }

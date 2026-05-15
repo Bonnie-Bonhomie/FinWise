@@ -3,8 +3,6 @@ import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
 import 'package:fin_wise/core/connection/network.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/api_service.dart';
-import 'package:fin_wise/data/models/data_model.dart';
-import 'package:get/get.dart';
 
 class DataRepository {
 
@@ -14,9 +12,10 @@ class DataRepository {
   DataRepository(this.services, this.info);
 
   Future<DataState> buyData({
-    required int number,
-    required double amount,
-    required String type,
+    required String dataId,
+    required String phone,
+    required String token,
+    required String tranPin
   }) async
   {
     try {
@@ -25,10 +24,10 @@ class DataRepository {
             type: DioExceptionType.connectionError,
             error: 'No internet connection'));
       }else{
-        final response = await services.postRequests(ApiEndpoints.buyData, {
-          'amount':amount,
-          'number': number,
-          'type': type
+        final response = await services.postRequestsWithToken(ApiEndpoints.buyData, token, {
+          'data_id': dataId,
+          'phone_number': phone,
+          'transaction_pin': tranPin
         });
         return DataSuccess(response.data);
       }
@@ -66,10 +65,12 @@ class DataRepository {
           ),
         );
       } else {
-        final response = await services.getRequestWIthToken('${ApiEndpoints.dataNet}/$networkId', token);
+        final response = await services.getRequestWIthToken('${ApiEndpoints.dataPlans}/$networkId', token);
+        // print(response.data);
         return DataSuccess(response.data);
       }
     } on DioException catch (e) {
+      print(e);
       return DataFailed(e);
     }
   }

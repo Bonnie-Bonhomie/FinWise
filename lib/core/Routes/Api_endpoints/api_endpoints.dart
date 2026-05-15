@@ -30,9 +30,15 @@ class ApiEndpoints{
   static const String buyData = 'data/data_charge';
   static const String dataNet = 'data/networks';
   static const String dataPlans = 'data/data_plans';
+
+
+  static const String buyElect = 'electricity/buy';
+  static const String electDisco = 'electricity/discos';
+  static const String verifyMeter = 'electricity/verify_meter_no';
+
   static const String buyTv = 'tv';
   static const String buyEduCard = 'education';
-  static const String buyElect = 'elect';
+
 
   static const String virtual = 'virtual';
   static const String transact = 'auth/user/transact';

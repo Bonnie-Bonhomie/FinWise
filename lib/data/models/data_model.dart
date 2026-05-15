@@ -1,23 +1,47 @@
 class DataApiModel {
 
 
-  final bool status;
-  final List<DataPlan> data;
-  final Map<String, dynamic> error;
-  final String message;
+  final int id;
+  int status;
+  final String modelableType;
+  String modelableId;
+  String userId;
+  double amount;
+  String? referenceId;
+  String productRefer;
+  String phone;
+  String? createdAt;
+  String? updatedAt;
+  String apiStatus;
+
 
   DataApiModel({
     required this.status,
-    required this.data,
-    required this.error,
-    required this.message
+    required this.id,
+    required this.amount,
+    required this.userId,
+    required this.modelableId,
+    required this.modelableType,
+    this.referenceId,
+    required this.productRefer,
+    required this.phone,
+    this.createdAt,
+    this.updatedAt,
+    required this.apiStatus
   });
 
   factory DataApiModel.fromJson(Map<String, dynamic> json){
-    return DataApiModel(status: json['status'] ?? '',
-        data: json['data'] ?? '',
-        error: json['error'] ?? '',
-        message: json['message'] ?? '');
+    return DataApiModel(status: json['status'] ?? 1,
+        id: json['id'] ?? 1,
+        amount: json['amount'] ?? '',
+        userId: json['userId'],
+        modelableId: json['modelableId'],
+        modelableType: json['modelableType'],
+        productRefer: json['productRefer'],
+        phone: json['phone'],
+        createdAt: json['createdAt'] ?? DateTime.now().microsecondsSinceEpoch,
+        updatedAt: json['updatedAt'] ?? DateTime.now().microsecondsSinceEpoch,
+        apiStatus: json['apiStatus']);
   }
 }
 
@@ -26,11 +50,11 @@ class DataPlan {
   final String name;
   final String dataCode;
   final String price;
-  final String id;
-  int status;
-  int networkId;
+  String id;
+  String status;
+  String networkId;
   String frequency;
-  int? hotPlans;
+  String hotPlans;
   String createdAt;
   String updatedAt;
 
@@ -44,21 +68,21 @@ class DataPlan {
     required this.createdAt,
     required this.frequency,
     required this.networkId,
-    this.hotPlans
+    required this.hotPlans
   });
 
   factory DataPlan.fromJson(Map<String, dynamic> json) {
     return DataPlan(
-      name: json['name'] ?? '',
-      dataCode: json['datacode'] ?? '',
-      id: json['id'] ?? '',
-      frequency: json['frequency'] ?? '',
-      price: json['price'] ?? '',
-      status: json['status']?? 1,
-      networkId: json['network_id'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      hotPlans: json['hot_plans']
+        name: json['name'].toString() ,
+        dataCode: json['datacode'].toString() ?? '',
+        id: json['id'].toString(),
+        frequency: json['frequency'].toString() ?? '',
+        price: json['price'].toString(),
+        status: json['status'].toString() ,
+        networkId: json['network_id'].toString(),
+        createdAt: json['created_at'].toString(),
+        updatedAt: json['updated_at'].toString(),
+        hotPlans: json['hot_plans'].toString()
     );
   }
 }

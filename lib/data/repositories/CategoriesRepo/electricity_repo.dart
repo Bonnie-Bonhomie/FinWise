@@ -11,29 +11,81 @@ class ElectricityRepo{
 
   ElectricityRepo(this.services, this.info);
 
-  Future<DataState> buyElect({required double amount, required int meterNumber}) async {
+  /// Buy electricity function
+  Future<DataState> buyElect({required String amount,
+    required String meterNum,
+    required String token,
+    required String type,
+    required String transPin,
+    required String serviceId,})
+  async {
     try {
       if (!await info.connected) {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet connection',
           ),
         );
       }
-      final result = await services.postRequests(ApiEndpoints.buyElect, {
+      final result = await services.postRequestsWithToken(ApiEndpoints.buyElect, token, {
         'amount': amount,
-        'number': meterNumber,
+        'meter_number': meterNum,
+        'service_id': serviceId,
+        'transaction_pin': transPin,
+        'type': type
       });
       return DataSuccess(result.data);
     } on DioException catch (e) {
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          error: e.toString(),
-        ),
-      );
+      return DataFailed(e);
     }
   }
 
+/// verify meter number
+  Future<DataState> verifyMeter({
+    required String meterNum,
+    required String token,
+    required String type,
+    required String serviceId,})
+  async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.postRequestsWithToken(ApiEndpoints.verifyMeter, token, {
+        'meter_number': meterNum,
+        'service_id': serviceId,
+        'type': type
+      });
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  ///Available Electricity services
+  Future<DataState> electDiscos(String token) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.getRequestWIthToken(ApiEndpoints.electDisco, token);
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
 }

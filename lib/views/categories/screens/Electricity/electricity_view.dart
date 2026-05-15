@@ -25,7 +25,7 @@ class ElectricityView extends StatefulWidget {
 class _ElectricityViewState extends State<ElectricityView> {
   bool prepaid = true;
   int selectPaid = 0;
-  List<int> prices = [1000, 2000, 3000, 4000, 5000, 10000];
+  // List<int> prices = [1000, 2000, 3000, 4000, 5000, 10000];
   List<String> electType = ['Prepaid', 'Postpaid'];
   final TextEditingController amountCtrl = TextEditingController();
   final TextEditingController meterCtrl = TextEditingController();
@@ -188,8 +188,8 @@ class _ElectricityViewState extends State<ElectricityView> {
                   runSpacing: 15,
                   spacing: 15,
                   runAlignment: WrapAlignment.start,
-                  children: List.generate(prices.length, (index) {
-                    final meterPrice = prices[index];
+                  children: List.generate(electCtrl.availableAmount.length, (index) {
+                    final meterPrice = electCtrl.availableAmount[index];
 
                     return ProductCard(
                       onTap: () {

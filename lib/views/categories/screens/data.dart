@@ -1,13 +1,11 @@
-import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
-import 'package:fin_wise/controllers/categoryCtrl/data_controller.dart';
-import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/data/models/numbers_model.dart';
+import 'package:fin_wise/utils/utils_export.dart';
+import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/data/models/data_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:fin_wise/views/categories/widgets/top_form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +20,6 @@ class DataView extends StatefulWidget {
 
 class _DataViewState extends State<DataView>
     with SingleTickerProviderStateMixin {
-
   final paymentCtrl = Get.find<CategoryNavCtrl>();
   final dataCtrl = Get.find<DataController>();
   final loading = Get.find<LoaderController>();
@@ -46,16 +43,24 @@ class _DataViewState extends State<DataView>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: LoaderWrapper(
         child: PageContainer(
           topMargin: 20,
           bottomPadding: 10,
-          topChild: CustomAppBar.header(title: 'Buy Data', leftRight: 15, onPressed: () => Get.back()),
+          topChild: CustomAppBar.header(
+            title: 'Buy Data',
+            leftRight: 15,
+            onPressed: () => Get.back(),
+          ),
           child: TopFormWidget(
             networks: dataCtrl.dataNet,
-            numSelect: NumbersModel(provider: ServiceProvider.mtn, number: '09089890009', amount: 300),
+            select: dataCtrl.select.value,
+            numSelect: NumbersModel(
+              provider: ServiceProvider.mtn,
+              number: '09089890009',
+              amount: 300,
+            ),
             // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
             beneficiaries: [],
             numberCtrl: numberCtrl,
@@ -91,11 +96,12 @@ class _DataViewState extends State<DataView>
                   child: TabBarView(
                     controller: _tabCtrl,
                     children: [
+                      // Text('data'),
+                      sectionDataList(dataCtrl.dataPlans, 'Weekly'),
                       Text('HotUp'),
                       Text('HotUp'),
                       Text('HotUp'),
-                      Text('HotUp'),
-                      // sectionDataList(dataCtrl.hotUp, 'Weekly'),
+
                       // sectionDataList(dataCtrl.daily, 'Daily'),
                       // sectionDataList(dataCtrl.weekly, 'Weekly'),
                       // sectionDataList(dataCtrl.weekly, 'Monthly'),
@@ -110,70 +116,97 @@ class _DataViewState extends State<DataView>
     );
   }
 
-  Widget sectionDataList(List<DataPlan> dataPlan, String section) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15),
-      child: Wrap(
-        runSpacing: 15,
-        alignment: WrapAlignment.start,
-        spacing: 15,
-        children: List.generate(dataPlan.length, (index) {
-          final data = dataPlan[index];
-          return InkWell(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-              final imgPath= paymentCtrl.selectProvider.value.imgPath;
-              // numberCtrl.text.isNotEmpty
-              //     ? loading.offLoading((){
-              //   ConfirmBottomSheet().confirmBottomSheet(
-              //       context,
-              //       amount: data.price,
-              //       numberCtrl: numberCtrl,
-              //       productName: 'Mobile Data',
-              //       data: true,
-              //       plan: '${data.name} ${data.type} $section Plan',
-              //       imgPath: imgPath, list: [], element: ,
-              //   );
-              // })
-              //     : CustomSnackbar.showSnackbar(message: 'Enter recipient number');
-            },
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              height: 120,
-              width: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: AppColors.lightGreen,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      text: data.name,
-                      children: [
-                        TextSpan(
-                          text: data.frequency,
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      ],
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5.0),
-                  AppText(text: data.frequency),
-                  const SizedBox(height: 5.0),
-                  AppText(text: '₦${data.price.toString()}'),
-                ],
-              ),
+  Widget sectionDataList(
+    List<DataPlan> dataPlan,
+    String section,
+  ) {
+    return Obx(() {
+        return Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: dataCtrl.dataLoading.value
+              ? SkeletonLoader.shimmerLines(
+            len: 3,
+            child: Row(
+                children: List.generate(3, (index)=> Container(
+                  margin: const EdgeInsets.all(3),
+                  color: Colors.grey.shade300,
+                  height: 120,
+                  width: 80,
+                ),)
             ),
-          );
-        }),
+          ) : dataPlan.isEmpty
+              ? ServiceEmpty(emptyData: dataCtrl.planErr.value)
+              : Wrap(
+                  runSpacing: 15,
+                  alignment: WrapAlignment.start,
+                  spacing: 15,
+                  children: List.generate(dataPlan.length, (index) {
+                    final data = dataPlan[index];
+                    return InkWell(
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                        final imgPath = dataCtrl.dataNet[paymentCtrl.select.value-1].imgPath;
+                        print(imgPath);
+                        double amount  = double.parse(data.price);
+                        numberCtrl.text.isNotEmpty
+                            ? loading.offLoading((){
+                          ConfirmBottomSheet().confirmBottomSheet(
+                              context,
+                              amount: amount,
+                              numberCtrl: numberCtrl,
+                              productName: 'Mobile Data',
+                              data: true,
+                              plan: '${data.name} ${data.frequency} Plan',
+                              imgPath: imgPath, list: [],
+                            // element: ,
+                          );
+                        })
+                            : CustomSnackbar.showSnackbar(message: 'Enter recipient number');
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        height: 120,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: AppColors.lightGreen,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                             data.name,
+                              style: TextStyle(fontSize: 10),
+                            ),
+                            const SizedBox(height: 5.0),
+                            AppText(text: data.frequency),
+                            const SizedBox(height: 5.0),
+                            AppText(text: '₦${data.price.toString()}'),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+        );
+      }
+    );
+  }
+}
+
+class ServiceEmpty extends StatelessWidget {
+  final String emptyData;
+
+  const ServiceEmpty({super.key, required this.emptyData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [Icon(Icons.insights_outlined), Text(emptyData)],
       ),
     );
   }

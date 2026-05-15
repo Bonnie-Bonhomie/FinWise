@@ -56,6 +56,7 @@ class ApiServices {
           'Accept': 'application/json',
         }),
       );
+      // print(response.data);
       return response;
 
   }

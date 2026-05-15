@@ -1,25 +1,10 @@
-import 'package:fin_wise/binding/profileBindings/change_pin_binding.dart';
-import 'package:fin_wise/binding/profileBindings/change_pwd_binding.dart';
-import 'package:fin_wise/binding/profileBindings/edit_profile_binding.dart';
-import 'package:fin_wise/binding/profileBindings/notification_setting_binding.dart';
-import 'package:fin_wise/views/profiles/screens/edit&view/edit_profile.dart';
-import 'package:fin_wise/views/profiles/screens/helpScreens/help_center.dart';
-import 'package:fin_wise/views/profiles/screens/edit&view/profile_view.dart';
-import 'package:fin_wise/views/profiles/screens/helpScreens/online_support.dart';
-import 'package:fin_wise/views/profiles/screens/security/add_fingerprint.dart';
-import 'package:fin_wise/views/profiles/screens/security/change_pin.dart';
-import 'package:fin_wise/views/profiles/screens/security/delete_fingerprint.dart';
-import 'package:fin_wise/views/profiles/screens/security/fingerprint.dart';
-import 'package:fin_wise/views/profiles/screens/security/security_page.dart';
-import 'package:fin_wise/views/profiles/screens/security/terms_condition.dart';
-import 'package:fin_wise/views/profiles/screens/settings/change_password.dart';
-import 'package:fin_wise/views/profiles/screens/settings/delete_account.dart';
-import 'package:fin_wise/views/profiles/screens/settings/notification_settings.dart';
-import 'package:fin_wise/views/profiles/screens/settings/settings.dart';
+import 'package:fin_wise/views/profiles/screens/profile_export.dart';
+import 'package:fin_wise/binding/binding_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../core/Routes/routes.dart';
+
+
 
 class ProfileMainControl extends GetxController{
 

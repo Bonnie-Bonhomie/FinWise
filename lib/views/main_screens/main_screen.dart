@@ -1,15 +1,28 @@
 
+import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
+import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/app_colors.dart';
 
-class MainScreen extends StatelessWidget{
+class MainScreen extends StatefulWidget{
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
 
+class _MainScreenState extends State<MainScreen> {
+  // final acc =Get.put<AccBalanceCtrl>(AccBalanceCtrl(Get.find(), Get.find<StorageFile>()), permanent: true);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<NavControl>();
@@ -27,7 +40,7 @@ class MainScreen extends StatelessWidget{
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(5, (index) {
-        
+
                     final isSelected = controller.selectInd.value == index;
                     return IconButton(onPressed: (){
                       controller.selectInd.value = index;

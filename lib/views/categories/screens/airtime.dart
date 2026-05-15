@@ -34,6 +34,7 @@ class _AirtimeViewState extends State<AirtimeView> {
   List<int> topUp = [50, 100, 200, 500, 1000, 2000];
   bool isOpen = false;
   double amount = 0.00;
+  int number = 1;
   //To convert the Price to double
 
   @override
@@ -50,6 +51,7 @@ class _AirtimeViewState extends State<AirtimeView> {
               networks: ctrl.airtimeNet,
               numSelect: ctrl.airtimeBenes[0],
               beneficiaries: ctrl.airtimeBenes,
+              select: ctrl.selected.value,
               child: Column(
                 children: [
                   Container(
@@ -83,12 +85,13 @@ class _AirtimeViewState extends State<AirtimeView> {
                                   {
                                     setState(() {
                                       amount = topAmount.toDouble();
-
                                     });
-                                    final imgPath = navCtrl.selectProvider.value.imgPath;
+                                    print(ctrl.selected.value);
+                                    final imgPath = ctrl.airtimeNet[navCtrl.select.value-1].imgPath;
+                                    print('Image: ${ctrl.airtimeNet[number-1 ].name} End');
                                     ConfirmBottomSheet().confirmBottomSheet(
                                       list: ctrl.airtimeBenes,
-                                    element: NumbersModel(provider: navCtrl.selectProvider.value, number: numberCtrl.text, amount: amount),
+                                    // element: NumbersModel(provider: navCtrl.selectProvider.value, number: numberCtrl.text, amount: amount),
                                     context,
                                     amount: amount,
                                     numberCtrl: numberCtrl,

@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 class AppColors{
 // Green varieties
   static const Color primary = Color(0xFF00D09E);
-  static const Color darkGreen = Color(0xFF0E3E3E);
+  static const Color darkGreen = Color(0xFF0C331E);
+
+  static const Color gradientGreen = Color(0xFF68C796);
 
   //white greens
   static const Color bgColor = Color(0xFFF1FFF3);

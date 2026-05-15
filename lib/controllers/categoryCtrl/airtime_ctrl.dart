@@ -21,7 +21,7 @@ class AirtimeCtrl extends GetxController {
     super.onInit();
   }
 
-  var selected;
+  var selected = 1.obs;
   var amountCtrl = TextEditingController().obs;
   var allNumbers = [08030039725, 09052378291].obs;
   var airtimeBenes = <NumbersModel>[NumbersModel(provider: ServiceProvider.mtn, number: '09067567878', amount: 200)].obs;
@@ -46,7 +46,7 @@ class AirtimeCtrl extends GetxController {
     } else if (result is DataFailed) {
       final err = result.exception;
       if (err is DioException) {
-        if (err.type == DioExceptionType.connectionError) {
+        if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
           CustomSnackbar.showSnackbar(message: 'No internet connection');
         }
         final errData = err.response?.data;
@@ -78,24 +78,7 @@ class AirtimeCtrl extends GetxController {
         airtimeNet.addAll(netwok);
         // selected.value = airtimeNet[0];
         print(airtimeNet);
-      } else {
-
-        CustomSnackbar.showSnackbar(message: 'Unable to load networks', title: 'Oops');
-      }
-    } else if (result is DataFailed) {
-      final err = result.exception;
-      if (err is DioException) {
-        if (err.type == DioExceptionType.connectionError) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
-        }
-        final errData = err.response?.data;
-        if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
-        } else {
-          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
-        }
-        CustomSnackbar.showSnackbar(message: 'Server error, try again later');
-      }
-    }
+      } else { return;}
+    } else if (result is DataFailed) {return;}
   }
 }

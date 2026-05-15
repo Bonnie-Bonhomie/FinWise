@@ -13,7 +13,12 @@ class AccBalanceCtrl extends GetxController {
 
   AccBalanceCtrl(this.repo, this.storage);
 
-
+    @override
+  void onInit() {
+    // TODO: implement onInit
+    //   getBalance();
+    super.onInit();
+  }
 
 
   var accountBalance = 10.00.obs;
