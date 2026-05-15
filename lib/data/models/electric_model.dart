@@ -61,7 +61,7 @@ class ElectAmount {
   factory ElectAmount.fromJson(Map<String, dynamic> json){
     return ElectAmount(amount: json['amount'],
         id: json['id'],
-        status: json['status'].toString(),
+        status: json['status'],
         createdAt: json['created_at'].toString(),
         updatedAt: json['updated_at'].toString());
   }

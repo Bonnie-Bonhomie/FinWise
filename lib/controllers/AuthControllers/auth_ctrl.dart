@@ -85,10 +85,7 @@ class AuthCtrl extends GetxController {
       if (err is DioException) {
         //  Network issues
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(
-            message: 'No internet connection',
-            title: 'Network Error',
-          );
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
           return;
         }
 
@@ -138,7 +135,7 @@ class AuthCtrl extends GetxController {
       // Network error
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError|| err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
         }
         //   //Server error
         else if (err.response != null) {
@@ -219,7 +216,7 @@ class AuthCtrl extends GetxController {
       if (err is DioException) {
         //  Network issues
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
           return;
         }
 
@@ -262,7 +259,7 @@ class AuthCtrl extends GetxController {
         if (err is DioException) {
           //  Network issues
           if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-            CustomSnackbar.showSnackbar(message: 'No internet connection');
+            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
             return;
           }
 
@@ -322,7 +319,7 @@ class AuthCtrl extends GetxController {
           if (err.type == DioExceptionType.connectionError ||
               err.type == DioExceptionType.receiveTimeout ||
               err.type == DioExceptionType.connectionTimeout) {
-            CustomSnackbar.showSnackbar(message: 'No internet connection');
+            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
             return;
           }
 
@@ -376,7 +373,7 @@ class AuthCtrl extends GetxController {
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.receiveTimeout ||
             err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
           return;
         }
 
@@ -421,7 +418,7 @@ class AuthCtrl extends GetxController {
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.receiveTimeout ||
             err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
           return;
         }
 
@@ -467,7 +464,7 @@ class AuthCtrl extends GetxController {
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.receiveTimeout ||
             err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
           return;
         }
 

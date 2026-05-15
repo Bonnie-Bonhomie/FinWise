@@ -36,8 +36,16 @@ class ApiEndpoints{
   static const String electDisco = 'electricity/discos';
   static const String verifyMeter = 'electricity/verify_meter_no';
 
-  static const String buyTv = 'tv';
-  static const String buyEduCard = 'education';
+
+  static const String cableDisco = 'cable/discos';
+  static const String cableBundle = 'cable/bundle';
+  static const String cableBundlePrice = 'cable/bundle_price';
+  static const String verifySmartCard = 'cable/verify_smart_card';
+  static const String buyCable = 'cable/buy';
+
+
+  static const String buyEduCard = 'education/buy';
+  static const String examCard = 'education/exam_card';
 
 
   static const String virtual = 'virtual';

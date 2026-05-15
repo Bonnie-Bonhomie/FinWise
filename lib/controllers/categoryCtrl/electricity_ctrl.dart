@@ -19,6 +19,7 @@ class ElectricityCtrl  extends GetxController{
   var error = ''.obs;
   RxBool verifyLoad = false.obs;
   RxBool discoLoad = false.obs;
+  RxString discoErr = ''.obs;
 
   @override
   void onInit() {
@@ -56,9 +57,10 @@ class ElectricityCtrl  extends GetxController{
          final err =result.exception;
          if(err is DioException){
 
-           if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-             CustomSnackbar.showSnackbar(message: 'Check your internet connection, try again later', title: 'No internet');           }
-
+           if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
+             CustomSnackbar.showSnackbar(title: 'No internet connection',
+                 message: 'Check your internet connection');
+           }
            final errData = err.response?.data;
            if(errData != null && errData['message'] != null){
              CustomSnackbar.showSnackbar(message: errData['message']);
@@ -91,7 +93,7 @@ class ElectricityCtrl  extends GetxController{
       if(err is DioException){
 
         if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          CustomSnackbar.showSnackbar(message: 'Check your internet connection, try again later', title: 'No internet');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
         }
 
         final errData = err.response?.data;
@@ -107,7 +109,7 @@ class ElectricityCtrl  extends GetxController{
 
   /// Load all available electricity Discos
   Future<void> getElectricDiscos() async{
-
+    discoLoad.value = true;
     final String? token = await store.getToken();
     if(token == null) return;
     final result = await repo.electDiscos(token);
@@ -120,32 +122,34 @@ class ElectricityCtrl  extends GetxController{
 
         final disco = elect.map((e)=> ElectDisco.fromJson(e)).toList();
         electDiscos.addAll(disco);
-          print(electDiscos);
+        print(electDiscos);
+
         ///Collect all the available amount
         List suggestAmount = data['suggested_amounts'];
         final amt = suggestAmount.map((e)=> ElectAmount.fromJson(e)).toList();
         availableAmount.addAll(amt);
+        print(availableAmount);
       }
       else{
-        error.value = 'Unable to complete transaction';
-        CustomSnackbar.showSnackbar(message: error.value, title:  'Oops');
+        discoErr.value = 'Unable to complete transaction';
+
       }}
     else if(result is DataFailed){
       final err =result.exception;
       if(err is DioException){
 
         if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          CustomSnackbar.showSnackbar(message: 'Check your internet connection, try again later', title: 'No internet');        }
+          discoErr.value = 'Check your internet connection, try again later';        }
 
         final errData = err.response?.data;
         if(errData != null && errData['message'] != null){
-          CustomSnackbar.showSnackbar(message: errData['message']);
+          discoErr.value = errData['message'];
         }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
+          discoErr.value = 'Unable to complete transaction, try again later';
         }
       }
     }
-
+    discoLoad.value = false;
   }
 
 }
