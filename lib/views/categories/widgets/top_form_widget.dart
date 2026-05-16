@@ -11,22 +11,22 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class TopFormWidget extends StatefulWidget {
-  TopFormWidget({
+  const TopFormWidget({
     super.key,
     required this.child,
     required this.numberCtrl,
     required this.networks,
-    required this.select,
     required this.beneficiaries,
-    required this.numSelect,
+    // required this.numSelect,
+    required this.onTap,
   });
 
   final TextEditingController numberCtrl;
   final Widget child;
   final List<NetworksModel> networks;
   final List<NumbersModel> beneficiaries;
-  int select;
-  NumbersModel numSelect;
+  // NumbersModel numSelect;
+  final Function onTap;
 
   @override
   State<TopFormWidget> createState() => _TopFormWidgetState();
@@ -75,7 +75,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                                 ),
                               ),
                             )
-                          : dropdownServiceProvider(),
+                          : dropdownServiceProvider(onTap: widget.onTap),
                     ),
                   ),
                   Expanded(
@@ -112,8 +112,6 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                         bool chev = false;
                         if (correctNum == true) {
                           chev = TopViewModel.checkProvider(val);
-                        } else {
-                          print('Not filled yet');
                         }
                         // if(chev == true){
                         //   select = ServiceProvider.mtn;
@@ -168,16 +166,16 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                             return InkWell(
                               onTap: () {
                                 FocusScope.of(context).unfocus();
-                                setState(() {
-                                  widget.numberCtrl.text =
-                                      TopViewModel.formatted(
-                                        item.number.toString(),
-                                      );
-                                  widget.numSelect.provider = item.provider;
-                                  print(widget.numSelect.provider);
-                                  cleared = false;
-                                });
-                                FocusScope.of(context).unfocus();
+                                // setState(() {
+                                //   widget.numberCtrl.text =
+                                //       TopViewModel.formatted(
+                                //         item.number.toString(),
+                                //       );
+                                //   widget.numSelect.provider = item.provider;
+                                //   print(widget.numSelect.provider);
+                                //   cleared = false;
+                                // });
+                                // FocusScope.of(context).unfocus();
                               },
                               child: Row(
                                 children: [
@@ -230,7 +228,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
     );
   }
 
-  DropdownButton dropdownServiceProvider() {
+  DropdownButton dropdownServiceProvider({required Function onTap}) {
     return DropdownButton(
       value: paymentCtrl.select.value,
       underline: SizedBox(),
@@ -243,31 +241,31 @@ class _TopFormWidgetState extends State<TopFormWidget> {
           onTap: () {
             setState(() {
               img = service.imgPath;
-              print(service.name);
+              print(img);
             });
+            onTap();
           },
           // child: AppText(text: service.label[0]),
           child: Container(
             height: 45,
             width: 45,
             decoration: BoxDecoration(shape: BoxShape.circle),
-            child: Image(
-              image: NetworkImage(img),
+            child: Image.network(img.toString(),
+              headers: const {'Access-Control-Allow-Origin': '*'},
               errorBuilder: (_, _, _) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade400,
-                    shape: BoxShape.circle,
-                  ),
-                );
-              },
-            ),
+              return Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade400,
+                  shape: BoxShape.circle,
+                ),
+              );
+            }
+            )
           ),
         );
       }),
       onChanged: (val) {
         paymentCtrl.select.value = val;
-        print(widget.select);
       },
     );
   }

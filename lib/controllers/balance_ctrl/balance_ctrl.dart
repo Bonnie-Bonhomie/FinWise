@@ -21,7 +21,8 @@ class AccBalanceCtrl extends GetxController {
   }
 
 
-  var accountBalance = 10.00.obs;
+  var accountBalance = 0.00.obs;
+  var accBalance = '0.00'.obs;
   var expense = 1000.00.obs;
   var income = 4000.45.obs;
   var spendingLimit = 2000.00.obs;
@@ -63,7 +64,8 @@ class AccBalanceCtrl extends GetxController {
       final data = response.data;
       // print(data['data']['bal']);
       if (data['status'] == true) {
-        accountBalance.value = double.parse(data['data']['bal']);
+
+        accBalance.value = data['data']['bal'];
       }else {
         balanceErr.value = 'Reload the page';
       }
@@ -90,6 +92,7 @@ class AccBalanceCtrl extends GetxController {
     }
     }
     loading.value = false;
+    return;
   }
 
   //

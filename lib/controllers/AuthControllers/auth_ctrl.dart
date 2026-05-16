@@ -3,7 +3,7 @@ import 'package:fin_wise/Services/biometric_serv.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/profile_model.dart';
+import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
@@ -32,6 +32,7 @@ class AuthCtrl extends GetxController {
 
   RxBool loading = false.obs;
   ProfileModel? user;
+  WalletModel? userWallet;
   String? err;
   String? successMessage;
   String? forgetMail;
@@ -120,6 +121,8 @@ class AuthCtrl extends GetxController {
         final phone = data['data']['phone'];
         await store.saveData<String>(PrefStoreKeys.username, name);
         await store.saveData<String>(PrefStoreKeys.phone, phone);
+
+        userWallet = data['data']['wallet'];
         // user = UserModel.fromJson(response.data);
         CustomSnackbar.successSnack(data['message'].toString());
 

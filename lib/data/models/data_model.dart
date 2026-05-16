@@ -1,3 +1,5 @@
+import 'package:fin_wise/core/constant.dart';
+
 class DataApiModel {
 
 
@@ -53,7 +55,7 @@ class DataPlan {
   String id;
   String status;
   String networkId;
-  String frequency;
+  Frequency frequency;
   String hotPlans;
   String createdAt;
   String updatedAt;
@@ -74,15 +76,15 @@ class DataPlan {
   factory DataPlan.fromJson(Map<String, dynamic> json) {
     return DataPlan(
         name: json['name'].toString() ,
-        dataCode: json['datacode'].toString() ?? '',
+        dataCode: json['datacode'].toString(),
         id: json['id'].toString(),
-        frequency: json['frequency'].toString() ?? '',
+        frequency: Frequency.fromString(json['frequency']),
         price: json['price'].toString(),
         status: json['status'].toString() ,
         networkId: json['network_id'].toString(),
         createdAt: json['created_at'].toString(),
         updatedAt: json['updated_at'].toString(),
-        hotPlans: json['hot_plans'].toString()
+        hotPlans: json['hot_plan'].toString()
     );
   }
 }

@@ -13,6 +13,7 @@ class TelevisionCtrl extends GetxController {
   TelevisionCtrl(this.repo, this.store);
 
   String error = '';
+  RxString cardErr= ''.obs;
   RxString discoErr = ''.obs;
   var availableCable = <CableModel>[].obs;
   var tvRecipt = [];
@@ -173,96 +174,68 @@ class TelevisionCtrl extends GetxController {
   }
 
 ///Get Cable Bundles and price
-  Future<void> getCableBundle({
-    required String phone,
-    required String smartcard,
-    required String id,
-    required String subType,
-    required String transPin,
-    required String productId,
-  }) async {
+  Future<void> getCableBundle({required int id}) async {
 
     final String? token = await store.getToken();
     if(token == null) return;
-    final response = await repo.buyCableFunction(
-      token: token,
-      smartcard: smartcard,
-      subType: subType,
-      phone: phone,
-      transPin: transPin,
-      productId: productId,
-    );
+    final response = await repo.cableBundlePrice(token: token, id: id);
 
     if(response is DataSuccess){
       if (response.data['status'] == true) {
         final data = response.data['data'];
+        ///To do
       } else {
-        error = 'Unable to Complete transaction';
-        CustomSnackbar.showSnackbar(message: error, title: 'Oops');
+        error = 'Unable to load available cable bundle';
       }
     }else if(response is DataFailed){
       final err = response.exception;
 
       if(err is DioException){
         if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+          error = 'Check your internet connection';
         }
         final errData = err.response?.data;
         if(errData != null && errData['message'] != null){
-          CustomSnackbar.showSnackbar(message: errData['message']);
+           error = errData['message'];
         }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
+          error = 'Unable to complete transaction process';
         }
       }
     }else{
-      CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
+      error = 'Unable to complete transaction process';
     }
 
   }
 
-  Future<void> buyTvService({
-    required String phone,
-    required String smartcard,
-    required String id,
-    required String subType,
-    required String transPin,
-    required String productId,
-  }) async {
+  ///Verify smart card function
+  Future<void> verifySmartCard({required String smartcard, required String id,}) async {
 
     final String? token = await store.getToken();
     if(token == null) return;
-    final response = await repo.buyCableFunction(
-      token: token,
-      smartcard: smartcard,
-      subType: subType,
-      phone: phone,
-      transPin: transPin,
-      productId: productId,
-    );
+    final response = await repo.verifyCableNum(token: token, serviceId: id, cableNumber: smartcard);
 
     if(response is DataSuccess){
       if (response.data['status'] == true) {
         final data = response.data['data'];
       } else {
-        error = 'Unable to Complete transaction';
-        CustomSnackbar.showSnackbar(message: error, title: 'Oops');
+        cardErr.value = 'Unable to to verify card number';
       }
     }else if(response is DataFailed){
       final err = response.exception;
 
       if(err is DioException){
         if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+          cardErr.value =  'Check your internet connection';
         }
         final errData = err.response?.data;
         if(errData != null && errData['message'] != null){
-          CustomSnackbar.showSnackbar(message: errData['message']);
+         cardErr.value = errData['message'];
         }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
+          cardErr.value = 'Unable to complete transaction process';
         }
       }
     }else{
-      CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
+      cardErr.value = 'Unable to complete transaction process';
     }
 
   }

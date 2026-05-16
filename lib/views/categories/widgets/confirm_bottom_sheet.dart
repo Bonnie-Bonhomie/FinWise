@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConfirmBottomSheet {
-  final accCtrl = Get.find<AccBalanceCtrl>();
+  final authCtrl = Get.find<AuthCtrl>();
   final navCtrl = Get.find<CategoryNavCtrl>();
 
   void confirmBottomSheet(BuildContext context, {
@@ -32,7 +33,9 @@ class ConfirmBottomSheet {
       backgroundColor: AppColors.bgColor,
       builder: (context) {
         return Obx(() {
-          bool notEnoughAmount = accCtrl.accountBalance.value < amount;
+          double? accBal = (authCtrl.userWallet?.accBalance);
+          accBal ??= 0.00;
+          bool notEnoughAmount = accBal < amount;
           // print(notEnoughAmount);
           // print(accCtrl.accountBalance.value);
             return WillPopScope(
@@ -144,8 +147,7 @@ class ConfirmBottomSheet {
                                 const SizedBox(width: 10),
                                 AppText(
                                   text:
-                                  '(₦${accCtrl.accountBalance.value.toStringAsFixed(
-                                      2)})',
+                                  '(₦${accBal.toStringAsFixed(2)})',
                                   textColor: notEnoughAmount
                                       ? Colors.red
                                       : Colors.black,

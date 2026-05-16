@@ -1,7 +1,6 @@
 import 'package:fin_wise/controllers/categoryCtrl/airtime_ctrl.dart';
 import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/data/models/numbers_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
@@ -49,9 +48,9 @@ class _AirtimeViewState extends State<AirtimeView> {
           child: TopFormWidget(
               numberCtrl: numberCtrl,
               networks: ctrl.airtimeNet,
-              numSelect: ctrl.airtimeBenes[0],
+              // numSelect: ctrl.airtimeBenes[0],
               beneficiaries: ctrl.airtimeBenes,
-              select: ctrl.selected.value,
+              onTap: (){},
               child: Column(
                 children: [
                   Container(

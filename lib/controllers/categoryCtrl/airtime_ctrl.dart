@@ -30,6 +30,8 @@ class AirtimeCtrl extends GetxController {
   var cleared = false.obs;
 
   var error = ''.obs;
+
+
   Future<void> buyAirtime({required String amount, required int number, required String netId, required String pin}) async {
     final String? token = await store.getToken();
     if(token == null)return;
@@ -47,7 +49,7 @@ class AirtimeCtrl extends GetxController {
       final err = result.exception;
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
         }
         final errData = err.response?.data;
         if (errData != null && errData['message'] != null) {
@@ -79,6 +81,14 @@ class AirtimeCtrl extends GetxController {
         // selected.value = airtimeNet[0];
         print(airtimeNet);
       } else { return;}
-    } else if (result is DataFailed) {return;}
+    } else if (result is DataFailed) {
+      final err = result.exception;
+      if(err is DioException){
+        if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+
+        }
+      }
+    }
   }
 }

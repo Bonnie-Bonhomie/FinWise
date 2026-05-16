@@ -23,6 +23,16 @@ enum Categories {
 enum ChartPeriod{
   daily, weekly, monthly, yearly
 }
+
+enum Frequency{daily, weekly, monthly;
+
+  static Frequency fromString(String value) {
+    return Frequency.values.firstWhere(
+          (e) => e.name == value.toLowerCase(),
+      orElse: () => Frequency.daily,
+    );
+  }
+}
 //Money State
 enum MoneyState{
   income, expense
@@ -43,7 +53,7 @@ enum ServiceProvider{
 enum TransactionStatus{
   pending('Pending', AppColors.pending),
   declined('Declined', AppColors.declined),
-  complete('Complete', AppColors.primary);
+  complete('Completed', AppColors.primary);
 
   final String label;
   final Color color;

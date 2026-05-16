@@ -9,6 +9,6 @@ export 'notification_model.dart';
 export 'numbers_model.dart';
 export 'profile_model.dart';
 export 'transaction_model.dart';
-export 'tv_model.dart';
-
+export 'cable_model.dart';
+export 'wallet_model.dart';
 

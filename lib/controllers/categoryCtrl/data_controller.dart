@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/model_export.dart';
@@ -17,7 +18,7 @@ class DataController extends GetxController {
   DataApiModel? dataReceipt;
   var err = ''.obs;
   var select = 1.obs;
-  var dataPlans = <DataPlan>[].obs;
+
   var planErr = ''.obs;
   RxBool dataLoading = false.obs;
 
@@ -28,11 +29,12 @@ class DataController extends GetxController {
     getDataPlans(1);
     super.onInit();
   }
+  var dataPlans = <DataPlan>[].obs;
+  var hotUp = <DataPlan>[].obs;
 
-  var hotUp = [].obs;
-
-  var weekly = [].obs;
-  var daily = [];
+  var weeklyPlan = <DataPlan>[].obs;
+  var dailyPlan = <DataPlan>[].obs;
+  var monthlyPlan = <DataPlan>[].obs;
 
   Future<void> buyData({
     required String dataId,
@@ -61,9 +63,7 @@ class DataController extends GetxController {
       final err = response.exception;
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(
-            message: 'No Network. Check you internet connection.',
-          );
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
         }
         final errData = err.response?.data;
         if (errData['message'] != null && errData != null) {
@@ -98,17 +98,15 @@ class DataController extends GetxController {
       final err = result.exception;
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(message: 'No internet connection');
-        }
-        final errData = err.response?.data;
-        if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
         }
       }
       return;
     }
   }
 
+
+  /// Get data plans
   Future<void> getDataPlans(int networkId) async {
     dataLoading.value = true;
     print(dataLoading.value);
@@ -125,6 +123,12 @@ class DataController extends GetxController {
         final dataPlan = plan.map((e) => DataPlan.fromJson(e)).toList();
 
         dataPlans.addAll(dataPlan);
+
+        hotUp.value = dataPlans.where((pl) => pl.hotPlans == '1').toList();
+        dailyPlan.value = dataPlans.where((e) => e.frequency == Frequency.daily).toList();
+        weeklyPlan.value = dataPlans.where((e) => e.frequency == Frequency.weekly).toList();
+        monthlyPlan.value = dataPlans.where((e) => e.frequency == Frequency.monthly).toList();
+
         print(plan);
       }
     }
@@ -147,5 +151,23 @@ class DataController extends GetxController {
     return;
   }
 
+
+  ///Filter data plans
+///
+
+  void getHots(){
+
+  }
+  final Map<String, List<DataPlan>> groupPlans = {
+    'daily': [],
+    'weekly': [],
+    'monthly': [],
+  };
+  void getPlans(){
+    for(final plan in dataPlans){
+      groupPlans[plan.frequency.name]?.add(plan);
+    }
+    final dailyPlans = groupPlans[Frequency.daily];
+  }
 
 }

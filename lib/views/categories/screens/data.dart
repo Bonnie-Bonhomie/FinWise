@@ -1,6 +1,5 @@
 import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
@@ -55,12 +54,9 @@ class _DataViewState extends State<DataView>
           ),
           child: TopFormWidget(
             networks: dataCtrl.dataNet,
-            select: dataCtrl.select.value,
-            numSelect: NumbersModel(
-              provider: ServiceProvider.mtn,
-              number: '09089890009',
-              amount: 300,
-            ),
+            onTap: () {
+              dataCtrl.getDataPlans(paymentCtrl.select.value);
+            },
             // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
             beneficiaries: [],
             numberCtrl: numberCtrl,
@@ -97,14 +93,10 @@ class _DataViewState extends State<DataView>
                     controller: _tabCtrl,
                     children: [
                       // Text('data'),
-                      sectionDataList(dataCtrl.dataPlans, 'Weekly'),
-                      Text('HotUp'),
-                      Text('HotUp'),
-                      Text('HotUp'),
-
-                      // sectionDataList(dataCtrl.daily, 'Daily'),
-                      // sectionDataList(dataCtrl.weekly, 'Weekly'),
-                      // sectionDataList(dataCtrl.weekly, 'Monthly'),
+                      sectionDataList(dataCtrl.hotUp, 'HotUp'),
+                      sectionDataList(dataCtrl.dailyPlan, 'Daily'),
+                      sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
+                      sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
                     ],
                   ),
                 ),
@@ -116,82 +108,96 @@ class _DataViewState extends State<DataView>
     );
   }
 
-  Widget sectionDataList(
-    List<DataPlan> dataPlan,
-    String section,
-  ) {
+  ///Data plan section list Widget
+  Widget sectionDataList(List<DataPlan> dataPlan, String section) {
     return Obx(() {
-        return Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: dataCtrl.dataLoading.value
-              ? SkeletonLoader.shimmerLines(
-            len: 3,
-            child: Row(
-                children: List.generate(3, (index)=> Container(
-                  margin: const EdgeInsets.all(3),
-                  color: Colors.grey.shade300,
-                  height: 120,
-                  width: 80,
-                ),)
-            ),
-          ) : dataPlan.isEmpty
-              ? ServiceEmpty(emptyData: dataCtrl.planErr.value)
-              : Wrap(
-                  runSpacing: 15,
-                  alignment: WrapAlignment.start,
-                  spacing: 15,
-                  children: List.generate(dataPlan.length, (index) {
-                    final data = dataPlan[index];
-                    return InkWell(
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-                        final imgPath = dataCtrl.dataNet[paymentCtrl.select.value-1].imgPath;
-                        print(imgPath);
-                        double amount  = double.parse(data.price);
-                        numberCtrl.text.isNotEmpty
-                            ? loading.offLoading((){
-                          ConfirmBottomSheet().confirmBottomSheet(
-                              context,
-                              amount: amount,
-                              numberCtrl: numberCtrl,
-                              productName: 'Mobile Data',
-                              data: true,
-                              plan: '${data.name} ${data.frequency} Plan',
-                              imgPath: imgPath, list: [],
-                            // element: ,
-                          );
-                        })
-                            : CustomSnackbar.showSnackbar(message: 'Enter recipient number');
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        height: 120,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: AppColors.lightGreen,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                             data.name,
-                              style: TextStyle(fontSize: 10),
-                            ),
-                            const SizedBox(height: 5.0),
-                            AppText(text: data.frequency),
-                            const SizedBox(height: 5.0),
-                            AppText(text: '₦${data.price.toString()}'),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+      return Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: dataCtrl.dataLoading.value
+            ? SkeletonLoader.shimmerLines(
+                len: 3,
+                child: Row(
+                  children: List.generate(
+                    3,
+                    (index) => Container(
+                      margin: const EdgeInsets.all(3),
+                      color: Colors.grey.shade300,
+                      height: 120,
+                      width: 80,
+                    ),
+                  ),
                 ),
-        );
-      }
-    );
+              )
+            : dataPlan.isEmpty
+            ? ServiceEmpty(
+                emptyData: dataCtrl.planErr.value.isEmpty
+                    ? '$section data plan is not available.'
+                    : dataCtrl.planErr.value,
+              )
+            : Wrap(
+                runSpacing: 15,
+                alignment: WrapAlignment.start,
+                spacing: 15,
+                children: List.generate(dataPlan.length, (index) {
+                  final data = dataPlan[index];
+                  return InkWell(
+                    onTap: () {
+                      FocusScope.of(context).unfocus();
+                      final imgPath = dataCtrl
+                          .dataNet[paymentCtrl.select.value - 1]
+                          .imgPath;
+                      print(imgPath);
+                      double amount = double.parse(data.price);
+                      numberCtrl.text.isNotEmpty
+                          ? loading.offLoading(() {
+                              ConfirmBottomSheet().confirmBottomSheet(
+                                context,
+                                amount: amount,
+                                numberCtrl: numberCtrl,
+                                productName: 'Mobile Data',
+                                data: true,
+                                plan:
+                                    '${data.name} ${data.frequency.name} Plan',
+                                imgPath: imgPath,
+                                list: [],
+                                // element: ,
+                              );
+                            })
+                          : CustomSnackbar.showSnackbar(
+                              message: 'Enter recipient number',
+                            );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      height: 120,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: AppColors.lightGreen,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            data.name,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 5.0),
+                          AppText(text: data.frequency.name, textSize: 12.0),
+                          const SizedBox(height: 5.0),
+                          AppText(text: '₦${data.price.toString()}'),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ),
+      );
+    });
   }
 }
 

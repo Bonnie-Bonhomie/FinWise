@@ -48,6 +48,7 @@ class ApiEndpoints{
   static const String examCard = 'education/exam_card';
 
 
+
   static const String virtual = 'virtual';
   static const String transact = 'auth/user/transact';
 }
