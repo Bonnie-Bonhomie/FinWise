@@ -20,7 +20,7 @@ class AvailableElect extends StatelessWidget {
       body: PageContainer(
         topMargin: 20,
         topChild: CustomAppBar.header(
-          title: 'Cables & Tv',
+          title: 'Electricity',
           leftRight: 15,
           onPressed: () => Get.back(),
         ),
@@ -47,9 +47,8 @@ class AvailableElect extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: ctrl.discoLoad.value
-                    ? BuildElectDiscos(ctrl: ctrl)
-                    : SkeletonLoader.shimmerLines(len: 7),
+                child: BuildElectDiscos(ctrl: ctrl)
+                    // : SkeletonLoader.shimmerLines(len: 7),
               ),
             ],
           ),
@@ -76,8 +75,8 @@ class BuildElectDiscos extends StatelessWidget {
             }
             return ListTile(
               onTap: () {
-                Get.back(result: ctrl.availableElect[index]);
-                // print(ctrl.availableElect[index]);
+                Get.back(result: ctrl.electDiscos[index]);
+                print(ctrl.electDiscos[index].name);
               },
               title: Text(elect.name, overflow: TextOverflow.ellipsis),
               subtitle: Text(

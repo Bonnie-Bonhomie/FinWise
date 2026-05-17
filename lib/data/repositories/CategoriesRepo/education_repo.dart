@@ -10,30 +10,44 @@ class EducationRepo{
   final InternetInfo info;
   EducationRepo(this.services, this.info);
 
-
-  Future<DataState> buyEduCard({required double amount, required int phoneNumber, required String serviceType}) async {
+  Future<DataState> getEduCard(String token) async {
     try {
       if (!await info.connected) {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet connection',
           ),
         );
       }
-      final result = await services.postRequests(ApiEndpoints.buyEduCard, {
-        'amount': amount,
-        'number': phoneNumber,
-        'service': serviceType,
+      final result = await services.getRequestWIthToken(ApiEndpoints.examCard, token);
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+
+  Future<DataState> buyEduCard({required String transPin, required String phoneNumber, required String examId, required String token}) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.postRequestsWithToken(ApiEndpoints.buyEduCard, token, {
+        'exam_id': examId,
+        'phone_number': phoneNumber,
+        'transaction_pin': transPin,
       });
       return DataSuccess(result.data);
     } on DioException catch (e) {
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          error: e.toString(),
-        ),
-      );
+      return DataFailed(e);
     }
   }
 }

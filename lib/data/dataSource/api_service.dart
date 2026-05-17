@@ -40,7 +40,8 @@ class ApiServices {
         },
       ),
     );
-    return response.data;
+    // print(response.data);
+    return response;
   }
 
 
@@ -56,7 +57,7 @@ class ApiServices {
           'Accept': 'application/json',
         }),
       );
-      // print(response.data);
+
       return response;
 
   }

@@ -26,7 +26,7 @@ class SkeletonLoader {
           height: 50,
           width: 180,
           margin: const EdgeInsets.all(6),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25), color: Colors.grey.shade400),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey.shade400),
         ),
         Container(
           height: 50,

@@ -1,14 +1,11 @@
 import 'package:fin_wise/controllers/categoryCtrl/television_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/views/view_export.dart';
+import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/cable_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/utils/widgets/price_form_field.dart';
-import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
-import 'package:fin_wise/views/categories/widgets/price_input_filed.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +26,7 @@ class _TvSubscriptionState extends State<TvSubscription>
   final TextEditingController amountCtrl = TextEditingController();
 
   //Selected Tv
-  TvModel tvDetails = Get.arguments;
+  CableModel tvDetails = Get.arguments;
   bool correctNumber = false;
 
   final tvCtrl = Get.find<TelevisionCtrl>();
@@ -46,131 +43,170 @@ class _TvSubscriptionState extends State<TvSubscription>
   void dispose() {
     // TODO: implement dispose
     _tabController.dispose();
+
+    tvCtrl.getCableBundle(id: tvDetails.id);
     super.dispose();
+  }
+
+  void onRefresh(){
+    Future.delayed(Duration(seconds: 1), () => tvCtrl.getCableBundle(id: tvDetails.id));
   }
 
   @override
   Widget build(BuildContext context) {
-    print(tvDetails.abbrev);
     return Scaffold(
-      body: LoaderWrapper(
-        child: PageContainer(
-          topMargin: 10,
-          bottomPadding: 10,
-          topChild: CustomAppBar.header(title: tvDetails.abbrev, leftRight: 15, onPressed: () => Get.back()),
-          child: ListView(
-            padding: const EdgeInsets.all(15),
-            children: [
-              ListTile(
-                title: AppText(text: tvDetails.name),
-                titleTextStyle: TextStyle(
-                  overflow: TextOverflow.ellipsis,
-                  color: Colors.black,
-                ),
-                leading: CircleAvatar(),
-              ),
-              const Divider(color: AppColors.lightGreen),
-              const SizedBox(height: 10),
-              AppText(
-                text: tvDetails.description,
-                textColor: AppColors.primary,
-              ),
-
-              Container(
-                padding: EdgeInsets.all(15),
-                margin: const EdgeInsets.fromLTRB(0, 25, 0, 25),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: LinearGradient(
-                    colors: [AppColors.lightGreen, Colors.white],
-                    begin: Alignment.topCenter,
-                    end: Alignment.center,
+      body: RefreshIndicator(
+        onRefresh: () async{return onRefresh();},
+        child: LoaderWrapper(
+          child: PageContainer(
+            topMargin: 10,
+            bottomPadding: 10,
+            topChild: CustomAppBar.header(
+              title: tvDetails.serviceId,
+              leftRight: 15,
+              onPressed: () => Get.back(),
+            ),
+            child: ListView(
+              padding: const EdgeInsets.all(15),
+              children: [
+                ListTile(
+                  title: AppText(text: tvDetails.name),
+                  titleTextStyle: TextStyle(
+                    overflow: TextOverflow.ellipsis,
+                    color: Colors.black,
                   ),
+                  leading: CircleAvatar(),
                 ),
-                child: Column(
-                  children: [
-                    rowTile(
-                      text: 'Smartcard Number',
-                      child: InkWell(
-                        onTap: () {},
-                        child: const Row(
-                          children: [
-                            AppText(text: 'Beneficiaries'),
-                            Icon(Icons.arrow_right),
-                          ],
-                        ),
-                      ),
+                const Divider(color: AppColors.lightGreen),
+                const SizedBox(height: 10),
+                AppText(text: tvDetails.name, textColor: AppColors.primary),
+
+                Container(
+                  padding: EdgeInsets.all(15),
+                  margin: const EdgeInsets.fromLTRB(0, 25, 0, 25),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    gradient: LinearGradient(
+                      colors: [AppColors.lightGreen, Colors.white],
+                      begin: Alignment.topCenter,
+                      end: Alignment.center,
                     ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: PriceFormField(
-                            numberCtrl: smartCardCtrl,
-                              hint: const AppText(
-                                text: 'Enter Your Smartcard Number',),
-                            onChanged: (value) {
-                              setState(() {
-                                correctNumber = value.length == 11;
-                              });
-                            },
+                  ),
+                  child: Column(
+                    children: [
+                      rowTile(
+                        text: 'Smartcard Number',
+                        child: InkWell(
+                          onTap: () {},
+                          child: const Row(
+                            children: [
+                              AppText(text: 'Beneficiaries'),
+                              Icon(Icons.arrow_right),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                    const Divider(color: AppColors.lightGreen, height: 2, )
-                  ],
-                ),
-              ),
-              TabBar(
-                controller: _tabController,
-                indicatorColor: AppColors.primary,
-                labelColor: AppColors.primary,
-                dividerColor: Colors.transparent,
-                indicator: BoxDecoration(
-                  border: const Border(
-                    bottom: BorderSide(color: AppColors.primary, width: 4),
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                labelStyle: const TextStyle(fontSize: 20),
-                tabs: [
-                  const Tab(text: 'Hot Offers'),
-                  const Tab(text: 'Premium'),
-                ],
-              ),
-              SizedBox(
-                height: 400,
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      child: ListView(
-                        padding: const EdgeInsets.only(top: 8.0),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              buildProductColumn(
-                                list: tvCtrl.leftService,
-                                isLeft: true,
+                          Expanded(
+                            child: PriceFormField(
+                              numberCtrl: smartCardCtrl,
+                              hint: const AppText(
+                                text: 'Enter Your Smartcard Number',
                               ),
-                              buildProductColumn(list: tvCtrl.rightService),
-                            ],
+                              onChanged: (value) {
+                                setState(() {
+                                  correctNumber = value.length == 11;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
+                      const Divider(color: AppColors.lightGreen, height: 2),
+                    ],
+                  ),
+                ),
+                TabBar(
+                  controller: _tabController,
+                  indicatorColor: AppColors.primary,
+                  labelColor: AppColors.primary,
+                  dividerColor: Colors.transparent,
+                  indicator: BoxDecoration(
+                    border: const Border(
+                      bottom: BorderSide(color: AppColors.primary, width: 4),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 18),
-                      child: premiumBuild(),
-                    ),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  labelStyle: const TextStyle(fontSize: 20),
+                  tabs: [
+                    const Tab(text: 'Hot Offers'),
+                    const Tab(text: 'Premium'),
                   ],
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 400,
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        child: ListView(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                serviceBox(
+                                  title: '${tvDetails.serviceId} Renewal',
+                                  amount: 'Enter amount',
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          backgroundColor: Colors.white,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              PriceInputField(
+                                                amountCtrl: amountCtrl,
+                                                numberCtrl: smartCardCtrl,
+                                                productName:
+                                                    '${tvDetails.serviceId} subscription',
+                                                lowestAmount: 2000,
+                                                errMessage:
+                                                    'Enter your smartcard number',
+                                              ),
+                                              CancelBtn(
+                                                onPressed: () => Get.back(),
+                                              ),
+                                              const SizedBox(height: 15),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    amountCtrl.text = '';
+                                  },
+                                ),
+                                buildProductColumn(list: tvCtrl.cablePrices),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 18),
+                        child: premiumBuild(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -206,63 +242,31 @@ class _TvSubscriptionState extends State<TvSubscription>
     );
   }
 
-  Column buildProductColumn({
-    required List<TvServiceModel> list,
-    bool isLeft = false,
-  }) {
-    return Column(
+  Widget buildProductColumn({required List<CableBundle> list}) {
+    return Wrap(
       children: List.generate(list.length, (index) {
         final serv = list[index];
-        final amount = double.parse(serv.amount);
+        final amount = double.parse(serv.price);
 
-        if (index == 0 && isLeft) {
-          return serviceBox(
-            title: '${tvDetails.abbrev} Renewal',
-            amount: 'Enter amount',
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return Dialog(
-                    backgroundColor: Colors.white,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PriceInputField(
-                          amountCtrl: amountCtrl,
-                          numberCtrl: smartCardCtrl,
-                          productName: '${tvDetails.abbrev} subscription',
-                          lowestAmount: 2000,
-                          errMessage: 'Enter your smartcard number',
-                        ),
-                        CancelBtn(onPressed: () => Get.back()),
-                        const SizedBox(height: 15,),
-
-                      ],
-                    ),
-                  );
-
-                },
-              );
-              amountCtrl.text = '';
-            },
-          );
-        }
+        // if (index == 0 && isLeft) {}
         return serviceBox(
-          title: '${tvDetails.abbrev} ${serv.title}',
-          amount: '₦${serv.amount}',
-          duration: '${serv.duration} Month',
+          title: '${tvDetails.serviceId} ${serv.cableCode}',
+          amount: '₦${serv.price}',
+          // duration: '${serv.duration} Month',
           onTap: () {
-            // smartCardCtrl.text.isNotEmpty
-            //     ? loaderCtrl.offLoading((){
-            //   ConfirmBottomSheet().confirmBottomSheet(
-            //     context,
-            //     amount: amount,
-            //     numberCtrl: smartCardCtrl,
-            //     productName: 'cable',
-            //   );
-            // })
-            //     :CustomSnackbar.showSnackbar(message: 'Enter your smart card number');
+            smartCardCtrl.text.isNotEmpty
+                ? loaderCtrl.offLoading((){
+              ConfirmBottomSheet().confirmBottomSheet(
+                context,
+                amount: amount,
+                numberCtrl: smartCardCtrl,
+                productName: 'cable',
+                list: [],
+                imgPath: '',
+                plan: tvDetails.serviceId
+              );
+            })
+                :CustomSnackbar.showSnackbar(message: 'Enter your smart card number');
           },
         );
       }),
@@ -326,7 +330,7 @@ class _TvSubscriptionState extends State<TvSubscription>
   Row rowTile({required String text, required Widget child}) {
     return Row(
       children: [
-        AppText(text: text, textSize: 14,),
+        AppText(text: text, textSize: 14),
         const Spacer(),
         child,
       ],

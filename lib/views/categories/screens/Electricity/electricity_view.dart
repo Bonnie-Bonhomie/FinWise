@@ -11,6 +11,7 @@ import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 
 import 'package:fin_wise/views/categories/widgets/price_input_filed.dart';
 import 'package:fin_wise/views/categories/widgets/product_card.dart';
+import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,8 +24,9 @@ class ElectricityView extends StatefulWidget {
 }
 
 class _ElectricityViewState extends State<ElectricityView> {
-  bool prepaid = true;
+  int prepaid = 0;
   int selectPaid = 0;
+
   // List<int> prices = [1000, 2000, 3000, 4000, 5000, 10000];
   List<String> electType = ['Prepaid', 'Postpaid'];
   final TextEditingController amountCtrl = TextEditingController();
@@ -35,214 +37,256 @@ class _ElectricityViewState extends State<ElectricityView> {
   bool correctMeter = false;
   String error = '';
 
-
+  void onRefresh() {
+    Future.delayed(Duration(seconds: 1), () => electCtrl.getElectricDiscos());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoaderWrapper(
-        child: PageContainer(
-          topMargin: 20,
-          bottomPadding: 20,
-          topChild: CustomAppBar.header(
-            title: 'Electricity',
-            leftRight: 15,
-            onPressed: () => Get.back(),
-          ),
-          child: ListView(
-            padding: const EdgeInsets.all(15),
-            children: [
-              Row(
+      body: RefreshIndicator(
+        onRefresh: () async => onRefresh(),
+        child: LoaderWrapper(
+          child: PageContainer(
+            topMargin: 20,
+            bottomPadding: 20,
+            topChild: CustomAppBar.header(
+              title: 'Electricity',
+              leftRight: 15,
+              onPressed: () => Get.back(),
+            ),
+            child: Obx(() {
+              final select = electCtrl.selectedElect.value;
+
+              if (electCtrl.discoLoad.value) {
+                return Center(child: Text('Loading...'));
+              } else if (electCtrl.selectedElect.value == null) {
+                return EmptyState(message: electCtrl.discoErr.value);
+              }
+
+              return ListView(
+                padding: const EdgeInsets.all(15),
                 children: [
-                  CircleAvatar(
-                    // child: Image(image: NetworkImage(''), fit: BoxFit.cover),
-                  ),
-                  const SizedBox(width: 5.0),
-                  Obx((){
-                    final select = electCtrl.selectedElect.value;
-
-                    return AppText(text: select?.name ?? 'Ikeja Electricty');}),
-                  const Spacer(),
-                  IconButton(
-                    onPressed: () async{
-                      final selectElect = await Get.toNamed(Routes.availableElect);
-                      electCtrl.updateElect(selectElect);
-                      print(selectElect.name);
-                    },
-                    icon: const Icon(Icons.arrow_right),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  2,
-                  (index) => electTypeBox(electType[index], () {
-                    setState(() {
-                      selectPaid = index;
-                    });
-                  }, index),
-                ),
-              ),
-
-              //Input Data
-              Container(
-                padding: EdgeInsets.all(15),
-                margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.lightGreen,
-                      Colors.white,
-                      Colors.white,
-                      Colors.white,
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        // child: Image(image: NetworkImage(''), fit: BoxFit.cover),
+                      ),
+                      const SizedBox(width: 5.0),
+                      AppText(text: select!.name),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () async {
+                          final selectElect = await Get.toNamed(
+                            Routes.availableElect,
+                          );
+                          electCtrl.updateElect(selectElect);
+                          print(selectElect.name);
+                        },
+                        icon: const Icon(Icons.arrow_right),
+                      ),
                     ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.center,
                   ),
-                ),
-                child: Column(
-                  children: [
-                    rowTile(
-                      text: 'Meter / Account Number',
-                      child: const AppText(text: 'Beneficiaries'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(
+                      2,
+                      (index) => electTypeBox(electType[index], () {
+                        setState(() {
+                          selectPaid = index;
+                        });
+                      }, index),
                     ),
-                    const SizedBox(height: 10),
-                    Row(
+                  ),
+
+                  //Input Data
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.lightGreen,
+                          Colors.white,
+                          Colors.white,
+                          Colors.white,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.center,
+                      ),
+                    ),
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: PriceFormField(
-                            numberCtrl: meterCtrl,
-                            hint: const AppText(text: 'Enter Meter number'),
-                            onChanged: (value) {
-                              setState(() {
-                                correctMeter = value.length == 13;
-                              });
-                            },
-                          ),
+                        rowTile(
+                          text: 'Meter / Account Number',
+                          child: const AppText(text: 'Beneficiaries'),
                         ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: PriceFormField(
+                                numberCtrl: meterCtrl,
+                                hint: const AppText(text: 'Enter Meter number'),
+                                onChanged: (value) {
+                                  setState(() {
+                                    correctMeter = value.length == 13;
+                                  });
+                                  correctMeter? electCtrl.verifyMeter(
+                                    meterNum: value,
+                                    type: electType[selectPaid],
+                                    serviceId: select.electricCode,
+                                  ):null;
+                                },
+                                onComplete: (){ electCtrl.verifyMeter(
+                                  meterNum: meterCtrl.text,
+                                  type: electType[selectPaid],
+                                  serviceId: select.electricCode,
+                                );},
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.greenAccent),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: AppColors.bgColor,
+                              ),
+                              child: Icon(
+                                Icons.person_add_alt_1_rounded,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          color: AppColors.lightGreen,
+                          thickness: 2,
+                        ),
+                        correctMeter
+                            ? Row(
+                                children: [
+                                  const Icon(
+                                    Icons.check_circle,
+                                    color: AppColors.primary,
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  AppText(
+                                    text: 'OMOLEME E E MRS',
+                                    textColor: AppColors.primary,
+                                  ),
+                                ],
+                              )
+                            : SizedBox(),
                         Container(
-                          padding: const EdgeInsets.all(5.0),
+                          margin: const EdgeInsets.only(top: 15),
+                          padding: const EdgeInsets.all(15),
+                          height: 120,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.greenAccent),
-                            borderRadius: BorderRadius.circular(5.0),
+                            borderRadius: BorderRadius.circular(10),
                             color: AppColors.bgColor,
                           ),
-                          child: Icon(
-                            Icons.person_add_alt_1_rounded,
-                            color: AppColors.primary,
-                          ),
+                          child: electCtrl.verifyLoad.value
+                              ? Center(child: Text('verifying...'))
+                              : electCtrl.verified.value
+                              ? Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    rowTile(
+                                      text: 'Min Purchase',
+                                      child: AppText(text: '500'),
+                                    ),
+                                    rowTile(
+                                      text: 'Tariff Name',
+                                      child: AppText(text: 'C-Non MD'),
+                                    ),
+                                    rowTile(
+                                      text: 'Service Address',
+                                      child: AppText(text: '1 VI******'),
+                                    ),
+                                  ],
+                                )
+                              : SizedBox(height: 20),
                         ),
                       ],
                     ),
-                    const Divider(color: AppColors.lightGreen, thickness: 2,),
-                    correctMeter
-                        ? Row(
-                            children: [
-                              const Icon(
-                                Icons.check_circle,
-                                color: AppColors.primary,
-                              ),
-                              const SizedBox(width: 8.0),
-                              AppText(
-                                text: 'OMOLEME E E MRS',
-                                textColor: AppColors.primary,
-                              ),
-                            ],
-                          )
-                        : SizedBox(),
-                    Container(
-                      margin: const EdgeInsets.only(top: 15),
-                      padding: const EdgeInsets.all(15),
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.bgColor,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          rowTile(
-                            text: 'Min Purchase',
-                            child: AppText(text: '4.93'),
-                          ),
-                          rowTile(
-                            text: 'Tariff Name',
-                            child: AppText(text: 'C-Non MD'),
-                          ),
-                          rowTile(
-                            text: 'Service Address',
-                            child: AppText(text: '1 VI******'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Wrap(
-                  alignment: WrapAlignment.spaceEvenly,
-                  runSpacing: 15,
-                  spacing: 15,
-                  runAlignment: WrapAlignment.start,
-                  children: List.generate(electCtrl.availableAmount.length, (index) {
-                    final meterPrice = electCtrl.availableAmount[index];
-
-                    return ProductCard(
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-                        // correctMeter
-                        //     ? loadCtrl.offLoading(() {
-                        //         ConfirmBottomSheet().confirmBottomSheet(
-                        //           context,
-                        //           amount: prices[index].toDouble(),
-                        //           numberCtrl: meterCtrl,
-                        //           productName: 'Electricity',
-                        //         );
-                        //       })
-                        //     : CustomSnackbar.showSnackbar(
-                        //         message: 'Enter your meter number',
-                        //       );
-                      },
-                      height: 100,
-                      width: 90,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              text: '₦',
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceEvenly,
+                      runSpacing: 15,
+                      spacing: 15,
+                      runAlignment: WrapAlignment.start,
+                      children: List.generate(
+                        electCtrl.availableAmount.length,
+                        (index) {
+                          final meterPrice = electCtrl.availableAmount[index];
+                          final price = double.parse(meterPrice.amount);
+                          return ProductCard(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              correctMeter
+                                  ? loadCtrl.offLoading(() {
+                                      ConfirmBottomSheet().confirmBottomSheet(
+                                        context,
+                                        amount: price,
+                                        numberCtrl: meterCtrl,
+                                        productName: 'Electricity',
+                                        list: [],
+                                        data: false,
+                                        imgPath: select!.imgPath,
+                                        // plan: electType[selectPaid]
+                                      );
+                                    })
+                                  : CustomSnackbar.showSnackbar(
+                                      message: 'Enter your meter number',
+                                    );
+                            },
+                            height: 100,
+                            width: 90,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                TextSpan(
-                                  text: meterPrice.toString(),
-                                  style: TextStyle(fontSize: 20),
+                                RichText(
+                                  text: TextSpan(
+                                    text: '₦',
+                                    children: [
+                                      TextSpan(
+                                        text: meterPrice.amount.toString(),
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 15.0),
+                                AppText(
+                                  text: 'Pay ₦${meterPrice.amount.toString()}',
+                                  textSize: 12,
                                 ),
                               ],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: 10,
-                              ),
                             ),
-                          ),
-                          const SizedBox(height: 5.0),
-                          AppText(text: 'Pay ₦${meterPrice.toString()}'),
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  }),
-                ),
-              ),
-              PriceInputField(
-                amountCtrl: amountCtrl,
-                numberCtrl: meterCtrl,
-                lowestAmount: 1000,
-                productName: 'Electricity',
-              ),
-            ],
+                    ),
+                  ),
+                  PriceInputField(
+                    amountCtrl: amountCtrl,
+                    numberCtrl: meterCtrl,
+                    lowestAmount: 1000,
+                    productName: 'Electricity',
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),

@@ -1,5 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
+import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/education_model.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/education_repo.dart';
 import 'package:fin_wise/utils/Helpers/loader_helper.dart';
@@ -9,7 +11,8 @@ import 'package:get/get.dart';
 class EducationController extends GetxController{
 
   final EducationRepo repo;
-  EducationController(this.repo);
+  final StorageFile store;
+  EducationController(this.repo, this.store);
 
  List<EduModel> schools = [
    EduModel(schoolName: 'WAEC', abbrev: 'WAEC', imgPath: 'onboard-1.png', serviceName:'Result Checker Pin', amount: 3500),
@@ -26,21 +29,41 @@ class EducationController extends GetxController{
 
 
   Future<void> buyEduCard({
-    required double amount,
-    required int number,
-    required String serviceType,
+    required String transPin,
+    required String phoneNumber,
+    required String examId,
   }) async{
-    await runWithLoader(() async{
-      final result = await repo.buyEduCard(amount: amount, phoneNumber: number, serviceType: serviceType);
+     String? token = await store.getToken();
+     if(token == null) return;
+      final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phoneNumber, examId: examId, token: token);
 
-      if(DataState == DataSuccess && result.data['status'] == 'success'){
-        // airtimeReceipt = result.data;
+      if(response is DataSuccess){
+        if(response.data['status'] == true){
+          // airtimeReceipt = result.data;
+        }
+        else{
+          error.value = 'Unable to complete transaction';
+          CustomSnackbar.showSnackbar(message: error.value, title:  'Oops');
+        }
+      }else if(response is DataFailed){
+        final err = response.exception;
+
+        if(err is DioException){
+          if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
+            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Unable to verify meter number, try again.');
+          }
+          final errData = err.response?.data;
+          if(errData != null && errData['message']){
+            CustomSnackbar.showSnackbar(message: errData['message']);
+          }else{
+            CustomSnackbar.showSnackbar(message: 'Unable to complete transcction, try again later');
+          }
+        }else{
+          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
+        }
       }
-      else{
-        error.value = 'Unable to complete transaction';
-        CustomSnackbar.showSnackbar(message: error.value, title:  'Oops');
-      }
-    });
+
+
   }
 }
 

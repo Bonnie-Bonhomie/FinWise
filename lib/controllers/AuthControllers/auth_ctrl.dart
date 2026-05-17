@@ -122,7 +122,7 @@ class AuthCtrl extends GetxController {
         await store.saveData<String>(PrefStoreKeys.username, name);
         await store.saveData<String>(PrefStoreKeys.phone, phone);
 
-        userWallet = data['data']['wallet'];
+        userWallet = WalletModel.fromJson(data['data']['wallet']);
         // user = UserModel.fromJson(response.data);
         CustomSnackbar.successSnack(data['message'].toString());
 

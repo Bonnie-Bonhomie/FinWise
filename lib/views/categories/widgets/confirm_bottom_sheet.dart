@@ -33,7 +33,7 @@ class ConfirmBottomSheet {
       backgroundColor: AppColors.bgColor,
       builder: (context) {
         return Obx(() {
-          double? accBal = (authCtrl.userWallet?.accBalance);
+          double? accBal = double.parse(authCtrl.userWallet!.accBalance);
           accBal ??= 0.00;
           bool notEnoughAmount = accBal < amount;
           // print(notEnoughAmount);

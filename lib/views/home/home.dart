@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                               child: acc.balanceErr.value.isEmpty
                                   ? AppText(
                                       text:
-                                          '₦${acc.accountBalance.value}',
+                                          '₦${acc.accBalance.value}',
                                       textColor: AppColors.lightGreen,
                                       textWeigh: FontWeight.bold,
                                       textSize: 20,

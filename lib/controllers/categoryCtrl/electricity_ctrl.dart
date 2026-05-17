@@ -12,7 +12,7 @@ class ElectricityCtrl  extends GetxController{
   final StorageFile store;
   ElectricityCtrl(this.repo, this.store);
 
-  var selectedElect = Rxn<ElectModel>();
+  var selectedElect = Rxn<ElectDisco>();
   var electDiscos = <ElectDisco>[].obs;
   var availableAmount = <ElectAmount>[].obs;
 
@@ -20,6 +20,7 @@ class ElectricityCtrl  extends GetxController{
   RxBool verifyLoad = false.obs;
   RxBool discoLoad = false.obs;
   RxString discoErr = ''.obs;
+  RxBool verified = true.obs;
 
   @override
   void onInit() {
@@ -29,12 +30,8 @@ class ElectricityCtrl  extends GetxController{
     super.onInit();
   }
 
-  var availableElect = [
-    ElectModel(name: 'Ikeja Electricity', abbrev: 'Ikeja'),
-    ElectModel(name: 'IBEDC', abbrev: 'IBEDC'),
-  ];
 
-  void updateElect(ElectModel model){
+  void updateElect(ElectDisco model){
     selectedElect.value = model;
   }
 
@@ -80,12 +77,14 @@ class ElectricityCtrl  extends GetxController{
     if(token == null) return;
     final result = await repo.verifyMeter(meterNum: meterNum, token: token, type: type, serviceId: serviceId);
 
+    print(result);
     if(result is DataSuccess){
       if(result.data['status'] ==  true){
-        // airtimeReceipt = result.data;
+        verified.value = true;
+        print(result.data['data']);
       }
       else{
-        error.value = 'Unable to complete transaction';
+        error.value = 'Unable to verify meter  number';
         CustomSnackbar.showSnackbar(message: error.value, title:  'Oops');
       }}
     else if(result is DataFailed){
@@ -93,17 +92,18 @@ class ElectricityCtrl  extends GetxController{
       if(err is DioException){
 
         if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Unable to verify meter number, try again.');
         }
 
         final errData = err.response?.data;
         if(errData != null && errData['message'] != null){
           CustomSnackbar.showSnackbar(message: errData['message']);
         }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
+          CustomSnackbar.showSnackbar(message: 'Unable to verify meter number, try again later');
         }
       }
     }
+    verified.value = false;
     verifyLoad.value = false;
   }
 
@@ -122,6 +122,8 @@ class ElectricityCtrl  extends GetxController{
 
         final disco = elect.map((e)=> ElectDisco.fromJson(e)).toList();
         electDiscos.addAll(disco);
+
+        selectedElect.value = electDiscos[0];
         print(electDiscos);
 
         ///Collect all the available amount
@@ -149,6 +151,7 @@ class ElectricityCtrl  extends GetxController{
         }
       }
     }
+    print(discoLoad.value);
     discoLoad.value = false;
   }
 

@@ -15,7 +15,10 @@ class TelevisionCtrl extends GetxController {
   String error = '';
   RxString cardErr= ''.obs;
   RxString discoErr = ''.obs;
+  RxBool loadDisco = false.obs;
+  RxBool loadingBun = false.obs;
   var availableCable = <CableModel>[].obs;
+  var cablePrices = <CableBundle>[].obs;
   var tvRecipt = [];
 
   var availableTv = [
@@ -87,58 +90,12 @@ class TelevisionCtrl extends GetxController {
     TvServiceModel(title: 'Padi', amount: '20000', duration: '3'),
     TvServiceModel(title: 'Padi', amount: '20000', duration: '4'),
   ];
-/// buy Cable service
-  Future<void> buyTvService({
-    required String phone,
-    required String smartcard,
-    required String id,
-    required String subType,
-    required String transPin,
-    required String productId,
-  })
-  async {
 
-    final String? token = await store.getToken();
-    if(token == null) return;
-        final response = await repo.buyCableFunction(
-          token: token,
-          smartcard: smartcard,
-          subType: subType,
-          phone: phone,
-          transPin: transPin,
-          productId: productId,
-        );
-
-        if(response is DataSuccess){
-          if (response.data['status'] == true) {
-            final data = response.data['data'];
-          } else {
-            error = 'Unable to Complete transaction';
-            CustomSnackbar.showSnackbar(message: error, title: 'Oops');
-          }
-        }else if(response is DataFailed){
-          final err = response.exception;
-
-          if(err is DioException){
-            if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-              CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
-            }
-            final errData = err.response?.data;
-            if(errData != null && errData['message'] != null){
-              CustomSnackbar.showSnackbar(message: errData['message']);
-            }else{
-              CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
-            }
-          }
-        }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
-        }
-
-  }
 
   ///get Cable discos
   Future<void> getCableDiscos() async {
 
+    loadDisco.value = true;
     final String? token = await store.getToken();
     if(token == null) return;
     final response = await repo.cableDisco(token);
@@ -170,6 +127,7 @@ class TelevisionCtrl extends GetxController {
     }else{
       CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
     }
+    loadDisco.value = false;
 
   }
 
@@ -183,6 +141,10 @@ class TelevisionCtrl extends GetxController {
     if(response is DataSuccess){
       if (response.data['status'] == true) {
         final data = response.data['data'];
+
+        final bundle = data['bundles'];
+
+        cablePrices.add(bundle);
         ///To do
       } else {
         error = 'Unable to load available cable bundle';
@@ -236,6 +198,56 @@ class TelevisionCtrl extends GetxController {
       }
     }else{
       cardErr.value = 'Unable to complete transaction process';
+    }
+
+  }
+
+
+  /// buy Cable service
+  Future<void> buyTvService({
+    required String phone,
+    required String smartcard,
+    required String id,
+    required String subType,
+    required String transPin,
+    required String productId,
+  })
+  async {
+
+    final String? token = await store.getToken();
+    if(token == null) return;
+    final response = await repo.buyCableFunction(
+      token: token,
+      smartcard: smartcard,
+      subType: subType,
+      phone: phone,
+      transPin: transPin,
+      productId: productId,
+    );
+
+    if(response is DataSuccess){
+      if (response.data['status'] == true) {
+        final data = response.data['data'];
+      } else {
+        error = 'Unable to Complete transaction';
+        CustomSnackbar.showSnackbar(message: error, title: 'Oops');
+      }
+    }else if(response is DataFailed){
+      final err = response.exception;
+
+      if(err is DioException){
+        if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
+          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+        }
+        final errData = err.response?.data;
+        if(errData != null && errData['message'] != null){
+          CustomSnackbar.showSnackbar(message: errData['message']);
+        }else{
+          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
+        }
+      }
+    }else{
+      CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
     }
 
   }

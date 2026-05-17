@@ -64,6 +64,7 @@ class ElectricityRepo{
         'service_id': serviceId,
         'type': type
       });
+      print(result.data);
       return DataSuccess(result.data);
     } on DioException catch (e) {
       return DataFailed(e);
