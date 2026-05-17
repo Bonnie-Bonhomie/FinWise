@@ -26,7 +26,7 @@ class AuthCtrl extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    // getEmail();
+    getEmail();
     super.onInit();
   }
 
