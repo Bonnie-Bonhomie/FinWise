@@ -109,7 +109,8 @@ class DataController extends GetxController {
   /// Get data plans
   Future<void> getDataPlans(int networkId) async {
     dataLoading.value = true;
-    print(dataLoading.value);
+    dataPlans.clear();
+    print(hotUp);
     print('stat');
     final String? token = await store.getToken();
     if (token == null) return;
@@ -137,6 +138,7 @@ class DataController extends GetxController {
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
           planErr.value = 'No internet connection';
+          print(planErr.value);
         }
         final errData = err.response?.data;
         if (errData != null && errData['message'] != null) {

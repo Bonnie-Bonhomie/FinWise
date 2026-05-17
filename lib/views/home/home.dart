@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     Future.microtask(() {
       getName();
+      (viewModel.greeting());
       acc.getBalance();
     });
 

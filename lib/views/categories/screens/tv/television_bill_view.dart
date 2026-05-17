@@ -49,6 +49,7 @@ class TelevisionBillView extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10,),
                 Expanded(
                   child: Obx((){
                     if(ctrl.loadDisco.value){

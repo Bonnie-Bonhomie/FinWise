@@ -1,26 +1,3 @@
-class TvModel {
-  final String name;
-  final String abbrev;
-  final String description;
-
-  TvModel({
-    required this.name,
-    required this.abbrev,
-    required this.description,
-  });
-}
-
-class TvServiceModel {
-  final String title;
-  final String duration;
-  final String amount;
-
-  TvServiceModel({
-    required this.title,
-    required this.amount,
-    required this.duration,
-  });
-}
 
 class CableModel {
   int id;
@@ -43,10 +20,10 @@ class CableModel {
     return CableModel(
       id: json['id'],
       name: json['name'],
-      serviceId: json['serviceId'],
+      serviceId: json['service_id'],
       status: json['status'],
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
     );
   }
 }
@@ -82,7 +59,7 @@ class CableBundle {
         cableTypeId: json['cabletype_id'],
         status: json['status'].toString(),
         createdAt: json['created_at'],
-        updatedAt: json['updatedAt'],
-        cableType: json['cable_type'], );
+        updatedAt: json['updated_at'],
+        cableType: CableModel.fromJson(json['cable_type']), );
   }
 }

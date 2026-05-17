@@ -1,9 +1,12 @@
+///
+/// package name
+///
+/// License
+
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/custom_keyboard.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
-import 'package:fin_wise/utils/widgets/custom_alert_dialog.dart';
-import 'package:fin_wise/utils/widgets/custom_pin_code_field.dart';
 import 'package:flutter/material.dart';
 
 
@@ -14,7 +17,8 @@ class PaymentBottomSheet {
   final TextEditingController pinText = TextEditingController();
   final GlobalKey<FormFieldState> pinKey = GlobalKey<FormFieldState>();
 
-  void paymentBottomSheet(BuildContext context) {
+
+  void paymentBottomSheet(BuildContext context, Function action) {
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
       enableDrag: false,
@@ -34,7 +38,7 @@ class PaymentBottomSheet {
             );
             return shouldPop ?? false;
           },
-          child: buildBottomSheet(context),
+          child: buildBottomSheet(context, action()),
         );
         // );
       },
@@ -42,7 +46,7 @@ class PaymentBottomSheet {
     FocusScope.of(context).unfocus();
   }
 
-  Container buildBottomSheet(BuildContext context) {
+  Container buildBottomSheet(BuildContext context, Function action) {
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -84,7 +88,7 @@ class PaymentBottomSheet {
               readOnly: true,
               showCursor: false,
               pinKey: pinKey,
-              onComplete: (pin)=> controller.loadPin(pin),
+              onComplete: (pin)=> controller.loadPin(pin, action()),
             ),
           ),
 

@@ -18,7 +18,8 @@ class ConfirmBottomSheet {
     required double amount,
     required TextEditingController numberCtrl,
     required String productName,
-    required List list,
+    List? list,
+    required Function action,
     // required NumbersModel element,
     String imgPath = '',
     bool data = false,
@@ -33,8 +34,8 @@ class ConfirmBottomSheet {
       backgroundColor: AppColors.bgColor,
       builder: (context) {
         return Obx(() {
-          double? accBal = double.parse(authCtrl.userWallet!.accBalance);
-          accBal ??= 0.00;
+          // double? accBal = double.parse(authCtrl.userWallet?.accBalance);
+          double accBal = 0.00;
           bool notEnoughAmount = accBal < amount;
           // print(notEnoughAmount);
           // print(accCtrl.accountBalance.value);
@@ -74,7 +75,8 @@ class ConfirmBottomSheet {
                             text: 'Add to Beneficiary  ', textColor: Colors.grey,),
                           Transform.scale(
                             scale: 0.8,
-                            child: Obx(() =>
+                            child:
+                            // Obx(() =>
                                 Switch(
                                   value: navCtrl.addBeneficiary.value,
                                   activeColor: AppColors.primary,
@@ -90,7 +92,7 @@ class ConfirmBottomSheet {
                                   },
                                 ),
                             ),
-                          ),
+                          // ),
                         ],
                       ),
                       Center(
@@ -190,7 +192,7 @@ class ConfirmBottomSheet {
                         onPressed: () {
                           FocusScope.of(context).unfocus();
                           Get.back();
-                          PaymentBottomSheet().paymentBottomSheet(context);
+                          PaymentBottomSheet().paymentBottomSheet(context, action());
                           navCtrl.addBeneficiary.value = false;
                           FocusScope.of(context).unfocus();
                         },
@@ -210,12 +212,13 @@ class ConfirmBottomSheet {
 
   Widget rowTile(String title, Widget child) {
     return Padding(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(3.0),
       child: Row(
         children: [
           AppText(
             text: title,
             textWeigh: FontWeight.bold,
+            textSize: 13,
             textColor: Colors.grey,
           ),
           const Spacer(),

@@ -133,7 +133,7 @@ class ElectricityCtrl  extends GetxController{
         print(availableAmount);
       }
       else{
-        discoErr.value = 'Unable to complete transaction';
+        discoErr.value = 'Unable to load available Electricity';
 
       }}
     else if(result is DataFailed){
@@ -147,7 +147,7 @@ class ElectricityCtrl  extends GetxController{
         if(errData != null && errData['message'] != null){
           discoErr.value = errData['message'];
         }else{
-          discoErr.value = 'Unable to complete transaction, try again later';
+          discoErr.value = 'Unable to load available Electricity';
         }
       }
     }

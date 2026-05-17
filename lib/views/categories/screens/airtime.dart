@@ -90,12 +90,12 @@ class _AirtimeViewState extends State<AirtimeView> {
                                     print('Image: ${ctrl.airtimeNet[number-1 ].name} End');
                                     ConfirmBottomSheet().confirmBottomSheet(
                                       list: ctrl.airtimeBenes,
-                                    // element: NumbersModel(provider: navCtrl.selectProvider.value, number: numberCtrl.text, amount: amount),
                                     context,
                                     amount: amount,
                                     numberCtrl: numberCtrl,
                                     productName: 'Airtime',
                                       imgPath: imgPath,
+                                      action: (){}
                                   );})
                                   : CustomSnackbar.showSnackbar( message: 'Enter recipient number');
                               amount = 0.00;

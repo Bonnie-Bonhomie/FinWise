@@ -30,13 +30,13 @@ class KeyPadController extends GetxController{
     pinText.text = '';
   }
 
-  void loadPin(pin) async{
+  void loadPin(pin, Function action) async{
 
     if(pin.length == 4) {
       Get.back();
       // load.show();
       load.offLoading(() async {
-       validatePin(pin);
+       action();
       });
     }
   }

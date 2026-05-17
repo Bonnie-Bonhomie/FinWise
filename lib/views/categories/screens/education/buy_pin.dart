@@ -22,22 +22,22 @@ class BuyPinView extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final serviceKey = GlobalKey<FormFieldState>();
   final numberKey = GlobalKey<FormFieldState>();
-  TextEditingController serviceCtrl = TextEditingController();
-   TextEditingController amountCtrl = TextEditingController();
+  final TextEditingController serviceCtrl = TextEditingController();
+  final TextEditingController amountCtrl = TextEditingController();
   final TextEditingController numberCtrl = TextEditingController();
-  final EduModel selectedSchool = Get.arguments ?? 'No Title';
+  final ExamCardModel selectedSchool = Get.arguments ?? 'No Title';
 
   @override
   Widget build(BuildContext context) {
-    print(selectedSchool.schoolName);
-    serviceCtrl.text = selectedSchool.serviceName;
-    amountCtrl.text = selectedSchool.amount.toString();
+    print(selectedSchool.name);
+    serviceCtrl.text = selectedSchool.name;
+    amountCtrl.text = selectedSchool.price.toString();
     return Scaffold(
       body: PageContainer(
         bottomPadding: 20,
         topMargin: 20,
         topChild: CustomAppBar.header(
-          title: selectedSchool.abbrev.toUpperCase(),
+          title: selectedSchool.variationCode.toUpperCase(),
           leftRight: 15,
           onPressed: () => Get.back(),
         ),
@@ -78,13 +78,15 @@ class BuyPinView extends StatelessWidget {
             AppBtn(
               onPressed: () {
                 final amount = double.tryParse(amountCtrl.text);
-                // numberCtrl.text.isNotEmpty?
-                // ConfirmBottomSheet().confirmBottomSheet(
-                //   context,
-                //   amount: amount!,
-                //   numberCtrl: numberCtrl,
-                //   productName: selectedSchool.abbrev,
-                // ): CustomSnackbar.warningSnack('Enter your registered number');
+                numberCtrl.text.isNotEmpty?
+                ConfirmBottomSheet().confirmBottomSheet(
+                  context,
+                  amount: amount!,
+                  numberCtrl: numberCtrl,
+                  productName: selectedSchool.variationCode,
+                  list: [],
+                  action: (){}
+                ): CustomSnackbar.warningSnack('Enter your registered number');
               },
               label: 'Proceed to Payment',
             ),

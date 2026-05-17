@@ -23,7 +23,7 @@ class CustomAlertDialog extends StatelessWidget {
           }, label: 'Continue payment', textSize: 14,),
           const SizedBox(height: 10,),
          SizedBox(
-           width: 250,
+           width: MediaQuery.of(context).size.width,
            child: CancelBtn(onPressed: (){
               // FocusScope.of(context).unfocus();
               Get.back();

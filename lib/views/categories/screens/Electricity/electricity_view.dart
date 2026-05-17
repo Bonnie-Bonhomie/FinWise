@@ -59,7 +59,7 @@ class _ElectricityViewState extends State<ElectricityView> {
               final select = electCtrl.selectedElect.value;
 
               if (electCtrl.discoLoad.value) {
-                return Center(child: Text('Loading...'));
+                return Center(child: CircularProgressIndicator(color: AppColors.primary));
               } else if (electCtrl.selectedElect.value == null) {
                 return EmptyState(message: electCtrl.discoErr.value);
               }
@@ -70,10 +70,14 @@ class _ElectricityViewState extends State<ElectricityView> {
                   Row(
                     children: [
                       CircleAvatar(
-                        // child: Image(image: NetworkImage(''), fit: BoxFit.cover),
+                        backgroundColor: AppColors.lightGreen,
+                        child: Image.network(select!.imgPath, errorBuilder: (context, _, _) =>
+                            CircleAvatar(
+                                backgroundColor: AppColors.lightGreen,
+                                child: Text(select.name[0], style: TextStyle(fontWeight: FontWeight.bold),))),
                       ),
                       const SizedBox(width: 5.0),
-                      AppText(text: select!.name),
+                      AppText(text: select.name),
                       const Spacer(),
                       IconButton(
                         onPressed: () async {
@@ -237,7 +241,8 @@ class _ElectricityViewState extends State<ElectricityView> {
                                         productName: 'Electricity',
                                         list: [],
                                         data: false,
-                                        imgPath: select!.imgPath,
+                                        imgPath: select.imgPath,
+                                        action: (){}
                                         // plan: electType[selectPaid]
                                       );
                                     })

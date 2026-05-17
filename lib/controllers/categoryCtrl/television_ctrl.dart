@@ -12,6 +12,14 @@ class TelevisionCtrl extends GetxController {
 
   TelevisionCtrl(this.repo, this.store);
 
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    getCableDiscos();
+    super.onInit();
+  }
+
+
   String error = '';
   RxString cardErr= ''.obs;
   RxString discoErr = ''.obs;
@@ -20,76 +28,6 @@ class TelevisionCtrl extends GetxController {
   var availableCable = <CableModel>[].obs;
   var cablePrices = <CableBundle>[].obs;
   var tvRecipt = [];
-
-  var availableTv = [
-    TvModel(
-      name: 'DSTV Subscription',
-      abbrev: 'DSTV',
-      description:
-          'Share the joy this season with DSTv, your home of drama series and football',
-    ),
-
-    TvModel(
-      name: 'GoTV',
-      abbrev: 'GoTV',
-      description:
-          'Share the joy this season with GoTv, your home of drama series and football',
-    ),
-    TvModel(
-      name: 'Startimes Payment',
-      abbrev: 'STIM',
-      description:
-          'Share the joy this season with STIMTv, your home of drama series and football',
-    ),
-    TvModel(
-      name: 'DSTV Box Office Wallet TopUp',
-      abbrev: 'BOX',
-      description:
-          'Share the joy this season with DSTv, your home of drama series and football',
-    ),
-    TvModel(
-      name: 'TSTV',
-      abbrev: 'TSTV',
-      description:
-          'Share the joy this season with TSTv, your home of drama series and football',
-    ),
-    TvModel(
-      name: 'African Cable Television (ACTV) Subscription',
-      abbrev: 'ACTV',
-      description:
-          'Share the joy this season with ACTv, your home of drama series and football',
-    ),
-    TvModel(
-      name: 'Cable Africa Network TV (CableTV)',
-      abbrev: 'CNTV',
-      description:
-          'Share the joy this season with CNTv, your home of drama series and football',
-    ),
-    TvModel(
-      name: 'Infinity TV Payments',
-      abbrev: 'ITV',
-      description:
-          'Share the joy this season with ITv, your home of drama series and football',
-    ),
-  ].obs;
-
-  var leftService = [
-    TvServiceModel(title: 'Yanga', amount: '6000', duration: '1'),
-    TvServiceModel(title: 'Compact', amount: '8000', duration: '1'),
-    TvServiceModel(title: 'Stream', amount: '9000', duration: '1'),
-    TvServiceModel(title: 'Premium', amount: '10000', duration: '1'),
-  ];
-  var rightService = [
-    TvServiceModel(title: 'Padi', amount: '7000', duration: '1'),
-    TvServiceModel(title: 'Compact Plus', amount: '8000', duration: '1'),
-    TvServiceModel(title: 'Confam', amount: '7000', duration: '1'),
-  ];
-  var premiumService = [
-    TvServiceModel(title: 'Premium', amount: '10000', duration: '1'),
-    TvServiceModel(title: 'Padi', amount: '15000', duration: '2'),
-    TvServiceModel(title: 'Padi', amount: '20000', duration: '3'),
-    TvServiceModel(title: 'Padi', amount: '20000', duration: '4'),
-  ];
 
 
   ///get Cable discos
@@ -103,7 +41,9 @@ class TelevisionCtrl extends GetxController {
     if(response is DataSuccess){
       if (response.data['status'] == true) {
         final data = response.data['data'];
+
         List discos = data['cables'];
+        // print(discos);
         final dis = discos.map((e) => CableModel.fromJson(e)).toList();
 
         availableCable.addAll(dis);
@@ -142,8 +82,9 @@ class TelevisionCtrl extends GetxController {
       if (response.data['status'] == true) {
         final data = response.data['data'];
 
-        final bundle = data['bundles'];
-
+        final bundle = CableBundle.fromJson(data['bundles']);
+        
+        // print(data['bundles']);
         cablePrices.add(bundle);
         ///To do
       } else {
@@ -160,11 +101,11 @@ class TelevisionCtrl extends GetxController {
         if(errData != null && errData['message'] != null){
            error = errData['message'];
         }else{
-          error = 'Unable to complete transaction process';
+          error = 'Unable to load available cable bundle';
         }
       }
     }else{
-      error = 'Unable to complete transaction process';
+      error = 'Unable to load available cable bundle';
     }
 
   }

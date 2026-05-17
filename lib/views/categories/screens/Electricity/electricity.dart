@@ -22,7 +22,7 @@ class AvailableElect extends StatelessWidget {
         topChild: CustomAppBar.header(
           title: 'Electricity',
           leftRight: 15,
-          onPressed: () => Get.back(),
+          onPressed: () => Get.back(result: ctrl.electDiscos[0]),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20.0),

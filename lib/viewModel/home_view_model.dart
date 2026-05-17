@@ -5,8 +5,8 @@ class HomeViewModel{
     String greet;
     if(time <= 12){
       greet = 'Good Morning';
-    }
-    greet = 'Good Day';
+    }else
+    {greet = 'Good Day';}
     return greet;
   }
 //Account state

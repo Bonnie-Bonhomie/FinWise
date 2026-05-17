@@ -30,109 +30,111 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(height: 40),
-            CustomAppBar.header(title: 'Profile', leftRight: 10, onPressed: () {}),
-            SizedBox(
-              height: 500,
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    margin: EdgeInsets.only(top: 50),
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(60),
-                        topRight: Radius.circular(60),
+      body: LoaderWrapper(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(height: 40),
+              CustomAppBar.header(title: 'Profile', leftRight: 10, onPressed: () {}),
+              SizedBox(
+                height: 900,
+                child: Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      margin: EdgeInsets.only(top: 50),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(60),
+                          topRight: Radius.circular(60),
+                        ),
+                        color: AppColors.bgColor,
                       ),
-                      color: AppColors.bgColor,
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 50),
-                        AppText(
-                          text: user.name,
-                          textWeigh: FontWeight.bold,
-                          textSize: 25,
-                        ),
-                        AppText(text: 'ID: ${user.id}'),
-                        SizedBox(height: 20),
-
-                        //Profile Lists
-                        profileTile(
-                          'Edit Profile',
-                          Icons.person_outline_outlined,
-                          AppColors.blue,
-                          () {
-                            Get.find<ProfileMainControl>().toEdit();
-                          },
-                        ),
-                        profileTile(
-                          'Security',
-                          Icons.safety_check,
-                          AppColors.subBlue,
-                          () {
-                            Get.find<ProfileMainControl>().toSecurity();
-                          },
-                        ),
-                        profileTile(
-                          'Setting',
-                          Icons.settings_outlined,
-                          AppColors.superBlue,
-                          () {
-                            Get.find<ProfileMainControl>().toSettings();
-                          },
-                        ),
-                        profileTile(
-                          'Help',
-                          Icons.help_outline_rounded,
-                          AppColors.subBlue,
-                          () {
-                            Get.find<ProfileMainControl>().toHelp();
-                          },
-                        ),
-                        profileTile(
-                          'Logout',
-                          Icons.logout_outlined,
-                          AppColors.blue,
-                          () {
-                            logoutDialog(context, (){
-                              loader.offLoading(() async{
-                                await auth.logOut();
+                      child: Column(
+                        children: [
+                          SizedBox(height: 50),
+                          AppText(
+                            text: user.name,
+                            textWeigh: FontWeight.bold,
+                            textSize: 25,
+                          ),
+                          AppText(text: 'ID: ${user.id}'),
+                          SizedBox(height: 20),
+        
+                          //Profile Lists
+                          profileTile(
+                            'Edit Profile',
+                            Icons.person_outline_outlined,
+                            AppColors.blue,
+                            () {
+                              Get.find<ProfileMainControl>().toEdit();
+                            },
+                          ),
+                          profileTile(
+                            'Security',
+                            Icons.safety_check,
+                            AppColors.subBlue,
+                            () {
+                              Get.find<ProfileMainControl>().toSecurity();
+                            },
+                          ),
+                          profileTile(
+                            'Setting',
+                            Icons.settings_outlined,
+                            AppColors.superBlue,
+                            () {
+                              Get.find<ProfileMainControl>().toSettings();
+                            },
+                          ),
+                          profileTile(
+                            'Help',
+                            Icons.help_outline_rounded,
+                            AppColors.subBlue,
+                            () {
+                              Get.find<ProfileMainControl>().toHelp();
+                            },
+                          ),
+                          profileTile(
+                            'Logout',
+                            Icons.logout_outlined,
+                            AppColors.blue,
+                            () {
+                              logoutDialog(context, (){
+                                loader.offLoading(() async{
+                                  await auth.logOut();
+                                });
                               });
-                            });
-                          },
-                        ),
-                      ],
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  // Obx((){
-                  //   final image = nav.picked.value;
-                  //   return
-                  //     image != null ?  SizedBox(
-                  //       height: 90,
-                  //       width: 90,
-                  //       child: ClipOval(
-                  //         child: Image.file(image, fit: BoxFit.cover,),
-                  //       ),
-                  //     ):
-                      CircleAvatar(
-                        radius: 45,
-                        backgroundColor: AppColors.lightGreen,
-                        // backgroundImage: Image(image: Image.file(file)),
-                        child: Icon(Icons.person_outline_outlined, size: 80, color: AppColors.blue,),
-                      )
-            // ;}
-            //             ),
-                ],
+                    // Obx((){
+                    //   final image = nav.picked.value;
+                    //   return
+                    //     image != null ?  SizedBox(
+                    //       height: 90,
+                    //       width: 90,
+                    //       child: ClipOval(
+                    //         child: Image.file(image, fit: BoxFit.cover,),
+                    //       ),
+                    //     ):
+                        CircleAvatar(
+                          radius: 45,
+                          backgroundColor: AppColors.lightGreen,
+                          // backgroundImage: Image(image: Image.file(file)),
+                          child: Icon(Icons.person_outline_outlined, size: 80, color: AppColors.blue,),
+                        )
+              // ;}
+              //             ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -52,55 +52,58 @@ class _DataViewState extends State<DataView>
             leftRight: 15,
             onPressed: () => Get.back(),
           ),
-          child: TopFormWidget(
-            networks: dataCtrl.dataNet,
-            onTap: () {
-              dataCtrl.getDataPlans(paymentCtrl.select.value);
-            },
-            // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
-            beneficiaries: [],
-            numberCtrl: numberCtrl,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
-                    Spacer(),
-                    Icon(Icons.grid_view_rounded, color: AppColors.primary),
-                    // Icon(Icons.grid_4x4),
-                  ],
-                ),
-
-                TabBar(
-                  labelStyle: TextStyle(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  // isScrollable: true,
-                  // physics: ScrollPhysics(),
-                  padding: const EdgeInsets.all(10),
-                  indicatorColor: AppColors.primary,
-                  dividerColor: AppColors.lightGreen,
-                  controller: _tabCtrl,
-                  tabs: List.generate(dataCtrl.sections.length, ((index) {
-                    final tab = dataCtrl.sections[index];
-                    return Tab(text: tab);
-                  })),
-                ),
-                SizedBox(
-                  height: 400,
-                  child: TabBarView(
-                    controller: _tabCtrl,
+          child: Obx(() => TopFormWidget(
+              networks: dataCtrl.dataNet,
+              onTap: () {
+                paymentCtrl.select.value = paymentCtrl.select.value;
+                dataCtrl.getDataPlans(paymentCtrl.select.value);
+                print('Data page number: ${paymentCtrl.select.value}');
+              },
+              // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
+              beneficiaries: [],
+              numberCtrl: numberCtrl,
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      // Text('data'),
-                      sectionDataList(dataCtrl.hotUp, 'HotUp'),
-                      sectionDataList(dataCtrl.dailyPlan, 'Daily'),
-                      sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
-                      sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
+                      AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
+                      Spacer(),
+                      Icon(Icons.grid_view_rounded, color: AppColors.primary),
+                      // Icon(Icons.grid_4x4),
                     ],
                   ),
-                ),
-              ],
+
+                  TabBar(
+                    labelStyle: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    // isScrollable: true,
+                    // physics: ScrollPhysics(),
+                    padding: const EdgeInsets.all(10),
+                    indicatorColor: AppColors.primary,
+                    dividerColor: AppColors.lightGreen,
+                    controller: _tabCtrl,
+                    tabs: List.generate(dataCtrl.sections.length, ((index) {
+                      final tab = dataCtrl.sections[index];
+                      return Tab(text: tab);
+                    })),
+                  ),
+                  SizedBox(
+                    height: 400,
+                    child: TabBarView(
+                      controller: _tabCtrl,
+                      children: [
+                        // Text('data'),
+                        sectionDataList(dataCtrl.hotUp, 'HotUp'),
+                        sectionDataList(dataCtrl.dailyPlan, 'Daily'),
+                        sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
+                        sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -110,8 +113,9 @@ class _DataViewState extends State<DataView>
 
   ///Data plan section list Widget
   Widget sectionDataList(List<DataPlan> dataPlan, String section) {
-    return Obx(() {
-      return Padding(
+    // return Obx(() {
+      return
+        Padding(
         padding: const EdgeInsets.only(top: 15),
         child: dataCtrl.dataLoading.value
             ? SkeletonLoader.shimmerLines(
@@ -148,6 +152,7 @@ class _DataViewState extends State<DataView>
                           .imgPath;
                       print(imgPath);
                       double amount = double.parse(data.price);
+                      print('${data.name} ${data.frequency.name} Plan');
                       numberCtrl.text.isNotEmpty
                           ? loading.offLoading(() {
                               ConfirmBottomSheet().confirmBottomSheet(
@@ -159,8 +164,7 @@ class _DataViewState extends State<DataView>
                                 plan:
                                     '${data.name} ${data.frequency.name} Plan',
                                 imgPath: imgPath,
-                                list: [],
-                                // element: ,
+                                action: (){}
                               );
                             })
                           : CustomSnackbar.showSnackbar(
@@ -197,7 +201,7 @@ class _DataViewState extends State<DataView>
                 }),
               ),
       );
-    });
+    // });
   }
 }
 

@@ -36,6 +36,7 @@ class _TvSubscriptionState extends State<TvSubscription>
   void initState() {
     // TODO: implement initState
     _tabController = TabController(length: 2, vsync: this);
+    tvCtrl.getCableBundle(id: tvDetails.id);
     super.initState();
   }
 
@@ -43,8 +44,6 @@ class _TvSubscriptionState extends State<TvSubscription>
   void dispose() {
     // TODO: implement dispose
     _tabController.dispose();
-
-    tvCtrl.getCableBundle(id: tvDetails.id);
     super.dispose();
   }
 
@@ -54,6 +53,7 @@ class _TvSubscriptionState extends State<TvSubscription>
 
   @override
   Widget build(BuildContext context) {
+    tvDetails = Get.arguments ?? tvCtrl.availableCable[0];
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async{return onRefresh();},
@@ -62,7 +62,7 @@ class _TvSubscriptionState extends State<TvSubscription>
             topMargin: 10,
             bottomPadding: 10,
             topChild: CustomAppBar.header(
-              title: tvDetails.serviceId,
+              title: tvDetails.serviceId.toUpperCase(),
               leftRight: 15,
               onPressed: () => Get.back(),
             ),
@@ -75,7 +75,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                     overflow: TextOverflow.ellipsis,
                     color: Colors.black,
                   ),
-                  leading: CircleAvatar(),
+                  leading: CircleAvatar(child: Text(tvDetails.name[0], style: TextStyle(fontWeight: FontWeight.bold),),),
                 ),
                 const Divider(color: AppColors.lightGreen),
                 const SizedBox(height: 10),
@@ -192,7 +192,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                     amountCtrl.text = '';
                                   },
                                 ),
-                                buildProductColumn(list: tvCtrl.cablePrices),
+                                buildProductColumn(),
                               ],
                             ),
                           ],
@@ -200,7 +200,8 @@ class _TvSubscriptionState extends State<TvSubscription>
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 18),
-                        child: premiumBuild(),
+                        // child: premiumBuild(),
+                        child: Text('Premium'),
                       ),
                     ],
                   ),
@@ -213,41 +214,41 @@ class _TvSubscriptionState extends State<TvSubscription>
     );
   }
 
-  Wrap premiumBuild() {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      spacing: 15,
-      runSpacing: 5.0,
-      children: List.generate(tvCtrl.premiumService.length, (index) {
-        final serv = tvCtrl.premiumService[index];
-        return serviceBox(
-          title: serv.title,
-          amount: '₦${serv.amount}',
-          duration: '${serv.duration} Month',
-          onTap: () {
-            final amount = double.parse(serv.amount);
-            // smartCardCtrl.text.isNotEmpty
-            //     ? loaderCtrl.offLoading((){
-            //   ConfirmBottomSheet().confirmBottomSheet(
-            //     context,
-            //     amount: amount,
-            //     numberCtrl: smartCardCtrl,
-            //     productName: 'cable',
-            //   );
-            // })
-            //     : CustomSnackbar.showSnackbar(message: 'Enter your smartcard number');
-          },
-        );
-      }),
-    );
-  }
+  // Wrap premiumBuild() {
+  //   return Wrap(
+  //     crossAxisAlignment: WrapCrossAlignment.center,
+  //     spacing: 15,
+  //     runSpacing: 5.0,
+  //     children: List.generate(tvCtrl.premiumService.length, (index) {
+  //       final serv = tvCtrl.premiumService[index];
+  //       return serviceBox(
+  //         title: serv.title,
+  //         amount: '₦${serv.amount}',
+  //         duration: '${serv.duration} Month',
+  //         onTap: () {
+  //           final amount = double.parse(serv.amount);
+  //           // smartCardCtrl.text.isNotEmpty
+  //           //     ? loaderCtrl.offLoading((){
+  //           //   ConfirmBottomSheet().confirmBottomSheet(
+  //           //     context,
+  //           //     amount: amount,
+  //           //     numberCtrl: smartCardCtrl,
+  //           //     productName: 'cable',
+  //           //   );
+  //           // })
+  //           //     : CustomSnackbar.showSnackbar(message: 'Enter your smartcard number');
+  //         },
+  //       );
+  //     }),
+  //   );
+  // }
 
-  Widget buildProductColumn({required List<CableBundle> list}) {
+  Widget buildProductColumn() {
     return Wrap(
-      children: List.generate(list.length, (index) {
-        final serv = list[index];
+      children: List.generate(tvCtrl.cablePrices.length, (index) {
+        final serv = tvCtrl.cablePrices[index];
         final amount = double.parse(serv.price);
-
+          print(amount);
         // if (index == 0 && isLeft) {}
         return serviceBox(
           title: '${tvDetails.serviceId} ${serv.cableCode}',
@@ -263,7 +264,8 @@ class _TvSubscriptionState extends State<TvSubscription>
                 productName: 'cable',
                 list: [],
                 imgPath: '',
-                plan: tvDetails.serviceId
+                plan: tvDetails.serviceId,
+                action: (){}
               );
             })
                 :CustomSnackbar.showSnackbar(message: 'Enter your smart card number');

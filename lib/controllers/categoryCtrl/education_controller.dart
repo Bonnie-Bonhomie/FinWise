@@ -4,7 +4,6 @@ import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/education_model.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/education_repo.dart';
-import 'package:fin_wise/utils/Helpers/loader_helper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
 
@@ -14,20 +13,64 @@ class EducationController extends GetxController{
   final StorageFile store;
   EducationController(this.repo, this.store);
 
- List<EduModel> schools = [
-   EduModel(schoolName: 'WAEC', abbrev: 'WAEC', imgPath: 'onboard-1.png', serviceName:'Result Checker Pin', amount: 3500),
-   EduModel(schoolName: 'NECO', abbrev: 'NECO', imgPath: 'onboard-2.png', serviceName: 'Result Checker Pin', amount: 2500),
-   EduModel(schoolName: 'JAMB', abbrev: 'JAMB', imgPath: 'onboard-1.png', serviceName: 'Registration Pin', amount: 5100),
- ];
  List services = [
     'Result Checker PIN',  'School Fees Payment'
  ].obs;
 
+ @override
+  void onInit() {
+    // TODO: implement onInit
+   getAvailableCard();
+    super.onInit();
+  }
+
  var selectServ = 'Result Checker PIN'.obs;
  var selectedProvider = ServiceProvider.glo.label.obs;
  var error = ''.obs;
+ var cardError = ''.obs;
+ var loadingCard = false.obs;
+ var eduCards = <ExamCardModel>[].obs;
 
+ //Available eduction card
+  Future<void> getAvailableCard() async{
+    loadingCard.value = true;
+    eduCards.clear();
+    String? token = await store.getToken();
+    if(token == null) return;
+    final response = await repo.getEduCard(token);
 
+    if(response is DataSuccess){
+      if(response.data['status'] == true){
+        final data = response.data['data'];
+        print(data);
+        List list = data['educations'];
+        final card = list.map((e) => ExamCardModel.fromJson(e)).toList();
+        eduCards.addAll(card);
+      }
+      else{
+        cardError.value = 'Unable to complete transaction';
+      }
+    }else if(response is DataFailed){
+      final err = response.exception;
+
+      if(err is DioException){
+        if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
+         cardError.value = 'Check your internet connection, try again.';
+        }
+        final errData = err.response?.data;
+        if(errData != null && errData['message']){
+          cardError.value = errData['message'];
+        }else{
+          cardError.value = 'Unable to load education cards, try again later';
+        }
+      }else{
+        cardError.value = 'Unable to load education cards, try again later';
+      }
+    }
+    loadingCard.value = false;
+  }
+
+///Buy Education card function
   Future<void> buyEduCard({
     required String transPin,
     required String phoneNumber,
@@ -39,7 +82,8 @@ class EducationController extends GetxController{
 
       if(response is DataSuccess){
         if(response.data['status'] == true){
-          // airtimeReceipt = result.data;
+          final data = response.data['data'];
+          print(data);
         }
         else{
           error.value = 'Unable to complete transaction';
@@ -56,7 +100,7 @@ class EducationController extends GetxController{
           if(errData != null && errData['message']){
             CustomSnackbar.showSnackbar(message: errData['message']);
           }else{
-            CustomSnackbar.showSnackbar(message: 'Unable to complete transcction, try again later');
+            CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
           }
         }else{
           CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');

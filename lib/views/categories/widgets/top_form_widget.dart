@@ -34,6 +34,7 @@ class TopFormWidget extends StatefulWidget {
 
 class _TopFormWidgetState extends State<TopFormWidget> {
   final paymentCtrl = Get.find<CategoryNavCtrl>();
+  // final dataCTrl = Get.find()
 
   String? selectedNumber;
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
@@ -241,9 +242,8 @@ class _TopFormWidgetState extends State<TopFormWidget> {
           onTap: () {
             setState(() {
               img = service.imgPath;
-              print(img);
+              // print(img);
             });
-            onTap();
           },
           // child: AppText(text: service.label[0]),
           child: Container(
@@ -266,6 +266,8 @@ class _TopFormWidgetState extends State<TopFormWidget> {
       }),
       onChanged: (val) {
         paymentCtrl.select.value = val;
+        print('Top page number: ${paymentCtrl.select.value}');
+        onTap();
       },
     );
   }

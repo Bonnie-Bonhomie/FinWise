@@ -351,6 +351,12 @@ class AuthCtrl extends GetxController {
       CustomSnackbar.showSnackbar(message: 'Something went wrong');
     } else {
       final response = await authRepo.logOut(token);
+      if(response == 'Log out successfully'){
+        storage.deleteToken();
+        Get.offAllNamed(Routes.login);
+      }else{
+        CustomSnackbar.showSnackbar(message: response);
+      }
 
     }
   } //Logout

@@ -139,24 +139,18 @@ class AuthRepository {
   }  // Transaction pin
 
   //Log out function
-  Future<DataState> logOut(String token) async {
+  Future<String> logOut(String token) async {
     try {
       if (!await internetInfo.connected) {
-        return DataFailed(
-          DioException(
-            requestOptions: RequestOptions(path: ''),
-            type: DioExceptionType.connectionError,
-            error: "No Internet Connection",
-          ),
-        );
+        return 'No internet connection';
       }
       final response = await apiServices.getRequestWIthToken(ApiEndpoints.logOut, token);
       if(response.statusCode == 200){
-        return DataSuccess(response.data);
-      }return DataFailed(DioException(requestOptions: RequestOptions()));
+        return 'Log out successfully';
+      }return 'Something went wrong';
 
-    } on DioException catch (e) {
-      return DataFailed(e);
+    } catch (e) {
+      return e.toString();
     }
   }  //Logout function
 
