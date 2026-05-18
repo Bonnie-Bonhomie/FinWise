@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../view_export.dart';
+
 class TopFormWidget extends StatefulWidget {
   const TopFormWidget({
     super.key,
@@ -249,7 +251,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
           child: Container(
             height: 45,
             width: 45,
-            decoration: BoxDecoration(shape: BoxShape.circle),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade400),
             child: Image.network(img.toString(),
               headers: const {'Access-Control-Allow-Origin': '*'},
               errorBuilder: (_, _, _) {
@@ -265,8 +267,9 @@ class _TopFormWidgetState extends State<TopFormWidget> {
         );
       }),
       onChanged: (val) {
+        final text = PaymentBottomSheet()..pinText.text;
         paymentCtrl.select.value = val;
-        print('Top page number: ${paymentCtrl.select.value}');
+        print('After: $text');
         onTap();
       },
     );

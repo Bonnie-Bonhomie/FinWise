@@ -1,7 +1,6 @@
 
 import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,11 +15,12 @@ class MainScreen extends StatefulWidget{
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // final acc =Get.put<AccBalanceCtrl>(AccBalanceCtrl(Get.find(), Get.find<StorageFile>()), permanent: true);
+  final acc =Get.find<AccBalanceCtrl>();
 
   @override
   void initState() {
     // TODO: implement initState
+    acc.getBalance();
     super.initState();
   }
   @override

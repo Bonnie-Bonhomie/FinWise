@@ -14,7 +14,7 @@ class PaymentBottomSheet {
   final controller = KeyPadController();
 
   //This make the controller refresh and create a new TextEditingController for the form field
-  final TextEditingController pinText = TextEditingController();
+  TextEditingController pinText = TextEditingController();
   final GlobalKey<FormFieldState> pinKey = GlobalKey<FormFieldState>();
 
 

@@ -6,6 +6,8 @@ import 'package:fin_wise/utils/Helpers/loader_helper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
 
+import '../controller_exports.dart';
+
 class AccBalanceCtrl extends GetxController {
   final AccountRepo repo;
   final StorageFile storage;
@@ -20,9 +22,10 @@ class AccBalanceCtrl extends GetxController {
     super.onInit();
   }
 
+  final AuthCtrl auth = Get.find<AuthCtrl>();
 
-  var accountBalance = 0.00.obs;
-  var accBalance = '0.00'.obs;
+  var accountBalance =  0.00.obs;
+  // var accBalance = '0.00'.obs;
   var expense = 1000.00.obs;
   var income = 4000.45.obs;
   var spendingLimit = 2000.00.obs;
@@ -37,6 +40,10 @@ class AccBalanceCtrl extends GetxController {
 
   void fillVirtualAcc(String accNumber) {
     virtualAcc.value = accNumber.toString();
+  }
+
+  void fillBalance() {
+    accountBalance.value = auth.userWallet?.accBalance ?? 0.00;
   }
 
   var paymentGateWay = <BankModel>[
@@ -65,7 +72,7 @@ class AccBalanceCtrl extends GetxController {
       // print(data['data']['bal']);
       if (data['status'] == true) {
 
-        accBalance.value = data['data']['bal'];
+        accountBalance.value = data['data']['bal'];
       }else {
         balanceErr.value = 'Reload the page';
       }

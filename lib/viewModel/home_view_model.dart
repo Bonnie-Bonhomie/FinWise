@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class HomeViewModel{
 
   String greeting(){
@@ -18,6 +20,11 @@ class HomeViewModel{
       index = 1;
     }
     return index;
+  }
+
+  String formatMoney(double amount){
+    final formatted = NumberFormat('#,##0.00').format(amount);
+    return formatted;
   }
 
 

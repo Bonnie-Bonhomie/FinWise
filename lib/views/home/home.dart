@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     Future.microtask(() {
       getName();
-      (viewModel.greeting());
+      // (viewModel.greeting());
       acc.getBalance();
     });
 
@@ -190,8 +190,7 @@ class _HomePageState extends State<HomePage> {
                               margin: const EdgeInsets.only(top: 3.0),
                               child: acc.balanceErr.value.isEmpty
                                   ? AppText(
-                                      text:
-                                          '₦${acc.accBalance.value}',
+                                      text: '₦${viewModel.formatMoney(acc.accountBalance.value)}',
                                       textColor: AppColors.lightGreen,
                                       textWeigh: FontWeight.bold,
                                       textSize: 20,
@@ -310,7 +309,7 @@ class _HomePageState extends State<HomePage> {
           Icon(icon, color: iconColor ?? AppColors.primary),
           Text(title),
           AppText(
-            text: '₦${value.toStringAsFixed(2)}',
+            text: '₦${viewModel.formatMoney(value)}',
             textColor: iconColor,
             textWeigh: FontWeight.bold,
             textSize: 22,

@@ -24,7 +24,7 @@ class AirtimeView extends StatefulWidget {
 class _AirtimeViewState extends State<AirtimeView> {
   final ctrl = Get.find<AirtimeCtrl>();
   final navCtrl = Get.find<CategoryNavCtrl>();
-
+ // final AccBalanceCtrl acc =
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> amountKey = GlobalKey<FormFieldState>();
   final TextEditingController numberCtrl = TextEditingController();
@@ -36,6 +36,13 @@ class _AirtimeViewState extends State<AirtimeView> {
   int number = 1;
   //To convert the Price to double
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final loadCtrl = Get.find<LoaderController>();
@@ -95,7 +102,9 @@ class _AirtimeViewState extends State<AirtimeView> {
                                     numberCtrl: numberCtrl,
                                     productName: 'Airtime',
                                       imgPath: imgPath,
-                                      action: (){}
+                                      action: (){
+                                        // ctrl.buyAirtime
+                                      }
                                   );})
                                   : CustomSnackbar.showSnackbar( message: 'Enter recipient number');
                               amount = 0.00;

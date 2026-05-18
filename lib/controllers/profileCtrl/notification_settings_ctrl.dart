@@ -23,28 +23,28 @@ class NoteSettingsCtrl extends GetxController{
 
   Future<void> getGeneral() async {
    final bool? value = await service.retrieve(PrefStoreKeys.generalNot);
-   general.value = value!;
+   general.value = value ?? true;
    print(value);
   }
   Future<void> getTrans() async {
     final bool? value = await service.retrieve(PrefStoreKeys.transactionUpdate);
-    transUpdate.value = value!;
+    transUpdate.value = value ?? false;
     print(value);
   }
   Future<void> getLowBal() async {
     final bool? value = await service.retrieve(PrefStoreKeys.lowBalance);
-    lowBalance.value = value!;
+    lowBalance.value = value ?? true;
     print(value);
   }
   Future<void> getPush() async {
     final bool? value = await service.retrieve(PrefStoreKeys.pushNot);
-    pushNotify.value = value!;
+    pushNotify.value = value ?? true;
     print(value);
   }
   Future<bool> getMailNot() async {
     final bool? value = await service.retrieve(PrefStoreKeys.mailNot);
-    mailNotify.value = value!;
-    return value;
+    mailNotify.value = value ?? true;
+    return value ?? true;
   }
 
   @override

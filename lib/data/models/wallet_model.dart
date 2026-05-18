@@ -2,7 +2,7 @@ class WalletModel {
 
   String id;
   String userId;
-  String accBalance;
+  double accBalance;
   String bankType;
   String accountName;
   String accReference;
