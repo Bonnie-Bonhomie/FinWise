@@ -2,7 +2,7 @@ class WalletModel {
 
   String id;
   String userId;
-  double accBalance;
+  String accBalance;
   String bankType;
   String accountName;
   String accReference;
@@ -25,7 +25,7 @@ class WalletModel {
 
   factory WalletModel.fromJson(Map<String, dynamic> json){
     return WalletModel(id: json['id'].toString(),
-        accBalance: json['balance'],
+        accBalance: json['balance'].toString(),
         accountName: json['accountName'],
         bankType: json['bank_type'],
         userId: json['user_id'].toString(),

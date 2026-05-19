@@ -14,9 +14,12 @@ class ApiEndpoints{
   static const String updatePwd = 'auth/update_password';
 
   static const String transactPin = 'profile/update_pin';
-  static const String accDetail = 'profile/accdetails';
+  // static const String accDetail = 'profile/accdetails';
   static const String balance = 'profile/walletbalance';
-  static const String profile = 'profile/';
+  static const String profile = 'profile/dashboard';
+  static const String referralList = 'profile/referrals';
+  static const String bonusBal = 'profile/bonusbalance';
+  static const String withdrawBonus = 'profile/updatewithdrawbonus';
 
   static const String changePwd = 'auth/user/acc';
   static const String changePin = 'auth/user/acc';
@@ -48,7 +51,7 @@ class ApiEndpoints{
   static const String examCard = 'education/exam_card';
 
 
-
+///Not yet in use for real API call
   static const String virtual = 'virtual';
   static const String transact = 'auth/user/transact';
 }

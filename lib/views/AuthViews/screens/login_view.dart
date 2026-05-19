@@ -1,14 +1,10 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/connection/network.dart';
 import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/utils/widgets/app_btn.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
+import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/utils/widgets/form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/text_widget.dart';
 import 'package:flutter/gestures.dart';
@@ -142,16 +138,16 @@ class _LoginViewState extends State<LoginView> {
                             ),
                             const SizedBox(height: 20),
 
-                           const AppText(text: 'Use Finger To Access'),
-                            const SizedBox(height: 50),
-                            IconButton(
-                              onPressed: () {Get.toNamed(Routes.biometric);},
-                              icon: const Icon(
-                                Icons.fingerprint,
-                                color: AppColors.primary,
-                                size: 80,
-                              ),
-                            ),
+                           // const AppText(text: 'Use Finger To Access'),
+                           //  const SizedBox(height: 50),
+                           //  IconButton(
+                           //    onPressed: () {Get.toNamed(Routes.biometric);},
+                           //    icon: const Icon(
+                           //      Icons.fingerprint,
+                           //      color: AppColors.primary,
+                           //      size: 80,
+                           //    ),
+                           //  ),
                             const SizedBox(height: 50),
                             RichText(
                               text: TextSpan(

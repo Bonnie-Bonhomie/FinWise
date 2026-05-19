@@ -6,6 +6,7 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_alert_dialog.dart';
+import 'package:fin_wise/views/categories/categories.dart';
 import 'package:fin_wise/views/categories/widgets/payment+bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 class ConfirmBottomSheet {
   final navCtrl = Get.find<CategoryNavCtrl>();
   final acc = Get.find<AccBalanceCtrl>();
+  final viewModel = ServiceViewModel();
 
   void confirmBottomSheet(BuildContext context, {
     required double amount,
@@ -20,12 +22,12 @@ class ConfirmBottomSheet {
     required String productName,
     List? list,
     required Function action,
-    // required NumbersModel element,
+    required double balance,
     String imgPath = '',
     bool data = false,
     String plan = '',
   }) async{
-    await acc.getBalance();
+    // await acc.getBalance();
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
       context: context,
@@ -35,8 +37,7 @@ class ConfirmBottomSheet {
       builder: (context) {
         return Obx(() {
 
-          double accBal = 0.00;
-          bool notEnoughAmount = acc.accountBalance.value < amount;
+          bool notEnoughAmount = balance < amount;
           // print(notEnoughAmount);
           // print(accCtrl.accountBalance.value);
             return WillPopScope(
@@ -149,15 +150,15 @@ class ConfirmBottomSheet {
                                 const SizedBox(width: 10),
                                 AppText(
                                   text:
-                                  '(₦${accBal.toStringAsFixed(2)})',
+                                  '(₦${viewModel.formatMoney(balance)})',
                                   textColor: notEnoughAmount
                                       ? Colors.red
                                       : Colors.black,
                                 ),
                                 const Spacer(),
-                                const Icon(
+                                Icon(
                                   Icons.done_outlined,
-                                  color: AppColors.primary,
+                                  color: notEnoughAmount? AppColors.declined: AppColors.primary,
                                 ),
                               ],
                             ),
@@ -192,7 +193,7 @@ class ConfirmBottomSheet {
                         onPressed: () {
                           FocusScope.of(context).unfocus();
                           Get.back();
-                          PaymentBottomSheet().paymentBottomSheet(context, action());
+                          PaymentBottomSheet().paymentBottomSheet(context: context, action: action);
                           navCtrl.addBeneficiary.value = false;
                           FocusScope.of(context).unfocus();
                         },

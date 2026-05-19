@@ -24,7 +24,7 @@ class ProfileMainControl extends GetxController{
     update();
   }
   void toChangePin(){
-    pages.add(GetPage(name: Routes.changePin, page: () => ChangePinView(), binding: ChangePinBinding()));
+    pages.add(GetPage(name: Routes.changePin, page: () => ChangePinView()));
     update();
   }
   void toFingerPrints(){

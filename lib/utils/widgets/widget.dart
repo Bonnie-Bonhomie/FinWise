@@ -2,6 +2,7 @@
 
 export 'app_btn.dart';
 export 'custom_alert_dialog.dart';
+export 'custom_app_bar.dart';
 export 'custom_circular_progress.dart';
 export 'custom_linear_progress.dart';
 export 'custom_pin_code_field.dart';

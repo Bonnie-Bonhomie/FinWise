@@ -1,3 +1,34 @@
+
+import 'package:intl/intl.dart';
+
+class ServiceViewModel{
+
+  int getState(percent) {
+    final int index;
+    if (percent < 70) {
+      index = 0;
+    } else {
+      index = 1;
+    }
+    return index;
+  }
+
+  String formatMoney(double amount){
+    final formatted = NumberFormat('#,##0.00').format(amount);
+    return formatted;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 // import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';

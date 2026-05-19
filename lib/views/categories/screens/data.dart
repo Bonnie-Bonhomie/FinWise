@@ -4,6 +4,7 @@ import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/views/categories/service_export.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:fin_wise/views/categories/widgets/top_form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
@@ -21,6 +22,7 @@ class _DataViewState extends State<DataView>
     with SingleTickerProviderStateMixin {
   final paymentCtrl = Get.find<CategoryNavCtrl>();
   final dataCtrl = Get.find<DataController>();
+  final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
   final loading = Get.find<LoaderController>();
   late TabController _tabCtrl;
 
@@ -29,6 +31,7 @@ class _DataViewState extends State<DataView>
   @override
   void initState() {
     // TODO: implement initState
+    acc.getBalance();
     super.initState();
     _tabCtrl = TabController(length: dataCtrl.sections.length, vsync: this);
   }
@@ -161,10 +164,13 @@ class _DataViewState extends State<DataView>
                                 numberCtrl: numberCtrl,
                                 productName: 'Mobile Data',
                                 data: true,
-                                plan:
-                                    '${data.name} ${data.frequency.name} Plan',
+                                balance: acc.accountBalance.value,
+                                plan: '${data.name} ${data.frequency.name} Plan',
                                 imgPath: imgPath,
-                                action: (){}
+                                action: (){
+                                  final tranPin = PaymentBottomSheet().pinText.text;
+                                  dataCtrl.buyData(dataId: data.id, tranPin: tranPin, phone: numberCtrl.text);
+                                }
                               );
                             })
                           : CustomSnackbar.showSnackbar(

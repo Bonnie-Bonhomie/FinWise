@@ -35,6 +35,7 @@ class CustomSnackbar {
       'Warning',
       message,
       backgroundColor: AppColors.declined,
+      colorText: AppColors.lightGreen,
       forwardAnimationCurve: Curves.easeOutBack,
     );
   }

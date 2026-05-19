@@ -78,15 +78,15 @@ class BuyPinView extends StatelessWidget {
             AppBtn(
               onPressed: () {
                 final amount = double.tryParse(amountCtrl.text);
-                numberCtrl.text.isNotEmpty?
-                ConfirmBottomSheet().confirmBottomSheet(
-                  context,
-                  amount: amount!,
-                  numberCtrl: numberCtrl,
-                  productName: selectedSchool.variationCode,
-                  list: [],
-                  action: (){}
-                ): CustomSnackbar.warningSnack('Enter your registered number');
+                // numberCtrl.text.isNotEmpty?
+                // ConfirmBottomSheet().confirmBottomSheet(
+                //   context,
+                //   amount: amount!,
+                //   numberCtrl: numberCtrl,
+                //   productName: selectedSchool.variationCode,
+                //   list: [],
+                //   action: (){}
+                // ): CustomSnackbar.warningSnack('Enter your registered number');
               },
               label: 'Proceed to Payment',
             ),

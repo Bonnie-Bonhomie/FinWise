@@ -6,6 +6,7 @@ import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/section_divider.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_linear_progress.dart';
+import 'package:fin_wise/views/categories/categories.dart';
 import 'package:fin_wise/views/view_widgets/category_card.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
-
+    final ServiceViewModel vieModel = ServiceViewModel();
 
   @override
   void initState() {
@@ -122,15 +123,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   //All the Header card
   Container headerCard(BuildContext context, double percent) {
-    int getState(percent) {
-      final int index;
-      if (percent < 70) {
-        index = 0;
-      } else {
-        index = 1;
-      }
-      return index;
-    }
+
 
     final List<String> accountState = ['Good', 'Bad'];
     return Container(
@@ -144,7 +137,7 @@ class _CategoryPageState extends State<CategoryPage> {
               children: [
                 totalBox(
                   title: "Acc. Balance",
-                  value: '₦${acc.accountBalance.value.toStringAsFixed(2)}',
+                  value: '₦${vieModel.formatMoney(acc.accountBalance.value)}',
                   icon: Icons.arrow_circle_up_outlined,
                   color: AppColors.bgColor,
                 ),
@@ -153,7 +146,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 Spacer(),
                 totalBox(
                   title: "Total Expenses",
-                  value: '₦${acc.expense.value.toStringAsFixed(2)}',
+                  value: '₦${vieModel.formatMoney(acc.expense.value)}',
                   color: Color(0xFF0000FF),
                   icon: Icons.arrow_circle_down_outlined,
                 ),
@@ -172,7 +165,7 @@ class _CategoryPageState extends State<CategoryPage> {
               Icon(Icons.check_circle_outline),
               AppText(
                 text:
-                    ' ${percent.toInt()}% of Your Expenses, Look ${accountState[getState(percent)]}.',
+                    ' ${percent.toInt()}% of Your Expenses, Look ${accountState[vieModel.getState(percent)]}.',
               ),
             ],
           ),

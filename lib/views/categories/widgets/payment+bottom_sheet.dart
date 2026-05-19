@@ -9,16 +9,16 @@ import 'package:fin_wise/utils/Helpers/CustomKeyPad/custom_keyboard.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
 import 'package:flutter/material.dart';
 
-
 class PaymentBottomSheet {
   final controller = KeyPadController();
+
 
   //This make the controller refresh and create a new TextEditingController for the form field
   TextEditingController pinText = TextEditingController();
   final GlobalKey<FormFieldState> pinKey = GlobalKey<FormFieldState>();
 
 
-  void paymentBottomSheet(BuildContext context, Function action) {
+  void paymentBottomSheet({required BuildContext context, required Function action}) {
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
       enableDrag: false,
@@ -38,7 +38,7 @@ class PaymentBottomSheet {
             );
             return shouldPop ?? false;
           },
-          child: buildBottomSheet(context, action()),
+          child: buildBottomSheet(context, action),
         );
         // );
       },
@@ -88,7 +88,7 @@ class PaymentBottomSheet {
               readOnly: true,
               showCursor: false,
               pinKey: pinKey,
-              onComplete: (pin)=> controller.loadPin(pin, action()),
+              onComplete: (pin)=> controller.loadPin(pin, action),
             ),
           ),
 

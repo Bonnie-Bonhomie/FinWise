@@ -36,6 +36,8 @@ class AirtimeCtrl extends GetxController {
     final String? token = await store.getToken();
     if(token == null)return;
     final result = await repo.buyAirtime(amount: amount, number: number, token: token, networkId: netId, transPin: pin);
+
+    print(pin);
     if (result is DataSuccess) {
       final data = result.data;
       if (data['status'] == true) {
@@ -57,7 +59,6 @@ class AirtimeCtrl extends GetxController {
         } else {
           CustomSnackbar.showSnackbar(message: 'Server error, try again later');
         }
-        CustomSnackbar.showSnackbar(message: 'Server error, try again later');
       }
     }
   }

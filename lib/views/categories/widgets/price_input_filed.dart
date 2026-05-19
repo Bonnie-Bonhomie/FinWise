@@ -14,6 +14,8 @@ class PriceInputField extends StatefulWidget {
     required this.amountCtrl,
     required this.numberCtrl,
     required this.productName,
+    required this.balance,
+    required this.action,
     this.lowestAmount = 50,
     this.highestAmount = 50000000,
     this.errMessage = 'Enter recipient number',
@@ -24,7 +26,9 @@ class PriceInputField extends StatefulWidget {
   final String productName;
   final double lowestAmount;
   final double highestAmount;
+  final double balance;
   final String errMessage;
+  final Function action;
 
   @override
   State<PriceInputField> createState() => _PriceInputFieldState();
@@ -86,12 +90,12 @@ class _PriceInputFieldState extends State<PriceInputField> {
                         ?
                       loadCtrl.offLoading((){
                         print(widget.amountCtrl.text);
-                        // ConfirmBottomSheet().confirmBottomSheet(
-                        //   context,
-                        //   amount: parseAmount(widget.amountCtrl.text.trim()),
-                        //   numberCtrl: widget.numberCtrl,
-                        //   productName: widget.productName,
-                        // );
+                        ConfirmBottomSheet().confirmBottomSheet(
+                            context,
+                            amount: parseAmount(widget.amountCtrl.text.trim()),
+                            numberCtrl: widget.numberCtrl,
+                            productName: widget.productName,
+                             action: widget.action, balance: widget.balance);
                         widget.numberCtrl.text.isNotEmpty? widget.amountCtrl.text ='': null;
                         amount = 0.00;
                     })

@@ -18,7 +18,6 @@ class KeyPadController extends GetxController{
     if(pinText.text.length < len){
       pinText.text +=value;
     }
-    print(pinText.text);
   }
 
   void deleteValue(){
@@ -34,23 +33,13 @@ class KeyPadController extends GetxController{
 
     if(pin.length == 4) {
       Get.back();
-      // load.show();
+
       load.offLoading(() async {
-       action();
+      await action();
       });
     }
   }
 
-  Future<void> validatePin(pin) async {
-
-    bool isValid = pin == '2345';
-
-    if(isValid){
-      Get.offNamed(Routes.transSuccess, arguments: 200);
-    }else{
-      CustomSnackbar.warningSnack('Incorrect Pin. Recheck and try again');
-    }
-  }
 
   @override
   void onClose() {

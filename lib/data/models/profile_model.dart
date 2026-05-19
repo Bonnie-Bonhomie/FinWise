@@ -6,8 +6,9 @@ class ProfileModel {
   String createdAt;
   String updateAt;
   String phone;
+  String username;
   String? transactionPin;
-  String? verificationCode;
+  String? emailVerifiedAt;
   String? verificationExpireAt;
   String? accountStatus;
   String? referBy;
@@ -23,8 +24,9 @@ class ProfileModel {
     required this.createdAt,
     required this.updateAt,
     required this.phone,
+    required this.username,
     this.transactionPin,
-    this.verificationCode,
+    this.emailVerifiedAt,
     this.verificationExpireAt,
     this.accountStatus,
     this.referBy,
@@ -40,8 +42,9 @@ class ProfileModel {
         createdAt: json['created_at'] ?? '',
         updateAt: json['updated_at']?? '',
         phone: json['phone'] ?? '',
+        username: json['username'],
         transactionPin: json['transaction_pin'],
-      verificationCode: json['verification_code'],
+      emailVerifiedAt: json['email_verified_at'],
       verificationExpireAt: json['verification_expire_at'],
       accountStatus: json['account_status'],
       referBy: json['refer_by'],
@@ -52,22 +55,22 @@ class ProfileModel {
     );
   }
 
-  Map<String, dynamic> toJson(){
-
-    return{
-      'email': email,
-      'id': id,
-      'name': name,
-      'created_at': createdAt,
-      'updated_at': updateAt,
-      'transaction_pin': transactionPin,
-      'verification_code': verificationCode,
-      'verification_expire_at': verificationExpireAt,
-      'account_status': accountStatus,
-      'refer_by': referBy,
-      'referral_code': referralCode,
-      'date_of_birth': dateOfBirth,
-      'profile_image': profileImage,
-    };
-  }
+  // Map<String, dynamic> toJson(){
+  //
+  //   return{
+  //     'email': email,
+  //     'id': id,
+  //     'name': name,
+  //     'created_at': createdAt,
+  //     'updated_at': updateAt,
+  //     'transaction_pin': transactionPin,
+  //     'email_verified_at': emailVerifiedAt,
+  //     'verification_expire_at': verificationExpireAt,
+  //     'account_status': accountStatus,
+  //     'refer_by': referBy,
+  //     'referral_code': referralCode,
+  //     'date_of_birth': dateOfBirth,
+  //     'profile_image': profileImage,
+  //   };
+  // }
 }

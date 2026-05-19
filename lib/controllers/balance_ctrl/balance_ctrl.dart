@@ -43,7 +43,7 @@ class AccBalanceCtrl extends GetxController {
   }
 
   void fillBalance() {
-    accountBalance.value = auth.userWallet?.accBalance ?? 0.00;
+    accountBalance.value = double.parse(auth.userWallet?.accBalance ?? '0.00');
   }
 
   var paymentGateWay = <BankModel>[
@@ -72,7 +72,7 @@ class AccBalanceCtrl extends GetxController {
       // print(data['data']['bal']);
       if (data['status'] == true) {
 
-        accountBalance.value = data['data']['bal'];
+        accountBalance.value = double.parse(data['data']['bal']);
       }else {
         balanceErr.value = 'Reload the page';
       }

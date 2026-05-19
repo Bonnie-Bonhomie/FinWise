@@ -3,6 +3,7 @@ import 'package:fin_wise/core/connection/network.dart';
 import 'package:fin_wise/data/dataSource/api_service.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/television_repo.dart';
+import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:get/get.dart';
 
 class TvBindings extends Bindings{
@@ -11,6 +12,6 @@ class TvBindings extends Bindings{
   void dependencies() {
     // TODO: implement dependencies
     Get.lazyPut(() => TelevisionRepo(Get.find<ApiServices>(), Get.find<InternetService>()), fenix: true);
-    Get.lazyPut(() => TelevisionCtrl(Get.find<TelevisionRepo>(), Get.find<StorageFile>()), fenix: true);
+    Get.lazyPut(() => TelevisionCtrl(Get.find<TelevisionRepo>(), Get.find<StorageFile>(), Get.find<SharedPreferService>()), fenix: true);
   }
 }

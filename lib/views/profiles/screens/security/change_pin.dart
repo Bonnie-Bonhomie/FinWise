@@ -1,13 +1,10 @@
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/utils/widgets/app_btn.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
+
+import 'package:fin_wise/controllers/controller_exports.dart';
+import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../core/Routes/routes.dart';
 import '../../../../core/app_colors.dart';
-import '../../../../utils/widgets/text_widget.dart';
 
 class ChangePinView extends StatefulWidget {
   const ChangePinView({super.key});
@@ -18,6 +15,8 @@ class ChangePinView extends StatefulWidget {
 
 class _ChangePinViewState extends State<ChangePinView> {
 
+  final AuthCtrl auth = Get.find<AuthCtrl>();
+  final LoaderController loader = Get.find<LoaderController>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<FormFieldState> currentKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> newKey = GlobalKey<FormFieldState>();
@@ -27,13 +26,33 @@ class _ChangePinViewState extends State<ChangePinView> {
   final TextEditingController newCtrl = TextEditingController();
   final TextEditingController confirmCtrl = TextEditingController();
 
+  int changeToInt(String source) {
+    int format = int.parse(source);
+    return format;
+  }
+
+  void setPin() {
+    if (!formKey.currentState!.validate())
+    {
+      loader.offLoading(() async {
+        await auth.setPin(oldPin: changeToInt(currentCtrl.text.trim()),
+            newPin: changeToInt(newCtrl.text.trim()),
+            cfmPin: changeToInt(confirmCtrl.text.trim()));
+      });
+    }else{
+      CustomSnackbar.warningSnack('Fill all the required field to continue');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageContainer(
         topMargin: 20,
-        topChild: CustomAppBar.header(title: 'Change Pin', leftRight: 15, onPressed: ()
-        {Get.find<ProfileMainControl>().back();}),
+        topChild: CustomAppBar.header(
+            title: 'Change Pin', leftRight: 15, onPressed: () {
+          Get.find<ProfileMainControl>().back();
+        }),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -46,8 +65,8 @@ class _ChangePinViewState extends State<ChangePinView> {
               labelText('Confirm Pin'),
               inputField(confirmCtrl, 'enter pin again'),
               SizedBox(height: 30,),
-              AppBtn(onPressed: (){
-                Get.toNamed(Routes.successful, arguments: 'Pin has been changed successfully');
+              AppBtn(onPressed: () {
+                setPin();
               }, label: 'Change Pin')
             ],
           ),
@@ -56,7 +75,8 @@ class _ChangePinViewState extends State<ChangePinView> {
     );
   }
 
-  Widget labelText(String title) => AppText(text: title, textWeigh: FontWeight.w500,);
+  Widget labelText(String title) =>
+      AppText(text: title, textWeigh: FontWeight.w500,);
 
   Widget inputField(TextEditingController ctrl, String label) {
     return Padding(

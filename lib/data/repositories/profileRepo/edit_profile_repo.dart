@@ -14,11 +14,32 @@ class EditProfileRepo {
 
   EditProfileRepo(this.api, this.info);
 
+  Future<DataState> getProfile(String token) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet Connection',
+          ),
+        );
+      }
+
+      final response = await api.getRequestWIthToken(ApiEndpoints.profile, token);
+      return DataSuccess(response.data);
+    } on DioException catch(e){
+      return DataFailed(e);
+    }
+  }
+
+
   Future<DataState> updateProfile({
     required String name,
     required String phone,
     required String dob,
     required String mail,
+    required String token,
     File? img,
   }) async {
     try {
@@ -26,6 +47,7 @@ class EditProfileRepo {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet Connection',
           ),
         );
@@ -36,19 +58,11 @@ class EditProfileRepo {
         name: name,
         phone: phone,
         dob: dob,
-        token: Get.find<StorageFile>(),
+        token: token,
       );
       return DataSuccess(response.data);
-    } catch (e) {
-      if (e is DioException) {
-        print('Upload failed: ${e.response?.data}');
-      }
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(),
-          error: 'Failed to upload profile, $e',
-        ),
-      );
+    } on DioException catch(e){
+      return DataFailed(e);
     }
   }
 }

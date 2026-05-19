@@ -1,15 +1,10 @@
-import 'package:fin_wise/controllers/categoryCtrl/airtime_ctrl.dart';
-import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
-import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
-import 'package:fin_wise/views/categories/widgets/price_input_filed.dart';
-import 'package:fin_wise/views/categories/widgets/product_card.dart';
+import 'package:fin_wise/views/categories/service_export.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/views/categories/widgets/top_form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +19,7 @@ class AirtimeView extends StatefulWidget {
 class _AirtimeViewState extends State<AirtimeView> {
   final ctrl = Get.find<AirtimeCtrl>();
   final navCtrl = Get.find<CategoryNavCtrl>();
- // final AccBalanceCtrl acc =
+  final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> amountKey = GlobalKey<FormFieldState>();
   final TextEditingController numberCtrl = TextEditingController();
@@ -34,30 +29,41 @@ class _AirtimeViewState extends State<AirtimeView> {
   bool isOpen = false;
   double amount = 0.00;
   int number = 1;
-  //To convert the Price to double
 
+  //To convert the Price to double
 
   @override
   void initState() {
     // TODO: implement initState
-
+    acc.getBalance();
     super.initState();
   }
+
+  void onRefresh(){
+    Future.delayed(Duration(seconds: 1), () => ctrl.getNetworks());
+  }
+
   @override
   Widget build(BuildContext context) {
     final loadCtrl = Get.find<LoaderController>();
     return Scaffold(
       body: LoaderWrapper(
-        child: PageContainer(
-          bottomPadding: 20,
-          topMargin: 20,
-          topChild: CustomAppBar.header(title: 'Buy Airtime', leftRight: 15,onPressed: () => Get.back()),
-          child: TopFormWidget(
+        child: RefreshIndicator(
+          onRefresh: () async{return onRefresh();},
+          child: PageContainer(
+            bottomPadding: 20,
+            topMargin: 20,
+            topChild: CustomAppBar.header(
+              title: 'Buy Airtime',
+              leftRight: 15,
+              onPressed: () => Get.back(),
+            ),
+            child: TopFormWidget(
               numberCtrl: numberCtrl,
               networks: ctrl.airtimeNet,
               // numSelect: ctrl.airtimeBenes[0],
               beneficiaries: ctrl.airtimeBenes,
-              onTap: (){},
+              onTap: () {},
               child: Column(
                 children: [
                   Container(
@@ -86,27 +92,41 @@ class _AirtimeViewState extends State<AirtimeView> {
 
                               FocusScope.of(context).unfocus();
                               numberCtrl.text.isNotEmpty
-                                  ?
-                              loadCtrl.offLoading(()
-                                  {
-                                    setState(() {
-                                      amount = topAmount.toDouble();
-                                    });
-                                    print(ctrl.selected.value);
-                                    final imgPath = ctrl.airtimeNet[navCtrl.select.value-1].imgPath;
-                                    print('Image: ${ctrl.airtimeNet[number-1 ].name} End');
-                                    ConfirmBottomSheet().confirmBottomSheet(
-                                      list: ctrl.airtimeBenes,
-                                    context,
-                                    amount: amount,
-                                    numberCtrl: numberCtrl,
-                                    productName: 'Airtime',
-                                      imgPath: imgPath,
-                                      action: (){
-                                        // ctrl.buyAirtime
-                                      }
-                                  );})
-                                  : CustomSnackbar.showSnackbar( message: 'Enter recipient number');
+                                  ? loadCtrl.offLoading(() {
+                                      setState(() {
+                                        amount = topAmount.toDouble();
+                                      });
+                                      print(ctrl.selected.value);
+                                      final imgPath = ctrl
+                                          .airtimeNet[navCtrl.select.value - 1]
+                                          .imgPath;
+                                      print(
+                                        'Image: ${ctrl.airtimeNet[number - 1].name} End',
+                                      );
+                                      ConfirmBottomSheet().confirmBottomSheet(
+                                        list: ctrl.airtimeBenes,
+                                        balance: acc.accountBalance.value,
+                                        context,
+                                        amount: amount,
+                                        numberCtrl: numberCtrl,
+                                        productName: 'Airtime',
+                                        imgPath: imgPath,
+                                        action: () {
+                                          final pin =
+                                              PaymentBottomSheet().pinText.text;
+                                          ctrl.buyAirtime(
+                                            amount: amount.toStringAsFixed(2),
+                                            number: number,
+                                            netId: navCtrl.select.value
+                                                .toString(),
+                                            pin: pin,
+                                          );
+                                        },
+                                      );
+                                    })
+                                  : CustomSnackbar.showSnackbar(
+                                      message: 'Enter recipient number',
+                                    );
                               amount = 0.00;
                             },
                             child: AppText(text: '₦${topAmount.toString()}'),
@@ -115,12 +135,27 @@ class _AirtimeViewState extends State<AirtimeView> {
                       ),
                     ),
                   ),
-                  PriceInputField(amountCtrl: amountCtrl, numberCtrl: numberCtrl, productName: 'Airtime',),
+                  PriceInputField(
+                    amountCtrl: amountCtrl,
+                    numberCtrl: numberCtrl,
+                    productName: 'Airtime',
+                    balance: acc.accountBalance.value,
+                    action: () {
+                      final pin = PaymentBottomSheet().pinText.text;
+                      ctrl.buyAirtime(
+                        amount: amount.toStringAsFixed(2),
+                        number: number,
+                        netId: navCtrl.select.value.toString(),
+                        pin: pin,
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
           ),
         ),
+      ),
     );
   }
 }

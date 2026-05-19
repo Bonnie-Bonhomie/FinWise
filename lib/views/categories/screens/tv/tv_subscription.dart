@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/categoryCtrl/television_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
@@ -31,12 +32,14 @@ class _TvSubscriptionState extends State<TvSubscription>
 
   final tvCtrl = Get.find<TelevisionCtrl>();
   final loaderCtrl = Get.find<LoaderController>();
+  final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
 
   @override
   void initState() {
     // TODO: implement initState
     _tabController = TabController(length: 2, vsync: this);
     tvCtrl.getCableBundle(id: tvDetails.id);
+    acc.getBalance();
     super.initState();
   }
 
@@ -174,11 +177,11 @@ class _TvSubscriptionState extends State<TvSubscription>
                                               PriceInputField(
                                                 amountCtrl: amountCtrl,
                                                 numberCtrl: smartCardCtrl,
-                                                productName:
-                                                    '${tvDetails.serviceId} subscription',
+                                                productName: '${tvDetails.serviceId} subscription',
                                                 lowestAmount: 2000,
-                                                errMessage:
-                                                    'Enter your smartcard number',
+                                                errMessage: 'Enter your smartcard number',
+                                                balance: acc.accountBalance.value,
+                                                action: (){},
                                               ),
                                               CancelBtn(
                                                 onPressed: () => Get.back(),
@@ -262,10 +265,14 @@ class _TvSubscriptionState extends State<TvSubscription>
                 amount: amount,
                 numberCtrl: smartCardCtrl,
                 productName: 'cable',
+                balance: acc.accountBalance.value,
                 list: [],
                 imgPath: '',
                 plan: tvDetails.serviceId,
-                action: (){}
+                action: (){
+                  final transPin = PaymentBottomSheet().pinText.text;
+                  // tvCtrl.buyTvService(phone: tvCtrl.phone.value, smartcard: smartCardCtrl.text, id: tvDetails.serviceId, subType: subType, transPin: transPin, productId: productId)
+                }
               );
             })
                 :CustomSnackbar.showSnackbar(message: 'Enter your smart card number');

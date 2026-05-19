@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
+import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/television_repo.dart';
+import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class TelevisionCtrl extends GetxController {
   final TelevisionRepo repo;
   final StorageFile store;
+  final SharedPreferService storage;
 
-  TelevisionCtrl(this.repo, this.store);
+  TelevisionCtrl(this.repo, this.store, this.storage);
 
   @override
   void onInit() {
@@ -25,10 +28,15 @@ class TelevisionCtrl extends GetxController {
   RxString discoErr = ''.obs;
   RxBool loadDisco = false.obs;
   RxBool loadingBun = false.obs;
+  RxString phone = ''.obs;
   var availableCable = <CableModel>[].obs;
   var cablePrices = <CableBundle>[].obs;
   var tvRecipt = [];
 
+
+  void getNumber()async{
+    phone.value = (await storage.retrieve<String>(PrefStoreKeys.phone)) ?? '';
+  }
 
   ///get Cable discos
   Future<void> getCableDiscos() async {

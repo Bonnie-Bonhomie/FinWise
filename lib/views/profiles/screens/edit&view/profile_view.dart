@@ -55,7 +55,7 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         SizedBox(height: 50),
                         AppText(
-                          text: user.name,
+                          text: auth.name.value,
                           textWeigh: FontWeight.bold,
                           textSize: 25,
                         ),

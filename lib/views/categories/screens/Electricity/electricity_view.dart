@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/categoryCtrl/electricity_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
@@ -34,9 +35,16 @@ class _ElectricityViewState extends State<ElectricityView> {
 
   final loadCtrl = Get.find<LoaderController>();
   final electCtrl = Get.find<ElectricityCtrl>();
+  final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
   bool correctMeter = false;
   String error = '';
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    acc.getBalance();
+    super.initState();
+  }
   void onRefresh() {
     Future.delayed(Duration(seconds: 1), () => electCtrl.getElectricDiscos());
   }
@@ -240,7 +248,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                         numberCtrl: meterCtrl,
                                         productName: 'Electricity',
                                         list: [],
-                                        data: false,
+                                        balance: acc.accountBalance.value,
                                         imgPath: select.imgPath,
                                         action: (){}
                                         // plan: electType[selectPaid]
@@ -288,6 +296,8 @@ class _ElectricityViewState extends State<ElectricityView> {
                     numberCtrl: meterCtrl,
                     lowestAmount: 1000,
                     productName: 'Electricity',
+                    balance: acc.accountBalance.value,
+                    action: (){},
                   ),
                 ],
               );
