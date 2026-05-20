@@ -32,7 +32,7 @@ class MonthBottomSheet {
           // alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: AppColors.lightGreen
+            color: Theme.of(context).cardColor,
           ),
           padding: const EdgeInsets.all(30),
           margin: const EdgeInsets.all(20),
@@ -56,6 +56,7 @@ class MonthBottomSheet {
                       },
                       child: Container(
                         alignment: Alignment.center,
+                        color: Theme.of(context).cardColor,
                         padding: const EdgeInsets.all(10),
                         child: AppText(
                           text: months[index],
@@ -89,6 +90,7 @@ class MonthBottomSheet {
                       },
                       child: Container(
                         alignment: Alignment.center,
+                        color: Theme.of(context).cardColor,
                         padding: const EdgeInsets.all(10),
                         child: AppText(text: years[index].toString(), textSize: 18, textWeigh: FontWeight.w500,),
                       ),

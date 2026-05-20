@@ -7,7 +7,7 @@ import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/price_form_field.dart';
 import 'package:fin_wise/views/home/test.dart';
-import 'package:fin_wise/views/view_widgets/text_widget.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

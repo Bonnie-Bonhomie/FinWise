@@ -72,7 +72,7 @@ class _EditProfileState extends State<EditProfile> {
                             topLeft: Radius.circular(60),
                             topRight: Radius.circular(60),
                           ),
-                          color: AppColors.bgColor,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(15),
@@ -179,12 +179,7 @@ class _EditProfileState extends State<EditProfile> {
         keyboardType: type,
         decoration: InputDecoration(
           hintText: label,
-          fillColor: AppColors.lightGreen,
-          filled: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
+
         ),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
-import 'package:fin_wise/views/view_widgets/text_widget.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -95,7 +95,7 @@ class _SignInViewState extends State<SignInView> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(60)),
-                color: AppColors.bgColor,
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
               child: formSection(),
             ),
@@ -200,7 +200,6 @@ class _SignInViewState extends State<SignInView> {
                 child: const AppText(
                   text: "Terms of Use and Privacy Policy.",
                   textWeigh: FontWeight.bold,
-                  textColor: AppColors.darkGreen,
                 ),
               ),
               const SizedBox(height: 20),

@@ -53,7 +53,8 @@ class AuthCtrl extends GetxController {
     required String phone,
     required String password,
     required String confirmPassword,
-  }) async {
+  })
+  async {
     LoaderController.to.show();
     final response = await authRepo.registerUser(
       name: name,
@@ -73,6 +74,10 @@ class AuthCtrl extends GetxController {
       if (data['status'] == true) {
         user = ProfileModel.fromJson(data['data']);
 
+        final name = user!.name;
+        final mail = user!.email;
+        await store.saveData<String>(PrefStoreKeys.username, name);
+        await store.saveData<String>(PrefStoreKeys.mail, mail);
         signMail.value = user!.email;
         CustomSnackbar.successSnack(data['message']);
         Get.offNamed(Routes.verAcc);
@@ -118,8 +123,10 @@ class AuthCtrl extends GetxController {
         final token = data['data']['token'];
         await storage.saveToken(token);
         final name = data['data']['name'];
+        final mail = data['data']['email'];
         final phone = data['data']['phone'];
         await store.saveData<String>(PrefStoreKeys.username, name);
+        await store.saveData<String>(PrefStoreKeys.mail, mail);
         await store.saveData<String>(PrefStoreKeys.phone, phone);
 
         userWallet = WalletModel.fromJson(data['data']['wallet']);
@@ -191,7 +198,8 @@ class AuthCtrl extends GetxController {
   Future<void> verifyEmail({
     required BuildContext context,
     required int otp,
-  }) async {
+  })
+  async {
     final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
     print(response.data);
     if (response is DataSuccess) {
@@ -290,7 +298,8 @@ class AuthCtrl extends GetxController {
     required int oldPin,
     required int newPin,
     required int cfmPin,
-  }) async {
+  })
+  async {
     final String? token = await storage.getToken();
     if (token == null) {
       CustomSnackbar.showSnackbar(message: 'You are unauthorized to set pin');

@@ -29,6 +29,7 @@ dependencies:
   lottie: ^3.1.3
   shimmer: ^3.0.0  #for skeleton loading_animations
   cached_network_image: ^3.4.1
+  google_fonts: ^6.3.0
 
 
   share_plus: ^10.1.2

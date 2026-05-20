@@ -4,6 +4,7 @@ import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -190,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                               margin: const EdgeInsets.only(top: 3.0),
                               child: acc.balanceErr.value.isEmpty
                                   ? AppText(
-                                      text: '₦${viewModel.formatMoney(acc.accountBalance.value)}',
+                                      text: viewModel.formatCurrency(acc.accountBalance.value),
                                       textColor: AppColors.lightGreen,
                                       textWeigh: FontWeight.bold,
                                       textSize: 20,
@@ -258,13 +259,13 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 20),
           Row(
             children: [
-              balanceCard(
+              BalanceCard(
                 title: 'Income',
                 value: acc.accountBalance.value,
                 icon: Icons.arrow_circle_up_outlined,
               ),
               Spacer(),
-              balanceCard(
+              BalanceCard(
                 title: 'Expense',
                 icon: Icons.arrow_circle_down_rounded,
                 value: acc.expense.value,
@@ -281,38 +282,6 @@ class _HomePageState extends State<HomePage> {
                     '$percent% of Your Expenses, Look ${accountState[viewModel.getState(percent)]}.',
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // This show the Income and the expense box
-  Container balanceCard({
-    required String title,
-    required IconData icon,
-    Color? iconColor,
-    required var value,
-  }) {
-    return Container(
-      height: 90,
-      width: 150,
-      padding: EdgeInsets.all(5),
-      margin: EdgeInsets.only(bottom: 5.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: Colors.white,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: iconColor ?? AppColors.primary),
-          Text(title),
-          AppText(
-            text: '₦${viewModel.formatMoney(value)}',
-            textColor: iconColor,
-            textWeigh: FontWeight.bold,
-            textSize: 22,
           ),
         ],
       ),

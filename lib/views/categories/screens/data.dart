@@ -2,11 +2,8 @@ import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/data/models/model_export.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/categories/service_export.dart';
-import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
-import 'package:fin_wise/views/categories/widgets/top_form_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -43,69 +40,78 @@ class _DataViewState extends State<DataView>
     _tabCtrl.dispose();
   }
 
+  void onRefresh(){
+    acc.getBalance();
+    dataCtrl.getNetworks();
+    dataCtrl.getDataPlans(paymentCtrl.select.value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoaderWrapper(
-        child: PageContainer(
-          topMargin: 20,
-          bottomPadding: 10,
-          topChild: CustomAppBar.header(
-            title: 'Buy Data',
-            leftRight: 15,
-            onPressed: () => Get.back(),
-          ),
-          child: Obx(() => TopFormWidget(
-              networks: dataCtrl.dataNet,
-              onTap: () {
-                paymentCtrl.select.value = paymentCtrl.select.value;
-                dataCtrl.getDataPlans(paymentCtrl.select.value);
-                print('Data page number: ${paymentCtrl.select.value}');
-              },
-              // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
-              beneficiaries: [],
-              numberCtrl: numberCtrl,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
-                      Spacer(),
-                      Icon(Icons.grid_view_rounded, color: AppColors.primary),
-                      // Icon(Icons.grid_4x4),
-                    ],
-                  ),
-
-                  TabBar(
-                    labelStyle: TextStyle(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    // isScrollable: true,
-                    // physics: ScrollPhysics(),
-                    padding: const EdgeInsets.all(10),
-                    indicatorColor: AppColors.primary,
-                    dividerColor: AppColors.lightGreen,
-                    controller: _tabCtrl,
-                    tabs: List.generate(dataCtrl.sections.length, ((index) {
-                      final tab = dataCtrl.sections[index];
-                      return Tab(text: tab);
-                    })),
-                  ),
-                  SizedBox(
-                    height: 400,
-                    child: TabBarView(
-                      controller: _tabCtrl,
+        child: RefreshIndicator(
+          onRefresh: ()async {return onRefresh();},
+          child: PageContainer(
+            topMargin: 20,
+            bottomPadding: 10,
+            topChild: CustomAppBar.header(
+              title: 'Buy Data',
+              leftRight: 15,
+              onPressed: () => Get.back(),
+            ),
+            child: Obx(() => TopFormWidget(
+                networks: dataCtrl.dataNet,
+                onTap: () {
+                  paymentCtrl.select.value = paymentCtrl.select.value;
+                  dataCtrl.getDataPlans(paymentCtrl.select.value);
+                  print('Data page number: ${paymentCtrl.select.value}');
+                },
+                // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
+                beneficiaries: [],
+                numberCtrl: numberCtrl,
+                child: Column(
+                  children: [
+                    Row(
                       children: [
-                        // Text('data'),
-                        sectionDataList(dataCtrl.hotUp, 'HotUp'),
-                        sectionDataList(dataCtrl.dailyPlan, 'Daily'),
-                        sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
-                        sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
+                        AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
+                        Spacer(),
+                        Icon(Icons.grid_view_rounded, color: AppColors.primary),
+                        // Icon(Icons.grid_4x4),
                       ],
                     ),
-                  ),
-                ],
+
+                    TabBar(
+                      labelStyle: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      // isScrollable: true,
+                      // physics: ScrollPhysics(),
+                      padding: const EdgeInsets.all(10),
+                      indicatorColor: AppColors.primary,
+                      dividerColor: AppColors.lightGreen,
+                      controller: _tabCtrl,
+                      tabs: List.generate(dataCtrl.sections.length, ((index) {
+                        final tab = dataCtrl.sections[index];
+                        return Tab(text: tab);
+                      })),
+                    ),
+                    SizedBox(
+                      height: 400,
+                      child: TabBarView(
+                        controller: _tabCtrl,
+                        children: [
+                          // Text('data'),
+                          sectionDataList(dataCtrl.hotUp, 'HotUp'),
+                          sectionDataList(dataCtrl.dailyPlan, 'Daily'),
+                          sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
+                          sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -167,9 +173,8 @@ class _DataViewState extends State<DataView>
                                 balance: acc.accountBalance.value,
                                 plan: '${data.name} ${data.frequency.name} Plan',
                                 imgPath: imgPath,
-                                action: (){
-                                  final tranPin = PaymentBottomSheet().pinText.text;
-                                  dataCtrl.buyData(dataId: data.id, tranPin: tranPin, phone: numberCtrl.text);
+                                action: (pin){
+                                  dataCtrl.buyData(dataId: data.id, tranPin: pin, phone: numberCtrl.text);
                                 }
                               );
                             })
@@ -183,7 +188,7 @@ class _DataViewState extends State<DataView>
                       width: 100,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: AppColors.lightGreen,
+                        color: Theme.of(context).cardColor,
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

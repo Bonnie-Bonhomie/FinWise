@@ -41,16 +41,19 @@ class DataController extends GetxController {
     required String tranPin,
     required String phone,
   }) async {
+    print('I am called');
     final String? token = await store.getToken();
     if (token == null) return;
 
+    int id = int.parse(dataId);
     final response = await repo.buyData(
-      dataId: dataId,
+      dataId: id,
       phone: phone,
       token: token,
       tranPin: tranPin,
     );
 
+    print(response);
     if (response is DataSuccess) {
       if (response.data['status'] == true) {
         final data = response.data['data'];
@@ -61,6 +64,7 @@ class DataController extends GetxController {
       }
     } else if (response is DataFailed) {
       final err = response.exception;
+      print(err);
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
           CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
@@ -69,6 +73,8 @@ class DataController extends GetxController {
         if (errData['message'] != null && errData != null) {
           CustomSnackbar.showSnackbar(message: errData['message']);
         }
+      }else{
+        CustomSnackbar.showSnackbar(message: 'Unable to complete transaction', title: 'Oops');
       }
     } else {
       err.value = 'Unable to complete transaction';

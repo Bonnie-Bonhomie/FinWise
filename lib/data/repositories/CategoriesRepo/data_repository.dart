@@ -12,7 +12,7 @@ class DataRepository {
   DataRepository(this.services, this.info);
 
   Future<DataState> buyData({
-    required String dataId,
+    required int dataId,
     required String phone,
     required String token,
     required String tranPin
@@ -32,6 +32,7 @@ class DataRepository {
         return DataSuccess(response.data);
       }
     }on DioException catch(e){
+      print(e);
       return DataFailed(e);
     }
   }

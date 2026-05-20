@@ -3,8 +3,6 @@ import 'package:fin_wise/core/Routes/routes.dart';
 
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/utils_export.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -40,12 +38,12 @@ class TelevisionBillView extends StatelessWidget {
                         size: 25,
                         color: Colors.grey.shade300,
                       ),
-                      fillColor: AppColors.lightGreen,
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide: BorderSide.none,
-                      ),
+                      // fillColor: AppColors.lightGreen,
+                      // filled: true,
+                      // border: OutlineInputBorder(
+                      //   borderRadius: BorderRadius.circular(20.0),
+                      //   borderSide: BorderSide.none,
+                      // ),
                     ),
                   ),
                 ),

@@ -2,7 +2,7 @@ import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
-import 'package:fin_wise/views/view_widgets/text_widget.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +14,7 @@ class CustomAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: AppColors.bgColor,
+      // backgroundColor: AppColors.bgColor,
       title: Center(child: AppText(text: 'Do you want to continue your transaction?', textAlign: TextAlign.center, textSize: 17,)),
       actions: [
         AppBtn(onPressed: (){

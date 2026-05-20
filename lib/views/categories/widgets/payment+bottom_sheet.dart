@@ -8,9 +8,13 @@ import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/custom_keyboard.dart';
 import 'package:fin_wise/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../controllers/controller_exports.dart';
 
 class PaymentBottomSheet {
   final controller = KeyPadController();
+  final loader = Get.find<LoaderController>();
 
 
   //This make the controller refresh and create a new TextEditingController for the form field
@@ -18,7 +22,7 @@ class PaymentBottomSheet {
   final GlobalKey<FormFieldState> pinKey = GlobalKey<FormFieldState>();
 
 
-  void paymentBottomSheet({required BuildContext context, required Function action}) {
+  void paymentBottomSheet({required BuildContext context, required Function(String pin) action}) {
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
       enableDrag: false,
@@ -46,7 +50,7 @@ class PaymentBottomSheet {
     FocusScope.of(context).unfocus();
   }
 
-  Container buildBottomSheet(BuildContext context, Function action) {
+  Container buildBottomSheet(BuildContext context, Function(String pin) action) {
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -54,7 +58,7 @@ class PaymentBottomSheet {
           topEnd: Radius.circular(30),
           topStart: Radius.circular(30),
         ),
-        color: AppColors.bgColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
       ),
       child: Column(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,7 +76,6 @@ class PaymentBottomSheet {
                   );
                 },
                 style: TextButton.styleFrom(
-                  backgroundColor: AppColors.bgColor,
                   shape: RoundedRectangleBorder(),
                 ),
                 icon: const Icon(Icons.dangerous_outlined, size: 25),
@@ -88,7 +91,8 @@ class PaymentBottomSheet {
               readOnly: true,
               showCursor: false,
               pinKey: pinKey,
-              onComplete: (pin)=> controller.loadPin(pin, action),
+              onComplete: (pin)=>
+                controller.loadPin(pin, action),
             ),
           ),
 

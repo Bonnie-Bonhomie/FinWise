@@ -6,7 +6,7 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
-import 'package:fin_wise/views/view_widgets/text_widget.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -122,7 +122,7 @@ class _LoginViewState extends State<LoginView> {
                               child: RichText(
                                 text: TextSpan(
                                   text: 'Forget Password? ',
-                                  style: TextStyle(color: AppColors.darkGreen),
+                                  style: Theme.of(context).textTheme.bodySmall,
                                   children: [
                                     TextSpan(
                                       text: 'Click here',
@@ -152,14 +152,11 @@ class _LoginViewState extends State<LoginView> {
                             RichText(
                               text: TextSpan(
                                 text: "Don`t have an account? ",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w300,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall,
                                 children: [
                                   TextSpan(
                                     text: 'Sign Up',
-                                    style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                                    style: TextStyle(color: AppColors.superBlue, fontWeight: FontWeight.bold),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Get.offNamed(Routes.signIn);

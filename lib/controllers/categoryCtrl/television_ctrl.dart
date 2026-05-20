@@ -91,9 +91,11 @@ class TelevisionCtrl extends GetxController {
         final data = response.data['data'];
 
         final bundle = CableBundle.fromJson(data['bundles']);
-        
-        // print(data['bundles']);
+
+
+        print(data['bundles']);
         cablePrices.add(bundle);
+        print(cablePrices);
         ///To do
       } else {
         error = 'Unable to load available cable bundle';

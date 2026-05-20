@@ -81,7 +81,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                         backgroundColor: AppColors.lightGreen,
                         child: Image.network(select!.imgPath, errorBuilder: (context, _, _) =>
                             CircleAvatar(
-                                backgroundColor: AppColors.lightGreen,
+                                backgroundColor: Theme.of(context).cardColor,
                                 child: Text(select.name[0], style: TextStyle(fontWeight: FontWeight.bold),))),
                       ),
                       const SizedBox(width: 5.0),
@@ -120,9 +120,9 @@ class _ElectricityViewState extends State<ElectricityView> {
                       gradient: LinearGradient(
                         colors: [
                           AppColors.lightGreen,
-                          Colors.white,
-                          Colors.white,
-                          Colors.white,
+                          Theme.of(context).cardColor,
+                          Theme.of(context).cardColor,
+                          Theme.of(context).cardColor,
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.center,
@@ -163,7 +163,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.greenAccent),
                                 borderRadius: BorderRadius.circular(5.0),
-                                color: AppColors.bgColor,
+                                color: Theme.of(context).cardColor,
                               ),
                               child: Icon(
                                 Icons.person_add_alt_1_rounded,
@@ -197,7 +197,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                           height: 120,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: AppColors.bgColor,
+                            color: Theme.of(context).cardColor,
                           ),
                           child: electCtrl.verifyLoad.value
                               ? Center(child: Text('verifying...'))
@@ -250,7 +250,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                         list: [],
                                         balance: acc.accountBalance.value,
                                         imgPath: select.imgPath,
-                                        action: (){}
+                                        action: (pin){}
                                         // plan: electType[selectPaid]
                                       );
                                     })
@@ -297,7 +297,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                     lowestAmount: 1000,
                     productName: 'Electricity',
                     balance: acc.accountBalance.value,
-                    action: (){},
+                    action: (pin){},
                   ),
                 ],
               );
@@ -335,7 +335,8 @@ class _ElectricityViewState extends State<ElectricityView> {
               border: selectPaid == index
                   ? Border.all(color: AppColors.primary)
                   : Border.all(color: Colors.transparent),
-              color: selectPaid == index ? AppColors.lightGreen : Colors.white,
+              color: Theme.of(context).cardColor
+              // color: selectPaid == index ? AppColors.lightGreen : Colors.white,
             ),
             child: Center(
               child: AppText(text: text, textWeigh: FontWeight.bold),

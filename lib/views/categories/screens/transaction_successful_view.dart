@@ -13,7 +13,6 @@ class TransactionSuccessfulView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgColor,
       body: SafeArea(
         top: false,
         child: Padding(

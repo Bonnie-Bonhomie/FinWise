@@ -35,23 +35,24 @@ class _DatePickerState extends State<DatePicker> {
       decoration: InputDecoration(
         hintText: formatInit,
         filled: true,
-        fillColor: AppColors.lightGreen,
-        suffixIcon:  Icon(Icons.date_range_outlined, color: AppColors.bgColor),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15.0),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(15.0),
-        ),
+        fillColor: Theme.of(context).cardColor,
+        suffixIcon:  Icon(Icons.date_range_outlined, color: AppColors.primaryLight),
+      //   enabledBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(15.0),
+      //     borderSide: BorderSide.none,
+      //   ),
+      //   focusedBorder: OutlineInputBorder(
+      //     borderSide: BorderSide.none,
+      //     borderRadius: BorderRadius.circular(15.0),
+      //   ),
+      //   border: OutlineInputBorder(borderSide: BorderSide.none)
       ),
       onTap: () {
         Future<void> selectDate() async {
           DateTime? picked = await showDatePicker(
             context: context,
             initialDate: widget.initialDate ?? DateTime(2010, 12, 30),
-
+            barrierColor: Theme.of(context).cardColor,
             //To make other days before today un selectable
             // firstDate: DateTime.now(),
 

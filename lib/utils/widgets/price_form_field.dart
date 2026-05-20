@@ -37,10 +37,12 @@ class PriceFormField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(2.0),
-        filled: true,
-        fillColor: color,
         hint: hint,
         border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide.none,
+        ),focusedBorder: OutlineInputBorder(
           borderSide: BorderSide.none,
         ),
       ),

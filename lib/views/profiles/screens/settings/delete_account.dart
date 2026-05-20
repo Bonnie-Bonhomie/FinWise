@@ -5,7 +5,7 @@ import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
-import 'package:fin_wise/views/view_widgets/text_widget.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +36,7 @@ class DeleteAccount extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: AppColors.lightGreen,
+                color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: AppText(text: content, textAlign: TextAlign.start),
@@ -55,16 +55,11 @@ class DeleteAccount extends StatelessWidget {
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Enter password',
-                  fillColor: AppColors.lightGreen,
-                  filled: true,
                   suffixIcon: IconButton(
                     onPressed: () {},
                     icon: Icon(Icons.visibility_outlined),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none,
-                  ),
+
                 ),
               ),
             ),
@@ -81,11 +76,11 @@ class DeleteAccount extends StatelessWidget {
                 Get.find<ProfileMainControl>().back();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.lightGreen,
+                backgroundColor: Theme.of(context).cardColor,
               ),
               child: const AppText(
                 text: 'Cancel',
-                textColor: AppColors.darkGreen,
+                // textColor: AppColors.darkGreen,
                 textSize: 18,
               ),
             ),

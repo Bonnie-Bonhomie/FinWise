@@ -13,7 +13,7 @@ class CustomKeyboard extends StatelessWidget{
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: AppColors.lightGreen,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(5.0)
       ),
       child: GridView.builder(
@@ -26,22 +26,22 @@ class CustomKeyboard extends StatelessWidget{
               childAspectRatio: 2,
           ), itemBuilder: (context, index){
         if(index == 9){
-          return keypadKeys(text: 'C', onTap: ()=> controller.clearAll(), color: Colors.grey.withOpacity(0.2));}
+          return keypadKeys(context: context, text: 'C', onTap: ()=> controller.clearAll(), color: Colors.grey.withOpacity(0.2));}
         else if(index == 10){
-         return  keypadKeys(text: '0', onTap: () {
+         return  keypadKeys(context: context, text: '0', onTap: () {
            print(controller.input.value);
            controller.addValue('0', 4);
          });
         }
         else if(index == 11){
-         return keypadKeys(text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey.withOpacity(0.2), textSize: 30);
+         return keypadKeys(context: context, text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey.withOpacity(0.2), textSize: 30);
         }
-        return keypadKeys(text: index.toString(), onTap: () => controller.addValue(index.toString(), 4));
+        return keypadKeys(context: context, text: index.toString(), onTap: () => controller.addValue(index.toString(), 4));
       }, ),
     );
   }
 
-  Widget keypadKeys({ required String text, required VoidCallback onTap, Color? color, double? textSize}) {
+  Widget keypadKeys({required BuildContext context, required String text, required VoidCallback onTap, Color? color, double? textSize}) {
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -49,7 +49,7 @@ class CustomKeyboard extends StatelessWidget{
         width: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: color ?? AppColors.bgColor,
+          color: color ?? Theme.of(context).scaffoldBackgroundColor,
             boxShadow: [
               BoxShadow(color: AppColors.lightGreen)
             ]

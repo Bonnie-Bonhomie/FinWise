@@ -6,6 +6,7 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_alert_dialog.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/categories/categories.dart';
 import 'package:fin_wise/views/categories/widgets/payment+bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,14 @@ import 'package:get/get.dart';
 class ConfirmBottomSheet {
   final navCtrl = Get.find<CategoryNavCtrl>();
   final acc = Get.find<AccBalanceCtrl>();
-  final viewModel = ServiceViewModel();
+  final viewModel = HomeViewModel();
 
   void confirmBottomSheet(BuildContext context, {
     required double amount,
     required TextEditingController numberCtrl,
     required String productName,
     List? list,
-    required Function action,
+    required Function(String pin) action,
     required double balance,
     String imgPath = '',
     bool data = false,
@@ -33,7 +34,7 @@ class ConfirmBottomSheet {
       context: context,
       isDismissible: false,
       enableDrag: false,
-      backgroundColor: AppColors.bgColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       builder: (context) {
         return Obx(() {
 
@@ -50,6 +51,7 @@ class ConfirmBottomSheet {
               },
               child: Container(
                 padding: const EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadiusGeometry.directional(
                     topStart: Radius.circular(60),
@@ -98,7 +100,7 @@ class ConfirmBottomSheet {
                       ),
                       Center(
                         child: AppText(
-                          text: '₦${amount.toStringAsFixed(2)}',
+                          text: viewModel.formatCurrency(amount),
                           textWeigh: FontWeight.bold,
                           textSize: 25,
                         ),
@@ -109,10 +111,10 @@ class ConfirmBottomSheet {
                         Row(
                           children: [
                             CircleAvatar(
-                              backgroundColor: AppColors.lightGreen,
-                              child: Image.network(imgPath, errorBuilder: (context, _, _) =>
+                              backgroundColor: Theme.of(context).cardColor,
+                              child: Image.network(imgPath, fit: BoxFit.cover, errorBuilder: (context, _, _) =>
                                   CircleAvatar(
-                                      backgroundColor: AppColors.lightGreen,
+                                      backgroundColor: Theme.of(context).cardColor,
                                       child: Text(productName[0], style: TextStyle(fontWeight: FontWeight.bold),))),
                             ), const SizedBox(width: 4,),
                             AppText(text: productName),
@@ -122,7 +124,7 @@ class ConfirmBottomSheet {
                       rowTile('Recipient Mobile', AppText(text: numberCtrl.text)),
                       rowTile(
                         'Amount',
-                        AppText(text: '₦${amount.toStringAsFixed(2)}'),
+                        AppText(text: viewModel.formatCurrency(amount)),
                       ),
                       data ? rowTile('Data Bundle', AppText(text: plan))
                           : const SizedBox(),
@@ -136,7 +138,7 @@ class ConfirmBottomSheet {
                         padding: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: AppColors.lightGreen,
+                          color: Theme.of(context).cardColor,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,10 +152,10 @@ class ConfirmBottomSheet {
                                 const SizedBox(width: 10),
                                 AppText(
                                   text:
-                                  '(₦${viewModel.formatMoney(balance)})',
+                                  viewModel.formatCurrency(balance),
                                   textColor: notEnoughAmount
                                       ? Colors.red
-                                      : Colors.black,
+                                      : AppColors.primary,
                                 ),
                                 const Spacer(),
                                 Icon(

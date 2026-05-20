@@ -2,6 +2,7 @@ import 'package:fin_wise/controllers/categoryCtrl/education_controller.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/validator/validator.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
@@ -33,64 +34,69 @@ class BuyPinView extends StatelessWidget {
     serviceCtrl.text = selectedSchool.name;
     amountCtrl.text = selectedSchool.price.toString();
     return Scaffold(
-      body: PageContainer(
-        bottomPadding: 20,
-        topMargin: 20,
-        topChild: CustomAppBar.header(
-          title: selectedSchool.variationCode.toUpperCase(),
-          leftRight: 15,
-          onPressed: () => Get.back(),
-        ),
-        child: ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            labelText('Service type'),
+      body: LoaderWrapper(
+        child: RefreshIndicator(
+          onRefresh: ()async {return null;},
+          child: PageContainer(
+            bottomPadding: 20,
+            topMargin: 20,
+            topChild: CustomAppBar.header(
+              title: selectedSchool.variationCode.toUpperCase(),
+              leftRight: 15,
+              onPressed: () => Get.back(),
+            ),
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                labelText('Service type'),
 
 
-              FormWidget(fieldKey: serviceKey, validator: (val){}, readOnly:  true, valController: serviceCtrl, ),
-            const SizedBox(height: 30),
-            labelText('Amount'),
-            Container(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              margin: const EdgeInsets.only(bottom: 30),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
-                  color: AppColors.lightGreen),
-              child: Row(
-                children: [
-                  AppText(text: '₦'),
-                  Expanded(child:
-                  PriceFormField(numberCtrl: amountCtrl,
-                      hint: AppText(text: ''),
-                      color: AppColors.lightGreen,
-                      readOnly: true,),
-                  )
-                ],
-              ),
+                  FormWidget(fieldKey: serviceKey, validator: (val){}, readOnly:  true, valController: serviceCtrl, ),
+                const SizedBox(height: 30),
+                labelText('Amount'),
+                Container(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  margin: const EdgeInsets.only(bottom: 30),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
+                      color: AppColors.lightGreen),
+                  child: Row(
+                    children: [
+                      AppText(text: '₦'),
+                      Expanded(child:
+                      PriceFormField(numberCtrl: amountCtrl,
+                          hint: AppText(text: ''),
+                          color: AppColors.lightGreen,
+                          readOnly: true,),
+                      )
+                    ],
+                  ),
+                ),
+                labelText('Phone number'),
+                PhoneNumberFormField(numberCtrl: numberCtrl,
+                    numberKey: numberKey,
+                    validator: (val) => Validator.validateNumber(val!)),
+                SizedBox(height: 30),
+                labelText('Network Operator'),
+                dropdownServiceProvider(eduCtrl.selectedProvider.value),
+                SizedBox(height: 30),
+                AppBtn(
+                  onPressed: () {
+                    final amount = double.tryParse(amountCtrl.text);
+                    // numberCtrl.text.isNotEmpty?
+                    // ConfirmBottomSheet().confirmBottomSheet(
+                    //   context,
+                    //   amount: amount!,
+                    //   numberCtrl: numberCtrl,
+                    //   productName: selectedSchool.variationCode,
+                    //   list: [],
+                    //   action: (){}
+                    // ): CustomSnackbar.warningSnack('Enter your registered number');
+                  },
+                  label: 'Proceed to Payment',
+                ),
+              ],
             ),
-            labelText('Phone number'),
-            PhoneNumberFormField(numberCtrl: numberCtrl,
-                numberKey: numberKey,
-                validator: (val) => Validator.validateNumber(val!)),
-            SizedBox(height: 30),
-            labelText('Network Operator'),
-            dropdownServiceProvider(eduCtrl.selectedProvider.value),
-            SizedBox(height: 30),
-            AppBtn(
-              onPressed: () {
-                final amount = double.tryParse(amountCtrl.text);
-                // numberCtrl.text.isNotEmpty?
-                // ConfirmBottomSheet().confirmBottomSheet(
-                //   context,
-                //   amount: amount!,
-                //   numberCtrl: numberCtrl,
-                //   productName: selectedSchool.variationCode,
-                //   list: [],
-                //   action: (){}
-                // ): CustomSnackbar.warningSnack('Enter your registered number');
-              },
-              label: 'Proceed to Payment',
-            ),
-          ],
+          ),
         ),
       ),
     );

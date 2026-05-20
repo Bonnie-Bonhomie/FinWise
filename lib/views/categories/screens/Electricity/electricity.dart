@@ -37,12 +37,12 @@ class AvailableElect extends StatelessWidget {
                       size: 25,
                       color: Colors.grey.shade300,
                     ),
-                    fillColor: AppColors.lightGreen,
-                    filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                      borderSide: BorderSide.none,
-                    ),
+                    // fillColor: AppColors.lightGreen,
+                    // filled: true,
+                    // border: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(20.0),
+                    //   borderSide: BorderSide.none,
+                    // ),
                   ),
                 ),
               ),

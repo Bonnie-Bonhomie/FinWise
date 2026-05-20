@@ -76,7 +76,6 @@ class _TvSubscriptionState extends State<TvSubscription>
                   title: AppText(text: tvDetails.name),
                   titleTextStyle: TextStyle(
                     overflow: TextOverflow.ellipsis,
-                    color: Colors.black,
                   ),
                   leading: CircleAvatar(child: Text(tvDetails.name[0], style: TextStyle(fontWeight: FontWeight.bold),),),
                 ),
@@ -90,7 +89,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     gradient: LinearGradient(
-                      colors: [AppColors.lightGreen, Colors.white],
+                      colors: [AppColors.lightGreen, Theme.of(context).cardColor],
                       begin: Alignment.topCenter,
                       end: Alignment.center,
                     ),
@@ -181,7 +180,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                                 lowestAmount: 2000,
                                                 errMessage: 'Enter your smartcard number',
                                                 balance: acc.accountBalance.value,
-                                                action: (){},
+                                                action: (pin){},
                                               ),
                                               CancelBtn(
                                                 onPressed: () => Get.back(),
@@ -269,8 +268,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                 list: [],
                 imgPath: '',
                 plan: tvDetails.serviceId,
-                action: (){
-                  final transPin = PaymentBottomSheet().pinText.text;
+                action: (pin){
                   // tvCtrl.buyTvService(phone: tvCtrl.phone.value, smartcard: smartCardCtrl.text, id: tvDetails.serviceId, subType: subType, transPin: transPin, productId: productId)
                 }
               );
@@ -297,7 +295,7 @@ class _TvSubscriptionState extends State<TvSubscription>
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: AppColors.lightGreen,
+          color: Theme.of(context).cardColor
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

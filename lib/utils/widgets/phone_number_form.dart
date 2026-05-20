@@ -30,12 +30,12 @@ class PhoneNumberFormField extends StatelessWidget {
       onChanged: onChanged,
       decoration: InputDecoration(
         hintText: '080X XXX XXXX',
-        fillColor: filledColor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide.none,
-        ),
+        // fillColor: filledColor,
+        // filled: true,
+        // border: OutlineInputBorder(
+        //   borderRadius: BorderRadius.circular(20),
+        //   borderSide: BorderSide.none,
+        // ),
       ),
     );
   }

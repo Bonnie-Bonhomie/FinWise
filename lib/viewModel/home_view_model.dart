@@ -21,12 +21,20 @@ class HomeViewModel{
     }
     return index;
   }
-
-  String formatMoney(double amount){
+  //
+  String formatCurrency(double amount){
     final formatted = NumberFormat('#,##0.00').format(amount);
-    return formatted;
+    return '₦$formatted';
   }
-
-
+// Currency formatter
+  String currencyFormatter(String amount) {
+    final formatter = NumberFormat.currency(
+      locale: 'en_NG',
+      symbol: '₦',
+      decimalDigits: 00,
+      customPattern: '#,##0.00'
+    );
+    return formatter.format(amount);
+  }
 
 }

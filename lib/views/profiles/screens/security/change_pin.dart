@@ -81,23 +81,14 @@ class _ChangePinViewState extends State<ChangePinView> {
   Widget inputField(TextEditingController ctrl, String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30, top: 10),
-      child: SizedBox(
-        height: 40,
-        child: TextFormField(
-          controller: ctrl,
-          maxLength: 4,
-          obscureText: true,
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            hintText: label,
-            fillColor: AppColors.lightGreen,
-            filled: true,
-            counterText: '',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none,
-            ),
-          ),
+      child: TextFormField(
+        controller: ctrl,
+        maxLength: 4,
+        obscureText: true,
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          hintText: label,
+
         ),
       ),
     );

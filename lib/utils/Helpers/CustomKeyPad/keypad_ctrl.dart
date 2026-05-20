@@ -1,7 +1,4 @@
 import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -29,13 +26,11 @@ class KeyPadController extends GetxController{
     pinText.text = '';
   }
 
-  void loadPin(pin, Function action) async{
-
+  void loadPin(pin, Function(String pin) action) async{
+    Get.back();
     if(pin.length == 4) {
-      Get.back();
-
       load.offLoading(() async {
-      await action();
+      await action(pin);
       });
     }
   }

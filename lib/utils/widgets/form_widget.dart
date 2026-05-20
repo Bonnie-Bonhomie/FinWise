@@ -58,6 +58,7 @@ class FormWidget extends StatelessWidget {
       readOnly: readOnly ?? false,
       // minLines: min,
       // maxLines: max,
+      // textInputAction: TextInputAction.search,
       keyboardType: textType ?? TextInputType.text, // For address where the input box expands TextInputType.multiline
       decoration: InputDecoration(
         // contentPadding: const EdgeInsets.all(2.0),
@@ -67,19 +68,19 @@ class FormWidget extends StatelessWidget {
           hintText: hintText,
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
-          fillColor: AppColors.lightGreen,
+          // fillColor: AppColors.lightGreen,
 
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide.none
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide.none
-          ), focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide.none
-      )
+      //     border: OutlineInputBorder(
+      //         borderRadius: BorderRadius.circular(15),
+      //       borderSide: BorderSide.none
+      //     ),
+      //     enabledBorder: OutlineInputBorder(
+      //         borderRadius: BorderRadius.circular(20),
+      //         borderSide: BorderSide.none
+      //     ), focusedBorder: OutlineInputBorder(
+      //     borderRadius: BorderRadius.circular(20),
+      //     borderSide: BorderSide.none
+      // )
       ),
     );
   }

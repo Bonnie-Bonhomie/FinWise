@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/app_colors.dart';
-import '../view_widgets/text_widget.dart';
+import '../view_widgets/shared_widget.dart';
 
 class OnboardOne extends StatelessWidget {
   const OnboardOne({super.key});
@@ -57,7 +57,6 @@ class OnboardOne extends StatelessWidget {
                 child:  const Text(
                         "Next",
                         style: TextStyle(
-                          color: AppColors.darkGreen,
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                         ),

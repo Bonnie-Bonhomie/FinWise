@@ -39,7 +39,7 @@ class PageContainer extends StatelessWidget {
                     topEnd: Radius.circular(60),
                     topStart: Radius.circular(60),
                   ),
-                  color: AppColors.bgColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                 ),
                 child: child,
               ),

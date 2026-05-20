@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: AppColors.lightGreen,
+          color: Theme.of(context).cardColor,
         ),
         child: Center(child: child),
       ),

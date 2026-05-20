@@ -27,13 +27,15 @@ class NavControl extends GetxController{
     HomePage(),
     CategoryPage(),
     TransactionView(),
-    AnalysisPage(),
+    // AnalysisPage(),
     Profiles(),
 
   ];
 
 
-  List<IconData> icons =[Icons.home_outlined,Icons.layers_outlined , Icons.wifi_protected_setup, Icons.analytics_outlined, Icons.person_outline_outlined];
+  List<IconData> icons =[Icons.home_outlined,Icons.layers_outlined , Icons.wifi_protected_setup,
+    // Icons.analytics_outlined,
+    Icons.person_outline_outlined];
 
 
   // OnWillPop control function

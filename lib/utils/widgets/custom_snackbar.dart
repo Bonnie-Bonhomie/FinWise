@@ -44,7 +44,8 @@ class CustomSnackbar {
     Get.snackbar(
       'Successful',
       message,
-      messageText: Text(message, style: TextStyle(fontSize: 12.0), overflow: TextOverflow.ellipsis, maxLines: 2,),
+      colorText: AppColors.primary,
+      messageText: Text(message, style: TextStyle(fontSize: 12.0, color: AppColors.primaryLight), overflow: TextOverflow.ellipsis, maxLines: 2,),
       backgroundColor: AppColors.bgColor,
       forwardAnimationCurve: Curves.easeOutBack,
     );

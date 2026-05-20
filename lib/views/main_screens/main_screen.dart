@@ -31,15 +31,14 @@ class _MainScreenState extends State<MainScreen> {
       child: LoaderWrapper(
         child: Scaffold(
           body: Obx(()=> controller.screens[controller.selectInd.value]),
-          backgroundColor: AppColors.bgColor,
           bottomNavigationBar: ClipRRect(
             borderRadius: BorderRadius.only(topRight: Radius.circular(60), topLeft: Radius.circular(60)),
             child: Obx(()=> BottomAppBar(
-                color: AppColors.lightGreen,
+                color: Theme.of(context).cardColor,
                 height: 80,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(5, (index) {
+                  children: List.generate(4, (index) {
 
                     final isSelected = controller.selectInd.value == index;
                     return IconButton(onPressed: (){
@@ -47,8 +46,8 @@ class _MainScreenState extends State<MainScreen> {
                     },
                         style: IconButton.styleFrom(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                          backgroundColor: isSelected? AppColors.primary : AppColors.lightGreen,),
-                        icon: Icon(controller.icons[index]), color: AppColors.darkGreen);
+                          backgroundColor: isSelected? AppColors.primary : Theme.of(context).cardColor,),
+                        icon: Icon(controller.icons[index], color: isSelected? Colors.white : AppColors.primaryLight,),);
                   }),
                 ),
               ),

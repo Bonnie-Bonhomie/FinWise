@@ -49,7 +49,7 @@ class _ProfileViewState extends State<ProfileView> {
                         topLeft: Radius.circular(60),
                         topRight: Radius.circular(60),
                       ),
-                      color: AppColors.bgColor,
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
                     child: Column(
                       children: [

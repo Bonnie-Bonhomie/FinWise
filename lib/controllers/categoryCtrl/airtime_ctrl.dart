@@ -41,7 +41,8 @@ class AirtimeCtrl extends GetxController {
     if (result is DataSuccess) {
       final data = result.data;
       if (data['status'] == true) {
-       AirtimeApiModel airtimeReceipt = result.data['data'];
+        print(result.data[data]);
+       // AirtimeApiModel airtimeReceipt = result.data['data'];
 
       } else {
         error.value = 'Unable to complete transaction';

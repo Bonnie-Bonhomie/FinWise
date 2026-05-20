@@ -2,11 +2,8 @@ import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/section_divider.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/utils/widgets/custom_linear_progress.dart';
-import 'package:fin_wise/views/categories/categories.dart';
+import 'package:fin_wise/utils/utils_export.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/category_card.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +19,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
-    final ServiceViewModel vieModel = ServiceViewModel();
+    final HomeViewModel vieModel = HomeViewModel();
 
   @override
   void initState() {
@@ -137,7 +134,7 @@ class _CategoryPageState extends State<CategoryPage> {
               children: [
                 totalBox(
                   title: "Acc. Balance",
-                  value: '₦${vieModel.formatMoney(acc.accountBalance.value)}',
+                  value: vieModel.formatCurrency(acc.accountBalance.value),
                   icon: Icons.arrow_circle_up_outlined,
                   color: AppColors.bgColor,
                 ),
@@ -146,7 +143,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 Spacer(),
                 totalBox(
                   title: "Total Expenses",
-                  value: '₦${vieModel.formatMoney(acc.expense.value)}',
+                  value: vieModel.formatCurrency(acc.expense.value),
                   color: Color(0xFF0000FF),
                   icon: Icons.arrow_circle_down_outlined,
                 ),

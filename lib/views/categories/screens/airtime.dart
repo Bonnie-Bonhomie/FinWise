@@ -40,7 +40,8 @@ class _AirtimeViewState extends State<AirtimeView> {
   }
 
   void onRefresh(){
-    Future.delayed(Duration(seconds: 1), () => ctrl.getNetworks());
+    Future.delayed(Duration(seconds: 1), ()  {ctrl.getNetworks();
+    acc.getBalance();});
   }
 
   @override
@@ -71,10 +72,10 @@ class _AirtimeViewState extends State<AirtimeView> {
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: AppColors.bgColor,
-                      boxShadow: [
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        boxShadow: [
                         BoxShadow(
-                          color: AppColors.lightGreen,
+                          color: Theme.of(context).cardColor,
                           offset: Offset(2, 4),
                         ),
                       ],
@@ -96,13 +97,10 @@ class _AirtimeViewState extends State<AirtimeView> {
                                       setState(() {
                                         amount = topAmount.toDouble();
                                       });
-                                      print(ctrl.selected.value);
+
                                       final imgPath = ctrl
-                                          .airtimeNet[navCtrl.select.value - 1]
-                                          .imgPath;
-                                      print(
-                                        'Image: ${ctrl.airtimeNet[number - 1].name} End',
-                                      );
+                                          .airtimeNet[navCtrl.select.value - 1].imgPath;
+
                                       ConfirmBottomSheet().confirmBottomSheet(
                                         list: ctrl.airtimeBenes,
                                         balance: acc.accountBalance.value,
@@ -111,9 +109,8 @@ class _AirtimeViewState extends State<AirtimeView> {
                                         numberCtrl: numberCtrl,
                                         productName: 'Airtime',
                                         imgPath: imgPath,
-                                        action: () {
-                                          final pin =
-                                              PaymentBottomSheet().pinText.text;
+                                        action: (pin) {
+
                                           ctrl.buyAirtime(
                                             amount: amount.toStringAsFixed(2),
                                             number: number,
@@ -140,8 +137,7 @@ class _AirtimeViewState extends State<AirtimeView> {
                     numberCtrl: numberCtrl,
                     productName: 'Airtime',
                     balance: acc.accountBalance.value,
-                    action: () {
-                      final pin = PaymentBottomSheet().pinText.text;
+                    action: (pin) {
                       ctrl.buyAirtime(
                         amount: amount.toStringAsFixed(2),
                         number: number,

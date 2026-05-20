@@ -53,7 +53,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
         Container(
           margin: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-            color: AppColors.bgColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(40),
           ),
           padding: const EdgeInsets.all(15),
@@ -93,12 +93,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: '080X XXX XXXX',
-                        fillColor: AppColors.lightGreen,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
-                        ),
+
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -150,7 +145,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                 padding: const EdgeInsets.all(20),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: AppColors.bgColor,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadiusGeometry.directional(
                     bottomStart: Radius.circular(30),
                     bottomEnd: Radius.circular(30),
@@ -253,6 +248,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
             width: 45,
             decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade400),
             child: Image.network(img.toString(),
+              fit: BoxFit.cover,
               headers: const {'Access-Control-Allow-Origin': '*'},
               errorBuilder: (_, _, _) {
               return Container(

@@ -28,7 +28,7 @@ class PriceInputField extends StatefulWidget {
   final double highestAmount;
   final double balance;
   final String errMessage;
-  final Function action;
+  final Function(String pin) action;
 
   @override
   State<PriceInputField> createState() => _PriceInputFieldState();
@@ -56,7 +56,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
       margin: const EdgeInsets.only(top: 40, bottom: 20),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
