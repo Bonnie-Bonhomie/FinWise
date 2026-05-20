@@ -100,7 +100,7 @@ class ForgetPwdView extends StatelessWidget {
                         RichText(
                           text: TextSpan(
                             text: "Remember your password? ",
-                            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w200),
+                            style: Theme.of(context).textTheme.bodySmall,
                             children: [
                               TextSpan(
                                 text: 'Log in',

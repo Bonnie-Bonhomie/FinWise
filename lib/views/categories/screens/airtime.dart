@@ -38,9 +38,9 @@ class _AirtimeViewState extends State<AirtimeView> {
     super.initState();
   }
 
-  void onRefresh(){
-    Future.delayed(Duration(seconds: 1), ()  {ctrl.getNetworks();
-    acc.getBalance();});
+  Future<void> onRefresh() async {
+    Future.delayed(Duration(seconds: 3), ()  async{ await ctrl.getNetworks();
+    await acc.getBalance();});
   }
 
   @override
@@ -49,7 +49,8 @@ class _AirtimeViewState extends State<AirtimeView> {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: () async{return onRefresh();},
+          onRefresh: () async{return await onRefresh();},
+
           child: PageContainer(
             bottomPadding: 20,
             topMargin: 20,

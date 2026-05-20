@@ -50,7 +50,7 @@ class DataController extends GetxController {
     final number = viewModel.numberBack(phone);
     int id = int.parse(dataId);
     final response = await repo.buyData(
-      dataId: id,
+      dataId: dataId,
       phone: number,
       token: token,
       tranPin: tranPin,

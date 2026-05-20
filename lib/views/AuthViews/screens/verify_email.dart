@@ -101,7 +101,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       RichText(
                         text: TextSpan(
                           text: 'Don`t receive verification code ',
-                          style: TextStyle(color: AppColors.darkGreen),
+                          style: Theme.of(context).textTheme.bodySmall,
                           children: [
                             TextSpan(
                               text: 'Resend now',
@@ -123,7 +123,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       RichText(
                         text: TextSpan(
                           text: "Already have an account? ",
-                          style: TextStyle(color: Colors.black),
+                          style: Theme.of(context).textTheme.bodySmall,
                           children: [
                             TextSpan(
                               text: 'Log in',

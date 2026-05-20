@@ -12,7 +12,7 @@ class DataRepository {
   DataRepository(this.services, this.info);
 
   Future<DataState> buyData({
-    required int dataId,
+    required String dataId,
     required String phone,
     required String token,
     required String tranPin

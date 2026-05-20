@@ -93,6 +93,8 @@ class AirtimeCtrl extends GetxController {
   }
 
   Future<void> getNetworks() async {
+    airtimeNet.clear();
+
     final String? token = await store.getToken();
     if (token == null) return;
     final result = await repo.airtimeNetwork(token);

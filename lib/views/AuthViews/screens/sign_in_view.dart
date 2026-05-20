@@ -213,10 +213,7 @@ class _SignInViewState extends State<SignInView> {
               RichText(
                 text: TextSpan(
                   text: "Already have an account? ",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
                   children: [
                     TextSpan(
                       text: 'Log in',

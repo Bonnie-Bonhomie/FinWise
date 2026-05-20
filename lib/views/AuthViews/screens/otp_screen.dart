@@ -94,7 +94,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       child: RichText(
                         text: TextSpan(
                           text: 'Don`t receive verification code ',
-                          style: TextStyle(color: AppColors.darkGreen),
+                          style: Theme.of(context).textTheme.bodySmall,
                           children: [
                             TextSpan(
                               text: 'Resend now',
@@ -131,7 +131,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     RichText(
                       text: TextSpan(
                         text: "Remember your password? ",
-                        style: TextStyle(color: Colors.black),
+                        style: Theme.of(context).textTheme.bodySmall,
                         children: [
                           TextSpan(
                             text: 'Log in',

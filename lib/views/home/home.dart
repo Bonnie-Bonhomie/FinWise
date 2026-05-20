@@ -49,6 +49,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  void onRefresh(){
+    Future.delayed(Duration(seconds: 1), () async{ await acc.getBalance();});
+  }
+
   @override
   Widget build(BuildContext context) {
     final percent = (acc.spentPercent * 100).round();
@@ -61,74 +65,79 @@ class _HomePageState extends State<HomePage> {
         top: false,
         child: SingleChildScrollView(
           child: Obx(() {
-            return PageContainer(
-              topMargin: 10,
-              topChild: Column(
-                children: [
-                  _header(viewModel.greeting()),
-                  headerCard(context, percent.toDouble(), acc),
-                ],
-              ),
-
-              //The Bottom Section [Transaction lists]
-              child: Container(
-                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                child: Column(
+            return RefreshIndicator(
+              onRefresh: () async{return onRefresh();},
+              color: AppColors.primary,
+              backgroundColor: Colors.white,
+              child: PageContainer(
+                topMargin: 10,
+                topChild: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CategoriesCard(
-                          width: 50,
-                          iconSize: 25,
-                          icon: Categories.airtime.icon,
-                          title: Categories.airtime.label,
-                          onTap: () => Get.toNamed(Routes.airtime),
-                        ),
-                        CategoriesCard(
-                          width: 50,
-                          iconSize: 30,
-                          icon: Categories.data.icon,
-                          title: Categories.data.label,
-                          onTap: () => Get.toNamed(Routes.data),
-                        ),
-                        CategoriesCard(
-                          width: 50,
-                          iconSize: 25,
-                          icon: Categories.cable.icon,
-                          title: Categories.cable.label,
-                          onTap: () => Get.toNamed(Routes.tv),
-                        ),
-                        CategoriesCard(
-                          width: 50,
-                          iconSize: 25,
-                          icon: Icons.interests,
-                          title: 'More',
-                          onTap: () {
-                            nav.selectInd.value = 1;
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        const AppText(
-                          text: "Transactions",
-                          textSize: 20,
-                          textWeigh: FontWeight.bold,
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () {
-                            nav.selectInd.value = 2;
-                          },
-                          child: const AppText(text: 'See all'),
-                        ),
-                      ],
-                    ),
-                    Expanded(child: BuildTransaction(trans: trans)),
+                    _header(viewModel.greeting()),
+                    headerCard(context, percent.toDouble(), acc),
                   ],
+                ),
+
+                //The Bottom Section [Transaction lists]
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CategoriesCard(
+                            width: 50,
+                            iconSize: 25,
+                            icon: Categories.airtime.icon,
+                            title: Categories.airtime.label,
+                            onTap: () => Get.toNamed(Routes.airtime),
+                          ),
+                          CategoriesCard(
+                            width: 50,
+                            iconSize: 30,
+                            icon: Categories.data.icon,
+                            title: Categories.data.label,
+                            onTap: () => Get.toNamed(Routes.data),
+                          ),
+                          CategoriesCard(
+                            width: 50,
+                            iconSize: 25,
+                            icon: Categories.cable.icon,
+                            title: Categories.cable.label,
+                            onTap: () => Get.toNamed(Routes.tv),
+                          ),
+                          CategoriesCard(
+                            width: 50,
+                            iconSize: 25,
+                            icon: Icons.interests,
+                            title: 'More',
+                            onTap: () {
+                              nav.selectInd.value = 1;
+                            },
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          const AppText(
+                            text: "Transactions",
+                            textSize: 20,
+                            textWeigh: FontWeight.bold,
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () {
+                              nav.selectInd.value = 2;
+                            },
+                            child: const AppText(text: 'See all'),
+                          ),
+                        ],
+                      ),
+                      Expanded(child: BuildTransaction(trans: trans)),
+                    ],
+                  ),
                 ),
               ),
             );
