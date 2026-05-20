@@ -52,7 +52,6 @@ class _DatePickerState extends State<DatePicker> {
           DateTime? picked = await showDatePicker(
             context: context,
             initialDate: widget.initialDate ?? DateTime(2010, 12, 30),
-            barrierColor: Theme.of(context).cardColor,
             //To make other days before today un selectable
             // firstDate: DateTime.now(),
 

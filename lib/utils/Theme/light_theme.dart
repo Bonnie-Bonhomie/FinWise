@@ -10,7 +10,7 @@ final ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: AppColors.primary,
     onPrimary: Colors.black,
-    secondary: AppColors.darkGreen,
+    secondary: AppColors.declined,
     surface: AppColors.surfaceVariant,
     onSurface: AppColors.onSurface,
     error: AppColors.declined,
@@ -29,7 +29,7 @@ final ThemeData lightTheme = ThemeData(
 
   cardColor: AppColors.lightGreen,
   textTheme: GoogleFonts.spaceGroteskTextTheme(
-    ThemeData.dark().textTheme,
+    ThemeData.light().textTheme,
   ).apply(bodyColor: AppColors.surface, displayColor: AppColors.surface),
   cardTheme: CardThemeData(
     color: AppColors.lightGreen,
