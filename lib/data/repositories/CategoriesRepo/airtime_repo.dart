@@ -11,8 +11,8 @@ class AirtimeRepository {
   AirtimeRepository(this.services, this.info);
 
   Future<DataState> buyAirtime({
-    required String amount,
-    required int number,
+    required double amount,
+    required String number,
     required String networkId,
     required String token,
     required String transPin,

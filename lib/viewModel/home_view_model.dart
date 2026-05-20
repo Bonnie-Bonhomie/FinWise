@@ -26,6 +26,11 @@ class HomeViewModel{
     final formatted = NumberFormat('#,##0.00').format(amount);
     return '₦$formatted';
   }
+
+  String numberBack( String number){
+    final formated = number.replaceAll(' ', '');
+    return formated;
+  }
 // Currency formatter
   String currencyFormatter(String amount) {
     final formatter = NumberFormat.currency(

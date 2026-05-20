@@ -10,9 +10,9 @@ final ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: AppColors.primary,
     onPrimary: Colors.black,
-    secondary: AppColors.declined,
+    secondary: AppColors.primaryLight,
     surface: AppColors.surfaceVariant,
-    onSurface: AppColors.onSurface,
+    onSurface: AppColors.surface,
     error: AppColors.declined,
   ),
   scaffoldBackgroundColor: AppColors.bgColor,

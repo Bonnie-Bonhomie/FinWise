@@ -110,13 +110,17 @@ class ConfirmBottomSheet {
                         'Product Name',
                         Row(
                           children: [
-                            CircleAvatar(
-                              backgroundColor: Theme.of(context).cardColor,
-                              child: Image.network(imgPath, fit: BoxFit.cover, errorBuilder: (context, _, _) =>
-                                  CircleAvatar(
-                                      backgroundColor: Theme.of(context).cardColor,
-                                      child: Text(productName[0], style: TextStyle(fontWeight: FontWeight.bold),))),
-                            ), const SizedBox(width: 4,),
+                           imgPath.isEmpty? CircleAvatar(backgroundColor: Theme.of(context).cardColor, child: Text(productName[0], style: TextStyle(fontWeight: FontWeight.bold),)): Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(shape: BoxShape.circle,
+                                color: Theme.of(context).cardColor,
+                                  image: DecorationImage(image: NetworkImage(imgPath), onError: (_, _)=> Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      shape: BoxShape.circle,
+                                    ), )
+                                  ), )), const SizedBox(width: 4,),
                             AppText(text: productName),
                           ],
                         ),

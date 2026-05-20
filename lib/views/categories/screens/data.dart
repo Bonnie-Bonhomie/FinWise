@@ -162,6 +162,7 @@ class _DataViewState extends State<DataView>
                       print(imgPath);
                       double amount = double.parse(data.price);
                       print('${data.name} ${data.frequency.name} Plan');
+                      dataCtrl.dataNet.isEmpty? CustomSnackbar.showSnackbar(message: 'Unable to load available networks'):
                       numberCtrl.text.isNotEmpty
                           ? loading.offLoading(() {
                               ConfirmBottomSheet().confirmBottomSheet(
@@ -173,8 +174,8 @@ class _DataViewState extends State<DataView>
                                 balance: acc.accountBalance.value,
                                 plan: '${data.name} ${data.frequency.name} Plan',
                                 imgPath: imgPath,
-                                action: (pin){
-                                  dataCtrl.buyData(dataId: data.id, tranPin: pin, phone: numberCtrl.text);
+                                action: (pin) async{
+                                 await dataCtrl.buyData(dataId: data.id, tranPin: pin, phone: numberCtrl.text);
                                 }
                               );
                             })

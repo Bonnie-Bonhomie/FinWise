@@ -26,7 +26,7 @@ class KeyPadController extends GetxController{
     pinText.text = '';
   }
 
-  void loadPin(pin, Function(String pin) action) async{
+  Future<void> loadPin(pin, Function(String pin) action) async{
     Get.back();
     if(pin.length == 4) {
       load.offLoading(() async {

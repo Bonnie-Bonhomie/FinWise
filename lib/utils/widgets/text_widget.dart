@@ -25,7 +25,7 @@ class AppText extends StatelessWidget {
         fontSize: textSize,
         // fontFamily: 'Poppins',
         fontWeight: textWeigh,
-        color: textColor,
+        color: textColor ?? Theme.of(context).textTheme.bodySmall!.color,
       ),
     );
   }

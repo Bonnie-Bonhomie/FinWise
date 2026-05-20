@@ -5,6 +5,7 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/data_repository.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:get/get.dart';
 
 class DataController extends GetxController {
@@ -21,6 +22,7 @@ class DataController extends GetxController {
 
   var planErr = ''.obs;
   RxBool dataLoading = false.obs;
+  final HomeViewModel viewModel = HomeViewModel();
 
   @override
   void onInit() {
@@ -45,10 +47,11 @@ class DataController extends GetxController {
     final String? token = await store.getToken();
     if (token == null) return;
 
+    final number = viewModel.numberBack(phone);
     int id = int.parse(dataId);
     final response = await repo.buyData(
       dataId: id,
-      phone: phone,
+      phone: number,
       token: token,
       tranPin: tranPin,
     );

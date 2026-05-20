@@ -50,6 +50,7 @@ class CustomPinCodeField extends StatelessWidget {
       ],
 
       pinTheme: PinTheme(
+
         // fieldOuterPadding: EdgeInsets.all(5),
         //     activeBorderWidth: 10,
         shape: PinCodeFieldShape.box,

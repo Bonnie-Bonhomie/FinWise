@@ -91,8 +91,7 @@ class PaymentBottomSheet {
               readOnly: true,
               showCursor: false,
               pinKey: pinKey,
-              onComplete: (pin)=>
-                controller.loadPin(pin, action),
+              onComplete: (pin){controller.loadPin(pin, action);}
             ),
           ),
 

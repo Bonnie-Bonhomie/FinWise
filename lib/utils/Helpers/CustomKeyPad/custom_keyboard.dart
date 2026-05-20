@@ -26,15 +26,15 @@ class CustomKeyboard extends StatelessWidget{
               childAspectRatio: 2,
           ), itemBuilder: (context, index){
         if(index == 9){
-          return keypadKeys(context: context, text: 'C', onTap: ()=> controller.clearAll(), color: Colors.grey.withOpacity(0.2));}
+          return keypadKeys(context: context, text: 'C', onTap: ()=> controller.clearAll(), color: Colors.grey);}
         else if(index == 10){
-         return  keypadKeys(context: context, text: '0', onTap: () {
+         return  keypadKeys(context: context, text: '9', onTap: () {
            print(controller.input.value);
            controller.addValue('0', 4);
          });
         }
         else if(index == 11){
-         return keypadKeys(context: context, text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey.withOpacity(0.2), textSize: 30);
+         return keypadKeys(context: context, text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey, textSize: 30);
         }
         return keypadKeys(context: context, text: index.toString(), onTap: () => controller.addValue(index.toString(), 4));
       }, ),

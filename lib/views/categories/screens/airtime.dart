@@ -28,7 +28,6 @@ class _AirtimeViewState extends State<AirtimeView> {
   List<int> topUp = [50, 100, 200, 500, 1000, 2000];
   bool isOpen = false;
   double amount = 0.00;
-  int number = 1;
 
   //To convert the Price to double
 
@@ -92,6 +91,8 @@ class _AirtimeViewState extends State<AirtimeView> {
                               amountCtrl.text = '${topAmount.toString()}.00';
 
                               FocusScope.of(context).unfocus();
+                              ctrl.airtimeNet.isEmpty?
+                              CustomSnackbar.showSnackbar(message: 'Unable to load available networks'):
                               numberCtrl.text.isNotEmpty
                                   ? loadCtrl.offLoading(() {
                                       setState(() {
@@ -109,13 +110,12 @@ class _AirtimeViewState extends State<AirtimeView> {
                                         numberCtrl: numberCtrl,
                                         productName: 'Airtime',
                                         imgPath: imgPath,
-                                        action: (pin) {
+                                        action: (pin) async {
 
-                                          ctrl.buyAirtime(
-                                            amount: amount.toStringAsFixed(2),
-                                            number: number,
-                                            netId: navCtrl.select.value
-                                                .toString(),
+                                          await ctrl.buyAirtime(
+                                            amount: amount,
+                                            number: numberCtrl.text,
+                                            netId: ctrl.airtimeNet[navCtrl.select.value- 1].serviceId,
                                             pin: pin,
                                           );
                                         },
@@ -139,9 +139,9 @@ class _AirtimeViewState extends State<AirtimeView> {
                     balance: acc.accountBalance.value,
                     action: (pin) {
                       ctrl.buyAirtime(
-                        amount: amount.toStringAsFixed(2),
-                        number: number,
-                        netId: navCtrl.select.value.toString(),
+                        amount: amount,
+                        number: numberCtrl.text,
+                        netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
                         pin: pin,
                       );
                     },

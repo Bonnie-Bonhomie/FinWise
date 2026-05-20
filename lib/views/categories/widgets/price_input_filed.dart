@@ -85,7 +85,8 @@ class _PriceInputFieldState extends State<PriceInputField> {
                     // if(am)
 
                     FocusScope.of(context).unfocus();
-                    widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
+
+                    // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
                     widget.numberCtrl.text.isNotEmpty
                         ?
                       loadCtrl.offLoading((){

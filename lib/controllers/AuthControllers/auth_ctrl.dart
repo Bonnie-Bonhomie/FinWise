@@ -76,8 +76,10 @@ class AuthCtrl extends GetxController {
 
         final name = user!.name;
         final mail = user!.email;
+        final userId = user!.id;
         await store.saveData<String>(PrefStoreKeys.username, name);
         await store.saveData<String>(PrefStoreKeys.mail, mail);
+        await store.saveData<String>(PrefStoreKeys.userId, userId);
         signMail.value = user!.email;
         CustomSnackbar.successSnack(data['message']);
         Get.offNamed(Routes.verAcc);
@@ -122,12 +124,15 @@ class AuthCtrl extends GetxController {
       if (data['status'] == true) {
         final token = data['data']['token'];
         await storage.saveToken(token);
+
         final name = data['data']['name'];
         final mail = data['data']['email'];
+        final userId = data['data']['id'].toString();
         final phone = data['data']['phone'];
         await store.saveData<String>(PrefStoreKeys.username, name);
         await store.saveData<String>(PrefStoreKeys.mail, mail);
         await store.saveData<String>(PrefStoreKeys.phone, phone);
+        await store.saveData<String>(PrefStoreKeys.userId, userId);
 
         userWallet = WalletModel.fromJson(data['data']['wallet']);
         // user = UserModel.fromJson(response.data);
