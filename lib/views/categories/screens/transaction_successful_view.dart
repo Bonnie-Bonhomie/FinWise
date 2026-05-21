@@ -1,5 +1,6 @@
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +9,7 @@ import 'package:lottie/lottie.dart';
 class TransactionSuccessfulView extends StatelessWidget {
   TransactionSuccessfulView({super.key});
 
-  final amount = Get.arguments ?? '';
+  final TransactionModel receiptDet = Get.arguments ?? '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,7 @@ class TransactionSuccessfulView extends StatelessWidget {
               ),
 
               // const SizedBox(height: 20),
+              if(receiptDet.apiStatus.label == 'completed')
               Center(
                 child: SizedBox(
                   height: 120,
@@ -46,13 +48,13 @@ class TransactionSuccessfulView extends StatelessWidget {
                 ),
               ),
 
-              const Center(child: AppText(text: 'Successful')),
+             Center(child: AppText(text: receiptDet.apiStatus.label, textColor: receiptDet.apiStatus.color,)),
               const SizedBox(height: 20),
               Center(
                 child: AppText(
-                  text: '₦$amount',
+                  text: '₦${receiptDet.amount.toStringAsFixed(2)}',
                   textWeigh: FontWeight.bold,
-                  textSize: 25,
+                  textSize: 20,
                 ),
               ),
               const SizedBox(height: 50),
@@ -61,7 +63,7 @@ class TransactionSuccessfulView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   receiptContainer('Share Receipt', () {
-                    Get.offNamed(Routes.transReceipt);
+                    Get.offNamed(Routes.transReceipt, arguments: '');
                   }, Icons.share),
                   receiptContainer('View Details', () {
                     Get.offNamed(Routes.transReceipt);

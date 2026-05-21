@@ -9,7 +9,7 @@ class CategoryNavCtrl extends GetxController{
 
   RxDouble accountBalance = 11.00.obs;
   var amountCtrl = TextEditingController().obs;
-  var select = 1.obs;
+  var select = 0.obs;
   var cleared = false.obs;
   var hasText = false.obs;
   var addBeneficiary = false.obs;

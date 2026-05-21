@@ -42,7 +42,7 @@ class _DataViewState extends State<DataView>
 
   Future<void> onRefresh() async {
     await acc.getBalance();
-   await dataCtrl.getNetworks();
+    await dataCtrl.getNetworks();
     await dataCtrl.getDataPlans(paymentCtrl.select.value);
   }
 
@@ -51,7 +51,9 @@ class _DataViewState extends State<DataView>
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: ()async {await onRefresh();},
+          onRefresh: () async {
+            await onRefresh();
+          },
           child: PageContainer(
             topMargin: 20,
             bottomPadding: 10,
@@ -60,7 +62,8 @@ class _DataViewState extends State<DataView>
               leftRight: 15,
               onPressed: () => Get.back(),
             ),
-            child: Obx(() => TopFormWidget(
+            child: Obx(
+              () => TopFormWidget(
                 networks: dataCtrl.dataNet,
                 onTap: () {
                   paymentCtrl.select.value = paymentCtrl.select.value;
@@ -123,100 +126,24 @@ class _DataViewState extends State<DataView>
   ///Data plan section list Widget
   Widget sectionDataList(List<DataPlan> dataPlan, String section) {
     // return Obx(() {
-      return
-        Padding(
-        padding: const EdgeInsets.only(top: 15),
-        child: dataCtrl.dataLoading.value
-            ? SkeletonLoader.shimmerLines(
-                len: 3,
-                child: Row(
-                  children: List.generate(
-                    3,
-                    (index) => Container(
-                      margin: const EdgeInsets.all(3),
-                      color: Colors.grey.shade300,
-                      height: 120,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Theme.of(context).cardColor,
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : dataPlan.isEmpty
-            ? ServiceEmpty(
-                emptyData: dataCtrl.planErr.value.isEmpty
-                    ? '$section data plan is not available.'
-                    : dataCtrl.planErr.value,
-              )
-            : Wrap(
-                runSpacing: 15,
-                alignment: WrapAlignment.start,
-                spacing: 15,
-                children: List.generate(dataPlan.length, (index) {
-                  final data = dataPlan[index];
-                  return InkWell(
-                    onTap: () {
-                      FocusScope.of(context).unfocus();
-                      final imgPath = dataCtrl
-                          .dataNet[paymentCtrl.select.value - 1]
-                          .imgPath;
-                      print(imgPath);
-                      double amount = double.parse(data.price);
-                      print('${data.name} ${data.frequency.name} Plan');
-                      dataCtrl.dataNet.isEmpty? CustomSnackbar.showSnackbar(message: 'Unable to load available networks'):
-                      numberCtrl.text.isNotEmpty
-                          ? loading.offLoading(() {
-                              ConfirmBottomSheet().confirmBottomSheet(
-                                context,
-                                amount: amount,
-                                numberCtrl: numberCtrl,
-                                productName: 'Mobile Data',
-                                data: true,
-                                balance: acc.accountBalance.value,
-                                plan: '${data.name} ${data.frequency.name} Plan',
-                                imgPath: imgPath,
-                                action: (pin) async{
-                                 await dataCtrl.buyData(dataId: data.id, tranPin: pin, phone: numberCtrl.text);
-                                }
-                              );
-                            })
-                          : CustomSnackbar.showSnackbar(
-                              message: 'Enter recipient number',
-                            );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      height: 120,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Theme.of(context).cardColor,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            data.name,
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 5.0),
-                          AppText(text: data.frequency.name, textSize: 12.0),
-                          const SizedBox(height: 5.0),
-                          AppText(text: '₦${data.price.toString()}'),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ),
-      );
+    return Padding(
+      padding: const EdgeInsets.only(top: 15),
+      child: dataCtrl.dataLoading.value
+          ? DataLoadingState()
+          : dataPlan.isEmpty
+          ? ServiceEmpty(
+              emptyData: dataCtrl.planErr.value.isEmpty
+                  ? '$section data plan is not available.'
+                  : dataCtrl.planErr.value,
+            )
+          : DataCard(
+              dataPlan: dataPlan,
+              dataCtrl: dataCtrl,
+              acc: acc,
+              numberCtrl: numberCtrl,
+              paymentCtrl: paymentCtrl,
+            ),
+    );
     // });
   }
 }
@@ -233,6 +160,132 @@ class ServiceEmpty extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [Icon(Icons.insights_outlined), Text(emptyData)],
+      ),
+    );
+  }
+}
+
+class DataCard extends StatelessWidget {
+  final List<DataPlan> dataPlan;
+  final DataController dataCtrl;
+  final CategoryNavCtrl paymentCtrl;
+  final AccBalanceCtrl acc;
+  final TextEditingController numberCtrl;
+
+  DataCard({
+    super.key,
+    required this.dataPlan,
+    required this.dataCtrl,
+    required this.acc,
+    required this.numberCtrl,
+    required this.paymentCtrl,
+  });
+
+  final loader = Get.find<LoaderController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      runSpacing: 15,
+      alignment: WrapAlignment.start,
+      spacing: 15,
+      children: List.generate(dataPlan.length, (index) {
+        final data = dataPlan[index];
+        return InkWell(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            final imgPath = dataCtrl.dataNet[paymentCtrl.select.value].imgPath;
+            // print(imgPath);
+            double amount = double.parse(data.price);
+            // print('${data.name} ${data.frequency.name} Plan');
+            final networkId =
+                dataCtrl.dataNet[paymentCtrl.select.value].serviceId;
+            dataCtrl.dataNet.isEmpty
+                ? CustomSnackbar.showSnackbar(
+                    message: 'Unable to load available networks',
+                  )
+                : numberCtrl.text.isNotEmpty
+                ? loader.offLoading(() {
+                    ConfirmBottomSheet().confirmBottomSheet(
+                      context,
+                      amount: amount,
+                      numberCtrl: numberCtrl,
+                      productName: '${networkId.toUpperCase()} Data',
+                      data: true,
+                      balance: acc.accountBalance.value,
+                      plan: '${data.name} ${data.frequency.name} Plan',
+                      imgPath: imgPath,
+                      action: (pin) async {
+                        await dataCtrl.buyData(
+                          dataId: data.id,
+                          tranPin: pin,
+                          phone: numberCtrl.text,
+                        );
+                      },
+                    );
+                  })
+                : CustomSnackbar.showSnackbar(
+                    message: 'Enter recipient number',
+                  );
+          },
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+            height: 120,
+            width: 120,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Theme.of(context).cardColor,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  data.name,
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 5.0),
+                AppText(text: data.frequency.name, textSize: 12.0),
+                const SizedBox(height: 5.0),
+                AppText(text: '₦${data.price.toString()}'),
+                Container(
+                  width: 60,
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.pending.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Center(child: Text(data.planType, style: TextStyle(fontSize: 11.0, color: AppColors.pending))),
+                ),
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+}
+
+class DataLoadingState extends StatelessWidget {
+  const DataLoadingState({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SkeletonLoader.shimmerLines(
+      len: 3,
+      child: Row(
+        children: List.generate(
+          3,
+          (index) => Container(
+            margin: const EdgeInsets.all(5),
+            height: 120,
+            width: 100,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Theme.of(context).cardColor,
+            ),
+          ),
+        ),
       ),
     );
   }

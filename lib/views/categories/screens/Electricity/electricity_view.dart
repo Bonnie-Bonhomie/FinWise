@@ -45,15 +45,17 @@ class _ElectricityViewState extends State<ElectricityView> {
     acc.getBalance();
     super.initState();
   }
-  void onRefresh() {
-    Future.delayed(Duration(seconds: 1), () => electCtrl.getElectricDiscos());
+  Future<void> onRefresh() async {
+    Future.delayed(Duration(seconds: 1), () async {await electCtrl.getElectricDiscos();
+      await acc.getBalance();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async => onRefresh(),
+        onRefresh: () async => await onRefresh(),
         child: LoaderWrapper(
           child: PageContainer(
             topMargin: 20,

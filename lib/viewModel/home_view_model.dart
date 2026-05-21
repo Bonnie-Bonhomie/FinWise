@@ -46,7 +46,7 @@ class HomeViewModel {
     return formatter.format(amount);
   }
 
-  void onRefresh(Function action) async {
+  Future<void> onRefresh(Function action) async {
     Future.delayed(Duration(seconds: 2), await action());
   }
 

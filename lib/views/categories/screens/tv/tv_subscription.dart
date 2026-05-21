@@ -52,7 +52,10 @@ class _TvSubscriptionState extends State<TvSubscription>
   }
 
   Future<void> onRefresh() async {
-    Future.delayed(Duration(seconds: 1), () => tvCtrl.getCableBundle(id: tvDetails.id));
+    Future.delayed(Duration(seconds: 1), () async{
+      await acc.getBalance();
+      await  tvCtrl.getCableBundle(id: tvDetails.id);
+    });
   }
 
   @override
@@ -248,6 +251,9 @@ class _TvSubscriptionState extends State<TvSubscription>
 
   Widget buildProductColumn() {
     return Wrap(
+      runSpacing: 10,
+      spacing: 10,
+      runAlignment: WrapAlignment.center,
       children: List.generate(tvCtrl.cablePrices.length, (index) {
         final serv = tvCtrl.cablePrices[index];
         final amount = double.parse(serv.price);

@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/views/profiles/screens/profile_export.dart';
 import 'package:fin_wise/binding/binding_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../core/Routes/routes.dart';
 
 
@@ -77,6 +81,26 @@ class ProfileMainControl extends GetxController{
     if(pages.length > 1){
       pages.removeLast();
       update();
+    }
+  }
+
+
+  // // Image picker function and the control
+  ImagePicker imagePicker = ImagePicker();
+
+  final  picked = Rx<File?>(null);
+
+  Future<void> selectImage() async {
+
+    final selected = await imagePicker.pickImage(source: ImageSource.gallery);
+    if(selected != null){
+      LoaderController.to.show();
+      Future.delayed(Duration(seconds: 1));
+      picked.value = File(selected.path);
+      LoaderController.to.hide();
+    }
+    else{
+      Get.snackbar("No image", "Select an Image");
     }
   }
 

@@ -5,12 +5,14 @@ class AirtimeApiModel {
   final String transactionId;
   final String beneficiary;
   final String productName;
+  final double amount;
 
   AirtimeApiModel({
     required this.status,
     required this.beneficiary,
     required this.productName,
     required this.transactionId,
+    required this.amount
   });
 
   factory AirtimeApiModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +21,7 @@ class AirtimeApiModel {
       beneficiary: json['beneficiary'],
       productName: json['product_name'],
       transactionId: json['transaction_id'],
+      amount: json['amount'],
     );
   }
 }

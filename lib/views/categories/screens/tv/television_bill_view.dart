@@ -12,8 +12,8 @@ class TelevisionBillView extends StatelessWidget {
   TelevisionBillView({super.key});
 
   final ctrl = Get.find<TelevisionCtrl>();
-  void onRefresh(){
-    Future.delayed(Duration(seconds: 1), () => ctrl.getCableDiscos());
+  Future<void> onRefresh() async {
+    Future.delayed(Duration(seconds: 1), ()async => await ctrl.getCableDiscos());
   }
 
   @override
@@ -21,7 +21,7 @@ class TelevisionBillView extends StatelessWidget {
 
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async{return onRefresh();},
+        onRefresh: () async{ await onRefresh();},
         child: PageContainer(
           topMargin: 20,
           topChild: CustomAppBar.header(title: 'Cables & Tv', leftRight: 15, onPressed: () => Get.back()),

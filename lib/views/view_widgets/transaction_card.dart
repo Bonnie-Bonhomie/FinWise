@@ -15,9 +15,9 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date = tx.time;
-    final formatDate = DateFormat('MMMM d').format(date);
-    final formatTime = DateFormat('HH:mm').format(date);
+    // final date = tx.time;
+    // final formatDate = DateFormat('MMMM d').format(date);
+    // final formatTime = DateFormat('HH:mm').format(date);
 
     return InkWell(
       onTap: (){
@@ -34,7 +34,7 @@ class TransactionCard extends StatelessWidget {
             CircleAvatar(
               backgroundColor: AppColors.blue,
               radius: 20,
-              child: Icon(tx.category.icon, color: Colors.white),
+              // child: Icon(tx.category!.icon, color: Colors.white),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,10 +42,10 @@ class TransactionCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 100,
-                  child: Text(tx.title, overflow: TextOverflow.ellipsis),
+                  // child: Text(tx.productName, overflow: TextOverflow.ellipsis),
                 ),
                 AppText(
-                  text: '$formatTime - $formatDate',
+                  text: tx.purchaseAt,
                   textColor: Colors.blue,
                   textSize: 10,
                 ),
@@ -55,14 +55,14 @@ class TransactionCard extends StatelessWidget {
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
-                color: tx.status.color,
+                // color: tx.status.color,
               ),
-              child: AppText(text: tx.status.label, textColor: AppColors.bgColor),
+              // child: AppText(text: tx.status.label, textColor: AppColors.bgColor),
             ),
-            AppText(
-              text: '${tx.isIncome ? '+' : '-'}₦${tx.amount}',
-              textColor: tx.isIncome ? Colors.black : AppColors.blue,
-            ),
+            // AppText(
+            //   text: '${tx.isIncome ? '+' : '-'}₦${tx.amount}',
+            //   textColor: tx.isIncome ? Colors.black : AppColors.blue,
+            // ),
           ],
         ),
       ),

@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> onRefresh()async{
-    Future.delayed(Duration(seconds: 1), () async{ await acc.getBalance();});
+    Future.delayed(Duration(seconds: 2), () async{ await acc.getBalance();});
   }
 
   @override

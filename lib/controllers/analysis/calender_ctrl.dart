@@ -107,15 +107,15 @@ class CalenderCtrl extends GetxController{
       return DateTime(day.year, day.month, day.day);
     }
 
-    void loadTransactions (List<TransactionModel> trans){
-      events.clear();
-      for(var tx in trans){
-
-        final day = normalize(tx.time);
-        events.putIfAbsent(day, () => []);
-        events[day]!.add(tx);
-      }
-      update();
-  }
+  //   void loadTransactions (List<TransactionModel> trans){
+  //     events.clear();
+  //     for(var tx in trans){
+  //
+  //       final day = normalize(tx.purchaseAt);
+  //       events.putIfAbsent(day, () => []);
+  //       events[day]!.add(tx);
+  //     }
+  //     update();
+  // }
 
 }

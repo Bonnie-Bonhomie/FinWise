@@ -101,22 +101,23 @@ class _AirtimeViewState extends State<AirtimeView> {
                                       });
 
                                       final imgPath = ctrl
-                                          .airtimeNet[navCtrl.select.value - 1].imgPath;
+                                          .airtimeNet[navCtrl.select.value].imgPath;
 
+                                      final networkId = ctrl.airtimeNet[navCtrl.select.value].serviceId;
                                       ConfirmBottomSheet().confirmBottomSheet(
                                         list: ctrl.airtimeBenes,
                                         balance: acc.accountBalance.value,
                                         context,
                                         amount: amount,
                                         numberCtrl: numberCtrl,
-                                        productName: 'Airtime',
+                                        productName: '${networkId.toUpperCase()}Airtime',
                                         imgPath: imgPath,
                                         action: (pin) async {
 
                                           await ctrl.buyAirtime(
                                             amount: amount,
                                             number: numberCtrl.text,
-                                            netId: ctrl.airtimeNet[navCtrl.select.value- 1].serviceId,
+                                            netId: networkId,
                                             pin: pin,
                                           );
                                         },

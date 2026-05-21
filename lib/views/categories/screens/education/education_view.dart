@@ -24,7 +24,7 @@ class EducationView extends StatelessWidget {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: () async{return viewModel.onRefresh(()async{ await ctrl.getAvailableCard();});},
+          onRefresh: () async{await viewModel.onRefresh(()async{ await ctrl.getAvailableCard();});},
           child: PageContainer(
             topMargin: 20,
             topChild: CustomAppBar.header(

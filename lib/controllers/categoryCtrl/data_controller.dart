@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
@@ -61,20 +62,23 @@ class DataController extends GetxController {
       if (response.data['status'] == true) {
         final data = response.data['data'];
         print(data);
-        // dataReceipt = data;
+        // TransactionModel receipt = TransactionModel.fromJson(data);
+        //
+        // Get.offNamed(Routes.transSuccess, arguments: receipt);
       } else {
         CustomSnackbar.showSnackbar(message: 'Unable to complete transaction');
       }
     } else if (response is DataFailed) {
       final err = response.exception;
-      print(err);
+
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
           CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
         }
         final errData = err.response?.data;
+        print(errData);
         if (errData['message'] != null && errData != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
+          CustomSnackbar.showSnackbar(message: errData['message'].toString());
         }
       }else{
         CustomSnackbar.showSnackbar(message: 'Unable to complete transaction', title: 'Oops');
@@ -92,6 +96,7 @@ class DataController extends GetxController {
     if (result is DataSuccess) {
       final data = result.data;
       if (data['status'] == true) {
+        dataNet.clear();
         //To solve JsArray<dynamic> error
         //1. Save the data from the response in a list
         List netw = data['data']['networks'];

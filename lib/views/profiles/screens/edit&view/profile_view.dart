@@ -22,7 +22,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   final storage = SharedPreferService();
   final AuthCtrl auth = Get.find<AuthCtrl>();
-  final nav = Get.find<EditProfileCtrl>();
+  final nav = Get.find<ProfileMainControl>();
   final loader = Get.find<LoaderController>();
   String name = '';
   String id = 'Unknown';

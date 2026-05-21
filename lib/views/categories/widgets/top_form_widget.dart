@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../view_export.dart';
 
 class TopFormWidget extends StatefulWidget {
   const TopFormWidget({
@@ -247,7 +246,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
         final service = widget.networks[index];
         String img = service.imgPath;
         return DropdownMenuItem(
-          value: service.id,
+          value: index,
           onTap: () {
             setState(() {
               img = service.imgPath;
@@ -275,10 +274,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
         );
       }),
       onChanged: (val) {
-        final text = PaymentBottomSheet()
-          ..pinText.text;
         paymentCtrl.select.value = val;
-        print('After: $text');
         onTap();
       },
     );

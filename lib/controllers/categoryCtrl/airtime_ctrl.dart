@@ -3,6 +3,7 @@ import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
+import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/data/models/numbers_model.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/airtime_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
@@ -60,13 +61,11 @@ class AirtimeCtrl extends GetxController {
     if (result is DataSuccess) {
       final data = result.data;
       if (data['status'] == true) {
-        print(result.data[data]);
-        AirtimeApiModel airtimeReceipt = AirtimeApiModel.fromJson(result.data['data']);
-        if(airtimeReceipt.status == 'failed'){
-          CustomSnackbar.showSnackbar(message: 'Something when wrong, transaction failed');
-        }else{
-          Get.offNamed(Routes.transSuccess, arguments: airtimeReceipt);
-        }
+        print(result.data['data']);
+        TransactionModel receipt = TransactionModel.fromJson(result.data['data']);
+
+          Get.offNamed(Routes.transSuccess, arguments: receipt);
+
         // Get.offNamed(Routes)
       } else {
         error.value = 'Unable to complete transaction';
@@ -84,7 +83,7 @@ class AirtimeCtrl extends GetxController {
         }
         final errData = err.response?.data;
         if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
+          CustomSnackbar.showSnackbar(message: errData['message'].toString());
         } else {
           CustomSnackbar.showSnackbar(message: 'Server error, try again later');
         }

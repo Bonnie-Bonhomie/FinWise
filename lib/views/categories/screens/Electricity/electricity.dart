@@ -10,11 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AvailableElect extends StatelessWidget {
-  const AvailableElect({super.key});
+  AvailableElect({super.key});
+  final ctrl = Get.find<ElectricityCtrl>();
 
   @override
   Widget build(BuildContext context) {
-    final ctrl = Get.find<ElectricityCtrl>();
+
     print(ctrl.availableAmount);
     return Scaffold(
       body: PageContainer(

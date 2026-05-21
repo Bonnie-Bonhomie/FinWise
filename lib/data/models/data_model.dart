@@ -59,6 +59,7 @@ class DataPlan {
   String hotPlans;
   String createdAt;
   String updatedAt;
+  String planType;
 
   DataPlan({
     required this.name,
@@ -70,7 +71,8 @@ class DataPlan {
     required this.createdAt,
     required this.frequency,
     required this.networkId,
-    required this.hotPlans
+    required this.hotPlans,
+    required this.planType,
   });
 
   factory DataPlan.fromJson(Map<String, dynamic> json) {
@@ -84,7 +86,8 @@ class DataPlan {
         networkId: json['network_id'].toString(),
         createdAt: json['created_at'].toString(),
         updatedAt: json['updated_at'].toString(),
-        hotPlans: json['hot_plan'].toString()
+        hotPlans: json['hot_plan'].toString(),
+      planType: json['plan_type'],
     );
   }
 }
