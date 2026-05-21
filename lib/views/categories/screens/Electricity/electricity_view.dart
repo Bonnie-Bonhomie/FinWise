@@ -55,7 +55,7 @@ class _ElectricityViewState extends State<ElectricityView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async => await onRefresh(),
+        onRefresh: onRefresh,
         child: LoaderWrapper(
           child: PageContainer(
             topMargin: 20,

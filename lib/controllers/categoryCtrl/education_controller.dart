@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/education_model.dart';
+import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/education_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:get/get.dart';
 
 class EducationController extends GetxController{
@@ -24,6 +27,7 @@ class EducationController extends GetxController{
     super.onInit();
   }
 
+  final HomeViewModel viewModel = HomeViewModel();
  var selectServ = 'Result Checker PIN'.obs;
  var selectedProvider = ServiceProvider.glo.label.obs;
  var error = ''.obs;
@@ -76,14 +80,22 @@ class EducationController extends GetxController{
     required String phoneNumber,
     required int examId,
   }) async{
+    final phone = viewModel.numberBack(phoneNumber);
      String? token = await store.getToken();
      if(token == null) return;
-      final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phoneNumber, examId: examId.toString(), token: token);
+      final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phone, examId: examId.toString(), token: token);
 
       if(response is DataSuccess){
         if(response.data['status'] == true){
           final data = response.data['data'];
           print(data);
+          TransactionModel receipt = TransactionModel.fromJson(data);
+
+          if(receipt.apiStatus.label == TransactionStatus.failed.name){
+            CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
+          }else{
+            Get.offNamed(Routes.transSuccess, arguments: receipt);
+          }
         }
         else{
           error.value = 'Unable to complete transaction';

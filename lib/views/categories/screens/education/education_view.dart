@@ -19,12 +19,14 @@ class EducationView extends StatelessWidget {
   final HomeViewModel viewModel = HomeViewModel();
 
 
+  Future<void> onRefresh()async{ await ctrl.getAvailableCard();}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: () async{await viewModel.onRefresh(()async{ await ctrl.getAvailableCard();});},
+          onRefresh: onRefresh,
           child: PageContainer(
             topMargin: 20,
             topChild: CustomAppBar.header(

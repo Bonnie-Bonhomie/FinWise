@@ -1,4 +1,5 @@
 
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/app_colors.dart';
@@ -11,6 +12,7 @@ class CategoriesCard extends StatelessWidget {
   final double width;
   final double iconSize;
   final Color color;
+  final int? index;
 
   const CategoriesCard({
     required this.icon,
@@ -19,27 +21,31 @@ class CategoriesCard extends StatelessWidget {
     this.iconSize = 40,
     this.width = 80,
     this.color = AppColors.superBlue,
+    this.index,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: onTap,
-          child: Container(
-            height: width,
-            width: width,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(20),
+    return AnimatedCard(
+      index: index ?? 1,
+      child: Column(
+        children: [
+          InkWell(
+            onTap: onTap,
+            child: Container(
+              height: width,
+              width: width,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Center(child: Icon(icon, color: AppColors.bgColor, size: iconSize,)),
             ),
-            child: Center(child: Icon(icon, color: AppColors.bgColor, size: iconSize,)),
           ),
-        ),
-        AppText(text: title),
-      ],
+          AppText(text: title),
+        ],
+      ),
     );
   }
 }

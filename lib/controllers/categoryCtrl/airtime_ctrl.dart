@@ -64,7 +64,11 @@ class AirtimeCtrl extends GetxController {
         print(result.data['data']);
         TransactionModel receipt = TransactionModel.fromJson(result.data['data']);
 
+        if(receipt.apiStatus.label == TransactionStatus.failed.name){
+          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
+        }else{
           Get.offNamed(Routes.transSuccess, arguments: receipt);
+        }
 
         // Get.offNamed(Routes)
       } else {

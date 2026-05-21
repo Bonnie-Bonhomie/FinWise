@@ -62,9 +62,13 @@ class DataController extends GetxController {
       if (response.data['status'] == true) {
         final data = response.data['data'];
         print(data);
-        // TransactionModel receipt = TransactionModel.fromJson(data);
-        //
-        // Get.offNamed(Routes.transSuccess, arguments: receipt);
+        TransactionModel receipt = TransactionModel.fromJson(data);
+
+        if(receipt.apiStatus.label == TransactionStatus.failed.name){
+          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
+        }else{
+          Get.offNamed(Routes.transSuccess, arguments: receipt);
+        }
       } else {
         CustomSnackbar.showSnackbar(message: 'Unable to complete transaction');
       }
@@ -87,6 +91,7 @@ class DataController extends GetxController {
       err.value = 'Unable to complete transaction';
       CustomSnackbar.showSnackbar(message: err.value, title: 'Oops');
     }
+    return;
   }
 
   Future<void> getNetworks() async {
@@ -105,7 +110,7 @@ class DataController extends GetxController {
 
         //3. Then add the list items into your own list
         dataNet.addAll(netwok);
-        print(dataNet);
+        // print(dataNet);
       }
       return;
     } else if (result is DataFailed) {
@@ -117,6 +122,7 @@ class DataController extends GetxController {
       }
       return;
     }
+    return;
   }
 
 
@@ -124,8 +130,7 @@ class DataController extends GetxController {
   Future<void> getDataPlans(int networkId) async {
     dataLoading.value = true;
     dataPlans.clear();
-    print(hotUp);
-    print('stat');
+
     final String? token = await store.getToken();
     if (token == null) return;
     final result = await repo.dataPlans(token, networkId);
@@ -144,7 +149,7 @@ class DataController extends GetxController {
         weeklyPlan.value = dataPlans.where((e) => e.frequency == Frequency.weekly).toList();
         monthlyPlan.value = dataPlans.where((e) => e.frequency == Frequency.monthly).toList();
 
-        print(plan);
+        // print(plan);
       }
     }
     else if (result is DataFailed) {
@@ -163,7 +168,6 @@ class DataController extends GetxController {
     }
 
     dataLoading.value = false;
-    print(dataLoading.value);
     return;
   }
 

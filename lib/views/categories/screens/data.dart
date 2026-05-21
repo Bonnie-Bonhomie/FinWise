@@ -51,9 +51,7 @@ class _DataViewState extends State<DataView>
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: () async {
-            await onRefresh();
-          },
+          onRefresh: onRefresh,
           child: PageContainer(
             topMargin: 20,
             bottomPadding: 10,
@@ -66,9 +64,7 @@ class _DataViewState extends State<DataView>
               () => TopFormWidget(
                 networks: dataCtrl.dataNet,
                 onTap: () {
-                  paymentCtrl.select.value = paymentCtrl.select.value;
-                  dataCtrl.getDataPlans(paymentCtrl.select.value);
-                  print('Data page number: ${paymentCtrl.select.value}');
+                  dataCtrl.getDataPlans(paymentCtrl.select.value + 1);
                 },
                 // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
                 beneficiaries: [],
@@ -132,7 +128,7 @@ class _DataViewState extends State<DataView>
           ? DataLoadingState()
           : dataPlan.isEmpty
           ? ServiceEmpty(
-              emptyData: dataCtrl.planErr.value.isEmpty
+              emptyData: dataCtrl.planErr.value.isEmpty && dataCtrl.dataPlans.isNotEmpty
                   ? '$section data plan is not available.'
                   : dataCtrl.planErr.value,
             )

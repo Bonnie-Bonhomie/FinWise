@@ -18,6 +18,7 @@ class TransactionModel {
   String? meterNo;
   String? token;
   String? serviceType;
+  String? pin;
 
   TransactionModel({
     required this.transactId,
@@ -34,7 +35,8 @@ class TransactionModel {
     this.message,
     this.meterNo,
     this.token,
-    this.serviceType
+    this.serviceType,
+    this.pin,
   });
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
@@ -52,7 +54,8 @@ class TransactionModel {
       message: json['message'],
       meterNo: json['meter_no'],
       serviceType: json['service_type'],
-      token: json['token']
+      token: json['token'],
+      pin: json['pin']
     );
   }
 

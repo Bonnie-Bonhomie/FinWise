@@ -1,4 +1,5 @@
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/Helpers/generate_image_service.dart';
 import 'package:fin_wise/utils/Helpers/pdf_generator.dart';
@@ -10,6 +11,8 @@ class TransactionReceipt extends StatelessWidget {
   TransactionReceipt({super.key});
 
   final GlobalKey receiptKey = GlobalKey();
+
+  TransactionModel receiptDet = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +52,15 @@ class TransactionReceipt extends StatelessWidget {
                       const HeadingText(headingText: 'FinWise'),
                       const HeadingText(headingText: 'Transaction Receipt'),
                       const HeadingText(headingText: 'Amount'),
-                      AppText(text: '200.00', textWeigh: FontWeight.bold,),
+                      AppText(text: receiptDet.amount.toStringAsFixed(2), textWeigh: FontWeight.bold,),
 
-                      rowTile('Reference', 'ghNNJHIOLkjOIP100203090i98'),
+                      rowTile('Reference', receiptDet.referenceId),
                       dividerBuild(),
-                      rowTile('Payment Type', 'Airtime Recharge'),
+                      rowTile('Payment Type', receiptDet.modelableType),
                       dividerBuild(),
-                      rowTile('Provider', 'Airtel'),
-                      dividerBuild(),
-                      rowTile('Narration', 'Airtime purchase for 09076892973'),
+                      // rowTile('Provider', 'Airtel'),
+                      // dividerBuild(),
+                      rowTile('Narration', receiptDet.phoneNo),
                       dividerBuild(),
                       rowTile('Date', '7th Feb, 2026'),
                       dividerBuild(),
@@ -75,7 +78,7 @@ class TransactionReceipt extends StatelessWidget {
                 receiptContainer('Share as image', (){
                   ImageGenerationService(receiptKey).shareImage();
                 }, Icons.image), receiptContainer('share as pdf', (){
-                  PdfGeneratorService().generatePdfAndShare();
+                  PdfGeneratorService().generatePdfAndShare(receiptDet);
                 }, Icons.picture_as_pdf_outlined)
               ],
             )

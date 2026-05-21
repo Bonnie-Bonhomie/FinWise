@@ -36,7 +36,6 @@ class ConfirmBottomSheet {
       enableDrag: false,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       builder: (context) {
-        return Obx(() {
 
           bool notEnoughAmount = balance < amount;
           // print(notEnoughAmount);
@@ -212,8 +211,6 @@ class ConfirmBottomSheet {
               ),
             );
           }
-        );
-      },
     );
   }
 

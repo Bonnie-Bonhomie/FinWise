@@ -1,5 +1,6 @@
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,6 @@ class TransactionSuccessfulView extends StatelessWidget {
               ),
 
               // const SizedBox(height: 20),
-              if(receiptDet.apiStatus.label == 'completed')
               Center(
                 child: SizedBox(
                   height: 120,
@@ -63,10 +63,12 @@ class TransactionSuccessfulView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   receiptContainer('Share Receipt', () {
-                    Get.offNamed(Routes.transReceipt, arguments: '');
+                    if(receiptDet.apiStatus == TransactionStatus.pending)return;
+                    Get.offNamed(Routes.transReceipt, arguments: receiptDet);
                   }, Icons.share),
                   receiptContainer('View Details', () {
-                    Get.offNamed(Routes.transReceipt);
+                    if(receiptDet.apiStatus == TransactionStatus.pending)return;
+                    Get.offNamed(Routes.transReceipt, arguments: receiptDet);
                   }, Icons.view_list),
                 ],
               ),

@@ -52,8 +52,8 @@ enum ServiceProvider{
 
 enum TransactionStatus{
   pending('Pending', AppColors.pending),
-  declined('Declined', AppColors.declined),
-  complete('Completed', AppColors.primary);
+  failed('Failed', AppColors.declined),
+  completed('Completed', AppColors.primary);
 
   final String label;
   final Color color;

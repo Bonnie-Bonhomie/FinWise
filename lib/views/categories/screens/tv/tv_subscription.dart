@@ -63,7 +63,7 @@ class _TvSubscriptionState extends State<TvSubscription>
     tvDetails = Get.arguments ?? tvCtrl.availableCable[0];
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async{ await onRefresh();},
+        onRefresh: onRefresh,
         child: LoaderWrapper(
           child: PageContainer(
             topMargin: 10,

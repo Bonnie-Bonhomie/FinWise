@@ -40,6 +40,7 @@ class _BuyPinViewState extends State<BuyPinView> {
     super.initState();
   }
 
+  Future<void> onRefresh () async{ await acc.getBalance();}
 
 
   @override
@@ -50,7 +51,7 @@ class _BuyPinViewState extends State<BuyPinView> {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: ()async { viewModel.onRefresh(() async{ await acc.getBalance();});},
+          onRefresh: onRefresh,
           child: PageContainer(
             bottomPadding: 20,
             topMargin: 20,
@@ -90,8 +91,8 @@ class _BuyPinViewState extends State<BuyPinView> {
                     numberKey: numberKey,
                     validator: (val) => Validator.validateNumber(val!)),
                 SizedBox(height: 30),
-                labelText('Network Operator'),
-                dropdownServiceProvider(eduCtrl.selectedProvider.value),
+                // labelText('Network Operator'),
+                // dropdownServiceProvider(eduCtrl.selectedProvider.value),
                 SizedBox(height: 30),
                 AppBtn(
                   onPressed: () {
@@ -129,19 +130,19 @@ class _BuyPinViewState extends State<BuyPinView> {
         ),
       );
 }
-
-DropdownButtonFormField<String> dropdownServiceProvider(String value) {
-  return DropdownButtonFormField(
-    value: value,
-    items: List.generate(ServiceProvider.values.length, (index) {
-      final service = ServiceProvider.values[index];
-      return DropdownMenuItem(
-        value: service.label,
-        child: AppText(text: service.label.toUpperCase()),
-      );
-    }),
-    onChanged: (val) {
-      value = val!;
-    },
-  );
-}
+//
+// DropdownButtonFormField<String> dropdownServiceProvider(String value) {
+//   return DropdownButtonFormField(
+//     value: value,
+//     items: List.generate(ServiceProvider.values.length, (index) {
+//       final service = ServiceProvider.values[index];
+//       return DropdownMenuItem(
+//         value: service.label,
+//         child: AppText(text: service.label.toUpperCase()),
+//       );
+//     }),
+//     onChanged: (val) {
+//       value = val!;
+//     },
+//   );
+// }

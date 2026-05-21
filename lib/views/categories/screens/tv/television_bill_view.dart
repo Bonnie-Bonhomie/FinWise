@@ -21,7 +21,7 @@ class TelevisionBillView extends StatelessWidget {
 
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async{ await onRefresh();},
+        onRefresh: onRefresh,
         child: PageContainer(
           topMargin: 20,
           topChild: CustomAppBar.header(title: 'Cables & Tv', leftRight: 15, onPressed: () => Get.back()),

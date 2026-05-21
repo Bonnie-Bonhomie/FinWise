@@ -22,7 +22,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+  late AnimationController _headerAnim;
   final HomeViewModel viewModel = HomeViewModel();
   final store = SharedPreferService();
 
@@ -46,7 +47,17 @@ class _HomePageState extends State<HomePage> {
       acc.getBalance();
     });
 
+    _headerAnim = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 800));
+    _headerAnim.forward();
     super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    _headerAnim.dispose();
+    super.dispose();
   }
 
   Future<void> onRefresh()async{
@@ -66,7 +77,7 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Obx(() {
             return RefreshIndicator(
-              onRefresh: () async{await onRefresh();},
+              onRefresh: onRefresh,
               color: AppColors.primary,
               backgroundColor: Colors.white,
               child: PageContainer(
@@ -87,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           CategoriesCard(
+                            index: 1,
                             width: 50,
                             iconSize: 25,
                             icon: Categories.airtime.icon,
@@ -94,6 +106,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () => Get.toNamed(Routes.airtime),
                           ),
                           CategoriesCard(
+                            index: 2,
                             width: 50,
                             iconSize: 30,
                             icon: Categories.data.icon,
@@ -101,6 +114,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () => Get.toNamed(Routes.data),
                           ),
                           CategoriesCard(
+                            index: 3,
                             width: 50,
                             iconSize: 25,
                             icon: Categories.cable.icon,
@@ -108,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () => Get.toNamed(Routes.tv),
                           ),
                           CategoriesCard(
+                            index: 4,
                             width: 50,
                             iconSize: 25,
                             icon: Icons.interests,
@@ -336,17 +351,28 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 5.0),
       child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(
-                text: 'Hi ${name.split(' ').first}',
-                textWeigh: FontWeight.bold,
-                textSize: 20,
+          SlideTransition(
+            position: Tween<Offset>(
+                begin: const Offset(-0.3, 0), end: Offset.zero)
+                .animate(CurvedAnimation(
+                parent: _headerAnim, curve: Curves.easeOut)),
+            child: FadeTransition(
+              opacity: _headerAnim,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  AppText(
+                    text: 'Hi ${name.split(' ').first}',
+                    textWeigh: FontWeight.bold,
+                    textSize: 20,
+                  ),
+                  AppText(text: greet, textSize: 13),
+                ],
               ),
-              AppText(text: greet, textSize: 13),
-            ],
+            ),
           ),
+
           const Spacer(),
           Icon(Icons.person),
         ],

@@ -1,3 +1,4 @@
+import 'package:fin_wise/data/models/model_export.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
@@ -17,7 +18,7 @@ class PdfGeneratorService {
     );
   }
 
-  Future<void> generatePdfAndShare() async {
+  Future<void> generatePdfAndShare(TransactionModel receipt) async {
     final pdf = pw.Document();
 
     pdf.addPage(
@@ -53,13 +54,13 @@ class PdfGeneratorService {
               ),
 
               pw.Text(
-                '200.00',
+                receipt.amount.toStringAsFixed(2),
                 style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
               ),
 
-              rowTile('Reference', 'ghNNJHIOLkjOIP100203090i98'),
+              rowTile('Reference', receipt.referenceId),
               pw.Divider(),
-              rowTile('Payment Type', 'Airtime Recharge'),
+              rowTile('Payment Type', receipt.modelableType),
               pw.Divider(),
               rowTile('Provider', 'Airtel'),
               pw.Divider(),
