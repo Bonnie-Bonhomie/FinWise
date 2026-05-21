@@ -8,6 +8,7 @@ import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/data/models/cable_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
+import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,7 +51,7 @@ class _TvSubscriptionState extends State<TvSubscription>
     super.dispose();
   }
 
-  void onRefresh(){
+  Future<void> onRefresh() async {
     Future.delayed(Duration(seconds: 1), () => tvCtrl.getCableBundle(id: tvDetails.id));
   }
 
@@ -59,7 +60,7 @@ class _TvSubscriptionState extends State<TvSubscription>
     tvDetails = Get.arguments ?? tvCtrl.availableCable[0];
     return Scaffold(
       body: RefreshIndicator(
-        onRefresh: () async{return onRefresh();},
+        onRefresh: () async{ await onRefresh();},
         child: LoaderWrapper(
           child: PageContainer(
             topMargin: 10,
@@ -157,8 +158,8 @@ class _TvSubscriptionState extends State<TvSubscription>
                         child: ListView(
                           padding: const EdgeInsets.only(top: 8.0),
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            Column(
+                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 serviceBox(
@@ -203,7 +204,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                       Padding(
                         padding: const EdgeInsets.only(top: 18),
                         // child: premiumBuild(),
-                        child: Text('Premium'),
+                        child: Center(child: EmptyState(message: 'Premium service is unavailable')),
                       ),
                     ],
                   ),

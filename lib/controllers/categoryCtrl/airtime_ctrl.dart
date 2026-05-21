@@ -93,7 +93,6 @@ class AirtimeCtrl extends GetxController {
   }
 
   Future<void> getNetworks() async {
-    airtimeNet.clear();
 
     final String? token = await store.getToken();
     if (token == null) return;
@@ -101,6 +100,7 @@ class AirtimeCtrl extends GetxController {
     if (result is DataSuccess) {
       final data = result.data;
       if (data['status'] == true) {
+        airtimeNet.clear();
         //To solve JsArray<dynamic> error
         //1. Save the data from the response in a list
         List netw = data['data']['networks'];

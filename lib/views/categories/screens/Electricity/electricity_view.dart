@@ -269,14 +269,10 @@ class _ElectricityViewState extends State<ElectricityView> {
                                     children: [
                                       TextSpan(
                                         text: meterPrice.amount.toString(),
-                                        style: TextStyle(fontSize: 20),
+                                        style: Theme.of(context).textTheme.headlineMedium,
                                       ),
                                     ],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
+                                    style: Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
                                 const SizedBox(height: 15.0),

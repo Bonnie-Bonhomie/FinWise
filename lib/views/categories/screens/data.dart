@@ -40,10 +40,10 @@ class _DataViewState extends State<DataView>
     _tabCtrl.dispose();
   }
 
-  void onRefresh(){
-    acc.getBalance();
-    dataCtrl.getNetworks();
-    dataCtrl.getDataPlans(paymentCtrl.select.value);
+  Future<void> onRefresh() async {
+    await acc.getBalance();
+   await dataCtrl.getNetworks();
+    await dataCtrl.getDataPlans(paymentCtrl.select.value);
   }
 
   @override
@@ -51,7 +51,7 @@ class _DataViewState extends State<DataView>
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: ()async {return onRefresh();},
+          onRefresh: ()async {await onRefresh();},
           child: PageContainer(
             topMargin: 20,
             bottomPadding: 10,
@@ -136,7 +136,11 @@ class _DataViewState extends State<DataView>
                       margin: const EdgeInsets.all(3),
                       color: Colors.grey.shade300,
                       height: 120,
-                      width: 80,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Theme.of(context).cardColor,
+                      ),
                     ),
                   ),
                 ),

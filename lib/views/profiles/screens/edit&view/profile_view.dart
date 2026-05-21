@@ -1,10 +1,13 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
+import 'package:fin_wise/core/resources/storage_keys.dart';
+import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../controllers/controller_exports.dart';
 import '../../../../core/app_colors.dart';
 import '../../../../data/models/AuthModel/user_model.dart';
 import '../../../../utils/widgets/widget.dart';
@@ -17,15 +20,25 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  final storage = SharedPreferService();
   final AuthCtrl auth = Get.find<AuthCtrl>();
+  final nav = Get.find<EditProfileCtrl>();
   final loader = Get.find<LoaderController>();
-  final user = UserModel(
-    name: 'John Smith',
-    email: 'johnsmith@gmail.com',
-    pNumber: '08034623771',
-    id: '1235728949',
-  );
+  String name = '';
+  String id = 'Unknown';
 
+  void getUser() async{
+    name = (await storage.retrieve<String>(PrefStoreKeys.username)) ?? 'Unknown';
+    id = await storage.retrieve(PrefStoreKeys.userId);
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUser();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +68,11 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         SizedBox(height: 50),
                         AppText(
-                          text: auth.name.value,
+                          text: name,
                           textWeigh: FontWeight.bold,
                           textSize: 25,
                         ),
-                        AppText(text: 'ID: ${user.id}'),
+                        AppText(text: 'ID: $id'),
                         SizedBox(height: 20),
 
                         //Profile Lists
@@ -110,24 +123,22 @@ class _ProfileViewState extends State<ProfileView> {
                       ],
                     ),
                   ),
-                  // Obx((){
-                  //   final image = nav.picked.value;
-                  //   return
-                  //     image != null ?  SizedBox(
-                  //       height: 90,
-                  //       width: 90,
-                  //       child: ClipOval(
-                  //         child: Image.file(image, fit: BoxFit.cover,),
-                  //       ),
-                  //     ):
+                  Obx((){
+                    final image = nav.picked.value;
+                    return
+                      image != null ?  SizedBox(
+                        height: 90,
+                        width: 90,
+                        child: ClipOval(
+                          child: Image.file(image, fit: BoxFit.cover,),
+                        ),
+                      ):
                       CircleAvatar(
                         radius: 45,
                         backgroundColor: AppColors.lightGreen,
                         // backgroundImage: Image(image: Image.file(file)),
                         child: Icon(Icons.person_outline_outlined, size: 80, color: AppColors.blue,),
-                      )
-            // ;}
-            //             ),
+                      );}),
                 ],
               ),
             ),

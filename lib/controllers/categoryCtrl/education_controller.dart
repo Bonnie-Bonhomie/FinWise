@@ -74,11 +74,11 @@ class EducationController extends GetxController{
   Future<void> buyEduCard({
     required String transPin,
     required String phoneNumber,
-    required String examId,
+    required int examId,
   }) async{
      String? token = await store.getToken();
      if(token == null) return;
-      final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phoneNumber, examId: examId, token: token);
+      final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phoneNumber, examId: examId.toString(), token: token);
 
       if(response is DataSuccess){
         if(response.data['status'] == true){

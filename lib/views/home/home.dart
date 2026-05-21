@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void onRefresh(){
+  Future<void> onRefresh()async{
     Future.delayed(Duration(seconds: 1), () async{ await acc.getBalance();});
   }
 
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Obx(() {
             return RefreshIndicator(
-              onRefresh: () async{return onRefresh();},
+              onRefresh: () async{await onRefresh();},
               color: AppColors.primary,
               backgroundColor: Colors.white,
               child: PageContainer(
@@ -181,8 +181,8 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         children: [
                           Icon(
-                            Icons.local_pizza_outlined,
-                            color: AppColors.primary,
+                            Icons.compass_calibration_sharp,
+                            // color: AppColors.primary,
                           ),
                           Text('Acc. Balance'),
                         ],
@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                                         3.0,
                                       ), // height: 30,
                                       decoration: BoxDecoration(
-                                        color: AppColors.lightGreen,
+                                        color: Theme.of(context).cardColor,
                                         borderRadius: BorderRadius.circular(5),
                                       ),
                                       child: Text(
@@ -237,6 +237,7 @@ class _HomePageState extends State<HomePage> {
                         decoration: BoxDecoration(
                           color: AppColors.primary,
                           borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(color: Colors.white)
                         ),
                         child: const AppText(text: 'Fund Wallet'),
                       ),
@@ -341,14 +342,13 @@ class _HomePageState extends State<HomePage> {
               AppText(
                 text: 'Hi ${name.split(' ').first}',
                 textWeigh: FontWeight.bold,
-                textColor: Colors.white,
                 textSize: 20,
               ),
-              AppText(text: greet, textSize: 13, textColor: Colors.white),
+              AppText(text: greet, textSize: 13),
             ],
           ),
           const Spacer(),
-          Icon(Icons.person, color: AppColors.bgColor),
+          Icon(Icons.person),
         ],
       ),
     );

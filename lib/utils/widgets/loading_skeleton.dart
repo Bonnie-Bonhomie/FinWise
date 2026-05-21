@@ -28,12 +28,12 @@ class SkeletonLoader {
           margin: const EdgeInsets.all(6),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey.shade400),
         ),
-        Container(
-          height: 50,
-          width: 50,
-          margin: const EdgeInsets.all(6),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.grey.shade400),
-        ),
+        // Container(
+        //   height: 50,
+        //   width: 50,
+        //   margin: const EdgeInsets.all(6),
+        //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color: Colors.grey.shade400),
+        // ),
       ],
     );
   }

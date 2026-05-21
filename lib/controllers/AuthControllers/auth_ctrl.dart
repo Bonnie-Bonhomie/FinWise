@@ -39,11 +39,13 @@ class AuthCtrl extends GetxController {
   int? verifyToken;
   RxString email = ''.obs;
   RxString name = ''.obs;
+  RxString id = ''.obs;
   RxString signMail = ''.obs;
 
   Future<void> getEmail() async {
     email.value = await store.retrieve(PrefStoreKeys.mail);
     name.value = await store.retrieve(PrefStoreKeys.username);
+    id.value = await store.retrieve(PrefStoreKeys.userId);
   }
 
   Future<void> registerUser({

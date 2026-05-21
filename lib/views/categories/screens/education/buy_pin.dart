@@ -1,25 +1,29 @@
 import 'package:fin_wise/controllers/categoryCtrl/education_controller.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
+import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/app_btn.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/data/models/education_model.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/utils/widgets/form_widget.dart';
-import 'package:fin_wise/utils/widgets/phone_number_form.dart';
-import 'package:fin_wise/utils/widgets/price_form_field.dart';
-import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BuyPinView extends StatelessWidget {
+import '../../../../controllers/controller_exports.dart';
+import '../../../../data/models/model_export.dart';
+import '../../../view_export.dart';
+
+class BuyPinView extends StatefulWidget {
   BuyPinView({super.key});
 
+  @override
+  State<BuyPinView> createState() => _BuyPinViewState();
+}
+
+class _BuyPinViewState extends State<BuyPinView> {
   final eduCtrl = Get.find<EducationController>();
+  final acc = Get.find<AccBalanceCtrl>();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final serviceKey = GlobalKey<FormFieldState>();
   final numberKey = GlobalKey<FormFieldState>();
@@ -27,6 +31,16 @@ class BuyPinView extends StatelessWidget {
   final TextEditingController amountCtrl = TextEditingController();
   final TextEditingController numberCtrl = TextEditingController();
   final ExamCardModel selectedSchool = Get.arguments ?? 'No Title';
+  final HomeViewModel viewModel = HomeViewModel();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    acc.getBalance();
+    super.initState();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +50,7 @@ class BuyPinView extends StatelessWidget {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: ()async {return null;},
+          onRefresh: ()async { viewModel.onRefresh(() async{ await acc.getBalance();});},
           child: PageContainer(
             bottomPadding: 20,
             topMargin: 20,
@@ -55,10 +69,10 @@ class BuyPinView extends StatelessWidget {
                 const SizedBox(height: 30),
                 labelText('Amount'),
                 Container(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  padding: const EdgeInsets.only(left: 12.0, right: 8.0),
                   margin: const EdgeInsets.only(bottom: 30),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(30),
-                      color: AppColors.lightGreen),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
+                     color: Theme.of(context).cardColor),
                   child: Row(
                     children: [
                       AppText(text: '₦'),
@@ -82,15 +96,18 @@ class BuyPinView extends StatelessWidget {
                 AppBtn(
                   onPressed: () {
                     final amount = double.tryParse(amountCtrl.text);
-                    // numberCtrl.text.isNotEmpty?
-                    // ConfirmBottomSheet().confirmBottomSheet(
-                    //   context,
-                    //   amount: amount!,
-                    //   numberCtrl: numberCtrl,
-                    //   productName: selectedSchool.variationCode,
-                    //   list: [],
-                    //   action: (){}
-                    // ): CustomSnackbar.warningSnack('Enter your registered number');
+                    numberCtrl.text.isNotEmpty?
+                    ConfirmBottomSheet().confirmBottomSheet(
+                      balance: acc.accountBalance.value,
+                      context,
+                      amount: amount!,
+                      numberCtrl: numberCtrl,
+                      productName: selectedSchool.variationCode,
+                      list: [],
+                      action: (pin) async{
+                        await eduCtrl.buyEduCard(transPin: pin, phoneNumber: numberCtrl.text, examId: selectedSchool.id);
+                      }
+                    ): CustomSnackbar.warningSnack('Enter your registered number');
                   },
                   label: 'Proceed to Payment',
                 ),
@@ -101,7 +118,6 @@ class BuyPinView extends StatelessWidget {
       ),
     );
   }
-
 
   Widget labelText(String text) =>
       Padding(
@@ -124,14 +140,6 @@ DropdownButtonFormField<String> dropdownServiceProvider(String value) {
         child: AppText(text: service.label.toUpperCase()),
       );
     }),
-    decoration: InputDecoration(
-      filled: true,
-      fillColor: AppColors.lightGreen,
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
     onChanged: (val) {
       value = val!;
     },

@@ -5,6 +5,7 @@ import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -15,15 +16,15 @@ class EducationView extends StatelessWidget {
 
   final TextEditingController searchCtrl = TextEditingController();
   final ctrl = Get.find<EducationController>();
+  final HomeViewModel viewModel = HomeViewModel();
 
 
-  void onRefresh(){}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: () async{return onRefresh();},
+          onRefresh: () async{return viewModel.onRefresh(()async{ await ctrl.getAvailableCard();});},
           child: PageContainer(
             topMargin: 20,
             topChild: CustomAppBar.header(
@@ -43,13 +44,7 @@ class EducationView extends StatelessWidget {
                           Icons.search,
                           size: 25,
                           color: Colors.grey.shade300,
-                        ),
-                        fillColor: AppColors.lightGreen,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide.none,
-                        ),
+                        )
                       ),
                     ),
                   ),
