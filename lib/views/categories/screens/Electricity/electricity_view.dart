@@ -202,7 +202,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                             color: Theme.of(context).cardColor,
                           ),
                           child: electCtrl.verifyLoad.value
-                              ? Center(child: Text('verifying...'))
+                              ? Center(child: CircularProgressIndicator(color: AppColors.primary, backgroundColor: Colors.transparent,))
                               : electCtrl.verified.value
                               ? Column(
                                   mainAxisAlignment:
@@ -218,7 +218,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                     ),
                                     rowTile(
                                       text: 'Service Address',
-                                      child: AppText(text: '1 VI******'),
+                                      child: AppText(text: 'I V1********'),
                                     ),
                                   ],
                                 )

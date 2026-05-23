@@ -42,7 +42,6 @@ void showCustomDiag(BuildContext context){
   // print('Iam called');
   showDialog(context: context, builder: (context){
     return AlertDialog(
-      backgroundColor: AppColors.bgColor,
       title: Icon(Icons.verified_outlined, size: 100, color: AppColors.primary,),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -62,7 +61,6 @@ void showCustomDiag(BuildContext context){
 void logoutDialog(BuildContext context, VoidCallback action){
   showDialog(context: context, builder: (context){
     return AlertDialog(
-      backgroundColor: AppColors.bgColor,
       title: const HeadingText(headingText: 'End Session',),
       content: const Padding(
         padding: EdgeInsets.only(bottom: 20),

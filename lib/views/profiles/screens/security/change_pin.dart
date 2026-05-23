@@ -35,7 +35,8 @@ class _ChangePinViewState extends State<ChangePinView> {
     if (!formKey.currentState!.validate())
     {
       loader.offLoading(() async {
-        await auth.setPin(oldPin: changeToInt(currentCtrl.text.trim()),
+        await auth.setPin(
+            oldPin: changeToInt(currentCtrl.text.trim()),
             newPin: changeToInt(newCtrl.text.trim()),
             cfmPin: changeToInt(confirmCtrl.text.trim()));
       });
@@ -65,9 +66,7 @@ class _ChangePinViewState extends State<ChangePinView> {
               labelText('Confirm Pin'),
               inputField(confirmCtrl, 'enter pin again'),
               SizedBox(height: 30,),
-              AppBtn(onPressed: () {
-                setPin();
-              }, label: 'Change Pin')
+              AppBtn(onPressed: () => setPin(), label: 'Change Pin')
             ],
           ),
         ),

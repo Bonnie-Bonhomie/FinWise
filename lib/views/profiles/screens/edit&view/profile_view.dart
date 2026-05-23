@@ -159,7 +159,7 @@ class _ProfileViewState extends State<ProfileView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
       child: ListTile(
-        title: AppText(text: title),
+        title: AppText(text: title, ),
         leading: Container(
           height: 40,
           width: 40,

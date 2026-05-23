@@ -47,51 +47,57 @@ class AirtimeCtrl extends GetxController {
     required String netId,
     required String pin,
   }) async {
-    final String? token = await store.getToken();
-    if (token == null) return;
-    final phone = viewModel.numberBack(number);
-    final result = await repo.buyAirtime(
-      amount: amount,
-      number: phone,
-      token: token,
-      networkId: netId,
-      transPin: pin,
-    );
-    print(result.data);
-    if (result is DataSuccess) {
-      final data = result.data;
-      if (data['status'] == true) {
-        print(result.data['data']);
-        TransactionModel receipt = TransactionModel.fromJson(result.data['data']);
+    try{
+      final String? token = await store.getToken();
+      if (token == null) return;
+      final phone = viewModel.numberBack(number);
+      final result = await repo.buyAirtime(
+        amount: amount,
+        number: phone,
+        token: token,
+        networkId: netId,
+        transPin: pin,
+      );
+      print(result.data);
+      if (result is DataSuccess) {
+        final data = result.data;
+        if (data['status'] == true) {
+          print(result.data['data']);
+          TransactionModel receipt = TransactionModel.fromJson(
+              result.data['data']);
 
-        if(receipt.apiStatus.label == TransactionStatus.failed.name){
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
-        }else{
-          Get.offNamed(Routes.transSuccess, arguments: receipt);
-        }
+          if (receipt.apiStatus.label == TransactionStatus.failed.name) {
+            CustomSnackbar.showSnackbar(
+                message: 'Unable to complete transaction, try again later');
+          } else {
+            Get.offNamed(Routes.transSuccess, arguments: receipt);
+          }
 
-        // Get.offNamed(Routes)
-      } else {
-        error.value = 'Unable to complete transaction';
-        CustomSnackbar.showSnackbar(message: error.value, title: 'Oops');
-      }
-    } else if (result is DataFailed) {
-      final err = result.exception;
-      if (err is DioException) {
-        if (err.type == DioExceptionType.connectionError ||
-            err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(
-            title: 'No internet connection',
-            message: 'Check your internet connection',
-          );
-        }
-        final errData = err.response?.data;
-        if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message'].toString());
+          // Get.offNamed(Routes)
         } else {
-          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
+          error.value = 'Unable to complete transaction';
+          CustomSnackbar.showSnackbar(message: error.value, title: 'Oops');
+        }
+      } else if (result is DataFailed) {
+        final err = result.exception;
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(
+              title: 'No internet connection',
+              message: 'Check your internet connection',
+            );
+          }
+          final errData = err.response?.data;
+          if (errData != null && errData['message'] != null) {
+            CustomSnackbar.showSnackbar(message: errData['message'].toString());
+          } else {
+            CustomSnackbar.showSnackbar(message: 'Server error, try again later');
+          }
         }
       }
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Unable to complete transaction');
     }
   }
 

@@ -76,7 +76,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                     valController: currentPwdCtrl,
                     fieldKey: currentPwd,
                     obscure: currentObscure,
-                    maxLength: 4,
                     validator: (val) {},
                     onChanged: (val) => currentPwd.currentState?.validate(),
                     hintText: "Enter current password",
@@ -97,7 +96,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                   valController: pwdCtrl,
                   fieldKey: pwdKey,
                   obscure: pwdObscure,
-                  maxLength: 4,
                   textType: TextInputType.emailAddress,
                   validator: (val) => Validator.validatePassword(val),
                   onChanged: (val) => pwdKey.currentState?.validate(),
@@ -116,7 +114,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                   valController: confirmPwdCtrl,
                   fieldKey: confirmPwdKey,
                   obscure: confirmPwdObscure,
-                  maxLength: 4,
                   validator: (val) =>
                       Validator.validateConfirmPassword(
                           firstPassword: pwdCtrl.text.trim(), value: val),

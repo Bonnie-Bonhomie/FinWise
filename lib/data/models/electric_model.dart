@@ -66,3 +66,33 @@ class ElectAmount {
         updatedAt: json['updated_at'].toString());
   }
 }
+
+
+class MeterData {
+
+  final String customerName;
+  final String meterNum;
+  final String minPurchase;
+  final String address;
+  final String meterType;
+
+
+  MeterData({
+    required this.customerName,
+    required this.meterNum,
+    required this.minPurchase,
+    required this.address,
+    required this.meterType,
+
+  });
+
+
+  factory MeterData.fromJson(Map<String, dynamic> json){
+    return MeterData(customerName: json['Customer_Name'],
+        meterNum: json['Meter_Number'],
+        minPurchase: json['Min_Purchase_Amount'],
+        address: json['Address'],
+        meterType: json['Meter_Type']);
+  }
+
+}

@@ -56,5 +56,6 @@ class ApiEndpoints{
 
 ///Not yet in use for real API call
   static const String virtual = 'virtual';
-  static const String transact = 'auth/user/transact';
+  static const String transact = 'transaction';
+  static const String deposits = 'deposits';
 }

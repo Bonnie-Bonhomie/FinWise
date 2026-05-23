@@ -85,7 +85,7 @@ class _DataViewState extends State<DataView>
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
-                      // isScrollable: true,
+                      isScrollable: true,
                       // physics: ScrollPhysics(),
                       padding: const EdgeInsets.all(10),
                       indicatorColor: AppColors.primary,
