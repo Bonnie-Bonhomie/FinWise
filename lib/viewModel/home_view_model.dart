@@ -65,4 +65,13 @@ class HomeViewModel {
       await launchUrl(url, mode: LaunchMode.externalApplication);
     }
   }
+
+  String formatDate(String value){
+
+    DateTime date =  DateTime.parse(value);
+
+    String formatted = DateFormat('MMMM dd, yyyy').format(date);
+    String formatTime = DateFormat('HH:mm').format(date);
+    return '$formatted ~ $formatTime';
+  }
 }

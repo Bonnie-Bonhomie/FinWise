@@ -43,7 +43,7 @@ class _HelpCenterState extends State<HelpCenter> {
                 padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: AppColors.lightGreen,
+                  color: Theme.of(context).cardColor,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +68,7 @@ class _HelpCenterState extends State<HelpCenter> {
                 padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: AppColors.lightGreen,
+                  color: Theme.of(context).cardColor,
                 ),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,7 +95,7 @@ class _HelpCenterState extends State<HelpCenter> {
                   decoration: InputDecoration(
                     hint: const AppText(text: 'Search...'),
                     filled: true,
-                    fillColor: AppColors.lightGreen,
+                    fillColor: Theme.of(context).cardColor,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(color: AppColors.primary, width: 1.5)

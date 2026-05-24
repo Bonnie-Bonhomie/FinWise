@@ -20,7 +20,7 @@ class LoaderController  extends GetxController{
 
   void offLoading(Function action){
     isLoading.value = true;
-    Future.delayed(Duration(seconds: 2), () async{
+    Future.delayed(Duration(milliseconds: 800), () async{
       await action();
       isLoading.value = false;
     });

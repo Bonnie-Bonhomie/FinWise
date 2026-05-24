@@ -5,11 +5,11 @@ import '../../core/constant.dart';
 class TransactionModel {
   final int transactId;
   final String modelableType;
-  final int modelableId;
+  final String modelableId;
   String referenceId;
   String productRef;
   final String purchaseAt;
-  final Categories? category;
+  Categories? category;
   final double amount;
   final String phoneNo;
   int? status;
@@ -47,15 +47,15 @@ class TransactionModel {
       productRef: json['product_reference'],
       referenceId: json['reference_id'],
       purchaseAt: json['created_at'],
-      amount: json['amount_paid'],
+      amount: double.parse(json['amount_paid'].toString()),
       phoneNo: json['phone_no'],
-      apiStatus: json['api_status'],
-      status: json['status'],
-      message: json['message'],
-      meterNo: json['meter_no'],
-      serviceType: json['service_type'],
-      token: json['token'],
-      pin: json['pin']
+      apiStatus: TransactionStatusExtension.fromApi(json['api_status']),
+      status: int.parse(json['status'].toString()),
+      message: json['message'].toString(),
+      meterNo: json['meter_no'].toString(),
+      serviceType: json['service_type'].toString(),
+      token: json['token'].toString(),
+      pin: json['pin'].toString()
     );
   }
 

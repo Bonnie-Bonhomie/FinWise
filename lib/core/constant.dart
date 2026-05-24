@@ -1,4 +1,3 @@
-
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ enum Categories {
   electricity('Electricity', Icons.electric_bolt),
   education('Education', Icons.school_outlined),
   solar('Solar', Icons.emoji_transportation_outlined),
-  chowDeck('ChowDeck',  Icons.deck),
+  chowDeck('ChowDeck', Icons.deck),
   invitation('invitation', Icons.insert_invitation),
   gift('Gift Card', Icons.card_giftcard);
 
@@ -19,26 +18,28 @@ enum Categories {
 
   const Categories(this.label, this.icon);
 }
-//analysis Provider
-enum ChartPeriod{
-  daily, weekly, monthly, yearly
-}
 
-enum Frequency{daily, weekly, monthly;
+//analysis Provider
+enum ChartPeriod { daily, weekly, monthly, yearly }
+
+enum Frequency {
+  daily,
+  weekly,
+  monthly;
 
   static Frequency fromString(String value) {
     return Frequency.values.firstWhere(
-          (e) => e.name == value.toLowerCase(),
+      (e) => e.name == value.toLowerCase(),
       orElse: () => Frequency.daily,
     );
   }
 }
+
 //Money State
-enum MoneyState{
-  income, expense
-}
+enum MoneyState { income, expense }
+
 //Service Provider
-enum ServiceProvider{
+enum ServiceProvider {
   mtn('MTN', 'mtn.jpeg'),
   glo('Glo', 'glo.jpeg'),
   airtel('Airtel', 'airtel.jpeg'),
@@ -50,12 +51,40 @@ enum ServiceProvider{
   const ServiceProvider(this.label, this.imgPath);
 }
 
-enum TransactionStatus{
+enum TransactionStatus {
   pending('Pending', AppColors.pending),
   failed('Failed', AppColors.declined),
   completed('Completed', AppColors.primary);
 
   final String label;
   final Color color;
+
   const TransactionStatus(this.label, this.color);
+
 }
+
+extension TransactionStatusExtension on TransactionStatus{
+
+  String get value{
+    switch(this){
+      case TransactionStatus.pending:
+        return 'pending';
+
+      case TransactionStatus.completed:
+        return 'Completed';
+
+      case TransactionStatus.failed:
+        return 'Failed';
+    }
+  }
+
+  static TransactionStatus fromApi(String status) {
+    return TransactionStatus.values.firstWhere(
+          (e) => e.name.toLowerCase() == status.toLowerCase(),
+      orElse: () => TransactionStatus.pending,
+    );
+  }
+}
+
+
+

@@ -1,4 +1,5 @@
 import 'package:fin_wise/data/models/model_export.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
@@ -20,6 +21,7 @@ class PdfGeneratorService {
 
   Future<void> generatePdfAndShare(TransactionModel receipt) async {
     final pdf = pw.Document();
+    final viewModel = HomeViewModel();
 
     pdf.addPage(
       pw.Page(
@@ -54,7 +56,7 @@ class PdfGeneratorService {
               ),
 
               pw.Text(
-                receipt.amount.toStringAsFixed(2),
+                viewModel.formatCurrency(receipt.amount),
                 style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
               ),
 
@@ -62,9 +64,9 @@ class PdfGeneratorService {
               pw.Divider(),
               rowTile('Payment Type', receipt.modelableType),
               pw.Divider(),
-              rowTile('Provider', 'Airtel'),
+              rowTile('Provider', receipt.modelableId.toUpperCase()),
               pw.Divider(),
-              rowTile('Narration', 'AIrtime purchase for 09076892973'),
+              rowTile('Beneficiary', receipt.phoneNo),
               pw.Divider(),
               rowTile('Date', '7th Feb, 2026'),
               pw.Divider(),

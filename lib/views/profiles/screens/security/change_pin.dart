@@ -1,6 +1,8 @@
 
 import 'package:fin_wise/controllers/controller_exports.dart';
+import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/utils/utils_export.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +34,7 @@ class _ChangePinViewState extends State<ChangePinView> {
   }
 
   void setPin() {
-    if (!formKey.currentState!.validate())
+    if (formKey.currentState!.validate())
     {
       loader.offLoading(() async {
         await auth.setPin(
@@ -48,26 +50,33 @@ class _ChangePinViewState extends State<ChangePinView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageContainer(
-        topMargin: 20,
-        topChild: CustomAppBar.header(
-            title: 'Change Pin', leftRight: 15, onPressed: () {
-          Get.find<ProfileMainControl>().back();
-        }),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              labelText('Current Pin'),
-              inputField(currentCtrl, 'enter current pin'),
-              labelText('New Pin'),
-              inputField(newCtrl, 'enter new pin'),
-              labelText('Confirm Pin'),
-              inputField(confirmCtrl, 'enter pin again'),
-              SizedBox(height: 30,),
-              AppBtn(onPressed: () => setPin(), label: 'Change Pin')
-            ],
+      body: LoaderWrapper(
+        child: PageContainer(
+          topMargin: 20,
+          topChild: CustomAppBar.header(
+              title: 'Change Pin', leftRight: 15, onPressed: () {
+            Get.find<ProfileMainControl>().back();
+          }),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  labelText('Current Pin'),
+                  inputField(currentCtrl, 'enter current pin', currentKey, (val){if(val == null) return 'Enter your current pin';}),
+                  labelText('New Pin'),
+                  inputField(newCtrl, 'enter new pin', newKey, (val)=> Validator.validatePin(val!)),
+                  labelText('Confirm Pin'),
+                  inputField(confirmCtrl, 'enter pin again', confirmKey, (val)=> Validator.validateConfirmPassword(firstPassword: newCtrl.text, value: val)),
+                  SizedBox(height: 30,),
+                  AppBtn(onPressed: () {
+                    setPin();
+                  }, label: 'Change Pin')
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -77,17 +86,19 @@ class _ChangePinViewState extends State<ChangePinView> {
   Widget labelText(String title) =>
       AppText(text: title, textWeigh: FontWeight.w500,);
 
-  Widget inputField(TextEditingController ctrl, String label) {
+  Widget inputField(TextEditingController ctrl, String label, GlobalKey<FormFieldState> key, FormFieldValidator<String> validator) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30, top: 10),
       child: TextFormField(
         controller: ctrl,
+        validator: validator,
+        key: key,
         maxLength: 4,
         obscureText: true,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           hintText: label,
-
+      counterText: ''
         ),
       ),
     );

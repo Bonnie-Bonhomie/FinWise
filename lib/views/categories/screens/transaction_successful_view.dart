@@ -3,14 +3,23 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class TransactionSuccessfulView extends StatelessWidget {
+class TransactionSuccessfulView extends StatefulWidget {
   TransactionSuccessfulView({super.key});
 
+  @override
+  State<TransactionSuccessfulView> createState() => _TransactionSuccessfulViewState();
+}
+
+class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
   final TransactionModel receiptDet = Get.arguments ?? '';
+
+  final viewModel = HomeViewModel();
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +61,7 @@ class TransactionSuccessfulView extends StatelessWidget {
               const SizedBox(height: 20),
               Center(
                 child: AppText(
-                  text: '₦${receiptDet.amount.toStringAsFixed(2)}',
+                  text: viewModel.formatCurrency(receiptDet.amount),
                   textWeigh: FontWeight.bold,
                   textSize: 20,
                 ),

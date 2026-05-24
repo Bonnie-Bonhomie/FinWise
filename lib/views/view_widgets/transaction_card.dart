@@ -1,6 +1,7 @@
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,24 +10,32 @@ import '../../utils/widgets/text_widget.dart';
 import '../../data/models/transaction_model.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard({super.key, required this.tx});
+  TransactionCard({super.key, required this.tx});
 
   final TransactionModel tx;
+  final viewModel = HomeViewModel();
 
   @override
   Widget build(BuildContext context) {
+    // DateTime date = DateT;
     // final date = tx.time;
     // final formatDate = DateFormat('MMMM d').format(date);
     // final formatTime = DateFormat('HH:mm').format(date);
 
     return InkWell(
       onTap: (){
-        Get.toNamed(Routes.transReceipt);
+        Get.toNamed(Routes.transReceipt, arguments: tx);
         FocusScope.of(context).unfocus();
       },
       child: Container(
         height: 80,
+        margin: const EdgeInsets.only(bottom: 5.0),
         padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [BoxShadow(color: Theme.of(context).cardColor, offset: Offset(2, 4),)]
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +43,7 @@ class TransactionCard extends StatelessWidget {
             CircleAvatar(
               backgroundColor: AppColors.blue,
               radius: 20,
-              // child: Icon(tx.category!.icon, color: Colors.white),
+              child: AppText(text: tx.modelableType[0].toUpperCase(), textColor: Colors.white, textWeigh: FontWeight.bold,),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,27 +51,33 @@ class TransactionCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 100,
-                  // child: Text(tx.productName, overflow: TextOverflow.ellipsis),
+                  child: Text(tx.modelableType, overflow: TextOverflow.ellipsis),
                 ),
                 AppText(
-                  text: tx.purchaseAt,
+                  text: viewModel.formatDate(tx.purchaseAt),
                   textColor: Colors.blue,
                   textSize: 10,
                 ),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                // color: tx.status.color,
-              ),
-              // child: AppText(text: tx.status.label, textColor: AppColors.bgColor),
+
+            Column(
+              children: [
+                AppText(
+                    text: viewModel.formatCurrency(tx.amount),
+                    // textColor: Colors.black : AppColors.blue,
+                  ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(3, 2, 3, 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: tx.apiStatus.color.withOpacity(0.5),
+                  ),
+                  child: AppText(text: tx.apiStatus.label, textColor: AppColors.bgColor, textSize: 10),
+                ),
+              ],
             ),
-            // AppText(
-            //   text: '${tx.isIncome ? '+' : '-'}₦${tx.amount}',
-            //   textColor: tx.isIncome ? Colors.black : AppColors.blue,
-            // ),
+            //
           ],
         ),
       ),

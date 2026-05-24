@@ -49,7 +49,7 @@ class _AirtimeViewState extends State<AirtimeView> {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: onRefresh,
+          onRefresh: () async => onRefresh,
 
           child: PageContainer(
             bottomPadding: 20,

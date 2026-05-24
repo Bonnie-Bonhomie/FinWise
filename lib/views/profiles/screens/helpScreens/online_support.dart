@@ -48,11 +48,16 @@ class OnlineSupportView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                               color: chat.isAsk
                                   ? AppColors.primary
-                                  : AppColors.lightGreen,
+                                  : Theme.of(context).cardColor,
                             ),
-                            child: AppText(text: chat.text),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                AppText(text: chat.text),
+                                AppText(text: formatTime, textAlign: TextAlign.end,textSize: 10,),
+                              ],
+                            ),
                           ),
-                          AppText(text: formatTime),
                         ],
                       ),
                     );
@@ -70,7 +75,7 @@ class OnlineSupportView extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  sideButton(Icons.camera_alt_outlined, () {}),
+                  sideButton(Theme.of(context).cardColor, Icons.camera_alt_outlined, () {}),
                   Expanded(
                     child: TextFormField(
                       maxLines: 5,
@@ -80,7 +85,7 @@ class OnlineSupportView extends StatelessWidget {
                       decoration: InputDecoration(
                         hint: Text('Write Here...'),
                         filled: true,
-                        fillColor: AppColors.bgColor,
+                        fillColor: Theme.of(context).cardColor,
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 12
@@ -92,8 +97,8 @@ class OnlineSupportView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  sideButton(Icons.mic_none, () {}),
-                  sideButton(Icons.send_outlined, () {
+                  sideButton(Theme.of(context).cardColor, Icons.mic_none, () {}),
+                  sideButton(Theme.of(context).cardColor, Icons.send_outlined, () {
                     questionCtrl.text.isEmpty
                         ? Get.snackbar('', 'Type your question in the box')
                         : ctrl.sendQuestion(
@@ -114,11 +119,11 @@ class OnlineSupportView extends StatelessWidget {
     );
   }
 
-  Widget sideButton(IconData icon, VoidCallback onPressed) {
+  Widget sideButton(Color color, IconData icon, VoidCallback onPressed) {
     return IconButton(
       onPressed: onPressed,
       style: IconButton.styleFrom(
-        backgroundColor: AppColors.bgColor,
+        backgroundColor: color,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
       icon: Icon(icon),

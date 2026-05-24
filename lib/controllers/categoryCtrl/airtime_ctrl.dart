@@ -62,10 +62,10 @@ class AirtimeCtrl extends GetxController {
       if (result is DataSuccess) {
         final data = result.data;
         if (data['status'] == true) {
-          print(result.data['data']);
-          TransactionModel receipt = TransactionModel.fromJson(
-              result.data['data']);
 
+          TransactionModel receipt = TransactionModel.fromJson(data['data']);
+          print(receipt);
+            receipt.category = Categories.airtime;
           if (receipt.apiStatus.label == TransactionStatus.failed.name) {
             CustomSnackbar.showSnackbar(
                 message: 'Unable to complete transaction, try again later');
@@ -97,7 +97,8 @@ class AirtimeCtrl extends GetxController {
         }
       }
     }catch(e){
-      CustomSnackbar.showSnackbar(message: 'Unable to complete transaction');
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
     }
   }
 

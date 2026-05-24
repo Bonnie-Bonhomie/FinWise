@@ -1,6 +1,7 @@
 
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,7 +23,7 @@ class TransactionListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       print(loader.isLoading.value);
-      final transact = trans.transacts;
+      final transact = trans.transactionList;
       if(loader.isLoading.value == true){
 
         return Center(
@@ -47,7 +48,9 @@ class TransactionListView extends StatelessWidget {
         itemCount: transact.length,
         itemBuilder: (context, index) {
           final tx = transact[index];
-          return TransactionCard(tx: tx);
+          return AnimatedCard(
+              index: index,
+              child: TransactionCard(tx: tx));
         },
       );
     });

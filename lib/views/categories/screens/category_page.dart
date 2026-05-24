@@ -61,48 +61,56 @@ class _CategoryPageState extends State<CategoryPage> {
               runSpacing: 40,
               children: [
                 CategoriesCard(
+                  index: 1,
                   icon: airtime.icon,
                   title: airtime.label,
                   onTap: () => Get.toNamed(Routes.airtime),
                 ),
                 CategoriesCard(
+                  index: 2,
                   icon: data.icon,
                   title: data.label,
                   onTap: () => Get.toNamed(Routes.data),
                 ),
                 CategoriesCard(
+                  index: 3,
                   icon: cable.icon,
                   title: cable.label,
                   onTap: () => Get.toNamed(Routes.tv),
                 ),
-                CategoriesCard(
+                CategoriesCard(index: 4,
                   icon: elect.icon,
                   title: elect.label,
                   onTap: () => Get.toNamed(Routes.elect),
                 ),
                 CategoriesCard(
+                  index: 5,
                   icon: education.icon,
                   title: education.label,
                   onTap: () => Get.toNamed(Routes.education),
                 ),
                 CategoriesCard(
+                  index: 6,
                   icon: chow.icon,
                   title: chow.label,
                   onTap: () {showToast();},
                   color: AppColors.subBlue,
                 ),
                 CategoriesCard(
+                  index: 7,
                   icon: invite.icon,
                   title: invite.label,
                   color: AppColors.subBlue,
                   onTap: () {showToast();},
                 ),
                 CategoriesCard(
+                  index: 8,
                   icon: solar.icon,
                   title: solar.label,
                   color: AppColors.subBlue,
                   onTap: () {showToast();}),
                 CategoriesCard(
+                  index: 9,
                   icon: gift.icon,
                   title: gift.label,
                   onTap: () {

@@ -57,62 +57,68 @@ class AuthCtrl extends GetxController {
     required String confirmPassword,
   })
   async {
-    LoaderController.to.show();
-    final response = await authRepo.registerUser(
-      name: name,
-      mail: mail,
-      dob: dob,
-      phone: phone,
-      password: password,
-      confirmPassword: confirmPassword,
-    );
-    // print(response);
-    // final token = response.data['token'];
-    // await storage.saveToken(token);
+    try {
+      LoaderController.to.show();
+      final response = await authRepo.registerUser(
+        name: name,
+        mail: mail,
+        dob: dob,
+        phone: phone,
+        password: password,
+        confirmPassword: confirmPassword,
+      );
+      // print(response);
+      // final token = response.data['token'];
+      // await storage.saveToken(token);
 
-    if (response is DataSuccess) {
-      final data = response.data;
+      if (response is DataSuccess) {
+        final data = response.data;
 
-      if (data['status'] == true) {
-        user = ProfileModel.fromJson(data['data']);
+        if (data['status'] == true) {
+          user = ProfileModel.fromJson(data['data']);
 
-        final name = user!.name;
-        final mail = user!.email;
-        final userId = user!.id;
-        await store.saveData<String>(PrefStoreKeys.username, name);
-        await store.saveData<String>(PrefStoreKeys.mail, mail);
-        await store.saveData<String>(PrefStoreKeys.userId, userId);
-        signMail.value = user!.email;
-        CustomSnackbar.successSnack(data['message']);
-        Get.offNamed(Routes.verAcc);
-      } else {
-        //  backend handled inside success (if API returns 200 with status false)
-        CustomSnackbar.showSnackbar(message: data['message']);
-      }
-    } else if (response is DataFailed) {
-      final err = response.exception;
-
-      if (err is DioException) {
-        //  Network issues
-        if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
-          return;
-        }
-
-        //  Server error
-        final errData = err.response?.data;
-        // print(err.response?.data);
-
-        if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
+          final name = user!.name;
+          final mail = user!.email;
+          final userId = user!.id;
+          await store.saveData<String>(PrefStoreKeys.username, name);
+          await store.saveData<String>(PrefStoreKeys.mail, mail);
+          await store.saveData<String>(PrefStoreKeys.userId, userId);
+          signMail.value = user!.email;
+          CustomSnackbar.successSnack(data['message']);
+          Get.offNamed(Routes.verAcc);
         } else {
-          CustomSnackbar.showSnackbar(message: err.response.toString());
+          //  backend handled inside success (if API returns 200 with status false)
+          CustomSnackbar.showSnackbar(message: data['message']);
         }
-      } else {
-        CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
-    }
+      else if (response is DataFailed) {
+        final err = response.exception;
 
+        if (err is DioException) {
+          //  Network issues
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(title: 'No internet connection',
+                message: 'Check your internet connection');
+            return;
+          }
+
+          //  Server error
+          final errData = err.response?.data;
+          // print(err.response?.data);
+
+          if (errData != null && errData['message'] != null) {
+            CustomSnackbar.showSnackbar(message: errData['message']);
+          } else {
+            CustomSnackbar.showSnackbar(message: err.response.toString());
+          }
+        } else {
+          CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
+        }
+      }
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, trya again later');
+    }
     LoaderController.to.hide();
   } //Register user Function
 

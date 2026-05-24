@@ -1,4 +1,6 @@
 
+import 'package:dio/dio.dart';
+import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/transaction_model.dart';
@@ -21,6 +23,7 @@ class TransactionCtrl extends GetxController{
     // TODO: implement onInit
     debugPrint('Transaction Ctrl');
     loadTransactions(selectMon.value, selectY.value);
+    getTransactions();
     super.onInit();
 
   }
@@ -32,6 +35,7 @@ class TransactionCtrl extends GetxController{
 
 
   var transactions = <TransactionModel>[].obs;
+  var transactionList = <TransactionModel>[].obs;
   var error = ''.obs;
 
 
@@ -74,20 +78,57 @@ class TransactionCtrl extends GetxController{
 
 
   Future<void> getTransactions() async{
+    try{
 
+      loading.value = true;
     final token = await storage.getToken();
     if(token == null){
      CustomSnackbar.showSnackbar(message: 'User not authourized');
       return;
     }
     final transact = await repo.getTransact(token);
-    if(DataState is DataSuccess && transact.data['status'] == 'success'){
+    // print(transact.data);
+    if(transact is DataSuccess){
+      if(transact.data['status'] == true){
 
-      transactions.add(transact.data);
+        final data = transact.data['data'];
+        List currentPage = data[0]['data'];
+        List trans = currentPage;
+
+        print((currentPage[0]));
+        final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
+
+        print(transac);
+        transactionList.addAll(transac);
+        print(transactionList);
+      }else{
+        error.value = 'Unable to load all Transactions';
+      }
+    }else if(transact is DataFailed){
+      final err = transact.exception;
+      print(err);
+      if (err is DioException) {
+        if (err.type == DioExceptionType.connectionError ||
+            err.type == DioExceptionType.connectionTimeout) {
+          CustomSnackbar.showSnackbar(
+            title: 'No internet connection',
+            message: 'Check your internet connection',
+          );
+        }
+
+        final errData = err.response!.data;
+        if(errData != null && errData['message'] != null){
+          error.value = errData['message'].toString();
+        }else{
+          error.value = 'Something went wrong, try to reload';
+        }
+      }else{
+        error.value = 'Something went wrong, try again later';
+      }
+      loading.value = false;
     }
-    else{
-      error.value = 'Unable to load transactions history';
-      GetSnackBar(title: 'Oops', message: error.value,);
+    }catch(e){
+      error.value = 'Something went wrong, try again later';
     }
   }
 

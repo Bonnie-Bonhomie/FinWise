@@ -3,6 +3,7 @@ import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/Helpers/generate_image_service.dart';
 import 'package:fin_wise/utils/Helpers/pdf_generator.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ class TransactionReceipt extends StatelessWidget {
   TransactionReceipt({super.key});
 
   final GlobalKey receiptKey = GlobalKey();
+  final viewModel = HomeViewModel();
 
   TransactionModel receiptDet = Get.arguments;
 
@@ -18,8 +20,7 @@ class TransactionReceipt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
@@ -28,6 +29,7 @@ class TransactionReceipt extends StatelessWidget {
                 FocusScope.of(context).unfocus();
               }, child: AppText(text: 'Done', textColor: AppColors.primary,)),
             ),
+            const SizedBox(height: 30),
             Center(
               child: RepaintBoundary(
                 key: receiptKey,
@@ -52,7 +54,7 @@ class TransactionReceipt extends StatelessWidget {
                       const HeadingText(headingText: 'FinWise'),
                       const HeadingText(headingText: 'Transaction Receipt'),
                       const HeadingText(headingText: 'Amount'),
-                      AppText(text: receiptDet.amount.toStringAsFixed(2), textWeigh: FontWeight.bold,),
+                      AppText(text: viewModel.formatCurrency(receiptDet.amount), textWeigh: FontWeight.bold,),
 
                       rowTile('Reference', receiptDet.referenceId),
                       dividerBuild(),
