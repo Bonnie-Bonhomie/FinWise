@@ -40,80 +40,99 @@ class _TransactionViewState extends State<TransactionView> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() async{ await trans.getTransactions(1);});
+
+    super.initState();
+  }
+
+  Future<void> onRefresh() async {
+    trans.transactionList.clear();
+    await trans.getTransactions(1);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageContainer(
-        topPadding: 40,
-        topMargin: 15,
-        topChild: Column(
-          children: [
-            CustomAppBar.header(
-                title: "Transactions", leftRight: 10, onPressed: () {}),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                children: [
-                  Container(
-                    // height: 60,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    padding: const EdgeInsets.all(7),
-                    margin: const EdgeInsets.only(bottom: 15),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      children: [
-                        const AppText(text: 'Total Expense'),
-                        AppText(
-                          text: viewModel.formatCurrency(trans.totalExpense
-                              .value),
-                          textWeigh: FontWeight.bold,
-                          textSize: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
+      body: RefreshIndicator(
+        onRefresh: onRefresh,
+        child: SingleChildScrollView(
+          child: PageContainer(
+            topPadding: 40,
+            topMargin: 15,
+            topChild: Column(
+              children: [
+                CustomAppBar.header(
+                    title: "Transactions", leftRight: 10, onPressed: () {}),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
                     children: [
-                      BalanceCard(
-                        title: 'Monthly',
-                        icon: Icons.arrow_circle_up_outlined,
-                        value: trans.monthlyExpense.value,
+                      Container(
+                        // height: 60,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width,
+                        padding: const EdgeInsets.all(7),
+                        margin: const EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Column(
+                          children: [
+                            const AppText(text: 'Total Expense'),
+                            AppText(
+                              text: viewModel.formatCurrency(trans.totalExpense
+                                  .value),
+                              textWeigh: FontWeight.bold,
+                              textSize: 20,
+                            ),
+                          ],
+                        ),
                       ),
-                      const Spacer(),
-                      BalanceCard(
-                        title: 'Daily',
-                        icon: Icons.arrow_circle_up_outlined,
-                        value: trans.dailyExpense.value,
-                        iconColor: Colors.blue,
+                      Row(
+                        children: [
+                          BalanceCard(
+                            title: 'Monthly',
+                            icon: Icons.arrow_circle_up_outlined,
+                            value: trans.monthlyExpense.value,
+                          ),
+                          const Spacer(),
+                          BalanceCard(
+                            title: 'Daily',
+                            icon: Icons.arrow_circle_up_outlined,
+                            value: trans.dailyExpense.value,
+                            iconColor: Colors.blue,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Column(
-          children: [
-            InkWell(
-                onTap: () {
-                  MonthBottomSheet().showMonthBottomSheet(
-                      context, trans, loader);
-                },
-                //Display the select month and year
-                child: topTitle()
+            child: Column(
+              children: [
+                InkWell(
+                    onTap: () {
+                      MonthBottomSheet().showMonthBottomSheet(
+                          context, trans, loader);
+                    },
+                    //Display the select month and year
+                    child: topTitle()
+                ),
+          
+                Expanded(child: TransactionListView(trans: trans)),
+
+              ],
             ),
-
-            Expanded(child: TransactionListView(trans: trans, loader: loader,))
-          ],
+          
+          
+          ),
         ),
-
-
       ),
     );
   }

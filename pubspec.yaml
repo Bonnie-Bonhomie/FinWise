@@ -79,7 +79,14 @@ flutter:
       fonts:
         - asset: Assets/fonts/Poppins-Regular.ttf
         - asset: Assets/fonts/Poppins-Italic.ttf
-  #         style: italic
+
+    - family: Roboto
+      fonts:
+        - asset: Assets/fonts/Roboto-Regular.ttf
+        - asset: Assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: Assets/fonts/Roboto-Italic.ttf
+          style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

@@ -16,15 +16,15 @@ class SkeletonLoader {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // Container(
+        //   height: 50,
+        //   width: 50,
+        //   margin: const EdgeInsets.all(6),
+        //   decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade400),
+        // ),
         Container(
           height: 50,
-          width: 50,
-          margin: const EdgeInsets.all(6),
-          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey.shade400),
-        ),
-        Container(
-          height: 50,
-          width: 180,
+          width: 250,
           margin: const EdgeInsets.all(6),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.grey.shade400),
         ),

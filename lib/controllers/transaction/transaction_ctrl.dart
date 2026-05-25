@@ -1,7 +1,5 @@
 
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
-import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/transaction_model.dart';
 import 'package:fin_wise/data/repositories/transacetionRepository/transact_repo.dart';
@@ -10,7 +8,6 @@ import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../core/constant.dart';
 
 class TransactionCtrl extends GetxController{
 
@@ -23,7 +20,6 @@ class TransactionCtrl extends GetxController{
     // TODO: implement onInit
     debugPrint('Transaction Ctrl');
     loadTransactions(selectMon.value, selectY.value);
-    getTransactions();
     super.onInit();
 
   }
@@ -32,9 +28,11 @@ class TransactionCtrl extends GetxController{
   var monthlyExpense = 2000.45.obs;
   var totalExpense = 2000.00.obs;
   var loading = false.obs;
+  int page = 1;
+  RxBool nextPage = true.obs;
 
 
-  var transactions = <TransactionModel>[].obs;
+  List allTransactions = [].obs;
   var transactionList = <TransactionModel>[].obs;
   var error = ''.obs;
 
@@ -63,6 +61,7 @@ class TransactionCtrl extends GetxController{
       // montCache[key] = result;
       // transacts = result;
     }catch(e){
+      print(e);
       Get.snackbar('Oops', 'Unable to load this month transactions');
     }finally{
       loading.value = false;
@@ -77,7 +76,7 @@ class TransactionCtrl extends GetxController{
 
 
 
-  Future<void> getTransactions() async{
+  Future<void> getTransactions(int page) async{
     try{
 
       loading.value = true;
@@ -86,21 +85,26 @@ class TransactionCtrl extends GetxController{
      CustomSnackbar.showSnackbar(message: 'User not authourized');
       return;
     }
-    final transact = await repo.getTransact(token);
+    final transact = await repo.getTransact(token, page);
     // print(transact.data);
     if(transact is DataSuccess){
       if(transact.data['status'] == true){
 
+        // if(transact.data['data']['next_page_url'] != null){
+        //   nextPage.value = true;
+        // }
         final data = transact.data['data'];
-        List currentPage = data[0]['data'];
+        List currentPage = data[page - 1]['data'];
         List trans = currentPage;
 
-        print((currentPage[0]));
+        // print((currentPage[0]));
         final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
-        print(transac);
         transactionList.addAll(transac);
-        print(transactionList);
+        allTransactions.add(transactionList);
+        if(transactionList.isEmpty){
+          error.value = 'No transaction history';
+        }
       }else{
         error.value = 'Unable to load all Transactions';
       }
@@ -125,10 +129,13 @@ class TransactionCtrl extends GetxController{
       }else{
         error.value = 'Something went wrong, try again later';
       }
-      loading.value = false;
+
     }
     }catch(e){
+      print(e);
       error.value = 'Something went wrong, try again later';
+    }finally{
+      loading.value = false;
     }
   }
 

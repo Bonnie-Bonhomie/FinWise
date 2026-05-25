@@ -1,5 +1,6 @@
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
@@ -22,6 +23,12 @@ class PdfGeneratorService {
   Future<void> generatePdfAndShare(TransactionModel receipt) async {
     final pdf = pw.Document();
     final viewModel = HomeViewModel();
+    final roboto = pw.Font.ttf(
+      await rootBundle.load('Assets/fonts/Roboto-regular.ttf')
+    );
+    final robotoBold = pw.Font.ttf(
+        await rootBundle.load('Assets/fonts/Roboto-regular.ttf')
+    );
 
     pdf.addPage(
       pw.Page(
@@ -57,7 +64,7 @@ class PdfGeneratorService {
 
               pw.Text(
                 viewModel.formatCurrency(receipt.amount),
-                style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                style: pw.TextStyle(font: robotoBold),
               ),
 
               rowTile('Reference', receipt.referenceId),
@@ -68,7 +75,7 @@ class PdfGeneratorService {
               pw.Divider(),
               rowTile('Beneficiary', receipt.phoneNo),
               pw.Divider(),
-              rowTile('Date', '7th Feb, 2026'),
+              rowTile('Date', viewModel.formatDate(receipt.purchaseAt)),
               pw.Divider(),
               pw.SizedBox(height: 10),
               pw.Text('Thank you for using our service!'),

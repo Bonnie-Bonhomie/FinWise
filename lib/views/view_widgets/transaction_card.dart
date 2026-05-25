@@ -5,7 +5,6 @@ import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import '../../utils/widgets/text_widget.dart';
 import '../../data/models/transaction_model.dart';
 
@@ -29,7 +28,7 @@ class TransactionCard extends StatelessWidget {
       },
       child: Container(
         height: 80,
-        margin: const EdgeInsets.only(bottom: 5.0),
+        margin: const EdgeInsets.only(bottom: 10.0),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -97,7 +96,7 @@ class BuildTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final transact = trans.transacts;
+    final transact = trans.transactionList;
     int getLen(){
       int len;
       if(transact.length < 3){

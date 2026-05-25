@@ -64,7 +64,7 @@ class TransactionReceipt extends StatelessWidget {
                       // dividerBuild(),
                       rowTile('Narration', receiptDet.phoneNo),
                       dividerBuild(),
-                      rowTile('Date', '7th Feb, 2026'),
+                      rowTile('Date', viewModel.formatDate(receiptDet.purchaseAt)),
                       dividerBuild(),
                       const SizedBox(height: 10,),
                       const AppText(text: 'Thank you for using our service!')

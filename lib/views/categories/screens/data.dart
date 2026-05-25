@@ -52,64 +52,66 @@ class _DataViewState extends State<DataView>
       body: LoaderWrapper(
         child: RefreshIndicator(
           onRefresh: onRefresh,
-          child: PageContainer(
-            topMargin: 20,
-            bottomPadding: 10,
-            topChild: CustomAppBar.header(
-              title: 'Buy Data',
-              leftRight: 15,
-              onPressed: () => Get.back(),
-            ),
-            child: Obx(
-              () => TopFormWidget(
-                networks: dataCtrl.dataNet,
-                onTap: () {
-                  dataCtrl.getDataPlans(paymentCtrl.select.value + 1);
-                },
-                // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
-                beneficiaries: [],
-                numberCtrl: numberCtrl,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
-                        Spacer(),
-                        Icon(Icons.grid_view_rounded, color: AppColors.primary),
-                        // Icon(Icons.grid_4x4),
-                      ],
-                    ),
-
-                    TabBar(
-                      labelStyle: TextStyle(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      isScrollable: true,
-                      // physics: ScrollPhysics(),
-                      padding: const EdgeInsets.all(10),
-                      indicatorColor: AppColors.primary,
-                      dividerColor: AppColors.lightGreen,
-                      controller: _tabCtrl,
-                      tabs: List.generate(dataCtrl.sections.length, ((index) {
-                        final tab = dataCtrl.sections[index];
-                        return Tab(text: tab);
-                      })),
-                    ),
-                    SizedBox(
-                      height: 400,
-                      child: TabBarView(
-                        controller: _tabCtrl,
+          child: SingleChildScrollView(
+            child: PageContainer(
+              topMargin: 20,
+              bottomPadding: 10,
+              topChild: CustomAppBar.header(
+                title: 'Buy Data',
+                leftRight: 15,
+                onPressed: () => Get.back(),
+              ),
+              child: Obx(
+                () => TopFormWidget(
+                  networks: dataCtrl.dataNet,
+                  onTap: () {
+                    dataCtrl.getDataPlans(paymentCtrl.select.value + 1);
+                  },
+                  // select: NetworksModel(name: '', id: 1, imgPath: '', status: '', networkCode: 'networkCode', serviceId: 'serviceId'),
+                  beneficiaries: [],
+                  numberCtrl: numberCtrl,
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          // Text('data'),
-                          sectionDataList(dataCtrl.hotUp, 'HotUp'),
-                          sectionDataList(dataCtrl.dailyPlan, 'Daily'),
-                          sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
-                          sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
+                          AppText(text: 'Data Plans', textWeigh: FontWeight.bold),
+                          Spacer(),
+                          Icon(Icons.grid_view_rounded, color: AppColors.primary),
+                          // Icon(Icons.grid_4x4),
                         ],
                       ),
-                    ),
-                  ],
+
+                      TabBar(
+                        labelStyle: TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        isScrollable: true,
+                        // physics: ScrollPhysics(),
+                        padding: const EdgeInsets.all(10),
+                        indicatorColor: AppColors.primary,
+                        dividerColor: AppColors.lightGreen,
+                        controller: _tabCtrl,
+                        tabs: List.generate(dataCtrl.sections.length, ((index) {
+                          final tab = dataCtrl.sections[index];
+                          return Tab(text: tab);
+                        })),
+                      ),
+                      SizedBox(
+                        height: 400,
+                        child: TabBarView(
+                          controller: _tabCtrl,
+                          children: [
+                            // Text('data'),
+                            sectionDataList(dataCtrl.hotUp, 'HotUp'),
+                            sectionDataList(dataCtrl.dailyPlan, 'Daily'),
+                            sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
+                            sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -183,7 +185,8 @@ class DataCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       runSpacing: 15,
-      alignment: WrapAlignment.start,
+      alignment: WrapAlignment.center,
+      runAlignment: WrapAlignment.start,
       spacing: 15,
       children: List.generate(dataPlan.length, (index) {
         final data = dataPlan[index];
@@ -225,9 +228,9 @@ class DataCard extends StatelessWidget {
                   );
           },
           child: Container(
-            padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+            padding: const EdgeInsets.fromLTRB(8.0, 15, 8.0, 0),
             height: 120,
-            width: 120,
+            width: 100,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Theme.of(context).cardColor,

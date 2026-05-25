@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   final store = SharedPreferService();
 
   final acc = Get.find<AccBalanceCtrl>();
+  final trans = Get.find<TransactionCtrl>();
   String name = '';
 
   void getName() async {
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       getName();
       // (viewModel.greeting());
       acc.getBalance();
+      trans.getTransactions(1);
     });
 
     _headerAnim = AnimationController(
@@ -61,7 +63,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   Future<void> onRefresh()async{
-    Future.delayed(Duration(seconds: 2), () async{ await acc.getBalance();});
+    Future.delayed(Duration(seconds: 2), () async{ await acc.getBalance(); trans.getTransactions(1);});
   }
 
   @override
@@ -69,18 +71,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final percent = (acc.spentPercent * 100).round();
     final nav = Get.find<NavControl>();
     // final acc = Get.find<AccBalanceCtrl>();
-    final trans = Get.find<TransactionCtrl>();
+
 
     return Scaffold(
       body: SafeArea(
         top: false,
-        child: SingleChildScrollView(
-          child: Obx(() {
-            return RefreshIndicator(
-              onRefresh: onRefresh,
-              color: AppColors.primary,
-              backgroundColor: Colors.white,
-              child: PageContainer(
+        child: RefreshIndicator(
+          onRefresh: onRefresh,
+          child: SingleChildScrollView(
+            child: Obx(() {
+              return PageContainer(
                 topMargin: 10,
                 topChild: Column(
                   children: [
@@ -154,9 +154,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     ],
                   ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
       ),
     );
