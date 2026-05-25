@@ -117,68 +117,72 @@ class AuthCtrl extends GetxController {
         }
       }
     }catch(e){
-      CustomSnackbar.showSnackbar(message: 'Something went wrong, trya again later');
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
     }
     LoaderController.to.hide();
   } //Register user Function
 
   Future<void> loginUser(String mail, String password) async {
-    final response = await authRepo.loginUser(email: mail, password: password);
+    try{
+      final response = await authRepo.loginUser(email: mail, password: password);
 
-    print(response.data);
-    if (response is DataSuccess) {
-      final data = response.data;
+      print(response.data);
+      if (response is DataSuccess) {
+        final data = response.data;
 
-      if (data['status'] == true) {
-        final token = data['data']['token'];
-        await storage.saveToken(token);
+        if (data['status'] == true) {
+          final token = data['data']['token'];
+          await storage.saveToken(token);
 
-        final name = data['data']['name'];
-        final mail = data['data']['email'];
-        final userId = data['data']['id'].toString();
-        final phone = data['data']['phone'];
-        await store.saveData<String>(PrefStoreKeys.username, name);
-        await store.saveData<String>(PrefStoreKeys.mail, mail);
-        await store.saveData<String>(PrefStoreKeys.phone, phone);
-        await store.saveData<String>(PrefStoreKeys.userId, userId);
+          final name = data['data']['name'];
+          final mail = data['data']['email'];
+          final userId = data['data']['id'].toString();
+          final phone = data['data']['phone'];
+          await store.saveData<String>(PrefStoreKeys.username, name);
+          await store.saveData<String>(PrefStoreKeys.mail, mail);
+          await store.saveData<String>(PrefStoreKeys.phone, phone);
+          await store.saveData<String>(PrefStoreKeys.userId, userId);
 
-        userWallet = WalletModel.fromJson(data['data']['wallet']);
-        // user = UserModel.fromJson(response.data);
-        CustomSnackbar.successSnack(data['message'].toString());
+          userWallet = WalletModel.fromJson(data['data']['wallet']);
+          // user = UserModel.fromJson(response.data);
+          CustomSnackbar.successSnack(data['message'].toString());
 
-        Get.offAllNamed(Routes.mainS);
-      } else {
-        CustomSnackbar.showSnackbar(
-          message: 'Something went wrong. Try again later.',
-        );
-      }
-    } else if (response is DataFailed) {
-      final err = response.exception;
-      print(err.toString());
-      // Network error
-      if (err is DioException) {
-        if (err.type == DioExceptionType.connectionError|| err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+          Get.offAllNamed(Routes.mainS);
+        } else {
+          CustomSnackbar.showSnackbar(
+            message: 'Something went wrong. Try again later.',
+          );
         }
-        //   //Server error
-        else if (err.response != null) {
-          final errData = err.response?.data;
-          print(errData.toString());
-          if (errData != null && errData['message'] != null) {
-            CustomSnackbar.showSnackbar(message: errData['message'] ?? "Error");
-          } else {
-            CustomSnackbar.showSnackbar(
-              message:
-                  err.response?.data ?? 'Something went wrong, try again later',
-            );
+      } else if (response is DataFailed) {
+        final err = response.exception;
+        print(err.toString());
+        // Network error
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError|| err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+          }
+          //   //Server error
+          else if (err.response != null) {
+            final errData = err.response?.data;
+            print(errData.toString());
+            if (errData != null && errData['message'] != null) {
+              CustomSnackbar.showSnackbar(message: errData['message'] ?? "Error");
+            } else {
+              CustomSnackbar.showSnackbar(
+                message:
+                err.response?.data ?? 'Something went wrong, try again later',
+              );
+            }
           }
         }
+      } else {
+        CustomSnackbar.showSnackbar(
+          message: 'Unknown error occur, try again later',
+        );
+        // }
       }
-    } else {
-      CustomSnackbar.showSnackbar(
-        message: 'Unknown error occur, try again later',
-      );
-      // }
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
     }
   } // Login function
 
@@ -213,54 +217,59 @@ class AuthCtrl extends GetxController {
     required int otp,
   })
   async {
-    final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
-    print(response.data);
-    if (response is DataSuccess) {
-      final data = response.data;
+    try{
+      final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
+      print(response.data);
+      if (response is DataSuccess) {
+        final data = response.data;
 
-      if (data['status'] == true) {
-        final token = response.data['data']['token'];
-        if (token != null) {
-          await storage.saveToken(token);
-        }
+        if (data['status'] == true) {
+          final token = response.data['data']['token'];
+          if (token != null) {
+            await storage.saveToken(token);
+          }
 
-        await store.saveData<String>(PrefStoreKeys.mail, user!.email);
-        await store.saveData<String>(PrefStoreKeys.username, user!.name);
-        showCustomDiag(context);
-        print('Done');
-      } else {
-        // backend handled inside success (if API returns 200 with status false)
-        CustomSnackbar.showSnackbar(
-          message: data['message'] ?? 'This is the error',
-        );
-      }
-    } else if (response is DataFailed) {
-      final err = response.exception;
-
-      if (err is DioException) {
-        //  Network issues
-        if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
-          return;
-        }
-
-        //  Server error
-        final errData = err.response?.data;
-        // print(err.response?.data);
-
-        if (errData != null && errData['message'] != null) {
-          CustomSnackbar.showSnackbar(message: errData['message']);
+          await store.saveData<String>(PrefStoreKeys.mail, user!.email);
+          await store.saveData<String>(PrefStoreKeys.username, user!.name);
+          showCustomDiag(context);
+          print('Done');
         } else {
-          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
+          // backend handled inside success (if API returns 200 with status false)
+          CustomSnackbar.showSnackbar(
+            message: data['message'] ?? 'This is the error',
+          );
         }
-      } else {
-        CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
+      } else if (response is DataFailed) {
+        final err = response.exception;
+
+        if (err is DioException) {
+          //  Network issues
+          if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+            return;
+          }
+
+          //  Server error
+          final errData = err.response?.data;
+          // print(err.response?.data);
+
+          if (errData != null && errData['message'] != null) {
+            CustomSnackbar.showSnackbar(message: errData['message']);
+          } else {
+            CustomSnackbar.showSnackbar(message: 'Server error, try again later');
+          }
+        } else {
+          CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
+        }
       }
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
     }
   } //Email verification
 
   //Resend Otp function
   Future<void> resendOtp() async {
+    try{
     final String mail = await store.retrieve(PrefStoreKeys.mail);
     if (mail.isNotEmpty) {
       final response = await authRepo.resendOtp(email: mail.toString());
@@ -304,6 +313,9 @@ class AuthCtrl extends GetxController {
         }
       }
     }
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+    }
   } //Resend Otp function
 
   //Transaction PIn FUnction
@@ -313,6 +325,7 @@ class AuthCtrl extends GetxController {
     required int cfmPin,
   })
   async {
+    try{
     final String? token = await storage.getToken();
     if (token == null) {
       CustomSnackbar.showSnackbar(message: 'You are unauthorized to set pin');
@@ -362,11 +375,14 @@ class AuthCtrl extends GetxController {
           CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
         }
       }
+    }}catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
     }
   } //Transaction PIn FUnction
 
   //LogOut function
   Future<void> logOut() async {
+  try{
     final String? token = await storage.getToken();
     print('Token: $token');
     if (token == null) {
@@ -380,10 +396,13 @@ class AuthCtrl extends GetxController {
         CustomSnackbar.showSnackbar(message: response);
       }
 
-    }
+    }}catch(e){
+  CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+  }
   } //Logout
 
   Future<void> forgetPwd(String email) async {
+    try{
     final response = await authRepo.forgetPwd(email: email);
     forgetMail = email;
     if (response is DataSuccess) {
@@ -420,10 +439,13 @@ class AuthCtrl extends GetxController {
       } else {
         CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
+    }}catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
     }
   } //Forget password, email for recovery function
 
   Future<void> verifyPwd(int token) async {
+    try{
     if (forgetMail!.isEmpty) {
       CustomSnackbar.showSnackbar(
         message: 'Go back and re enter your email address',
@@ -466,9 +488,13 @@ class AuthCtrl extends GetxController {
         CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
     }
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+    }
   }
 
   Future<void> updatePwd({required String newPwd}) async {
+    try{
     final response = await authRepo.updatePwd(
       email: forgetMail!,
       token: verifyToken!,
@@ -512,5 +538,9 @@ class AuthCtrl extends GetxController {
         CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
       }
     }
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+    }
   }
+
 }

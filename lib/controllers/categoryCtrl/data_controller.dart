@@ -44,7 +44,7 @@ class DataController extends GetxController {
     required String tranPin,
     required String phone,
   }) async {
-    print('I am called');
+   try{
     final String? token = await store.getToken();
     if (token == null) return;
 
@@ -91,7 +91,9 @@ class DataController extends GetxController {
       err.value = 'Unable to complete transaction';
       CustomSnackbar.showSnackbar(message: err.value, title: 'Oops');
     }
-    return;
+   }catch(e){
+     CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+   }
   }
 
   Future<void> getNetworks() async {
@@ -128,6 +130,7 @@ class DataController extends GetxController {
 
   /// Get data plans
   Future<void> getDataPlans(int networkId) async {
+    try{
     dataLoading.value = true;
     dataPlans.clear();
 
@@ -165,10 +168,10 @@ class DataController extends GetxController {
         }
       }
       return;
+    }}catch(e){
+      planErr.value ='Something went wrong try again later';
     }
-
-    dataLoading.value = false;
-    return;
+    finally{dataLoading.value = false;}
   }
 
 

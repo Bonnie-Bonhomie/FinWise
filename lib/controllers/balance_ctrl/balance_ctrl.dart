@@ -61,6 +61,7 @@ class AccBalanceCtrl extends GetxController {
   ].obs;
 
   Future<void> getBalance() async {
+    try{
     loading.value = true;
     final String? token = await storage.getToken();
 
@@ -97,9 +98,12 @@ class AccBalanceCtrl extends GetxController {
       } }else{
       balanceErr.value = 'unable to load balance';
     }
+    }}catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+    }finally{
+      loading.value = false;
     }
-    loading.value = false;
-    return;
+
   }
 
   //
@@ -109,7 +113,7 @@ class AccBalanceCtrl extends GetxController {
     required String bvn,
     required String dob,
   }) async {
-    await runWithLoader(() async {
+    try {
       final response = await repo.generateVirtual(
         fullname: fullname,
         bvn: bvn,
@@ -120,12 +124,12 @@ class AccBalanceCtrl extends GetxController {
       if (response is DataSuccess) {
         if (response.data['status'] == true) {
           virtualAcc.value = response.data['accountNumber'];
-        }else {
+        } else {
           CustomSnackbar.showSnackbar(
             message: 'Unable to generate virtual account',
           );
         }
-      }else if(response is DataFailed){
+      } else if (response is DataFailed) {
         final err = response.exception;
 
         if (err is DioException) {
@@ -142,13 +146,16 @@ class AccBalanceCtrl extends GetxController {
           if (errData != null && errData['message'] != null) {
             CustomSnackbar.showSnackbar(message: errData['message']);
           } else {
-            CustomSnackbar.showSnackbar(message: 'Server error, try again later');
+            CustomSnackbar.showSnackbar(
+                message: 'Server error, try again later');
           }
         } else {
           CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
         }
       }
-    });
+    }catch(e){
+      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+    }
   }
 }
 
