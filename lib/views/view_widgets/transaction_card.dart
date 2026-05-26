@@ -1,6 +1,7 @@
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +107,9 @@ class BuildTransaction extends StatelessWidget {
       }
       return len;
     }
-    if(transact.isEmpty){
+    if(trans.loading.value){
+      return SkeletonLoader.shimmerLines(len: 3);
+    } else if(transact.isEmpty){
       return SingleChildScrollView(
         child: EmptyState(message: 'No transaction history ',)
       );
