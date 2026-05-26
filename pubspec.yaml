@@ -69,6 +69,7 @@ flutter:
 
   assets:
     - Assets/logos/
+    - Assets/fonts/
     - Assets/images/
     - Assets/productLogo/
     - Assets/animations/Success.json

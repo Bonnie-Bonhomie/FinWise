@@ -2,6 +2,7 @@ import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
 class PdfGeneratorService {
@@ -12,9 +13,9 @@ class PdfGeneratorService {
       padding: pw.EdgeInsets.only(top: 5, bottom: 5),
       child: pw.Row(
         children: [
-          pw.Text(title, style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+          pw.Text(title, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.grey)),
           pw.Spacer(),
-          pw.Text(value),
+          pw.Text(value, style: pw.TextStyle( color: PdfColors.black)),
         ],
       ),
     );
@@ -24,10 +25,10 @@ class PdfGeneratorService {
     final pdf = pw.Document();
     final viewModel = HomeViewModel();
     final roboto = pw.Font.ttf(
-      await rootBundle.load('Assets/fonts/Roboto-regular.ttf')
+      await rootBundle.load('Assets/fonts/Roboto-Regular.ttf')
     );
     final robotoBold = pw.Font.ttf(
-        await rootBundle.load('Assets/fonts/Roboto-regular.ttf')
+        await rootBundle.load('Assets/fonts/Roboto-Bold.ttf')
     );
 
     pdf.addPage(
@@ -45,6 +46,7 @@ class PdfGeneratorService {
                 style: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold,
                   fontSize: 25,
+                    color: PdfColors.black
                 ),
               ),
               pw.Text(
@@ -52,6 +54,7 @@ class PdfGeneratorService {
                 style: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold,
                   fontSize: 25,
+                    color: PdfColors.black
                 ),
               ),
               pw.Text(
@@ -59,12 +62,13 @@ class PdfGeneratorService {
                 style: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold,
                   fontSize: 25,
+                    color: PdfColors.black
                 ),
               ),
 
               pw.Text(
                 viewModel.formatCurrency(receipt.amount),
-                style: pw.TextStyle(font: robotoBold),
+                style: pw.TextStyle(font: roboto, color: PdfColors.black),
               ),
 
               rowTile('Reference', receipt.referenceId),
@@ -85,6 +89,6 @@ class PdfGeneratorService {
       ),
     );
 
-    await Printing.sharePdf(bytes: await pdf.save(), filename: 'receipt.pdf');
+    await Printing.sharePdf(bytes: await pdf.save(), filename: '${receipt.productRef}.pdf');
   }
 }

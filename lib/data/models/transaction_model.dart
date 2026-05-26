@@ -41,15 +41,15 @@ class TransactionModel {
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      transactId: json['id'],
+      transactId: int.parse(json['id'].toString()),
       modelableType: json['modelable_type'],
-      modelableId: json['modelable_id'],
-      productRef: json['product_reference'],
-      referenceId: json['reference_id'],
-      purchaseAt: json['created_at'],
+      modelableId: json['modelable_id'].toString(),
+      productRef: json['product_reference'].toString(),
+      referenceId: json['reference_id'].toString(),
+      purchaseAt: json['created_at'].toString(),
       amount: double.parse(json['amount_paid'].toString()),
-      phoneNo: json['phone_no'],
-      apiStatus: TransactionStatusExtension.fromApi(json['api_status']),
+      phoneNo: json['phone_no'].toString(),
+      apiStatus: TransactionStatusExtension.fromApi(json['api_status'].toString()),
       status: int.parse(json['status'].toString()),
       message: json['message'].toString(),
       meterNo: json['meter_no'].toString(),

@@ -85,7 +85,7 @@ class TransactionCtrl extends GetxController{
      CustomSnackbar.showSnackbar(message: 'User not authourized');
       return;
     }
-    final transact = await repo.getTransact(token, page);
+    final transact = await repo.getTransact(token);
     // print(transact.data);
     if(transact is DataSuccess){
       if(transact.data['status'] == true){
@@ -93,6 +93,7 @@ class TransactionCtrl extends GetxController{
         // if(transact.data['data']['next_page_url'] != null){
         //   nextPage.value = true;
         // }
+        transactionList.clear();
         final data = transact.data['data'];
         List currentPage = data[page - 1]['data'];
         List trans = currentPage;
@@ -114,10 +115,8 @@ class TransactionCtrl extends GetxController{
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.connectionTimeout) {
-          CustomSnackbar.showSnackbar(
-            title: 'No internet connection',
-            message: 'Check your internet connection',
-          );
+          error.value = 'No internet connection';
+          return;
         }
 
         final errData = err.response!.data;
@@ -129,7 +128,7 @@ class TransactionCtrl extends GetxController{
       }else{
         error.value = 'Something went wrong, try again later';
       }
-
+      return;
     }
     }catch(e){
       print(e);

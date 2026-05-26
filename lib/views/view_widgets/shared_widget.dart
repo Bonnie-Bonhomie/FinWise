@@ -7,11 +7,13 @@ import '../../utils/utils_export.dart';
 class HeadingText extends StatelessWidget {
   const HeadingText({
     super.key,
+    this.color,
     required this.headingText,
     this.textAlign = TextAlign.center,
   });
 
   final String headingText;
+  final Color? color;
   final TextAlign textAlign;
 
   @override
@@ -19,7 +21,7 @@ class HeadingText extends StatelessWidget {
     return Text(
       headingText,
       style: TextStyle(
-          color: Theme.of(context).textTheme.headlineMedium?.color,
+          color: color ?? Theme.of(context).textTheme.headlineMedium?.color,
           decoration: TextDecoration.none,
           fontSize: 22,
           fontWeight: FontWeight.bold,
@@ -48,7 +50,6 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90,
       width: 150,
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.only(bottom: 5.0),
@@ -66,7 +67,7 @@ class BalanceCard extends StatelessWidget {
             text: viewModel.formatCurrency(value),
             textColor: iconColor,
             textWeigh: FontWeight.bold,
-            textSize: 20,
+            textSize: 18,
           ),
         ],
       ),

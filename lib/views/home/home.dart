@@ -42,17 +42,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     // TODO: implement initState
-    Future.microtask(() {
-      getName();
-      // (viewModel.greeting());
-      acc.getBalance();
-      trans.getTransactions(1);
-    });
+
 
     _headerAnim = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 800));
     _headerAnim.forward();
     super.initState();
+
+    Future.microtask(()async {
+      getName();
+      // (viewModel.greeting());
+      await acc.getBalance();
+      // if(trans.transactionList.isNotEmpty){return;}else{
+      await trans.getTransactions(1);
+    });
   }
 
 

@@ -11,7 +11,7 @@ class TransactionRepo {
 
   TransactionRepo({required this.internetInfo, required this.apiServices});
 
-  Future<DataState> getTransact(String token, int page) async {
+  Future<DataState> getTransact(String token) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
@@ -20,7 +20,25 @@ class TransactionRepo {
       }
 
       final transact = await apiServices.getRequestWIthToken(
-        '${ApiEndpoints.transact}?page=1', //Url
+        ApiEndpoints.transact, //Url
+        token,);
+      return DataSuccess(transact.data);
+
+    }on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  Future<DataState> getTransactPerPage(String token, int page) async {
+    try {
+      if (!await internetInfo.connected) {
+        return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: "No Internet Connection"));
+      }
+
+      final transact = await apiServices.getRequestWIthToken(
+        '${ApiEndpoints.transact}?page=$page', //Url
         token,);
       return DataSuccess(transact.data);
 

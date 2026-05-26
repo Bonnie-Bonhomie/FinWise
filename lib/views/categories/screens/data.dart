@@ -52,17 +52,17 @@ class _DataViewState extends State<DataView>
       body: LoaderWrapper(
         child: RefreshIndicator(
           onRefresh: onRefresh,
-          child: SingleChildScrollView(
-            child: PageContainer(
-              topMargin: 20,
-              bottomPadding: 10,
-              topChild: CustomAppBar.header(
-                title: 'Buy Data',
-                leftRight: 15,
-                onPressed: () => Get.back(),
-              ),
-              child: Obx(
-                () => TopFormWidget(
+          child: PageContainer(
+            topMargin: 20,
+            bottomPadding: 10,
+            topChild: CustomAppBar.header(
+              title: 'Buy Data',
+              leftRight: 15,
+              onPressed: () => Get.back(),
+            ),
+            child: Obx(
+              () => SingleChildScrollView(
+                child: TopFormWidget(
                   networks: dataCtrl.dataNet,
                   onTap: () {
                     dataCtrl.getDataPlans(paymentCtrl.select.value + 1);
@@ -71,6 +71,7 @@ class _DataViewState extends State<DataView>
                   beneficiaries: [],
                   numberCtrl: numberCtrl,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
@@ -86,7 +87,7 @@ class _DataViewState extends State<DataView>
                           color: AppColors.primary,
                           fontWeight: FontWeight.bold,
                         ),
-                        isScrollable: true,
+                        // isScrollable: true,
                         // physics: ScrollPhysics(),
                         padding: const EdgeInsets.all(10),
                         indicatorColor: AppColors.primary,
@@ -98,12 +99,13 @@ class _DataViewState extends State<DataView>
                         })),
                       ),
                       SizedBox(
-                        height: 400,
+                        height: 450,
                         child: TabBarView(
                           controller: _tabCtrl,
                           children: [
                             // Text('data'),
                             sectionDataList(dataCtrl.hotUp, 'HotUp'),
+
                             sectionDataList(dataCtrl.dailyPlan, 'Daily'),
                             sectionDataList(dataCtrl.weeklyPlan, 'Weekly'),
                             sectionDataList(dataCtrl.monthlyPlan, 'Monthly'),
@@ -124,23 +126,25 @@ class _DataViewState extends State<DataView>
   ///Data plan section list Widget
   Widget sectionDataList(List<DataPlan> dataPlan, String section) {
     // return Obx(() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15),
-      child: dataCtrl.dataLoading.value
-          ? DataLoadingState()
-          : dataPlan.isEmpty
-          ? ServiceEmpty(
-              emptyData: dataCtrl.planErr.value.isEmpty && dataCtrl.dataPlans.isNotEmpty
-                  ? '$section data plan is not available.'
-                  : dataCtrl.planErr.value,
-            )
-          : DataCard(
-              dataPlan: dataPlan,
-              dataCtrl: dataCtrl,
-              acc: acc,
-              numberCtrl: numberCtrl,
-              paymentCtrl: paymentCtrl,
-            ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: dataCtrl.dataLoading.value
+            ? SizedBox(height: 400, child: DataLoadingState())
+            : dataPlan.isEmpty
+            ? ServiceEmpty(
+                emptyData: dataCtrl.planErr.value.isEmpty && dataCtrl.dataPlans.isNotEmpty
+                    ? '$section data plan is not available.'
+                    : dataCtrl.planErr.value,
+              )
+            : DataCard(
+                dataPlan: dataPlan,
+                dataCtrl: dataCtrl,
+                acc: acc,
+                numberCtrl: numberCtrl,
+                paymentCtrl: paymentCtrl,
+              ),
+      ),
     );
     // });
   }
@@ -229,27 +233,26 @@ class DataCard extends StatelessWidget {
           },
           child: Container(
             padding: const EdgeInsets.fromLTRB(8.0, 15, 8.0, 0),
-            height: 120,
+            // height: 140,
             width: 100,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               color: Theme.of(context).cardColor,
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   data.name,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 5.0),
+                const SizedBox(height: 10.0),
                 AppText(text: data.frequency.name, textSize: 12.0),
-                const SizedBox(height: 5.0),
+                const SizedBox(height: 10.0),
                 AppText(text: '₦${data.price.toString()}'),
+                const SizedBox(height: 10.0),
                 Container(
-                  width: 60,
-                  padding: const EdgeInsets.only(bottom: 4.0),
+                  // padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                   decoration: BoxDecoration(
                     color: AppColors.pending.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8.0),

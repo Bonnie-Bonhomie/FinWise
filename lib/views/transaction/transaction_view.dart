@@ -48,7 +48,6 @@ class _TransactionViewState extends State<TransactionView> {
   }
 
   Future<void> onRefresh() async {
-    trans.transactionList.clear();
     await trans.getTransactions(1);
   }
 

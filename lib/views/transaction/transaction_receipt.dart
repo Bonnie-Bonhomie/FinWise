@@ -39,7 +39,7 @@ class TransactionReceipt extends StatelessWidget {
                   margin: const EdgeInsets.all(10),
                   padding: const EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.bgColor,
                     boxShadow: [
                       BoxShadow(color: AppColors.subBlue, offset: Offset(3, 4), blurRadius: 2)
                     ]
@@ -51,10 +51,10 @@ class TransactionReceipt extends StatelessWidget {
                       const SizedBox(height: 15,),
                       Image(image: AssetImage('Assets/logos/Vector.png'), height: 80, width: 80,),
 
-                      const HeadingText(headingText: 'FinWise'),
-                      const HeadingText(headingText: 'Transaction Receipt'),
-                      const HeadingText(headingText: 'Amount'),
-                      AppText(text: viewModel.formatCurrency(receiptDet.amount), textWeigh: FontWeight.bold,),
+                      const HeadingText(headingText: 'FinWise',color:  AppColors.darkGreen,),
+                      const HeadingText(headingText: 'Transaction Receipt', color:  AppColors.darkGreen,),
+                      const HeadingText(headingText: 'Amount', color:  AppColors.darkGreen,),
+                      AppText(text: viewModel.formatCurrency(receiptDet.amount), textWeigh: FontWeight.bold, textColor: Colors.black,),
 
                       rowTile('Reference', receiptDet.referenceId),
                       dividerBuild(),
@@ -78,10 +78,10 @@ class TransactionReceipt extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 receiptContainer('Share as image', (){
-                  ImageGenerationService(receiptKey).shareImage();
-                }, Icons.image), receiptContainer('share as pdf', (){
+                  ImageGenerationService(receiptKey, receiptDet.productRef).shareImage();
+                }, Icons.image, context), receiptContainer('share as pdf', (){
                   PdfGeneratorService().generatePdfAndShare(receiptDet);
-                }, Icons.picture_as_pdf_outlined)
+                }, Icons.picture_as_pdf_outlined, context)
               ],
             )
           ],
@@ -90,14 +90,14 @@ class TransactionReceipt extends StatelessWidget {
     );
   }
 
-  Widget receiptContainer(String title, VoidCallback onTap, IconData icon) {
+  Widget receiptContainer(String title, VoidCallback onTap, IconData icon, BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+           color: Theme.of(context).cardColor
         ),
         child: Row(
           children: [
@@ -126,9 +126,9 @@ class TransactionReceipt extends StatelessWidget {
       padding: const EdgeInsets.only(top: 5,),
       child: Row(
         children: [
-          AppText(text: title, textWeigh: FontWeight.bold),
+          AppText(text: title, textWeigh: FontWeight.bold, textColor: AppColors.darkGreen,),
           const Spacer(),
-          AppText(text: value),
+          AppText(text: value, textColor: AppColors.darkGreen,),
         ],
       ),
     );

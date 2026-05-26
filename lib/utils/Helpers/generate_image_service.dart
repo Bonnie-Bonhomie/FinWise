@@ -24,7 +24,8 @@ class ReceiptImage extends StatelessWidget {
 class ImageGenerationService{
 
   final GlobalKey imageKey;
-  ImageGenerationService(this.imageKey);
+  final String receiptName;
+  ImageGenerationService(this.imageKey, this.receiptName);
 
 
   Future<File> captureReceipt() async{
@@ -44,7 +45,7 @@ class ImageGenerationService{
 
     final dir = await getTemporaryDirectory();
 
-    File file = File('${dir.path}/receipt.png');
+    File file = File('${dir.path}/$receiptName.png');
     await file.writeAsBytes(bytes);
     return file;
   }
@@ -52,7 +53,7 @@ class ImageGenerationService{
   Future<void> shareImage() async{
     final file = await captureReceipt();
 
-    await Share.shareXFiles([XFile(file.path)], text: 'Transaction Receipt');
+    await Share.shareXFiles([XFile(file.path,  mimeType: 'image/png',)], text: '$receiptName.png');
   }
 
 }

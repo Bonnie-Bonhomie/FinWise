@@ -60,8 +60,8 @@ class _TopFormWidgetState extends State<TopFormWidget> {
             borderRadius: BorderRadius.circular(40),
           ),
           padding: const EdgeInsets.all(15),
-          child: ListView(
-            padding: const EdgeInsets.only(top: 10),
+          child: Column(
+            // padding: const EdgeInsets.only(top: 10),
             children: [
               Row(
                 children: [

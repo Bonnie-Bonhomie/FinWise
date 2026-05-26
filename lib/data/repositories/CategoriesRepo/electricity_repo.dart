@@ -31,8 +31,8 @@ class ElectricityRepo{
       }
       final result = await services.postRequestsWithToken(ApiEndpoints.buyElect, token, {
         'amount': amount,
-        'meter_number': meterNum,
-        'service_id': serviceId,
+        'billerCode': meterNum,
+        'serviceId': serviceId,
         'transaction_pin': transPin,
         'type': type
       });
@@ -60,8 +60,8 @@ class ElectricityRepo{
         );
       }
       final result = await services.postRequestsWithToken(ApiEndpoints.verifyMeter, token, {
-        'meter_number': meterNum,
-        'service_id': serviceId,
+        'billerCode': meterNum,
+        'serviceId': serviceId,
         'type': type
       });
       print(result.data);

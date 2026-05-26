@@ -30,7 +30,7 @@ class CustomKeyboard extends StatelessWidget{
         else if(index == 10){
          return  keypadKeys(context: context, text: '9', onTap: () {
            print(controller.input.value);
-           controller.addValue('0', 4);
+           controller.addValue('9', 4);
          });
         }
         else if(index == 11){

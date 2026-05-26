@@ -49,7 +49,7 @@ class _AirtimeViewState extends State<AirtimeView> {
     return Scaffold(
       body: LoaderWrapper(
         child: RefreshIndicator(
-          onRefresh: () async => onRefresh,
+          onRefresh: onRefresh,
 
           child: PageContainer(
             bottomPadding: 20,
@@ -59,96 +59,98 @@ class _AirtimeViewState extends State<AirtimeView> {
               leftRight: 15,
               onPressed: () => Get.back(),
             ),
-            child: TopFormWidget(
-              numberCtrl: numberCtrl,
-              networks: ctrl.airtimeNet,
-              // numSelect: ctrl.airtimeBenes[0],
-              beneficiaries: ctrl.airtimeBenes,
-              onTap: () {},
-              child: Column(
-                children: [
-                  Container(
-                    // margin: const EdgeInsets.all(20),
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        boxShadow: [
-                        BoxShadow(
-                          color: Theme.of(context).cardColor,
-                          offset: Offset(2, 4),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        runSpacing: 20,
-                        spacing: 20,
-                        children: List.generate(topUp.length, (index) {
-                          final topAmount = topUp[index];
-                          return ProductCard(
-                            onTap: () {
-                              amountCtrl.text = '${topAmount.toString()}.00';
+            child: SingleChildScrollView(
+              child: TopFormWidget(
+                numberCtrl: numberCtrl,
+                networks: ctrl.airtimeNet,
+                // numSelect: ctrl.airtimeBenes[0],
+                beneficiaries: ctrl.airtimeBenes,
+                onTap: () {},
+                child: Column(
+                  children: [
+                    Container(
+                      // margin: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          boxShadow: [
+                          BoxShadow(
+                            color: Theme.of(context).cardColor,
+                            offset: Offset(2, 4),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          runSpacing: 20,
+                          spacing: 20,
+                          children: List.generate(topUp.length, (index) {
+                            final topAmount = topUp[index];
+                            return ProductCard(
+                              onTap: () {
+                                amountCtrl.text = '${topAmount.toString()}.00';
 
-                              FocusScope.of(context).unfocus();
-                              ctrl.airtimeNet.isEmpty?
-                              CustomSnackbar.showSnackbar(message: 'Unable to load available networks'):
-                              numberCtrl.text.isNotEmpty
-                                  ? loadCtrl.offLoading(() {
-                                      setState(() {
-                                        amount = topAmount.toDouble();
-                                      });
+                                FocusScope.of(context).unfocus();
+                                ctrl.airtimeNet.isEmpty?
+                                CustomSnackbar.showSnackbar(message: 'Unable to load available networks'):
+                                numberCtrl.text.isNotEmpty
+                                    ? loadCtrl.offLoading(() {
+                                        setState(() {
+                                          amount = topAmount.toDouble();
+                                        });
 
-                                      final imgPath = ctrl
-                                          .airtimeNet[navCtrl.select.value].imgPath;
+                                        final imgPath = ctrl
+                                            .airtimeNet[navCtrl.select.value].imgPath;
 
-                                      final networkId = ctrl.airtimeNet[navCtrl.select.value].serviceId;
-                                      ConfirmBottomSheet().confirmBottomSheet(
-                                        list: ctrl.airtimeBenes,
-                                        balance: acc.accountBalance.value,
-                                        context,
-                                        amount: amount,
-                                        numberCtrl: numberCtrl,
-                                        productName: '${networkId.toUpperCase()}Airtime',
-                                        imgPath: imgPath,
-                                        action: (pin) async {
+                                        final networkId = ctrl.airtimeNet[navCtrl.select.value].serviceId;
+                                        ConfirmBottomSheet().confirmBottomSheet(
+                                          list: ctrl.airtimeBenes,
+                                          balance: acc.accountBalance.value,
+                                          context,
+                                          amount: amount,
+                                          numberCtrl: numberCtrl,
+                                          productName: '${networkId.toUpperCase()}Airtime',
+                                          imgPath: imgPath,
+                                          action: (pin) async {
 
-                                          await ctrl.buyAirtime(
-                                            amount: amount,
-                                            number: numberCtrl.text,
-                                            netId: networkId,
-                                            pin: pin,
-                                          );
-                                        },
+                                            await ctrl.buyAirtime(
+                                              amount: amount,
+                                              number: numberCtrl.text,
+                                              netId: networkId,
+                                              pin: pin,
+                                            );
+                                          },
+                                        );
+                                      })
+                                    : CustomSnackbar.showSnackbar(
+                                        message: 'Enter recipient number',
                                       );
-                                    })
-                                  : CustomSnackbar.showSnackbar(
-                                      message: 'Enter recipient number',
-                                    );
-                              amount = 0.00;
-                            },
-                            child: AppText(text: '₦${topAmount.toString()}'),
-                          );
-                        }),
+                                amount = 0.00;
+                              },
+                              child: AppText(text: '₦${topAmount.toString()}'),
+                            );
+                          }),
+                        ),
                       ),
                     ),
-                  ),
-                  PriceInputField(
-                    amountCtrl: amountCtrl,
-                    numberCtrl: numberCtrl,
-                    productName: 'Airtime',
-                    balance: acc.accountBalance.value,
-                    action: (pin) {
-                      ctrl.buyAirtime(
-                        amount: amount,
-                        number: numberCtrl.text,
-                        netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
-                        pin: pin,
-                      );
-                    },
-                  ),
-                ],
+                    PriceInputField(
+                      amountCtrl: amountCtrl,
+                      numberCtrl: numberCtrl,
+                      productName: 'Airtime',
+                      balance: acc.accountBalance.value,
+                      action: (pin) {
+                        ctrl.buyAirtime(
+                          amount: amount,
+                          number: numberCtrl.text,
+                          netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
+                          pin: pin,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

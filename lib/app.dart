@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppLifeCycleHelper(
       child: GetMaterialApp(
-        transitionDuration: Duration(milliseconds: 300),
-        defaultTransition: Transition.leftToRight,
+        // transitionDuration: Duration(milliseconds: 300),
+        // defaultTransition: Transition.leftToRight,
         debugShowCheckedModeBanner: false,
         initialBinding: InitialBindings(),
         themeMode: ThemeMode.system,

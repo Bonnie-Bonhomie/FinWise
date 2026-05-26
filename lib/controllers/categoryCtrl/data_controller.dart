@@ -56,18 +56,16 @@ class DataController extends GetxController {
       token: token,
       tranPin: tranPin,
     );
-
-    print(response);
     if (response is DataSuccess) {
       if (response.data['status'] == true) {
         final data = response.data['data'];
         print(data);
         TransactionModel receipt = TransactionModel.fromJson(data);
 
-        if(receipt.apiStatus.label == TransactionStatus.failed.name){
+        if(receipt.apiStatus == TransactionStatus.failed){
           CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
         }else{
-          Get.offNamed(Routes.transSuccess, arguments: receipt);
+          Get.toNamed(Routes.transSuccess, arguments: receipt);
         }
       } else {
         CustomSnackbar.showSnackbar(message: 'Unable to complete transaction');
@@ -92,6 +90,7 @@ class DataController extends GetxController {
       CustomSnackbar.showSnackbar(message: err.value, title: 'Oops');
     }
    }catch(e){
+     print(e);
      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
    }
   }
