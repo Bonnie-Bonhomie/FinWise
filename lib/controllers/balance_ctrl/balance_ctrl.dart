@@ -99,7 +99,7 @@ class AccBalanceCtrl extends GetxController {
       balanceErr.value = 'unable to load balance';
     }
     }}catch(e){
-      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
+      balanceErr.value = 'Something went wrong try again later';
     }finally{
       loading.value = false;
     }
