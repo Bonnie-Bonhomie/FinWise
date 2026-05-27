@@ -45,8 +45,10 @@ class _ElectricityViewState extends State<ElectricityView> {
     acc.getBalance();
     super.initState();
   }
+
   Future<void> onRefresh() async {
-    Future.delayed(Duration(seconds: 1), () async {await electCtrl.getElectricDiscos();
+    Future.delayed(Duration(seconds: 1), () async {
+      await electCtrl.getElectricDiscos();
       await acc.getBalance();
     });
   }
@@ -69,7 +71,9 @@ class _ElectricityViewState extends State<ElectricityView> {
               final select = electCtrl.selectedElect.value;
 
               if (electCtrl.discoLoad.value) {
-                return Center(child: CircularProgressIndicator(color: AppColors.primary));
+                return Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                );
               } else if (electCtrl.selectedElect.value == null) {
                 return EmptyState(message: electCtrl.discoErr.value);
               }
@@ -81,10 +85,16 @@ class _ElectricityViewState extends State<ElectricityView> {
                     children: [
                       CircleAvatar(
                         backgroundColor: AppColors.lightGreen,
-                        child: Image.network(select!.imgPath, errorBuilder: (context, _, _) =>
-                            CircleAvatar(
-                                backgroundColor: Theme.of(context).cardColor,
-                                child: Text(select.name[0], style: TextStyle(fontWeight: FontWeight.bold),))),
+                        child: Image.network(
+                          select!.imgPath,
+                          errorBuilder: (context, _, _) => CircleAvatar(
+                            backgroundColor: Theme.of(context).cardColor,
+                            child: Text(
+                              select.name[0],
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 5.0),
                       AppText(text: select.name),
@@ -95,7 +105,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                             Routes.availableElect,
                           );
                           electCtrl.updateElect(selectElect);
-                          print(selectElect.name);
+                          print(selectElect.elec);
                         },
                         icon: const Icon(Icons.arrow_right),
                       ),
@@ -121,7 +131,8 @@ class _ElectricityViewState extends State<ElectricityView> {
                       borderRadius: BorderRadius.circular(15),
                       gradient: LinearGradient(
                         colors: [
-                          AppColors.lightGreen,
+                          Colors.grey.shade300,
+                          // Theme.of(context).scaffoldBackgroundColor,
                           Theme.of(context).cardColor,
                           Theme.of(context).cardColor,
                           Theme.of(context).cardColor,
@@ -145,40 +156,87 @@ class _ElectricityViewState extends State<ElectricityView> {
                                 hint: const AppText(text: 'Enter Meter number'),
                                 onChanged: (value) {
                                   setState(() {
-                                    correctMeter = value.length == 13;
+                                    correctMeter = value.length >= 6;
                                   });
-                                  correctMeter? electCtrl.verifyMeter(
-                                    meterNum: value,
+                                  // correctMeter? electCtrl.verifyMeter(
+                                  //   meterNum: value,
+                                  //   type: electType[selectPaid],
+                                  //   serviceId: select.electricCode,
+                                  // ):null;
+                                },
+                                onComplete: () {
+                                  electCtrl.verifyMeter(
+                                    meterNum: meterCtrl.text,
                                     type: electType[selectPaid],
                                     serviceId: select.electricCode,
-                                  ):null;
+                                  );
                                 },
-                                onComplete: (){ electCtrl.verifyMeter(
-                                  meterNum: meterCtrl.text,
-                                  type: electType[selectPaid],
-                                  serviceId: select.electricCode,
-                                );},
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.greenAccent),
-                                borderRadius: BorderRadius.circular(5.0),
-                                color: Theme.of(context).cardColor,
-                              ),
-                              child: Icon(
-                                Icons.person_add_alt_1_rounded,
-                                color: AppColors.primary,
-                              ),
-                            ),
+                            correctMeter
+                                ? SizedBox(
+                                    height: 25,
+                                    width: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        loadCtrl.offLoading(() async {
+                                          await electCtrl.verifyMeter(
+                                            meterNum: meterCtrl.text,
+                                            type: electType[selectPaid].toLowerCase(),
+                                            serviceId: select.electricCode,
+                                          );
+                                          print(meterCtrl.text);
+                                          print(electType[selectPaid]);
+                                          print(select.electricCode);
+                                        });
+                                      },
+                                      child: Text(
+                                        'Proceed',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : correctMeter && electCtrl.verified.value
+                                ? Container(
+                                    padding: const EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.greenAccent,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
+                                      color: Theme.of(context).cardColor,
+                                    ),
+                                    child: Icon(
+                                      Icons.person_add_alt_1_rounded,
+                                      color: AppColors.primary,
+                                    ),
+                                  )
+                                : SizedBox(),
                           ],
                         ),
                         const Divider(
                           color: AppColors.lightGreen,
                           thickness: 2,
                         ),
-                        correctMeter
+                        electCtrl.verifyLoad.value
+                            ? Row(
+                                children: [
+                                  const SizedBox(
+                                    height: 5,
+                                    width: 5,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  AppText(
+                                    text: 'verifying the meter number...',
+                                    textColor: AppColors.primary,
+                                  ),
+                                ],
+                              )
+                            : electCtrl.verified.value
                             ? Row(
                                 children: [
                                   const Icon(
@@ -192,19 +250,25 @@ class _ElectricityViewState extends State<ElectricityView> {
                                   ),
                                 ],
                               )
-                            : SizedBox(),
-                        Container(
-                          margin: const EdgeInsets.only(top: 15),
-                          padding: const EdgeInsets.all(15),
-                          height: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).cardColor,
-                          ),
-                          child: electCtrl.verifyLoad.value
-                              ? Center(child: CircularProgressIndicator(color: AppColors.primary, backgroundColor: Colors.transparent,))
-                              : electCtrl.verified.value
-                              ? Column(
+                            : AppText(
+                                text: electCtrl.verifyErr.value,
+                                textColor: AppColors.declined,
+                          textAlign: TextAlign.start,
+                              ),
+
+                        ///Details after verification
+                        electCtrl.verified.value
+                            ? Container(
+                                margin: const EdgeInsets.only(top: 15),
+                                padding: const EdgeInsets.all(15),
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Theme.of(
+                                    context,
+                                  ).scaffoldBackgroundColor,
+                                ),
+                                child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -221,9 +285,9 @@ class _ElectricityViewState extends State<ElectricityView> {
                                       child: AppText(text: 'I V1********'),
                                     ),
                                   ],
-                                )
-                              : SizedBox(height: 20),
-                        ),
+                                ),
+                              )
+                            : SizedBox(height: 20),
                       ],
                     ),
                   ),
@@ -252,7 +316,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                         list: [],
                                         balance: acc.accountBalance.value,
                                         imgPath: select.imgPath,
-                                        action: (pin){}
+                                        action: (pin) {},
                                         // plan: electType[selectPaid]
                                       );
                                     })
@@ -271,10 +335,14 @@ class _ElectricityViewState extends State<ElectricityView> {
                                     children: [
                                       TextSpan(
                                         text: meterPrice.amount.toString(),
-                                        style: Theme.of(context).textTheme.headlineMedium,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.headlineMedium,
                                       ),
                                     ],
-                                    style: Theme.of(context).textTheme.bodyMedium,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
                                   ),
                                 ),
                                 const SizedBox(height: 15.0),
@@ -295,7 +363,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                     lowestAmount: 1000,
                     productName: 'Electricity',
                     balance: acc.accountBalance.value,
-                    action: (pin){},
+                    action: (pin) {},
                   ),
                 ],
               );
@@ -333,7 +401,7 @@ class _ElectricityViewState extends State<ElectricityView> {
               border: selectPaid == index
                   ? Border.all(color: AppColors.primary)
                   : Border.all(color: Colors.transparent),
-              color: Theme.of(context).cardColor
+              color: Theme.of(context).cardColor,
               // color: selectPaid == index ? AppColors.lightGreen : Colors.white,
             ),
             child: Center(

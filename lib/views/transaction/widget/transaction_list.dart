@@ -43,14 +43,14 @@ class TransactionListView extends StatelessWidget {
       }
       return ListView.builder(
         padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
-        itemCount: transact.length + 1,
+        itemCount: transact.length,
         itemBuilder: (context, index) {
           final tx = transact[index];
-          if(index == transact.length + 1){
-            return trans.nextPage.value? IconButton(onPressed: ()async{
-              await trans.getTransactions(trans.page++);
-            }, icon: Icon(Icons.arrow_circle_down_outlined, size: 30, color: AppColors.primary,)): SizedBox.shrink();
-          }
+          // if(index == transact.length + 1){
+          //   return trans.nextPage.value? IconButton(onPressed: ()async{
+          //     await trans.getTransactions(trans.page++);
+          //   }, icon: Icon(Icons.arrow_circle_down_outlined, size: 30, color: AppColors.primary,)): SizedBox.shrink();
+          // }
           return AnimatedCard(
               index: index,
               child: TransactionCard(tx: tx));
