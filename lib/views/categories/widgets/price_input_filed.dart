@@ -111,7 +111,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                     backgroundColor:
                     hasText
                         ? AppColors.primary
-                        : Colors.greenAccent.withOpacity(0.5),
+                        : Colors.greenAccent.withValues(alpha: 0.5),
                   ),
                   child: AppText(
                     text: 'Pay',

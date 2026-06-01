@@ -6,7 +6,6 @@ import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/app_colors.dart';
 
 class ChangePinView extends StatefulWidget {
   const ChangePinView({super.key});
@@ -65,7 +64,8 @@ class _ChangePinViewState extends State<ChangePinView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   labelText('Current Pin'),
-                  inputField(currentCtrl, 'enter current pin', currentKey, (val){if(val == null) return 'Enter your current pin';}),
+                  inputField(currentCtrl, 'enter current pin', currentKey, (val){if(val == null) return 'Enter your current pin';
+return null;}),
                   labelText('New Pin'),
                   inputField(newCtrl, 'enter new pin', newKey, (val)=> Validator.validatePin(val!)),
                   labelText('Confirm Pin'),

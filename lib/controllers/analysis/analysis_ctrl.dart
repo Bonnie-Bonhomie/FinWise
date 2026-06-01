@@ -1,4 +1,3 @@
-import 'package:fin_wise/data/models/AuthModel/user_model.dart';
 import 'package:fin_wise/data/repositories/analysis_repo.dart';
 import 'package:get/get.dart';
 

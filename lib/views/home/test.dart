@@ -45,7 +45,7 @@ class BottomSwitcher extends StatelessWidget {
       child: isOpen
           ? Container(
               key: ValueKey('bottom-sheet'),
-              color: Colors.green.withOpacity(0.4),
+              color: Colors.green.withValues(alpha: 0.4),
               child: BottomChild(focused: focused, child: child),
             )
           : const SizedBox(),

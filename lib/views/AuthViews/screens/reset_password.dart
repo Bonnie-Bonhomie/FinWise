@@ -9,7 +9,6 @@ import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/Routes/routes.dart';
 import '../../../core/validator/validator.dart';
 import '../../../utils/widgets/text_widget.dart';
 

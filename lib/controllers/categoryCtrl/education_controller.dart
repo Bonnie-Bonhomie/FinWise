@@ -3,7 +3,6 @@ import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/education_model.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/education_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';

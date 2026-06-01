@@ -1,8 +1,6 @@
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/transaction/widget/bottom_sheet.dart';
 import 'package:fin_wise/views/transaction/widget/transaction_list.dart';

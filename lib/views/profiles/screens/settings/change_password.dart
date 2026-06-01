@@ -76,7 +76,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     valController: currentPwdCtrl,
                     fieldKey: currentPwd,
                     obscure: currentObscure,
-                    validator: (val) {},
+                    validator: (val) {
+                      return null;
+                    },
                     onChanged: (val) => currentPwd.currentState?.validate(),
                     hintText: "Enter current password",
                     suffixIcon: IconButton(

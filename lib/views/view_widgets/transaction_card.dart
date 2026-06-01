@@ -6,7 +6,6 @@ import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../utils/widgets/text_widget.dart';
 import '../../data/models/transaction_model.dart';
 
 class TransactionCard extends StatelessWidget {
@@ -71,7 +70,7 @@ class TransactionCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(3, 2, 3, 2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.0),
-                    color: tx.apiStatus.color.withOpacity(0.5),
+                    color: tx.apiStatus.color.withValues(alpha: 0.5),
                   ),
                   child: AppText(text: tx.apiStatus.label, textColor: AppColors.bgColor, textSize: 10),
                 ),

@@ -7,7 +7,6 @@ import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_alert_dialog.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/categories/categories.dart';
 import 'package:fin_wise/views/categories/widgets/payment+bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -81,7 +80,7 @@ class ConfirmBottomSheet {
                             // Obx(() =>
                                 Switch(
                                   value: navCtrl.addBeneficiary.value,
-                                  activeColor: AppColors.primary,
+                                  activeThumbColor: AppColors.primary,
                                   inactiveTrackColor: AppColors.lightGreen,
                                   inactiveThumbColor: AppColors.primary,
                                   trackOutlineColor: WidgetStateColor.transparent,

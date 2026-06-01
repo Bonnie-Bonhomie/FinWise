@@ -1,6 +1,4 @@
 
-import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
-import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
 import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';

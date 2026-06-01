@@ -1,11 +1,9 @@
-import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/notification_settings_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -73,7 +71,7 @@ class NotificationSettings extends StatelessWidget {
           scale: 0.8,
           child: Switch(
             value: typeSwitch,
-            activeColor: AppColors.primary,
+            activeThumbColor: AppColors.primary,
             inactiveTrackColor: AppColors.lightGreen,
             inactiveThumbColor: AppColors.primary,
             trackOutlineColor: WidgetStateColor.transparent,

@@ -5,7 +5,6 @@ import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../core/Routes/routes.dart';
 import '../../../core/app_colors.dart';
 
 class BiometricScreen extends StatelessWidget {
