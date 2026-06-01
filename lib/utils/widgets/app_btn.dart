@@ -27,9 +27,11 @@ class AppBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40,
       width: double.infinity,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(100),
         gradient: LinearGradient(colors: [
           AppColors.primary,
           AppColors.primary,
@@ -39,22 +41,24 @@ class AppBtn extends StatelessWidget {
           end: Alignment.bottomRight
         )
       ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: needColor!?  bgColor: Colors.transparent,
-
-        ),
+      child: InkWell(
+        onTap: onPressed,
+        // style: ElevatedButton.styleFrom(
+        //   backgroundColor: needColor!?  bgColor: Colors.transparent,
+        //
+        // ),
         child: loading
             ? loadWidget
-            : Text(
-                label,
-                style: TextStyle(
-                  color: textColor ?? AppColors.bgColor,
-                  fontSize: textSize ?? 20,
-                  fontWeight: FontWeight.bold,
+            : Center(
+              child: Text(
+                  label,
+                  style: TextStyle(
+                    color: textColor ?? AppColors.bgColor,
+                    fontSize: textSize ?? 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+            ),
       ),
     );
   }

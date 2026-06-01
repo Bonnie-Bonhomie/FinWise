@@ -20,7 +20,8 @@ class ElectricityCtrl  extends GetxController{
   RxBool verifyLoad = false.obs;
   RxBool discoLoad = false.obs;
   RxString discoErr = ''.obs;
-  RxBool verified = true.obs;
+  RxBool verified = false.obs;
+  RxString verifyErr = ''.obs;
 
   @override
   void onInit() {
@@ -84,26 +85,24 @@ class ElectricityCtrl  extends GetxController{
         print(result.data['data']);
       }
       else{
-        error.value = 'Unable to verify meter  number';
-        CustomSnackbar.showSnackbar(message: error.value, title:  'Oops');
+        verifyErr.value = 'Unable to verify meter  number';
       }}
     else if(result is DataFailed){
       final err =result.exception;
       if(err is DioException){
-
+      print(err);
         if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Unable to verify meter number, try again.');
+         verifyErr.value = 'No internet connection';
         }
 
         final errData = err.response?.data;
         if(errData != null && errData['message'] != null){
-          CustomSnackbar.showSnackbar(message: errData['message']);
-        }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to verify meter number, try again later');
+          verifyErr.value = errData['message'];
         }
+      }else{
+        verifyErr.value = 'Unable to verify meter number, try again late';
       }
     }
-    verified.value = false;
     verifyLoad.value = false;
   }
 

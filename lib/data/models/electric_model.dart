@@ -30,7 +30,7 @@ class ElectDisco {
     return ElectDisco(
       id: json['id'].toString(),
       name: json['name'].toString(),
-      electricCode: json['electricode'].toString(),
+      electricCode: json['eletricode'].toString(),
       imgPath: json['image'].toString(),
       price: json['price'].toString(),
       status: json['status'].toString(),
