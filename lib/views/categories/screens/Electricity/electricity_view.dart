@@ -156,7 +156,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                 hint: const AppText(text: 'Enter Meter number'),
                                 onChanged: (value) {
                                   setState(() {
-                                    correctMeter = value.length >= 6;
+                                    correctMeter = value.length >= 13;
                                   });
                                   // correctMeter? electCtrl.verifyMeter(
                                   //   meterNum: value,
