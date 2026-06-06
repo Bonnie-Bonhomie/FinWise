@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/electric_model.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/electricity_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
+
+import '../../core/Routes/routes.dart';
+import '../../data/models/model_export.dart';
 
 class ElectricityCtrl  extends GetxController{
 
@@ -15,6 +19,7 @@ class ElectricityCtrl  extends GetxController{
   var selectedElect = Rxn<ElectDisco>();
   var electDiscos = <ElectDisco>[].obs;
   var availableAmount = <ElectAmount>[].obs;
+  Map<String, dynamic> verifyDet = {};
 
   var error = ''.obs;
   RxBool verifyLoad = false.obs;
@@ -45,6 +50,16 @@ class ElectricityCtrl  extends GetxController{
 
       if(result is DataSuccess){
         if(result.data['status'] ==  true){
+          /// To do
+          TransactionModel receipt = TransactionModel.fromJson(result.data['data']);
+          print(result.data);
+
+          if (receipt.apiStatus == TransactionStatus.failed) {
+            CustomSnackbar.showSnackbar(
+                message: 'Unable to complete transaction, try again later');
+          } else {
+            Get.toNamed(Routes.transSuccess, arguments: receipt);
+          }
           /// To do
         }
         else{
@@ -78,11 +93,11 @@ class ElectricityCtrl  extends GetxController{
     if(token == null) return;
     final result = await repo.verifyMeter(meterNum: meterNum, token: token, type: type, serviceId: serviceId);
 
-    print(result);
     if(result is DataSuccess){
       if(result.data['status'] ==  true){
         verified.value = true;
-        print(result.data['data']);
+        verifyDet = result.data['data'];
+        print(verifyDet);
       }
       else{
         verifyErr.value = 'Unable to verify meter  number';
