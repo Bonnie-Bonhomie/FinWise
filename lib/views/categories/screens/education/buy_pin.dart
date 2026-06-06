@@ -34,7 +34,9 @@ class _BuyPinViewState extends State<BuyPinView> {
   @override
   void initState() {
     // TODO: implement initState
-    acc.getBalance();
+    Future.microtask(() async{
+      await acc.getBalance();
+    });
     super.initState();
   }
 
