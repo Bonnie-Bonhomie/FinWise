@@ -41,7 +41,7 @@ class _ElectricityViewState extends State<ElectricityView> {
   @override
   void initState() {
     // TODO: implement initState
-    acc.getBalance();
+    Future.microtask(() async{await acc.getBalance();});
     super.initState();
   }
 
@@ -278,7 +278,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                       child: AppText(text: '500'),
                                     ),
                                     rowTile(
-                                      text: 'Customer_Account_Type',
+                                      text: 'Customer Account Type',
                                       child: AppText(
                                         text:
                                             electCtrl
@@ -299,7 +299,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                   ],
                                 ),
                               )
-                            : SizedBox(height: 10),
+                            : SizedBox.shrink(),
                       ],
                     ),
                   ),
