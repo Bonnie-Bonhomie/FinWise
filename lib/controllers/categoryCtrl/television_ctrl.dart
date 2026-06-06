@@ -29,9 +29,13 @@ class TelevisionCtrl extends GetxController {
   RxBool loadDisco = false.obs;
   RxBool loadingBun = false.obs;
   RxString phone = ''.obs;
+  RxBool verified = false.obs;
   var availableCable = <CableModel>[].obs;
   var cablePrices = <CableBundle>[].obs;
   var tvRecipt = [];
+  Map<String, dynamic> verifyDet = {};
+  RxString verifyErr = ''.obs;
+  RxBool verifyLoad = false.obs;
 
 
   void getNumber()async{
@@ -91,11 +95,10 @@ class TelevisionCtrl extends GetxController {
         final data = response.data['data'];
 
         final bundle = CableBundle.fromJson(data['bundles']);
-
-
-        print(data['bundles']);
-        cablePrices.add(bundle);
-        print(cablePrices);
+        // cablePrice = bundle;
+        // print(data['bundles']);
+        // cablePrices.add(bundle);
+        // print(cablePrices);
         ///To do
       } else {
         error = 'Unable to load available cable bundle';
@@ -130,25 +133,27 @@ class TelevisionCtrl extends GetxController {
     if(response is DataSuccess){
       if (response.data['status'] == true) {
         final data = response.data['data'];
+        verifyDet = data;
+        print(verifyDet);
       } else {
-        cardErr.value = 'Unable to to verify card number';
+        verifyErr.value = 'Unable to to verify card number';
       }
     }else if(response is DataFailed){
       final err = response.exception;
 
       if(err is DioException){
         if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          cardErr.value =  'Check your internet connection';
+          verifyErr.value =  'Check your internet connection';
         }
         final errData = err.response?.data;
         if(errData != null && errData['message'] != null){
-         cardErr.value = errData['message'];
+         verifyErr.value = errData['message'];
         }else{
-          cardErr.value = 'Unable to complete transaction process';
+          verifyErr.value = 'Unable to complete transaction process';
         }
       }
     }else{
-      cardErr.value = 'Unable to complete transaction process';
+      verifyErr.value = 'Unable to complete transaction process';
     }
 
   }
