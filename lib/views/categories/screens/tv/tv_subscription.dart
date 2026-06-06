@@ -8,6 +8,7 @@ import 'package:fin_wise/data/models/cable_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,8 +39,10 @@ class _TvSubscriptionState extends State<TvSubscription>
   void initState() {
     // TODO: implement initState
     _tabController = TabController(length: 2, vsync: this);
-    tvCtrl.getCableBundle(id: tvDetails.id);
-    acc.getBalance();
+    Future.microtask(() async{
+      await tvCtrl.getCableBundle(id: tvDetails.id);
+      await acc.getBalance();
+    });
     super.initState();
   }
 
@@ -51,9 +54,9 @@ class _TvSubscriptionState extends State<TvSubscription>
   }
 
   Future<void> onRefresh() async {
-    Future.delayed(Duration(seconds: 1), () async{
+    Future.delayed(Duration(seconds: 1), () async {
       await acc.getBalance();
-      await  tvCtrl.getCableBundle(id: tvDetails.id);
+      await tvCtrl.getCableBundle(id: tvDetails.id);
     });
   }
 
@@ -77,10 +80,13 @@ class _TvSubscriptionState extends State<TvSubscription>
               children: [
                 ListTile(
                   title: AppText(text: tvDetails.name),
-                  titleTextStyle: TextStyle(
-                    overflow: TextOverflow.ellipsis,
+                  titleTextStyle: TextStyle(overflow: TextOverflow.ellipsis),
+                  leading: CircleAvatar(
+                    child: Text(
+                      tvDetails.name[0],
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  leading: CircleAvatar(child: Text(tvDetails.name[0], style: TextStyle(fontWeight: FontWeight.bold),),),
                 ),
                 const Divider(color: AppColors.lightGreen),
                 const SizedBox(height: 10),
@@ -92,7 +98,10 @@ class _TvSubscriptionState extends State<TvSubscription>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
                     gradient: LinearGradient(
-                      colors: [AppColors.lightGreen, Theme.of(context).cardColor],
+                      colors: [
+                        AppColors.lightGreen,
+                        Theme.of(context).cardColor,
+                      ],
                       begin: Alignment.topCenter,
                       end: Alignment.center,
                     ),
@@ -122,14 +131,122 @@ class _TvSubscriptionState extends State<TvSubscription>
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  correctNumber = value.length == 11;
+                                  correctNumber = value.length == 10;
                                 });
                               },
                             ),
                           ),
+                          correctNumber
+                              ? SizedBox(
+                            height: 25,
+                            width: 90,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                loaderCtrl.offLoading(() async {
+                                  await tvCtrl.verifySmartCard(smartcard: smartCardCtrl.text, id: tvDetails.serviceId);
+                                });
+                              },
+                              child: Text(
+                                'Proceed',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          )
+                              : correctNumber && tvCtrl.verified.value
+                              ? Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.greenAccent,
+                              ),
+                              borderRadius: BorderRadius.circular(5.0),
+                              color: Theme.of(context).cardColor,
+                            ),
+                            child: Icon(
+                              Icons.person_add_alt_1_rounded,
+                              color: AppColors.primary,
+                            ),
+                          )
+                              : SizedBox(),
                         ],
                       ),
                       const Divider(color: AppColors.lightGreen, height: 2),
+                      tvCtrl.verifyLoad.value
+                          ? Row(
+                        children: [
+                          const SizedBox(
+                            height: 8,
+                            width: 8,
+                            child: CircularProgressIndicator(),
+                          ),
+                          const SizedBox(width: 8.0),
+                          AppText(
+                            text: 'verifying the meter number...',
+                            textColor: AppColors.primary,
+                          ),
+                        ],
+                      )
+                          : tvCtrl.verified.value
+                          ? Row(
+                        children: [
+                          const Icon(
+                            Icons.check_circle,
+                            color: AppColors.primary,
+                          ),
+                          const SizedBox(width: 8.0),
+                          AppText(
+                            text: tvCtrl.verifyDet['Customer_Name'],
+                            textColor: AppColors.primary,
+                          ),
+                        ],
+                      )
+                          : AppText(
+                        text: tvCtrl.verifyErr.value,
+                        textColor: AppColors.declined,
+                        textAlign: TextAlign.start,
+                      ),
+
+                      ///Details after verification
+                      tvCtrl.verified.value
+                          ? Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        padding: const EdgeInsets.all(15),
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Theme.of(
+                            context,
+                          ).scaffoldBackgroundColor,
+                        ),
+                        child: Column(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            rowTile(
+                              text: 'Min Purchase',
+                              child: AppText(text: '500'),
+                            ),
+                            rowTile(
+                              text: 'Customer Type',
+                              child: AppText(
+                                text:
+                                tvCtrl.verifyDet['Customer_Type'] ??
+                                    'null',
+                              ),
+                            ),
+                            rowTile(
+                              text: 'Status',
+                              child: AppText(
+                                text: tvCtrl.verifyDet['Status'] ?? 'null',
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                          : SizedBox.shrink(),
                     ],
                   ),
                 ),
@@ -160,9 +277,11 @@ class _TvSubscriptionState extends State<TvSubscription>
                         child: ListView(
                           padding: const EdgeInsets.only(top: 8.0),
                           children: [
-                            Column(
+                            Wrap(
                               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              crossAxisAlignment: WrapCrossAlignment.start,
+                              runSpacing: 12,
+                              spacing: 10,
                               children: [
                                 serviceBox(
                                   title: '${tvDetails.serviceId} Renewal',
@@ -179,11 +298,14 @@ class _TvSubscriptionState extends State<TvSubscription>
                                               PriceInputField(
                                                 amountCtrl: amountCtrl,
                                                 numberCtrl: smartCardCtrl,
-                                                productName: '${tvDetails.serviceId} subscription',
+                                                productName:
+                                                    '${tvDetails.serviceId} subscription',
                                                 lowestAmount: 2000,
-                                                errMessage: 'Enter your smartcard number',
-                                                balance: acc.accountBalance.value,
-                                                action: (pin){},
+                                                errMessage:
+                                                    'Enter your smartcard number',
+                                                balance:
+                                                    acc.accountBalance.value,
+                                                action: (pin) {},
                                               ),
                                               CancelBtn(
                                                 onPressed: () => Get.back(),
@@ -197,7 +319,14 @@ class _TvSubscriptionState extends State<TvSubscription>
                                     amountCtrl.text = '';
                                   },
                                 ),
-                                buildProductColumn(),
+                                // serviceBox(title: tvCtrl.cablePrice., amount: amount, onTap: onTap)
+                                // BuildCableBun(
+                                //   tvCtrl: tvCtrl,
+                                //   tvDetails: tvDetails,
+                                //   smartCardCtrl: smartCardCtrl,
+                                //   acc: acc,
+                                //   loaderCtrl: loaderCtrl,
+                                // ),
                               ],
                             ),
                           ],
@@ -206,7 +335,11 @@ class _TvSubscriptionState extends State<TvSubscription>
                       Padding(
                         padding: const EdgeInsets.only(top: 18),
                         // child: premiumBuild(),
-                        child: Center(child: EmptyState(message: 'Premium service is unavailable')),
+                        child: Center(
+                          child: EmptyState(
+                            message: 'Premium service is unavailable',
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -218,6 +351,8 @@ class _TvSubscriptionState extends State<TvSubscription>
       ),
     );
   }
+
+
 
   // Wrap premiumBuild() {
   //   return Wrap(
@@ -248,23 +383,20 @@ class _TvSubscriptionState extends State<TvSubscription>
   //   );
   // }
 
-  Widget buildProductColumn() {
-    return Wrap(
-      runSpacing: 10,
-      spacing: 10,
-      runAlignment: WrapAlignment.center,
+  Widget buildColumn(){
+    return Column(
       children: List.generate(tvCtrl.cablePrices.length, (index) {
         final serv = tvCtrl.cablePrices[index];
         final amount = double.parse(serv.price);
-          print(amount);
-        // if (index == 0 && isLeft) {}
-        return serviceBox(
+        print(amount);
+        return SharedWidget.serviceBox(
+          context: context,
           title: '${tvDetails.serviceId} ${serv.cableCode}',
           amount: '₦${serv.price}',
           // duration: '${serv.duration} Month',
           onTap: () {
             smartCardCtrl.text.isNotEmpty
-                ? loaderCtrl.offLoading((){
+                ? loaderCtrl.offLoading(() {
               ConfirmBottomSheet().confirmBottomSheet(
                 context,
                 amount: amount,
@@ -274,12 +406,14 @@ class _TvSubscriptionState extends State<TvSubscription>
                 list: [],
                 imgPath: '',
                 plan: tvDetails.serviceId,
-                action: (pin){
+                action: (pin) {
                   // tvCtrl.buyTvService(phone: tvCtrl.phone.value, smartcard: smartCardCtrl.text, id: tvDetails.serviceId, subType: subType, transPin: transPin, productId: productId)
-                }
+                },
               );
             })
-                :CustomSnackbar.showSnackbar(message: 'Enter your smart card number');
+                : CustomSnackbar.showSnackbar(
+              message: 'Enter your smart card number',
+            );
           },
         );
       }),
@@ -301,7 +435,7 @@ class _TvSubscriptionState extends State<TvSubscription>
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).cardColor
+          color: Theme.of(context).cardColor,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -314,7 +448,9 @@ class _TvSubscriptionState extends State<TvSubscription>
                     padding: const EdgeInsets.all(3.4),
                     margin: const EdgeInsets.all(5.0),
                     decoration: BoxDecoration(
-                      color: Colors.orangeAccent.shade100.withValues(alpha: 0.5),
+                      color: Colors.orangeAccent.shade100.withValues(
+                        alpha: 0.5,
+                      ),
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: AppText(
@@ -347,6 +483,64 @@ class _TvSubscriptionState extends State<TvSubscription>
         const Spacer(),
         child,
       ],
+    );
+  }
+}
+
+class BuildCableBun extends StatelessWidget {
+  final TelevisionCtrl tvCtrl;
+  final CableModel tvDetails;
+  final TextEditingController smartCardCtrl;
+  final LoaderController loaderCtrl;
+  final AccBalanceCtrl acc;
+
+  const BuildCableBun({
+    super.key,
+    required this.tvCtrl,
+    required this.tvDetails,
+    required this.smartCardCtrl,
+    required this.acc,
+    required this.loaderCtrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      runSpacing: 10,
+      spacing: 10,
+      runAlignment: WrapAlignment.center,
+      children: List.generate(tvCtrl.cablePrices.length, (index) {
+        final serv = tvCtrl.cablePrices[index];
+        final amount = double.parse(serv.price);
+        print(amount);
+        return SharedWidget.serviceBox(
+          context: context,
+          title: '${tvDetails.serviceId} ${serv.cableCode}',
+          amount: '₦${serv.price}',
+          // duration: '${serv.duration} Month',
+          onTap: () {
+            smartCardCtrl.text.isNotEmpty
+                ? loaderCtrl.offLoading(() {
+                    ConfirmBottomSheet().confirmBottomSheet(
+                      context,
+                      amount: amount,
+                      numberCtrl: smartCardCtrl,
+                      productName: 'cable',
+                      balance: acc.accountBalance.value,
+                      list: [],
+                      imgPath: '',
+                      plan: tvDetails.serviceId,
+                      action: (pin) {
+                        // tvCtrl.buyTvService(phone: tvCtrl.phone.value, smartcard: smartCardCtrl.text, id: tvDetails.serviceId, subType: subType, transPin: transPin, productId: productId)
+                      },
+                    );
+                  })
+                : CustomSnackbar.showSnackbar(
+                    message: 'Enter your smart card number',
+                  );
+          },
+        );
+      }),
     );
   }
 }
