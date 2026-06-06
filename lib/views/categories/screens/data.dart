@@ -28,7 +28,7 @@ class _DataViewState extends State<DataView>
   @override
   void initState() {
     // TODO: implement initState
-    acc.getBalance();
+    Future.microtask(() async{ await acc.getBalance();});
     super.initState();
     _tabCtrl = TabController(length: dataCtrl.sections.length, vsync: this);
   }
