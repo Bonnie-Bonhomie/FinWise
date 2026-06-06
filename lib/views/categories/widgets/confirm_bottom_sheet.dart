@@ -80,7 +80,7 @@ class ConfirmBottomSheet {
                             // Obx(() =>
                                 Switch(
                                   value: navCtrl.addBeneficiary.value,
-                                  activeThumbColor: AppColors.primary,
+                                  activeTrackColor: AppColors.primary,
                                   inactiveTrackColor: AppColors.lightGreen,
                                   inactiveThumbColor: AppColors.primary,
                                   trackOutlineColor: WidgetStateColor.transparent,

@@ -4,6 +4,63 @@ import 'package:flutter/material.dart';
 
 import '../../utils/utils_export.dart';
 
+
+class SharedWidget{
+
+  static Widget serviceBox({
+    required BuildContext context,
+    required String title,
+    required String amount,
+    required VoidCallback onTap,
+    String duration = '',
+    IconData? icon,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 150,
+        padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Theme.of(context).cardColor
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppText(text: title, textSize: 16, textWeigh: FontWeight.bold),
+            duration == ''
+                ? SizedBox.shrink()
+                : Container(
+              padding: const EdgeInsets.all(3.4),
+              margin: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                color: Colors.orangeAccent.shade100.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              child: AppText(
+                text: duration,
+                textColor: Colors.orange,
+                textWeigh: FontWeight.bold,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  AppText(text: amount),
+                  const Spacer(),
+                  Icon(icon),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 class HeadingText extends StatelessWidget {
   const HeadingText({
     super.key,
