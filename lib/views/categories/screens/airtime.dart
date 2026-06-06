@@ -33,7 +33,7 @@ class _AirtimeViewState extends State<AirtimeView> {
   @override
   void initState() {
     // TODO: implement initState
-    acc.getBalance();
+    Future.microtask(() async {await acc.getBalance();});
     super.initState();
   }
 
