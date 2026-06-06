@@ -145,11 +145,12 @@ class DataController extends GetxController {
         final dataPlan = plan.map((e) => DataPlan.fromJson(e)).toList();
 
         dataPlans.addAll(dataPlan);
-
-        hotUp.value = dataPlans.where((pl) => pl.hotPlans == '1').toList();
+        print(dataPlans.length);
         dailyPlan.value = dataPlans.where((e) => e.frequency == Frequency.daily).toList();
         weeklyPlan.value = dataPlans.where((e) => e.frequency == Frequency.weekly).toList();
         monthlyPlan.value = dataPlans.where((e) => e.frequency == Frequency.monthly).toList();
+        hotUp.value = dataPlans.where((pl) => pl.hotPlans == '1').toList();
+        print(monthlyPlan.length);
 
         // print(plan);
       }
