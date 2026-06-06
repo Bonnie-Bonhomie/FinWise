@@ -71,7 +71,7 @@ class NotificationSettings extends StatelessWidget {
           scale: 0.8,
           child: Switch(
             value: typeSwitch,
-            activeThumbColor: AppColors.primary,
+            activeTrackColor: AppColors.primary,
             inactiveTrackColor: AppColors.lightGreen,
             inactiveThumbColor: AppColors.primary,
             trackOutlineColor: WidgetStateColor.transparent,

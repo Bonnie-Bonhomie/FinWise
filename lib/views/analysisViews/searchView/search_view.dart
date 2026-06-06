@@ -55,7 +55,7 @@ class SearchView extends StatelessWidget {
               SizedBox(
                 height: 50,
                 child: DropdownButtonFormField(
-                  initialValue: selected,
+                  // initialValue: selected,
                   items: List.generate(Categories.values.length, (index) {
                     final name = Categories.values[index];
 
