@@ -1,5 +1,4 @@
 
-import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';

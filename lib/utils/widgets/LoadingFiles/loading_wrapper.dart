@@ -17,7 +17,7 @@ class GlobalPremiumLoader extends StatelessWidget {
           controller.isLoading.value ?
           Container(
                   key: const ValueKey("premium_loader"),
-                  color: color ?? Colors.black.withOpacity(0.5),
+                  color: color ?? Colors.black.withValues(alpha: 0.5),
                   child: const Center(child: PremiumLoader()),
                 )
               : const SizedBox(),

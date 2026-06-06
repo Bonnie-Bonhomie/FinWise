@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class TransactionSuccessfulView extends StatefulWidget {
-  TransactionSuccessfulView({super.key});
+  const TransactionSuccessfulView({super.key});
 
   @override
   State<TransactionSuccessfulView> createState() => _TransactionSuccessfulViewState();

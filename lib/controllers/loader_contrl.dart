@@ -1,4 +1,3 @@
-import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:get/get.dart';
 
 class LoaderController  extends GetxController{

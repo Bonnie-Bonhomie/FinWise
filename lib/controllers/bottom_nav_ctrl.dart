@@ -1,7 +1,6 @@
 
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/views/analysisViews/analysis_view.dart';
 import 'package:fin_wise/views/categories/screens/category_page.dart';
 import 'package:fin_wise/views/home/home.dart';
 import 'package:fin_wise/views/profiles/screens/edit&view/profile.dart';

@@ -11,12 +11,11 @@ import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../core/Routes/routes.dart';
 
 class OtpScreen extends StatefulWidget {
-  OtpScreen({super.key});
+  const OtpScreen({super.key});
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();

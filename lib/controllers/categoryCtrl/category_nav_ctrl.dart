@@ -36,8 +36,9 @@ class CategoryNavCtrl extends GetxController{
     update();
   }
   void addBene(NumbersModel element){
-    if(allNumbers.contains(element))return;
-    else{
+    if(allNumbers.contains(element)) {
+      return;
+    } else{
       allNumbers.add(element);
       update();
     }

@@ -2,6 +2,7 @@
 /// package name
 ///
 /// License
+library;
 
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';

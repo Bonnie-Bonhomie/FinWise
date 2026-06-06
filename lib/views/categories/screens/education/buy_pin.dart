@@ -1,6 +1,4 @@
-import 'package:fin_wise/controllers/categoryCtrl/education_controller.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
@@ -14,7 +12,7 @@ import '../../../../data/models/model_export.dart';
 import '../../../view_export.dart';
 
 class BuyPinView extends StatefulWidget {
-  BuyPinView({super.key});
+  const BuyPinView({super.key});
 
   @override
   State<BuyPinView> createState() => _BuyPinViewState();
@@ -66,7 +64,9 @@ class _BuyPinViewState extends State<BuyPinView> {
                 labelText('Service type'),
 
 
-                  FormWidget(fieldKey: serviceKey, validator: (val){}, readOnly:  true, valController: serviceCtrl, ),
+                  FormWidget(fieldKey: serviceKey, validator: (val){
+                    return null;
+                  }, readOnly:  true, valController: serviceCtrl, ),
                 const SizedBox(height: 30),
                 labelText('Amount'),
                 Container(

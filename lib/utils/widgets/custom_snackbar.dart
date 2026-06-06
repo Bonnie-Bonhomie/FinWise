@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';

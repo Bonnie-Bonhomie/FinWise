@@ -4,7 +4,6 @@ import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/views/view_export.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/data/models/cable_model.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/cancel_button.dart';
@@ -315,7 +314,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                     padding: const EdgeInsets.all(3.4),
                     margin: const EdgeInsets.all(5.0),
                     decoration: BoxDecoration(
-                      color: Colors.orangeAccent.shade100.withOpacity(0.5),
+                      color: Colors.orangeAccent.shade100.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: AppText(

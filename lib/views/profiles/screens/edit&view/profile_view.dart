@@ -1,15 +1,10 @@
-import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../controllers/controller_exports.dart';
 import '../../../../core/app_colors.dart';
-import '../../../../data/models/AuthModel/user_model.dart';
 import '../../../../utils/widgets/widget.dart';
 
 class ProfileView extends StatefulWidget {

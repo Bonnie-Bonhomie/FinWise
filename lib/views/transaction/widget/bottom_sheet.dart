@@ -1,6 +1,5 @@
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
-import 'package:fin_wise/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
