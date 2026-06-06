@@ -51,6 +51,7 @@ class AvailableElect extends StatelessWidget {
                 child: BuildElectDiscos(ctrl: ctrl)
                     // : SkeletonLoader.shimmerLines(len: 7),
               ),
+
             ],
           ),
         ),

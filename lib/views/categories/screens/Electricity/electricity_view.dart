@@ -3,11 +3,9 @@ import 'package:fin_wise/controllers/categoryCtrl/electricity_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
+import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/utils/widgets/price_form_field.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 
 import 'package:fin_wise/views/categories/widgets/price_input_filed.dart';
@@ -32,6 +30,7 @@ class _ElectricityViewState extends State<ElectricityView> {
   List<String> electType = ['Prepaid', 'Postpaid'];
   final TextEditingController amountCtrl = TextEditingController();
   final TextEditingController meterCtrl = TextEditingController();
+  final viewModel = HomeViewModel();
 
   final loadCtrl = Get.find<LoaderController>();
   final electCtrl = Get.find<ElectricityCtrl>();
@@ -142,6 +141,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                       ),
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         rowTile(
                           text: 'Meter / Account Number',
@@ -176,13 +176,14 @@ class _ElectricityViewState extends State<ElectricityView> {
                             correctMeter
                                 ? SizedBox(
                                     height: 25,
-                                    width: 100,
+                                    width: 90,
                                     child: ElevatedButton(
                                       onPressed: () {
                                         loadCtrl.offLoading(() async {
                                           await electCtrl.verifyMeter(
                                             meterNum: meterCtrl.text,
-                                            type: electType[selectPaid].toLowerCase(),
+                                            type: electType[selectPaid]
+                                                .toLowerCase(),
                                             serviceId: select.electricCode,
                                           );
                                           print(meterCtrl.text);
@@ -225,8 +226,8 @@ class _ElectricityViewState extends State<ElectricityView> {
                             ? Row(
                                 children: [
                                   const SizedBox(
-                                    height: 5,
-                                    width: 5,
+                                    height: 8,
+                                    width: 8,
                                     child: CircularProgressIndicator(),
                                   ),
                                   const SizedBox(width: 8.0),
@@ -245,7 +246,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                   ),
                                   const SizedBox(width: 8.0),
                                   AppText(
-                                    text: 'OMOLEME E E MRS',
+                                    text: electCtrl.verifyDet['Customer_Name'],
                                     textColor: AppColors.primary,
                                   ),
                                 ],
@@ -253,7 +254,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                             : AppText(
                                 text: electCtrl.verifyErr.value,
                                 textColor: AppColors.declined,
-                          textAlign: TextAlign.start,
+                                textAlign: TextAlign.start,
                               ),
 
                         ///Details after verification
@@ -277,17 +278,28 @@ class _ElectricityViewState extends State<ElectricityView> {
                                       child: AppText(text: '500'),
                                     ),
                                     rowTile(
-                                      text: 'Tariff Name',
-                                      child: AppText(text: 'C-Non MD'),
+                                      text: 'Customer_Account_Type',
+                                      child: AppText(
+                                        text:
+                                            electCtrl
+                                                .verifyDet['Customer_Account_Type'] ??
+                                            'null',
+                                      ),
                                     ),
                                     rowTile(
                                       text: 'Service Address',
-                                      child: AppText(text: 'I V1********'),
+                                      child: AppText(
+                                        text:
+                                            viewModel.textToTims(
+                                              electCtrl.verifyDet['Address'],
+                                            ) ??
+                                            'null',
+                                      ),
                                     ),
                                   ],
                                 ),
                               )
-                            : SizedBox(height: 20),
+                            : SizedBox(height: 10),
                       ],
                     ),
                   ),
@@ -316,7 +328,15 @@ class _ElectricityViewState extends State<ElectricityView> {
                                         list: [],
                                         balance: acc.accountBalance.value,
                                         imgPath: select.imgPath,
-                                        action: (pin) {},
+                                        action: (pin) async{
+                                          await electCtrl.buyElectric(
+                                            amount: meterPrice.amount,
+                                            meterNum: meterCtrl.text,
+                                            type: electType[selectPaid],
+                                            transPin: pin,
+                                            serviceId: select.electricCode,
+                                          );
+                                        },
                                         // plan: electType[selectPaid]
                                       );
                                     })

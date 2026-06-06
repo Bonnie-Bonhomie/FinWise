@@ -25,11 +25,12 @@ class _ProfileViewState extends State<ProfileView> {
   final nav = Get.find<ProfileMainControl>();
   final loader = Get.find<LoaderController>();
   String name = '';
-  String id = 'Unknown';
+  String id = '000';
 
   void getUser() async{
-    name = (await storage.retrieve<String>(PrefStoreKeys.username)) ?? 'Unknown';
-    id = await storage.retrieve(PrefStoreKeys.userId);
+
+      name = (await storage.retrieve<String>(PrefStoreKeys.username)) ?? 'Unknown';
+      id = await storage.retrieve(PrefStoreKeys.userId);
   }
 
 
@@ -41,6 +42,9 @@ class _ProfileViewState extends State<ProfileView> {
   }
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      getUser();
+    });
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: LoaderWrapper(

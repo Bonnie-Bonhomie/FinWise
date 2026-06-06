@@ -50,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
           onRefresh: () async{ return onRefresh();},
           child: Obx((){
             if(nav.loading.value){
-              return CircularProgressIndicator(color: AppColors.primary,);
+              return Center(child: CircularProgressIndicator(color: AppColors.bgColor,));
             }
              final user = nav.userProfile;
               return ListView(
@@ -105,7 +105,7 @@ class _EditProfileState extends State<EditProfile> {
                                     type: TextInputType.number,
                                   ),
                                   labelText('Email Address'),
-                                  inputField(ctrl: nav.mailCtrl, label: user.email),
+                                  inputField(ctrl: nav.mailCtrl, label: user.email, readOnly: true),
                                   const SizedBox(height: 30.0,),
                                   AppBtn(onPressed: () {
                                       Get.find<ProfileMainControl>().back();
@@ -170,6 +170,7 @@ class _EditProfileState extends State<EditProfile> {
     required TextEditingController ctrl,
     required String label,
     TextInputType type = TextInputType.text,
+    bool readOnly = false,
   }) {
     return Container(
       height: 90,
@@ -177,9 +178,9 @@ class _EditProfileState extends State<EditProfile> {
       child: TextFormField(
         controller: ctrl,
         keyboardType: type,
+        readOnly: readOnly,
         decoration: InputDecoration(
           hintText: label,
-
         ),
       ),
     );
