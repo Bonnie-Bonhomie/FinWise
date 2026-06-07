@@ -299,29 +299,31 @@ class _TvSubscriptionState extends State<TvSubscription>
                                           builder: (context) {
                                             return Dialog(
                                               // backgroundColor: Colors.white,
-                                              insetPadding: EdgeInsets.all(10),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  PriceInputField(
-                                                    amountCtrl: amountCtrl,
-                                                    numberCtrl: smartCardCtrl,
-                                                    productName:
-                                                        '${tvDetails.serviceId} subscription',
-                                                    lowestAmount: 2000,
-                                                    errMessage:
-                                                        'Enter your smartcard number',
-                                                    balance:
-                                                        acc.accountBalance.value,
-                                                    action: (pin) async{
-                                                      await tvCtrl.buyTvService(phone: tvCtrl.verifyDet['Customer_Number'], smartcard: smartCardCtrl.text, subType: 'change', transPin: pin, productId: '1');
-                                                    },
-                                                  ),
-                                                  CancelBtn(
-                                                    onPressed: () => Get.back(),
-                                                  ),
-                                                  const SizedBox(height: 15),
-                                                ],
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(12.0),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    PriceInputField(
+                                                      amountCtrl: amountCtrl,
+                                                      numberCtrl: smartCardCtrl,
+                                                      productName:
+                                                          '${tvDetails.serviceId} subscription',
+                                                      lowestAmount: 2000,
+                                                      errMessage:
+                                                          'Enter your smartcard number',
+                                                      balance:
+                                                          acc.accountBalance.value,
+                                                      action: (pin) async{
+                                                        await tvCtrl.buyTvService(phone: tvCtrl.verifyDet['Customer_Number'], smartcard: smartCardCtrl.text, subType: 'change', transPin: pin, productId: '1');
+                                                      },
+                                                    ),
+                                                    CancelBtn(
+                                                      onPressed: () => Get.back(),
+                                                    ),
+                                                    const SizedBox(height: 15),
+                                                  ],
+                                                ),
                                               ),
                                             );
                                           },
