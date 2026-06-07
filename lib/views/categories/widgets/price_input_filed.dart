@@ -89,7 +89,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                         ?
                       loadCtrl.offLoading((){
                         print(widget.amountCtrl.text);
-
+                        Get.back();
                         ConfirmBottomSheet().confirmBottomSheet(
                             context,
                             amount: parseAmount(widget.amountCtrl.text.trim()),
@@ -98,7 +98,6 @@ class _PriceInputFieldState extends State<PriceInputField> {
                              action: widget.action, balance: widget.balance);
                         widget.numberCtrl.text.isNotEmpty? widget.amountCtrl.text ='': null;
                         amount = 0.00;
-                        Get.back();
                     })
                         : CustomSnackbar.showSnackbar(title: 'Error', message: widget.errMessage);
 
