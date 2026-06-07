@@ -8,6 +8,7 @@ class AppText extends StatelessWidget {
     this.textSize,
     this.textWeigh,
     this.textColor,
+    this.maxLines = 1,
   });
 
   final String text;
@@ -15,12 +16,14 @@ class AppText extends StatelessWidget {
   final double? textSize;
   final FontWeight? textWeigh;
   final Color? textColor;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       textAlign: textAlign ?? TextAlign.start,
+      maxLines: maxLines,
       style: TextStyle(
         fontSize: textSize,
         // fontFamily: 'Poppins',
