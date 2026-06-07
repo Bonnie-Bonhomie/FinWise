@@ -4,6 +4,7 @@ import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_export.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/data/models/cable_model.dart';
@@ -28,7 +29,6 @@ class _TvSubscriptionState extends State<TvSubscription>
 
   final TextEditingController smartCardCtrl = TextEditingController();
   final TextEditingController amountCtrl = TextEditingController();
-  final SharedPreferService storage = SharedPreferService();
 
   //Selected Tv
   CableModel tvDetails = Get.arguments;
@@ -37,11 +37,6 @@ class _TvSubscriptionState extends State<TvSubscription>
   final tvCtrl = Get.find<TelevisionCtrl>();
   final loaderCtrl = Get.find<LoaderController>();
   final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
-  String phone = '';
-
-  void getNumber()async {
-    phone = await storage.retrieve(PrefStoreKeys.phone);
-  }
 
   @override
   void initState() {
@@ -50,7 +45,6 @@ class _TvSubscriptionState extends State<TvSubscription>
     Future.microtask(() async{
       await tvCtrl.getCableBundle(id: tvDetails.id);
       await acc.getBalance();
-      getNumber();
     });
     super.initState();
   }
@@ -72,9 +66,6 @@ class _TvSubscriptionState extends State<TvSubscription>
   @override
   Widget build(BuildContext context) {
     tvDetails = Get.arguments ?? tvCtrl.availableCable[0];
-    setState(() {
-      getNumber();
-    });
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: onRefresh,
@@ -198,7 +189,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                               ),
                               const SizedBox(width: 8.0),
                               AppText(
-                                text: 'verifying the meter number...',
+                                text: 'verifying the smartcard number...',
                                 textColor: AppColors.primary,
                               ),
                             ],
@@ -307,7 +298,8 @@ class _TvSubscriptionState extends State<TvSubscription>
                                           context: context,
                                           builder: (context) {
                                             return Dialog(
-                                              backgroundColor: Colors.white,
+                                              // backgroundColor: Colors.white,
+                                              insetPadding: EdgeInsets.all(10),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
@@ -321,8 +313,8 @@ class _TvSubscriptionState extends State<TvSubscription>
                                                         'Enter your smartcard number',
                                                     balance:
                                                         acc.accountBalance.value,
-                                                    action: (pin) {
-                                                      tvCtrl.buyTvService(phone: phone, smartcard: smartCardCtrl.text, subType: 'change', transPin: pin, productId: '1');
+                                                    action: (pin) async{
+                                                      await tvCtrl.buyTvService(phone: tvCtrl.verifyDet['Customer_Number'], smartcard: smartCardCtrl.text, subType: 'change', transPin: pin, productId: '1');
                                                     },
                                                   ),
                                                   CancelBtn(
