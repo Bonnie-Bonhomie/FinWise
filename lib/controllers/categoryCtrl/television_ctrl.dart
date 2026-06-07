@@ -126,36 +126,43 @@ class TelevisionCtrl extends GetxController {
   ///Verify smart card function
   Future<void> verifySmartCard({required String smartcard, required String id,}) async {
 
-    final String? token = await store.getToken();
-    if(token == null) return;
-    final response = await repo.verifyCableNum(token: token, serviceId: id, cableNumber: smartcard);
+    try{
+      verifyLoad.value = true;
+      final String? token = await store.getToken();
+      if(token == null) return;
+      final response = await repo.verifyCableNum(token: token, serviceId: id, cableNumber: smartcard);
 
-    if(response is DataSuccess){
-      if (response.data['status'] == true) {
-        final data = response.data['data'];
-        verifyDet = data;
-        print(verifyDet);
-      } else {
+      if(response is DataSuccess){
+        if (response.data['status'] == true) {
+          final data = response.data['data'];
+          verified.value = true;
+          verifyDet = data;
+          print(verifyDet);
+        } else {
+          verifyErr.value = 'Unable to to verify card number';
+        }
+      }else if(response is DataFailed){
+        final err = response.exception;
+
+        if(err is DioException){
+          if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
+            verifyErr.value =  'Check your internet connection';
+          }
+          final errData = err.response?.data;
+          if(errData != null && errData['message'] != null){
+            verifyErr.value = errData['message'];
+          }else{
+            verifyErr.value ='Unable to to verify card number';
+          }
+        }
+      }else{
         verifyErr.value = 'Unable to to verify card number';
       }
-    }else if(response is DataFailed){
-      final err = response.exception;
-
-      if(err is DioException){
-        if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          verifyErr.value =  'Check your internet connection';
-        }
-        final errData = err.response?.data;
-        if(errData != null && errData['message'] != null){
-         verifyErr.value = errData['message'];
-        }else{
-          verifyErr.value = 'Unable to complete transaction process';
-        }
-      }
-    }else{
-      verifyErr.value = 'Unable to complete transaction process';
+    }catch(e){
+      verifyErr.value = 'Something went wrong, try again later';
+    }finally{
+      verifyLoad.value = false;
     }
-
   }
 
 
