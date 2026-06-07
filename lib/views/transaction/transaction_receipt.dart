@@ -110,9 +110,14 @@ class TransactionReceipt extends StatelessWidget {
                       receiptDet.category == Categories.electricity
                           ? rowTile(
                               'Meter Number',
-                              receiptDet.meterNo ?? 'null',
+                              receiptDet.phoneNo,
                             )
                           : SizedBox(),
+                      receiptDet.category == Categories.electricity
+                          ? rowTile(
+                        'Token',
+                        receiptDet.token?.split(' ').last ?? 'null',
+                      ) : SizedBox(),
                       dividerBuild(),
                       rowTile(
                         'Date',
