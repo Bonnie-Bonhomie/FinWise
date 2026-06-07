@@ -43,7 +43,7 @@ class TelevisionRepo {
           ),
         );
       }
-      final result = await services.getRequestWIthToken('${ApiEndpoints.cableBundlePrice}/$id', token);
+      final result = await services.getRequestWIthToken('${ApiEndpoints.cableBundle}/$id', token);
       return DataSuccess(result.data);
     } on DioException catch (e) {
       return DataFailed(e);

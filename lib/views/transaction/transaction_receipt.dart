@@ -71,6 +71,10 @@ class TransactionReceipt extends StatelessWidget {
                         headingText: 'Transaction Receipt',
                         color: AppColors.darkGreen,
                       ),
+                     HeadingText(
+                        headingText: receiptDet.apiStatus.label,
+                        color: AppColors.darkGreen,
+                      ),
                       const HeadingText(
                         headingText: 'Amount',
                         color: AppColors.darkGreen,

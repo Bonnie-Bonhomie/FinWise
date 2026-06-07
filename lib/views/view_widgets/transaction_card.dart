@@ -110,7 +110,7 @@ class BuildTransaction extends StatelessWidget {
       return SkeletonLoader.shimmerLines(len: 3);
     } else if(transact.isEmpty){
       return SingleChildScrollView(
-        child: EmptyState(message: 'No transaction history ',)
+        child: EmptyState(message: trans.error.value,)
       );
     }
     //Add animation

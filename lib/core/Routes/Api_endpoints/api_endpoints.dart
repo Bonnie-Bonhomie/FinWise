@@ -45,7 +45,6 @@ class ApiEndpoints{
 
   static const String cableDisco = 'cable/discos';
   static const String cableBundle = 'cable/bundle';
-  static const String cableBundlePrice = 'cable/bundle_price';
   static const String verifySmartCard = 'cable/verify_smart_card';
   static const String buyCable = 'cable/buy';
 

@@ -62,7 +62,7 @@ class TelevisionCtrl extends GetxController {
 
           availableCable.addAll(dis);
         } else {
-          discoErr.value = 'Unable to Complete transaction';
+          discoErr.value = 'Unable to load Electricity discos';
         }
       } else if (response is DataFailed) {
         final err = response.exception;
@@ -76,12 +76,12 @@ class TelevisionCtrl extends GetxController {
           if (errData != null && errData['message'] != null) {
             discoErr.value = errData['message'];
           } else {
-            discoErr.value = 'Unable to complete transaction process';
+            discoErr.value ='Unable to load Electricity discos';
           }
         }
       } else {
         CustomSnackbar.showSnackbar(
-            message: 'Unable to complete transaction process');
+            message: 'Unable to load Electricity discos');
       }
     }catch(e){
       print(e);
@@ -99,16 +99,19 @@ class TelevisionCtrl extends GetxController {
       if (token == null) return;
       final response = await repo.cableBundlePrice(token: token, id: id);
 
+      print(response.data);
       if (response is DataSuccess) {
         if (response.data['status'] == true) {
+
+          cablePrices.clear();
           final data = response.data['data'];
 
-          final bundle = CableBundle.fromJson(data['bundles']);
-          print(data['bundles']);
-          // cablePrice = bundle;
-          // print(data['bundles']);
-          // cablePrices.add(bundle);
-          // print(cablePrices);
+          List bundles = data['cable'];
+          final bundle = bundles.map((e) => CableBundle.fromJson(e)).toList();
+
+          cablePrices.addAll(bundle);
+          print(cablePrices.length);
+
           ///To do
         } else {
           error = 'Unable to load available cable bundle';
@@ -206,16 +209,16 @@ class TelevisionCtrl extends GetxController {
       if (response is DataSuccess) {
         if (response.data['status'] == true) {
           final data = response.data['data'];
-          print(data);
-          // TransactionModel receipt = TransactionModel.fromJson(data['data']);
-          // print(receipt);
-          // receipt.category = Categories.cable;
-          // if (receipt.apiStatus == TransactionStatus.failed) {
-          //   CustomSnackbar.showSnackbar(
-          //       message: 'Unable to complete transaction, try again later');
-          // } else {
-          //   Get.toNamed(Routes.transSuccess, arguments: receipt);
-          // }
+
+          TransactionModel receipt = TransactionModel.fromJson(data);
+          print(receipt);
+          receipt.category = Categories.cable;
+          if (receipt.apiStatus == TransactionStatus.failed) {
+            CustomSnackbar.showSnackbar(
+                message: 'Unable to complete transaction, try again later');
+          } else {
+            Get.toNamed(Routes.transSuccess, arguments: receipt);
+          }
         } else {
           error = 'Unable to Complete transaction';
           CustomSnackbar.showSnackbar(message: error, title: 'Oops');
@@ -242,6 +245,7 @@ class TelevisionCtrl extends GetxController {
             message: 'Unable to complete transaction process');
       }
     } catch (e) {
+      print(e);
       CustomSnackbar.showSnackbar(
           message: 'Something went wrong, try again later.');
     }

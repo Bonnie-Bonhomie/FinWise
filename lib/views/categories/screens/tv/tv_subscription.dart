@@ -284,11 +284,9 @@ class _TvSubscriptionState extends State<TvSubscription>
                             child: ListView(
                               padding: const EdgeInsets.only(top: 8.0),
                               children: [
-                                Wrap(
+                                Row(
                                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  runSpacing: 12,
-                                  spacing: 10,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     serviceBox(
                                       title: '${tvDetails.serviceId} Renewal',
@@ -331,14 +329,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                         amountCtrl.text = '';
                                       },
                                     ),
-                                    // serviceBox(title: tvCtrl.cablePrice., amount: amount, onTap: onTap)
-                                    // BuildCableBun(
-                                    //   tvCtrl: tvCtrl,
-                                    //   tvDetails: tvDetails,
-                                    //   smartCardCtrl: smartCardCtrl,
-                                    //   acc: acc,
-                                    //   loaderCtrl: loaderCtrl,
-                                    // ),
+                                    buildColumn(),
                                   ],
                                 ),
                               ],
@@ -398,15 +389,54 @@ class _TvSubscriptionState extends State<TvSubscription>
   // }
 
   Widget buildColumn(){
+    int len = 0;
+    if(tvCtrl.cablePrices.length > 1 ){
+      // len = (tvCtrl.cablePrices.length + 1) / 2;
+    }
     return Column(
       children: List.generate(tvCtrl.cablePrices.length, (index) {
-        final serv = tvCtrl.cablePrices[index];
-        final amount = double.parse(serv.price);
-        print(amount);
+        final service = tvCtrl.cablePrices[index];
+        final amount = double.parse(service.price);
+
         return SharedWidget.serviceBox(
           context: context,
-          title: '${tvDetails.serviceId} ${serv.cableCode}',
-          amount: '₦${serv.price}',
+          title: service.name,
+          amount: '₦${service.price}',
+          // duration: '${serv.duration} Month',
+          onTap: () {
+            smartCardCtrl.text.isNotEmpty
+                ? loaderCtrl.offLoading(() {
+              ConfirmBottomSheet().confirmBottomSheet(
+                context,
+                amount: amount,
+                numberCtrl: smartCardCtrl,
+                productName: 'cable',
+                balance: acc.accountBalance.value,
+                list: [],
+                imgPath: '',
+                plan: tvDetails.serviceId,
+                action: (pin) async{
+                  await tvCtrl.buyTvService(phone: tvCtrl.verifyDet['Customer_Number'], smartcard: smartCardCtrl.text, subType: 'change', transPin: pin, productId: service.id);
+                },
+              );
+            })
+                : CustomSnackbar.showSnackbar(
+              message: 'Enter your smart card number',
+            );
+          },
+        );
+      }),
+    );
+  }
+  Widget buildLeftColumn(){
+    return Column(
+      children: List.generate(tvCtrl.cablePrices.length, (index) {
+        final service = tvCtrl.cablePrices[index];
+        final amount = double.parse(service.price);
+        return SharedWidget.serviceBox(
+          context: context,
+          title: service.cableCode,
+          amount: '₦${service.price}',
           // duration: '${serv.duration} Month',
           onTap: () {
             smartCardCtrl.text.isNotEmpty
