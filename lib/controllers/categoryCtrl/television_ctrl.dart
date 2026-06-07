@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:fin_wise/core/Routes/routes.dart';
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
@@ -95,6 +97,7 @@ class TelevisionCtrl extends GetxController {
         final data = response.data['data'];
 
         final bundle = CableBundle.fromJson(data['bundles']);
+        print(data['bundles']);
         // cablePrice = bundle;
         // print(data['bundles']);
         // cablePrices.add(bundle);
@@ -170,7 +173,6 @@ class TelevisionCtrl extends GetxController {
   Future<void> buyTvService({
     required String phone,
     required String smartcard,
-    required String id,
     required String subType,
     required String transPin,
     required String productId,
@@ -191,6 +193,15 @@ class TelevisionCtrl extends GetxController {
     if(response is DataSuccess){
       if (response.data['status'] == true) {
         final data = response.data['data'];
+        TransactionModel receipt = TransactionModel.fromJson(data['data']);
+        print(receipt);
+
+        if (receipt.apiStatus == TransactionStatus.failed) {
+          CustomSnackbar.showSnackbar(
+              message: 'Unable to complete transaction, try again later');
+        } else {
+          Get.toNamed(Routes.transSuccess, arguments: receipt);
+        }
       } else {
         error = 'Unable to Complete transaction';
         CustomSnackbar.showSnackbar(message: error, title: 'Oops');
