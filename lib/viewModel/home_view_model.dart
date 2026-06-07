@@ -76,8 +76,8 @@ class HomeViewModel {
   }
   String? textToTims(String text){
     String formated = text;
-    if(text.length <= 3) return formated;
-    formated = text.substring(0, 3) +'*' * (text.length - 3);
+    if(text.length <= 4) return formated;
+    formated = text.substring(0, 4) +'*' * (text.length - 4);
     return formated;}
 
 }
