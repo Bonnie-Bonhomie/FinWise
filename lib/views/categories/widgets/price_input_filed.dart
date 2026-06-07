@@ -54,7 +54,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
 
     return Container(
       margin: const EdgeInsets.only(top: 40, bottom: 20),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
@@ -68,7 +68,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                 child: PriceFormField(
                     numberCtrl: widget.amountCtrl,
                     onChanged: (value){
-                      print(value);
+                      // print(value);
                       setState(() {
                         hasText = (parseAmount(value) >= widget.lowestAmount) && (parseAmount(value) <= widget.highestAmount);
                       });
@@ -81,17 +81,15 @@ class _PriceInputFieldState extends State<PriceInputField> {
                 width: 80,
                 height: 30,
                 child:  ElevatedButton(
+
                   onPressed: () {
-                    // if(am)
-
                     FocusScope.of(context).unfocus();
-                    Get.back();
-
                     // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
                     widget.numberCtrl.text.isNotEmpty
                         ?
                       loadCtrl.offLoading((){
                         print(widget.amountCtrl.text);
+
                         ConfirmBottomSheet().confirmBottomSheet(
                             context,
                             amount: parseAmount(widget.amountCtrl.text.trim()),
@@ -100,6 +98,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                              action: widget.action, balance: widget.balance);
                         widget.numberCtrl.text.isNotEmpty? widget.amountCtrl.text ='': null;
                         amount = 0.00;
+                        Get.back();
                     })
                         : CustomSnackbar.showSnackbar(title: 'Error', message: widget.errMessage);
 
@@ -107,7 +106,10 @@ class _PriceInputFieldState extends State<PriceInputField> {
                       hasText = false;
                     });
                     FocusScope.of(context).unfocus();
+
                   },
+
+
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
                     hasText
