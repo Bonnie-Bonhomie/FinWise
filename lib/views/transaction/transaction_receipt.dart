@@ -71,9 +71,9 @@ class TransactionReceipt extends StatelessWidget {
                         headingText: 'Transaction Receipt',
                         color: AppColors.darkGreen,
                       ),
-                     HeadingText(
-                        headingText: receiptDet.apiStatus.label,
-                        color: AppColors.darkGreen,
+                     AppText(
+                        text: receiptDet.apiStatus.label,
+                        textColor: AppColors.darkGreen,
                       ),
                       const HeadingText(
                         headingText: 'Amount',
@@ -86,9 +86,9 @@ class TransactionReceipt extends StatelessWidget {
                       ),
 
                       rowTile('Reference', receiptDet.referenceId),
-                      dividerBuild(),
+                      // dividerBuild(),
                       rowTile('Payment Type', receiptDet.modelableType),
-                      dividerBuild(),
+                      // dividerBuild(),
                       rowTile('Provider', receiptDet.modelableId),
                       // dividerBuild(),
                       receiptDet.category == Categories.airtime ||
@@ -113,12 +113,12 @@ class TransactionReceipt extends StatelessWidget {
                               receiptDet.phoneNo,
                             )
                           : SizedBox(),
+                      // dividerBuild(),
                       receiptDet.category == Categories.electricity
                           ? rowTile(
                         'Token',
                         receiptDet.token?.split(' ').last ?? 'null',
                       ) : SizedBox(),
-                      dividerBuild(),
                       rowTile(
                         'Date',
                         viewModel.formatDate(receiptDet.purchaseAt),
@@ -200,19 +200,24 @@ class TransactionReceipt extends StatelessWidget {
       const Divider(color: AppColors.lightGreen, thickness: 2);
 
   Widget rowTile(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 5),
-      child: Row(
-        children: [
-          AppText(
-            text: title,
-            textWeigh: FontWeight.bold,
-            textColor: AppColors.darkGreen,
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Row(
+            children: [
+              AppText(
+                text: title,
+                textWeigh: FontWeight.bold,
+                textColor: AppColors.darkGreen,
+              ),
+              const Spacer(),
+              AppText(text: value, textColor: AppColors.darkGreen, maxLines: 2)
+            ],
           ),
-          const Spacer(),
-          AppText(text: value, textColor: AppColors.darkGreen),
-        ],
-      ),
+        ),
+        dividerBuild(),
+      ],
     );
   }
 }
