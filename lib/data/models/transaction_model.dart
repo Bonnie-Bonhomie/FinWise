@@ -9,12 +9,13 @@ class TransactionModel {
   String referenceId;
   String productRef;
   final String purchaseAt;
-  Categories? category;
+  Categories category;
   final double amount;
   final String phoneNo;
   int? status;
   final TransactionStatus apiStatus;
   String? message;
+  // String? benefia;
   String? meterNo;
   String? token;
   String? serviceType;
@@ -27,7 +28,7 @@ class TransactionModel {
     required this.referenceId,
     required this.productRef,
     required this.purchaseAt,
-    this.category,
+    required this.category,
     required this.amount,
     required this.apiStatus,
     required this.phoneNo,
@@ -42,6 +43,7 @@ class TransactionModel {
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
       transactId: int.parse(json['id'].toString()),
+      category: Categories.solar,
       modelableType: json['modelable_type'],
       modelableId: json['modelable_id'].toString(),
       productRef: json['product_reference'].toString(),

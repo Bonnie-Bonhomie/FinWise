@@ -1,3 +1,4 @@
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:flutter/services.dart';
@@ -77,7 +78,11 @@ class PdfGeneratorService {
               pw.Divider(),
               rowTile('Provider', receipt.modelableId.toUpperCase()),
               pw.Divider(),
-              rowTile('Beneficiary', receipt.phoneNo),
+              receipt.category == Categories.airtime || receipt.category == Categories.data? rowTile('Beneficiary', receipt.phoneNo): pw.SizedBox(),
+              receipt.category == Categories.cable ? rowTile('Beneficiary', receipt.phoneNo): pw.SizedBox(),
+              receipt.category == Categories.electricity ? rowTile('Meter Number', receipt.meterNo ?? 'null'): pw.SizedBox(),
+              receipt.category == Categories.education ? rowTile('Token', receipt.token ?? 'null'): pw.SizedBox(),
+              receipt.category == Categories.education ? rowTile('Pin', receipt.pin ?? 'null'): pw.SizedBox(),
               pw.Divider(),
               rowTile('Date', viewModel.formatDate(receipt.purchaseAt)),
               pw.Divider(),

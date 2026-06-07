@@ -209,7 +209,7 @@ class TelevisionCtrl extends GetxController {
           print(data);
           // TransactionModel receipt = TransactionModel.fromJson(data['data']);
           // print(receipt);
-          //
+          // receipt.category = Categories.cable;
           // if (receipt.apiStatus == TransactionStatus.failed) {
           //   CustomSnackbar.showSnackbar(
           //       message: 'Unable to complete transaction, try again later');

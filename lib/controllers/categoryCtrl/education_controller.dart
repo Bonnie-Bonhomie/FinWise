@@ -88,7 +88,7 @@ class EducationController extends GetxController{
           final data = response.data['data'];
           print(data);
           TransactionModel receipt = TransactionModel.fromJson(data);
-
+            receipt.category = Categories.education;
           if(receipt.apiStatus == TransactionStatus.completed){
             Get.toNamed(Routes.transSuccess, arguments: receipt);
           }else{

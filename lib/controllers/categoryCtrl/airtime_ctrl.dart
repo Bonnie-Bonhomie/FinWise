@@ -64,7 +64,7 @@ class AirtimeCtrl extends GetxController {
 
           TransactionModel receipt = TransactionModel.fromJson(data['data']);
           print(receipt);
-
+          receipt.category = Categories.airtime;
           if (receipt.apiStatus == TransactionStatus.failed) {
             CustomSnackbar.showSnackbar(
                 message: 'Unable to complete transaction, try again later');
