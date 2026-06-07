@@ -26,7 +26,7 @@ class TelevisionCtrl extends GetxController {
 
 
   String error = '';
-  RxString cardErr= ''.obs;
+  RxString cardErr = ''.obs;
   RxString discoErr = ''.obs;
   RxBool loadDisco = false.obs;
   RxBool loadingBun = false.obs;
@@ -40,130 +40,143 @@ class TelevisionCtrl extends GetxController {
   RxBool verifyLoad = false.obs;
 
 
-  void getNumber()async{
+  void getNumber() async {
     phone.value = (await storage.retrieve<String>(PrefStoreKeys.phone)) ?? '';
   }
 
   ///get Cable discos
   Future<void> getCableDiscos() async {
+    try{
+      loadDisco.value = true;
+      final String? token = await store.getToken();
+      if (token == null) return;
+      final response = await repo.cableDisco(token);
 
-    loadDisco.value = true;
-    final String? token = await store.getToken();
-    if(token == null) return;
-    final response = await repo.cableDisco(token);
+      if (response is DataSuccess) {
+        if (response.data['status'] == true) {
+          final data = response.data['data'];
 
-    if(response is DataSuccess){
-      if (response.data['status'] == true) {
-        final data = response.data['data'];
+          List discos = data['cables'];
+          // print(discos);
+          final dis = discos.map((e) => CableModel.fromJson(e)).toList();
 
-        List discos = data['cables'];
-        // print(discos);
-        final dis = discos.map((e) => CableModel.fromJson(e)).toList();
+          availableCable.addAll(dis);
+        } else {
+          discoErr.value = 'Unable to Complete transaction';
+        }
+      } else if (response is DataFailed) {
+        final err = response.exception;
 
-        availableCable.addAll(dis);
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            discoErr.value = 'Check your internet connection';
+          }
+          final errData = err.response?.data;
+          if (errData != null && errData['message'] != null) {
+            discoErr.value = errData['message'];
+          } else {
+            discoErr.value = 'Unable to complete transaction process';
+          }
+        }
       } else {
-        discoErr.value = 'Unable to Complete transaction';
+        CustomSnackbar.showSnackbar(
+            message: 'Unable to complete transaction process');
       }
-    }else if(response is DataFailed){
-      final err = response.exception;
-
-      if(err is DioException){
-        if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          discoErr.value = 'Check your internet connection';
-        }
-        final errData = err.response?.data;
-        if(errData != null && errData['message'] != null){
-          discoErr.value = errData['message'];
-        }else{
-          discoErr.value = 'Unable to complete transaction process';
-        }
-      }
-    }else{
-      CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
+    }catch(e){
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, try to reload');
     }
-    loadDisco.value = false;
-
+    finally{
+      loadDisco.value = false;
+    }
   }
 
-///Get Cable Bundles and price
+  ///Get Cable Bundles and price
   Future<void> getCableBundle({required int id}) async {
+    try{
+      final String? token = await store.getToken();
+      if (token == null) return;
+      final response = await repo.cableBundlePrice(token: token, id: id);
 
-    final String? token = await store.getToken();
-    if(token == null) return;
-    final response = await repo.cableBundlePrice(token: token, id: id);
+      if (response is DataSuccess) {
+        if (response.data['status'] == true) {
+          final data = response.data['data'];
 
-    if(response is DataSuccess){
-      if (response.data['status'] == true) {
-        final data = response.data['data'];
+          final bundle = CableBundle.fromJson(data['bundles']);
+          print(data['bundles']);
+          // cablePrice = bundle;
+          // print(data['bundles']);
+          // cablePrices.add(bundle);
+          // print(cablePrices);
+          ///To do
+        } else {
+          error = 'Unable to load available cable bundle';
+        }
+      } else if (response is DataFailed) {
+        final err = response.exception;
 
-        final bundle = CableBundle.fromJson(data['bundles']);
-        print(data['bundles']);
-        // cablePrice = bundle;
-        // print(data['bundles']);
-        // cablePrices.add(bundle);
-        // print(cablePrices);
-        ///To do
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            error = 'Check your internet connection';
+          }
+          final errData = err.response?.data;
+          if (errData != null && errData['message'] != null) {
+            error = errData['message'];
+          } else {
+            error = 'Unable to load available cable bundle';
+          }
+        }
       } else {
         error = 'Unable to load available cable bundle';
       }
-    }else if(response is DataFailed){
-      final err = response.exception;
+    }catch(e){
+      error = 'Something went wrong, try to reload';
 
-      if(err is DioException){
-        if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          error = 'Check your internet connection';
-        }
-        final errData = err.response?.data;
-        if(errData != null && errData['message'] != null){
-           error = errData['message'];
-        }else{
-          error = 'Unable to load available cable bundle';
-        }
-      }
-    }else{
-      error = 'Unable to load available cable bundle';
     }
-
   }
 
   ///Verify smart card function
-  Future<void> verifySmartCard({required String smartcard, required String id,}) async {
-
-    try{
+  Future<void> verifySmartCard(
+      {required String smartcard, required String id,}) async {
+    try {
       verifyLoad.value = true;
       final String? token = await store.getToken();
-      if(token == null) return;
-      final response = await repo.verifyCableNum(token: token, serviceId: id, cableNumber: smartcard);
+      if (token == null) return;
+      final response = await repo.verifyCableNum(
+          token: token, serviceId: id, cableNumber: smartcard);
 
-      if(response is DataSuccess){
+      if (response is DataSuccess) {
         if (response.data['status'] == true) {
           final data = response.data['data'];
           verified.value = true;
           verifyDet = data;
           print(verifyDet);
         } else {
-          verifyErr.value = 'Unable to to verify card number';
+          verifyErr.value = 'Unable to to verify smart card number';
         }
-      }else if(response is DataFailed){
+      } else if (response is DataFailed) {
         final err = response.exception;
 
-        if(err is DioException){
-          if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-            verifyErr.value =  'Check your internet connection';
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            verifyErr.value = 'Check your internet connection';
           }
           final errData = err.response?.data;
-          if(errData != null && errData['message'] != null){
+          if (errData != null && errData['message'] != null) {
             verifyErr.value = errData['message'];
-          }else{
-            verifyErr.value ='Unable to to verify card number';
+          } else {
+            verifyErr.value = 'Unable to to verify smart card number';
           }
         }
-      }else{
-        verifyErr.value = 'Unable to to verify card number';
+      } else {
+        verifyErr.value = 'Unable to to verify smart card number';
       }
-    }catch(e){
+    } catch (e) {
       verifyErr.value = 'Something went wrong, try again later';
-    }finally{
+    } finally {
       verifyLoad.value = false;
     }
   }
@@ -176,53 +189,61 @@ class TelevisionCtrl extends GetxController {
     required String subType,
     required String transPin,
     required String productId,
-  })
-  async {
+  }) async {
+    try {
+      final String? token = await store.getToken();
+      if (token == null) return;
+      final response = await repo.buyCableFunction(
+        token: token,
+        smartcard: smartcard,
+        subType: subType,
+        phone: phone,
+        transPin: transPin,
+        productId: productId,
+      );
 
-    final String? token = await store.getToken();
-    if(token == null) return;
-    final response = await repo.buyCableFunction(
-      token: token,
-      smartcard: smartcard,
-      subType: subType,
-      phone: phone,
-      transPin: transPin,
-      productId: productId,
-    );
-
-    if(response is DataSuccess){
-      if (response.data['status'] == true) {
-        final data = response.data['data'];
-        TransactionModel receipt = TransactionModel.fromJson(data['data']);
-        print(receipt);
-
-        if (receipt.apiStatus == TransactionStatus.failed) {
-          CustomSnackbar.showSnackbar(
-              message: 'Unable to complete transaction, try again later');
+      print(response.data);
+      if (response is DataSuccess) {
+        if (response.data['status'] == true) {
+          final data = response.data['data'];
+          print(data);
+          // TransactionModel receipt = TransactionModel.fromJson(data['data']);
+          // print(receipt);
+          //
+          // if (receipt.apiStatus == TransactionStatus.failed) {
+          //   CustomSnackbar.showSnackbar(
+          //       message: 'Unable to complete transaction, try again later');
+          // } else {
+          //   Get.toNamed(Routes.transSuccess, arguments: receipt);
+          // }
         } else {
-          Get.toNamed(Routes.transSuccess, arguments: receipt);
+          error = 'Unable to Complete transaction';
+          CustomSnackbar.showSnackbar(message: error, title: 'Oops');
+        }
+      } else if (response is DataFailed) {
+        final err = response.exception;
+
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(title: 'No internet connection',
+                message: 'Check your internet connection');
+          }
+          final errData = err.response?.data;
+          if (errData != null && errData['message'] != null) {
+            CustomSnackbar.showSnackbar(message: errData['message']);
+          } else {
+            CustomSnackbar.showSnackbar(
+                message: 'Unable to complete transaction process');
+          }
         }
       } else {
-        error = 'Unable to Complete transaction';
-        CustomSnackbar.showSnackbar(message: error, title: 'Oops');
+        CustomSnackbar.showSnackbar(
+            message: 'Unable to complete transaction process');
       }
-    }else if(response is DataFailed){
-      final err = response.exception;
-
-      if(err is DioException){
-        if(err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
-          CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
-        }
-        final errData = err.response?.data;
-        if(errData != null && errData['message'] != null){
-          CustomSnackbar.showSnackbar(message: errData['message']);
-        }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
-        }
-      }
-    }else{
-      CustomSnackbar.showSnackbar(message: 'Unable to complete transaction process');
+    } catch (e) {
+      CustomSnackbar.showSnackbar(
+          message: 'Something went wrong, try again later.');
     }
-
   }
 }
