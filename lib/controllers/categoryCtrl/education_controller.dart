@@ -78,9 +78,10 @@ class EducationController extends GetxController{
     required String phoneNumber,
     required int examId,
   }) async{
-    final phone = viewModel.numberBack(phoneNumber);
-     String? token = await store.getToken();
-     if(token == null) return;
+    try{
+      final phone = viewModel.numberBack(phoneNumber);
+      String? token = await store.getToken();
+      if(token == null) return;
       final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phone, examId: examId.toString(), token: token);
 
       if(response is DataSuccess){
@@ -88,11 +89,11 @@ class EducationController extends GetxController{
           final data = response.data['data'];
           print(data);
           TransactionModel receipt = TransactionModel.fromJson(data);
-            receipt.category = Categories.education;
+          receipt.category = Categories.education;
           if(receipt.apiStatus == TransactionStatus.completed){
             Get.toNamed(Routes.transSuccess, arguments: receipt);
           }else{
-            CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later 1');
+            CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
           }
         }
         else{
@@ -110,15 +111,18 @@ class EducationController extends GetxController{
           if(errData != null && errData['message'] != null){
             CustomSnackbar.showSnackbar(message: errData['message']);
           }else{
-            CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later 2');
+            CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
           }
         }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later 3');
+          CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
         }
       }
 
-
+    }catch(e){
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
   }
+    }
 }
 
 
