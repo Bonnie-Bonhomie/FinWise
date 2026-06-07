@@ -125,7 +125,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                   //Input Data
                   Container(
                     padding: EdgeInsets.all(15),
-                    margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                    margin: const EdgeInsets.fromLTRB(0, 15, 0, 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                       gradient: LinearGradient(
@@ -173,10 +173,23 @@ class _ElectricityViewState extends State<ElectricityView> {
                                 },
                               ),
                             ),
-                            correctMeter
+                            electCtrl.verified.value ? Container(
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.greenAccent,
+                                ),
+                                borderRadius: BorderRadius.circular(5.0),
+                                color: Theme.of(context).cardColor,
+                              ),
+                              child: Icon(
+                                Icons.person_add_alt_1_rounded,
+                                color: AppColors.primary,
+                              ),
+                            ): correctMeter
                                 ? SizedBox(
                                     height: 25,
-                                    width: 90,
+                                    width: 100,
                                     child: ElevatedButton(
                                       onPressed: () {
                                         loadCtrl.offLoading(() async {
@@ -198,21 +211,6 @@ class _ElectricityViewState extends State<ElectricityView> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                  )
-                                : correctMeter && electCtrl.verified.value
-                                ? Container(
-                                    padding: const EdgeInsets.all(5.0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.greenAccent,
-                                      ),
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: Theme.of(context).cardColor,
-                                    ),
-                                    child: Icon(
-                                      Icons.person_add_alt_1_rounded,
-                                      color: AppColors.primary,
                                     ),
                                   )
                                 : SizedBox(),
