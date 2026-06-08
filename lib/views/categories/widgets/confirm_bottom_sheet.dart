@@ -1,4 +1,3 @@
-
 import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
@@ -26,190 +25,215 @@ class ConfirmBottomSheet {
     String imgPath = '',
     bool data = false,
     String plan = '',
-  }) async{
+  }) async {
     // await acc.getBalance();
     FocusScope.of(context).unfocus();
     showModalBottomSheet(
-      context: context,
-      isDismissible: false,
-      enableDrag: false,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      builder: (context) {
-
+        context: context,
+        isDismissible: false,
+        enableDrag: false,
+        backgroundColor: Theme
+            .of(context)
+            .scaffoldBackgroundColor,
+        builder: (context) {
           bool notEnoughAmount = balance < amount;
           // print(notEnoughAmount);
           // print(accCtrl.accountBalance.value);
-            return WillPopScope(
-              onWillPop: () async {
-                bool? shouldPop = await showDialog(
-                  context: context,
-                  builder: (context) => CustomAlertDialog(),
-                );
-                return shouldPop ?? false;
-              },
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadiusGeometry.directional(
-                    topStart: Radius.circular(60),
-                    topEnd: Radius.circular(60),
-                  ),
+          return WillPopScope(
+            onWillPop: () async {
+              bool? shouldPop = await showDialog(
+                context: context,
+                builder: (context) => CustomAlertDialog(),
+              );
+              return shouldPop ?? false;
+            },
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusGeometry.directional(
+                  topStart: Radius.circular(60),
+                  topEnd: Radius.circular(60),
                 ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => CustomAlertDialog(),
+                            );
+                          },
+                          icon: const Icon(Icons.dangerous_outlined),
+                        ), const Spacer(),
+                        const AppText(
+                          text: 'Add to Beneficiary  ',
+                          textColor: Colors.grey,),
+                        Transform.scale(
+                          scale: 0.8,
+                          child:
+                          // Obx(() =>
+                          Switch(
+                            value: navCtrl.addBeneficiary.value,
+                            activeTrackColor: AppColors.primary,
+                            inactiveTrackColor: AppColors.lightGreen,
+                            inactiveThumbColor: AppColors.primary,
+                            trackOutlineColor: WidgetStateColor.transparent,
+                            onChanged: (val) {
+                              navCtrl.addBeneficiary.value = val;
+                              // navCtrl.addBeneficiaries(list, element);
+                              // if(val){
+                              //   navCtrl.addBene(NumbersModel(provider: navCtrl.selectProvider.value, number: numberCtrl.text, amount: 0));
+                              // }
+                            },
+                          ),
+                        ),
+                        // ),
+                      ],
+                    ),
+                    Center(
+                      child: AppText(
+                        text: viewModel.formatCurrency(amount),
+                        textWeigh: FontWeight.bold,
+                        textSize: 25,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    rowTile(
+                      'Product Name',
                       Row(
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomAlertDialog(),
-                              );
-                            },
-                            icon: const Icon(Icons.dangerous_outlined),
-                          ), const Spacer(),
-                          const AppText(
-                            text: 'Add to Beneficiary  ', textColor: Colors.grey,),
-                          Transform.scale(
-                            scale: 0.8,
-                            child:
-                            // Obx(() =>
-                                Switch(
-                                  value: navCtrl.addBeneficiary.value,
-                                  activeTrackColor: AppColors.primary,
-                                  inactiveTrackColor: AppColors.lightGreen,
-                                  inactiveThumbColor: AppColors.primary,
-                                  trackOutlineColor: WidgetStateColor.transparent,
-                                  onChanged: (val) {
-                                    navCtrl.addBeneficiary.value = val;
-                                    // navCtrl.addBeneficiaries(list, element);
-                                    // if(val){
-                                    //   navCtrl.addBene(NumbersModel(provider: navCtrl.selectProvider.value, number: numberCtrl.text, amount: 0));
-                                    // }
-                                  },
-                                ),
-                            ),
-                          // ),
-                        ],
-                      ),
-                      Center(
-                        child: AppText(
-                          text: viewModel.formatCurrency(amount),
-                          textWeigh: FontWeight.bold,
-                          textSize: 25,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      rowTile(
-                        'Product Name',
-                        Row(
-                          children: [
-                           imgPath.isEmpty? CircleAvatar(backgroundColor: Theme.of(context).cardColor, child: Text(productName[0], style: TextStyle(fontWeight: FontWeight.bold),)): Container(
+                          imgPath.isEmpty
+                              ? CircleAvatar(backgroundColor: Theme
+                              .of(context)
+                              .cardColor, child: Text(productName[0]
+                              .toUpperCase(),
+                            style: TextStyle(fontWeight: FontWeight.bold),))
+                              : Container(
                               height: 30,
                               width: 30,
                               decoration: BoxDecoration(shape: BoxShape.circle,
-                                color: Theme.of(context).cardColor,
-                                  image: DecorationImage(image: NetworkImage(imgPath), onError: (_, _)=> Container(
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context).cardColor,
-                                      shape: BoxShape.circle,
-                                    ), )
-                                  ), )), const SizedBox(width: 4,),
-                            AppText(text: productName),
-                          ],
-                        ),
+                                color: Theme
+                                    .of(context)
+                                    .cardColor,
+                                image: DecorationImage(
+                                    image: NetworkImage(imgPath),
+                                    onError: (_, _) =>
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Theme
+                                                .of(context)
+                                                .cardColor,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: AppText(text: productName[0]
+                                              .toUpperCase()),)
+                                ),)), const SizedBox(width: 4,),
+                          AppText(text: productName),
+                        ],
                       ),
-                      rowTile('Recipient Mobile', AppText(text: numberCtrl.text)),
-                      rowTile(
-                        'Amount',
-                        AppText(text: viewModel.formatCurrency(amount)),
+                    ),
+                    rowTile('Recipient Mobile', AppText(text: numberCtrl.text)),
+                    rowTile(
+                      'Amount',
+                      AppText(text: viewModel.formatCurrency(amount)),
+                    ),
+                    data ? rowTile('Data Bundle', AppText(text: plan))
+                        : const SizedBox(),
+                    const Divider(),
+                    const AppText(
+                      text: 'Payment Method',
+                      textWeigh: FontWeight.bold,
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 15),
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme
+                            .of(context)
+                            .cardColor,
                       ),
-                      data ? rowTile('Data Bundle', AppText(text: plan))
-                          : const SizedBox(),
-                      const Divider(),
-                      const AppText(
-                        text: 'Payment Method',
-                        textWeigh: FontWeight.bold,
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 15),
-                        padding: const EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Theme.of(context).cardColor,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const AppText(
-                                  text: 'Available Balance',
-                                  textWeigh: FontWeight.bold,
-                                ),
-                                const SizedBox(width: 10),
-                                AppText(
-                                  text:
-                                  viewModel.formatCurrency(balance),
-                                  textColor: notEnoughAmount
-                                      ? Colors.red
-                                      : AppColors.primary,
-                                ),
-                                const Spacer(),
-                                Icon(
-                                  Icons.done_outlined,
-                                  color: notEnoughAmount? AppColors.declined: AppColors.primary,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            notEnoughAmount
-                                ? Row(
-                              children: [
-                                const AppText(
-                                  text: 'Insufficient balance',
-                                  textColor: Colors.red,
-                                ),
-                                Spacer(),
-                                TextButton.icon(
-                                    style: TextButton.styleFrom(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              const AppText(
+                                text: 'Available Balance',
+                                textWeigh: FontWeight.bold,
+                              ),
+                              const SizedBox(width: 10),
+                              AppText(
+                                text:
+                                viewModel.formatCurrency(balance),
+                                textColor: notEnoughAmount
+                                    ? Colors.red
+                                    : AppColors.primary,
+                              ),
+                              const Spacer(),
+                              Icon(
+                                Icons.done_outlined,
+                                color: notEnoughAmount
+                                    ? AppColors.declined
+                                    : AppColors.primary,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          notEnoughAmount
+                              ? Row(
+                            children: [
+                              const AppText(
+                                text: 'Insufficient balance',
+                                textColor: Colors.red,
+                              ),
+                              Spacer(),
+                              TextButton.icon(
+                                  style: TextButton.styleFrom(
                                       elevation: 2,
-                                        side: BorderSide(color: Colors.white),
-                                        foregroundColor: AppColors.primary),
-                                    onPressed: () {
-                                      FocusScope.of(context).unfocus();
-                                      Get.back();
-                                      Get.offNamed(Routes.fundWallet);
-                                    }, label: AppText(text: 'Fund Wallet'))
-                              ],
-                            )
-                                : SizedBox(),
-                          ],
-                        ),
+                                      side: BorderSide(color: Colors.white),
+                                      foregroundColor: AppColors.primary),
+                                  onPressed: () {
+                                    FocusScope.of(context).unfocus();
+                                    Get.back();
+                                    Get.offNamed(Routes.fundWallet);
+                                  }, label: AppText(text: 'Fund Wallet'))
+                            ],
+                          )
+                              : SizedBox(),
+                        ],
                       ),
-                      notEnoughAmount ?
-                      DisableButton(label: 'Pay'):
-                      AppBtn(
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          Get.back();
-                          PaymentBottomSheet().paymentBottomSheet(context: context, action: action);
-                          navCtrl.addBeneficiary.value = false;
-                          FocusScope.of(context).unfocus();
-                        },
-                        label: 'Pay',
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
+                    ),
+                    notEnoughAmount ?
+                    DisableButton(label: 'Pay') :
+                    AppBtn(
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        Get.back();
+                        PaymentBottomSheet().paymentBottomSheet(
+                            context: context, action: action);
+                        navCtrl.addBeneficiary.value = false;
+                        FocusScope.of(context).unfocus();
+                      },
+                      label: 'Pay',
+                    ),
+                    const SizedBox(height: 10),
+                  ],
                 ),
               ),
-            );
-          }
+            ),
+          );
+        }
     );
   }
 
