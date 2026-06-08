@@ -17,7 +17,7 @@ class _AppLifeCycleHelperState extends State<AppLifeCycleHelper> with WidgetsBin
 
   Timer? _timer;
 
-  final Duration timeOut = const Duration(hours: 24);
+  final Duration timeOut = const Duration(hours: 2);
 
   @override
   void initState() {
