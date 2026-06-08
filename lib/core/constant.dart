@@ -18,6 +18,15 @@ enum Categories {
 
   const Categories(this.label, this.icon);
 }
+ extension CategoryExtension on Categories{
+
+   static Categories fromApi(String status) {
+     return Categories.values.firstWhere(
+           (e) => e.name.toLowerCase() == status.toLowerCase(),
+       orElse: () => Categories.solar,
+     );
+   }
+ }
 
 //analysis Provider
 enum ChartPeriod { daily, weekly, monthly, yearly }
@@ -65,18 +74,18 @@ enum TransactionStatus {
 
 extension TransactionStatusExtension on TransactionStatus{
 
-  String get value{
-    switch(this){
-      case TransactionStatus.pending:
-        return 'pending';
-
-      case TransactionStatus.completed:
-        return 'Completed';
-
-      case TransactionStatus.failed:
-        return 'Failed';
-    }
-  }
+  // String get value{
+  //   switch(this){
+  //     case TransactionStatus.pending:
+  //       return 'Pending';
+  //
+  //     case TransactionStatus.completed:
+  //       return 'Completed';
+  //
+  //     case TransactionStatus.failed:
+  //       return 'Failed';
+  //   }
+  // }
 
   static TransactionStatus fromApi(String status) {
     return TransactionStatus.values.firstWhere(
