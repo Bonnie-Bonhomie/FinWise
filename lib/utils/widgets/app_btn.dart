@@ -31,14 +31,14 @@ class AppBtn extends StatelessWidget {
       width: double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(17),
         gradient: LinearGradient(colors: [
           AppColors.primary,
-          AppColors.primary,
+          // AppColors.primary,
           AppColors.darkGreen
         ],
-        begin: Alignment.topLeft,
-          end: Alignment.bottomRight
+        begin: Alignment.topCenter,
+          end: Alignment.bottomCenter
         )
       ),
       child: InkWell(
@@ -54,7 +54,7 @@ class AppBtn extends StatelessWidget {
                   label,
                   style: TextStyle(
                     color: textColor ?? AppColors.bgColor,
-                    fontSize: textSize ?? 20,
+                    fontSize: textSize ?? 25,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
