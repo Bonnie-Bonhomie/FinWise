@@ -1,7 +1,7 @@
-export 'edit&view/edit_profile.dart';
-export 'edit&view/profile_view.dart';
-export 'edit&view/profile.dart';
-export 'edit&view/successful_page.dart';
+export 'edit_view/edit_profile.dart';
+export 'edit_view/profile_view.dart';
+export 'edit_view/profile.dart';
+export 'edit_view/successful_page.dart';
 
 export 'helpScreens/help_center.dart';
 export 'helpScreens/online_support.dart';
