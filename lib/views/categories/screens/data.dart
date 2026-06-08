@@ -254,10 +254,10 @@ class DataCard extends StatelessWidget {
                 Container(
                   // padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                   decoration: BoxDecoration(
-                    color: AppColors.pending.withValues(alpha: 0.1),
+                    color: AppColors.pending.withValues(alpha: 0.4),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Center(child: Text(data.planType, style: TextStyle(fontSize: 11.0, color: AppColors.pending))),
+                  child: Center(child: Text(data.planType, style: TextStyle(fontSize: 13.0,))),
                 ),
               ],
             ),
