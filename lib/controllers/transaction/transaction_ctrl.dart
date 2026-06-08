@@ -98,7 +98,7 @@ class TransactionCtrl extends GetxController{
         List currentPage = data[page - 1]['data'];
         List trans = currentPage;
 
-        // print((currentPage[0]));
+        print(data);
         final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
         transactionList.addAll(transac);
