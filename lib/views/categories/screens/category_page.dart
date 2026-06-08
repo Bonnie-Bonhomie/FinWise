@@ -23,7 +23,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   void initState() {
-    acc.getBalance();
+    Future.microtask(() async {await acc.getBalance();});
     // TODO: implement initState
     super.initState();
   }
