@@ -53,7 +53,6 @@ class ElectricityCtrl  extends GetxController{
           /// To do
           TransactionModel receipt = TransactionModel.fromJson(result.data['data']);
           print(result.data);
-          receipt.category = Categories.electricity;
 
           if (receipt.apiStatus == TransactionStatus.failed) {
             CustomSnackbar.showSnackbar(

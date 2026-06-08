@@ -211,7 +211,7 @@ class TelevisionCtrl extends GetxController {
           final data = response.data['data'];
 
           TransactionModel receipt = TransactionModel.fromJson(data);
-          print(receipt);
+
           receipt.category = Categories.cable;
           if (receipt.apiStatus == TransactionStatus.failed) {
             CustomSnackbar.showSnackbar(
