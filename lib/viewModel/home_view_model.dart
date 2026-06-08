@@ -80,4 +80,20 @@ class HomeViewModel {
     formated = text.substring(0, 4) +'*' * (text.length - 4);
     return formated;}
 
+  int halfList(int len){
+    int half = 1;
+    if(len == half) return half;
+    if(len % 2 == 0){
+      half = (len /2).toInt();
+
+    }else{
+      len = len -1;
+      half = (len/2).toInt();
+      half = half +1;
+    }
+    return half;
+  }
+
 }
+
+
