@@ -104,7 +104,7 @@ class TransactionReceipt extends StatelessWidget {
                       receiptDet.category == Categories.cable
                           ? rowTile(
                               'Smart card Number',
-                              receiptDet.meterNo ?? 'null',
+                              receiptDet.phoneNo,
                             )
                           : SizedBox(),
                       receiptDet.category == Categories.electricity
@@ -132,7 +132,7 @@ class TransactionReceipt extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            receiptDet.apiStatus == TransactionStatus.failed
+            receiptDet.apiStatus != TransactionStatus.completed
                 ? SizedBox()
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
