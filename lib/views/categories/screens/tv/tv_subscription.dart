@@ -349,9 +349,9 @@ class _TvSubscriptionState extends State<TvSubscription>
     int len = tvCtrl.cablePrices.length + 1;
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.start,
-      // alignment: WrapAlignment.center,
-      runSpacing: 15,
-      spacing: 20,
+      alignment: WrapAlignment.start,
+      runSpacing: 10,
+      spacing: 10,
       children: List.generate(len, (index) {
 
 
@@ -509,7 +509,9 @@ class _TvSubscriptionState extends State<TvSubscription>
           context: context,
           builder: (context) {
             return Dialog(
-              // backgroundColor: Colors.white,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              shadowColor: Colors.white,
+              surfaceTintColor: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(

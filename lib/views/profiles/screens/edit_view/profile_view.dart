@@ -23,23 +23,28 @@ class _ProfileViewState extends State<ProfileView> {
   String id = '000';
 
   void getUser() async{
-
+print('I amCalled');
+    setState(() async{
       name = (await storage.retrieve<String>(PrefStoreKeys.username)) ?? 'Unknown';
       id = await storage.retrieve(PrefStoreKeys.userId);
+    });
+    print(name);
+    print(id);
+
   }
 
 
   @override
   void initState() {
     // TODO: implement initState
-    getUser();
+    Future.microtask(()async{ getUser();});
+    //     getUser;
+    // print('Hello');
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      getUser();
-    });
+    getUser();
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: LoaderWrapper(
@@ -81,6 +86,7 @@ class _ProfileViewState extends State<ProfileView> {
                           AppColors.blue,
                           () {
                             Get.find<ProfileMainControl>().toEdit();
+                            getUser;
                           },
                         ),
                         profileTile(
