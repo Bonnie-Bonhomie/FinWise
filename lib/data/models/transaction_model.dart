@@ -43,7 +43,7 @@ class TransactionModel {
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
       transactId: int.parse(json['id'].toString()),
-      category: Categories.solar,
+      category: CategoryExtension.fromApi(json['category'].toString()),
       modelableType: json['modelable_type'],
       modelableId: json['modelable_id'].toString(),
       productRef: json['product_reference'].toString(),
