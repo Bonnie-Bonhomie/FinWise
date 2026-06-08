@@ -1,4 +1,3 @@
-
 import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/utils/utils_export.dart';
@@ -33,15 +32,15 @@ class _ChangePinViewState extends State<ChangePinView> {
   }
 
   void setPin() {
-    if (formKey.currentState!.validate())
-    {
+    Focus.of(context).unfocus();
+    if (formKey.currentState!.validate()) {
       loader.offLoading(() async {
         await auth.setPin(
             oldPin: changeToInt(currentCtrl.text.trim()),
             newPin: changeToInt(newCtrl.text.trim()),
             cfmPin: changeToInt(confirmCtrl.text.trim()));
       });
-    }else{
+    } else {
       CustomSnackbar.warningSnack('Fill all the required field to continue');
     }
   }
@@ -64,15 +63,23 @@ class _ChangePinViewState extends State<ChangePinView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   labelText('Current Pin'),
-                  inputField(currentCtrl, 'enter current pin', currentKey, (val){if(val == null) return 'Enter your current pin';
-return null;}),
+                  inputField(
+                      currentCtrl, 'enter current pin', currentKey, (val) {
+                    if (val == null) return 'Enter your current pin';
+                    return null;
+                  }),
                   labelText('New Pin'),
-                  inputField(newCtrl, 'enter new pin', newKey, (val)=> Validator.validatePin(val!)),
+                  inputField(newCtrl, 'enter new pin', newKey, (val) =>
+                      Validator.validatePin(val!)),
                   labelText('Confirm Pin'),
-                  inputField(confirmCtrl, 'enter pin again', confirmKey, (val)=> Validator.validateConfirmPassword(firstPassword: newCtrl.text, value: val)),
+                  inputField(
+                      confirmCtrl, 'enter pin again', confirmKey, (val) =>
+                      Validator.validateConfirmPassword(
+                          firstPassword: newCtrl.text, value: val)),
                   SizedBox(height: 30,),
                   AppBtn(onPressed: () {
                     setPin();
+                    Focus.of(context).unfocus();
                   }, label: 'Change Pin')
                 ],
               ),
@@ -86,7 +93,8 @@ return null;}),
   Widget labelText(String title) =>
       AppText(text: title, textWeigh: FontWeight.w500,);
 
-  Widget inputField(TextEditingController ctrl, String label, GlobalKey<FormFieldState> key, FormFieldValidator<String> validator) {
+  Widget inputField(TextEditingController ctrl, String label,
+      GlobalKey<FormFieldState> key, FormFieldValidator<String> validator) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30, top: 10),
       child: TextFormField(
@@ -97,8 +105,8 @@ return null;}),
         obscureText: true,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
-          hintText: label,
-      counterText: ''
+            hintText: label,
+            counterText: ''
         ),
       ),
     );
