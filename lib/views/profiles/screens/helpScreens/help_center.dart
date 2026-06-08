@@ -37,7 +37,7 @@ class _HelpCenterState extends State<HelpCenter> {
           child: Column(
             children: [
               HeadingText(headingText: 'How can we help you?'),
-              SizedBox(height: 20,),
+              SizedBox(height: 20),
               Container(
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(5.0),
@@ -71,22 +71,28 @@ class _HelpCenterState extends State<HelpCenter> {
                   color: Theme.of(context).cardColor,
                 ),
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-                    children: List.generate(helpCtrl.faqSections.length, (index) {
-                      final title = helpCtrl.faqSections[index];
-                      return InkWell(
-                        onTap: (){
-                          helpCtrl.faqIndex.value = index;
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AppText(text: title),
+                  children: List.generate(helpCtrl.faqSections.length, (index) {
+                    final title = helpCtrl.faqSections[index];
+                    return InkWell(
+                      onTap: () {
+                        helpCtrl.faqIndex.value = index;
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AppText(
+                          text: title,
+                          textWeigh: selectIndex == index ? FontWeight.bold : FontWeight.w300,
+                          textColor: selectIndex == index
+                              ? AppColors.primary
+                              : Theme.of(context).colorScheme.onSurface,
                         ),
-                      );
-                    }),
-                  ),
+                      ),
+                    );
+                  }),
                 ),
+              ),
 
               SizedBox(height: 15.0),
               SizedBox(
@@ -98,7 +104,10 @@ class _HelpCenterState extends State<HelpCenter> {
                     fillColor: Theme.of(context).cardColor,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: AppColors.primary, width: 1.5)
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 1.5,
+                      ),
                     ),
                     border: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -110,7 +119,7 @@ class _HelpCenterState extends State<HelpCenter> {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 20),
               selectIndex == 0
                   ? Expanded(
                       child: Obx(() {
@@ -129,7 +138,9 @@ class _HelpCenterState extends State<HelpCenter> {
                         contactTile(
                           'Customer Service',
                           Icons.help_outline_rounded,
-                          () {Get.find<ProfileMainControl>().toOnlineHelp();},
+                          () {
+                            Get.find<ProfileMainControl>().toOnlineHelp();
+                          },
                         ),
                         contactTile('Website', Icons.webhook_outlined, () {}),
                         contactTile('Facebook', Icons.facebook_outlined, () {}),
