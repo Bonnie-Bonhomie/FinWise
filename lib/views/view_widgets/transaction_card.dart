@@ -23,6 +23,7 @@ class TransactionCard extends StatelessWidget {
 
     return InkWell(
       onTap: (){
+        print(tx.category);
         Get.toNamed(Routes.transReceipt, arguments: tx);
         FocusScope.of(context).unfocus();
       },
@@ -106,21 +107,23 @@ class BuildTransaction extends StatelessWidget {
       }
       return len;
     }
-    if(trans.loading.value){
-      return SkeletonLoader.shimmerLines(len: 3);
-    } else if(transact.isEmpty){
-      return SingleChildScrollView(
-        child: EmptyState(message: trans.error.value,)
+    return Obx(() {
+      if(trans.loading.value){
+        return SkeletonLoader.shimmerLines(len: 3);
+      }
+      if(transact.isEmpty){
+        return SingleChildScrollView(child: EmptyState(message: trans.error.value,));
+      }
+      //Add animation
+      return ListView.builder(
+        padding: EdgeInsets.only(top: 5),
+        itemCount: getLen(),
+        itemBuilder: (context, index) {
+          final tx = transact[index];
+          return TransactionCard(tx: tx);
+        },
       );
-    }
-    //Add animation
-    return ListView.builder(
-      padding: EdgeInsets.only(top: 5),
-      itemCount: getLen(),
-      itemBuilder: (context, index) {
-        final tx = transact[index];
-        return TransactionCard(tx: tx);
-      },
-    );
+    });
+
   }
 }
