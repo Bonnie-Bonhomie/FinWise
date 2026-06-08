@@ -14,14 +14,14 @@ class MainScreen extends StatefulWidget{
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final acc =Get.find<AccBalanceCtrl>();
-  final trans = Get.find<TransactionCtrl>();
+  // final acc =Get.find<AccBalanceCtrl>();
+  // final trans = Get.find<TransactionCtrl>();
 
   @override
   void initState() {
     // TODO: implement initState
-    acc.getBalance();
-    trans.getTransactions(1);
+    // acc.getBalance();
+    // trans.getTransactions(1);
     super.initState();
   }
   @override
@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
                         style: IconButton.styleFrom(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
                           backgroundColor: isSelected? AppColors.primary : Theme.of(context).cardColor,),
-                        icon: Icon(controller.icons[index], color: isSelected? Colors.white : AppColors.primaryLight,),);
+                        icon: Icon(controller.icons[index], color: isSelected? Colors.white : Theme.of(context).colorScheme.onSurface,),);
                   }),
                 ),
               ),
