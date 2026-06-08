@@ -27,11 +27,11 @@ class AppBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40,
+      height: 45,
       width: double.infinity,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100),
+        borderRadius: BorderRadius.circular(30),
         gradient: LinearGradient(colors: [
           AppColors.primary,
           AppColors.primary,
