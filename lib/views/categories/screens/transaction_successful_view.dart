@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
@@ -19,6 +20,7 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
   final TransactionModel receiptDet = Get.arguments ?? '';
 
   final viewModel = HomeViewModel();
+  final trans = Get.find<TransactionCtrl>();
 
 
   @override
@@ -33,11 +35,12 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
             children: [
               const SizedBox(height: 20),
               TextButton(
-                onPressed: () {
+                onPressed: () async{
                   Get.until((route) {
                     return route.isFirst;
                   });
                   FocusScope.of(context).unfocus();
+                  await trans.getTransactions(1);
                 },
                 child: const AppText(
                   text: 'Done',
@@ -74,11 +77,11 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
                   receiptContainer('Share Receipt', () {
                     if(receiptDet.apiStatus == TransactionStatus.pending)return;
                     Get.offNamed(Routes.transReceipt, arguments: receiptDet);
-                  }, Icons.share),
+                  }, Icons.share, Theme.of(context).cardColor ),
                   receiptContainer('View Details', () {
                     if(receiptDet.apiStatus == TransactionStatus.pending)return;
                     Get.offNamed(Routes.transReceipt, arguments: receiptDet);
-                  }, Icons.view_list),
+                  }, Icons.view_list,Theme.of(context).cardColor ),
                 ],
               ),
             ],
@@ -88,14 +91,14 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
     );
   }
 
-  Widget receiptContainer(String title, VoidCallback onTap, IconData icon) {
+  Widget receiptContainer(String title, VoidCallback onTap, IconData icon, Color cs) {
     return InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          color: cs,
         ),
         child: Row(
           children: [
