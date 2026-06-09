@@ -21,6 +21,7 @@ class BuyPinView extends StatefulWidget {
 class _BuyPinViewState extends State<BuyPinView> {
   final eduCtrl = Get.find<EducationController>();
   final acc = Get.find<AccBalanceCtrl>();
+  final loader = Get.find<LoaderController>();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final serviceKey = GlobalKey<FormFieldState>();
@@ -100,17 +101,20 @@ class _BuyPinViewState extends State<BuyPinView> {
                   onPressed: () {
                     final amount = double.tryParse(amountCtrl.text);
                     numberCtrl.text.isNotEmpty?
-                    ConfirmBottomSheet().confirmBottomSheet(
-                      balance: acc.accountBalance.value,
-                      context,
-                      amount: amount!,
-                      numberCtrl: numberCtrl,
-                      productName: selectedSchool.variationCode,
-                      list: [],
-                      action: (pin) async{
-                        await eduCtrl.buyEduCard(transPin: pin, phoneNumber: numberCtrl.text, examId: selectedSchool.id);
-                      }
-                    ): CustomSnackbar.warningSnack('Enter your registered number');
+                        loader.offLoading(()async{
+                          await acc.getBalance();
+                          ConfirmBottomSheet().confirmBottomSheet(
+                              balance: acc.accountBalance.value,
+                              context,
+                              amount: amount!,
+                              numberCtrl: numberCtrl,
+                              productName: selectedSchool.variationCode,
+                              list: [],
+                              action: (pin) async{
+                                await eduCtrl.buyEduCard(transPin: pin, phoneNumber: numberCtrl.text, examId: selectedSchool.id);
+                              }
+                          );
+                        }): CustomSnackbar.warningSnack('Enter your registered number');
                   },
                   label: 'Proceed to Payment',
                 ),
