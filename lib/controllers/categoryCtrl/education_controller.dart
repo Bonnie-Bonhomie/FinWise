@@ -85,7 +85,7 @@ class EducationController extends GetxController{
       final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phone, examId: examId.toString(), token: token);
 
       if(response is DataSuccess){
-        if(response.data['status'] == true || response.data['status'] == 1){
+        if(response.data['status'] == true){
           final data = response.data['data'];
           print(data);
           TransactionModel receipt = TransactionModel.fromJson(data);
@@ -95,10 +95,6 @@ class EducationController extends GetxController{
           }else{
             CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
           }
-        }
-        else{
-          error.value = 'Unable to complete transaction';
-          CustomSnackbar.showSnackbar(message: error.value, title:  'Oops');
         }
       }else if(response is DataFailed){
         final err = response.exception;

@@ -43,11 +43,13 @@ class ElectricityCtrl  extends GetxController{
 
   /// Buy electricity function
   Future<void> buyElectric({required String amount, required String meterNum, required String type, required String transPin, required String serviceId}) async{
+    try{
 
       final String? token = await store.getToken();
       if(token == null) return;
       final result = await repo.buyElect(amount: amount, meterNum: meterNum, token: token, type: type, transPin: transPin, serviceId: serviceId);
 
+      print(result);
       if(result is DataSuccess){
         if(result.data['status'] ==  true){
           /// To do
@@ -67,21 +69,28 @@ class ElectricityCtrl  extends GetxController{
           CustomSnackbar.showSnackbar(message: error.value, title:  'Oops');
         }
       }else if(result is DataFailed){
-         final err =result.exception;
-         if(err is DioException){
+        final err =result.exception;
+        print(err);
+        if(err is DioException){
 
-           if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
-             CustomSnackbar.showSnackbar(title: 'No internet connection',
-                 message: 'Check your internet connection');
-           }
-           final errData = err.response?.data;
-           if(errData != null && errData['message'] != null){
-             CustomSnackbar.showSnackbar(message: errData['message']);
-           }else{
-             CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
-           }
-         }
+          if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(title: 'No internet connection',
+                message: 'Check your internet connection');
+          }
+          final errData = err.response?.data;
+          print(errData);
+          if(errData != null && errData['message'] != null){
+            CustomSnackbar.showSnackbar(message: errData['message']);
+          }
+          else{
+            CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
+          }
+        }
       }
+    }catch(e){
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
+    }
 
   }
 

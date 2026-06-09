@@ -61,7 +61,7 @@ class DataController extends GetxController {
         final data = response.data['data'];
         print(data);
         TransactionModel receipt = TransactionModel.fromJson(data);
-          receipt.category = Categories.data;
+          // receipt.category = Categories.data;
         if(receipt.apiStatus == TransactionStatus.failed){
           CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
         }else{
