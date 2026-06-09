@@ -89,6 +89,7 @@ class AccBalanceCtrl extends GetxController {
         final errData = err.response?.data;
         // print(err.response?.data);
 
+        print(errData);
         if (errData != null && errData['message'] != null) {
           balanceErr.value = 'unable to load balance';
         } else {
