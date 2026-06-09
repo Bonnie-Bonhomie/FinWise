@@ -18,33 +18,22 @@ class _ProfileViewState extends State<ProfileView> {
   final storage = SharedPreferService();
   final AuthCtrl auth = Get.find<AuthCtrl>();
   final nav = Get.find<ProfileMainControl>();
+  final home = Get.find<NavControl>();
   final loader = Get.find<LoaderController>();
   String name = '';
   String id = '000';
 
-  void getUser() async{
-print('I amCalled');
-    setState(() async{
-      name = (await storage.retrieve<String>(PrefStoreKeys.username)) ?? 'Unknown';
-      id = await storage.retrieve(PrefStoreKeys.userId);
-    });
-    print(name);
-    print(id);
-
-  }
 
 
   @override
   void initState() {
     // TODO: implement initState
-    Future.microtask(()async{ getUser();});
-    //     getUser;
-    // print('Hello');
+
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    getUser();
+
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: LoaderWrapper(
@@ -72,11 +61,11 @@ print('I amCalled');
                       children: [
                         SizedBox(height: 50),
                         AppText(
-                          text: name,
+                          text: auth.name.value,
                           textWeigh: FontWeight.bold,
                           textSize: 25,
                         ),
-                        AppText(text: 'ID: $id'),
+                        AppText(text: 'ID: ${auth.id}'),
                         SizedBox(height: 20),
 
                         //Profile Lists
@@ -86,7 +75,6 @@ print('I amCalled');
                           AppColors.blue,
                           () {
                             Get.find<ProfileMainControl>().toEdit();
-                            getUser;
                           },
                         ),
                         profileTile(
@@ -122,6 +110,7 @@ print('I amCalled');
                               loader.offLoading(() async{
                                 await auth.logOut();
                               });
+                              home.selectInd.value = 0;
                             });
                           },
                         ),
