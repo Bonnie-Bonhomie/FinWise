@@ -206,7 +206,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                   ),
                                   const SizedBox(width: 8.0),
                                   AppText(
-                                    text: tvCtrl.verifyDet['Customer_Name'],
+                                    text: tvCtrl.verifyDet['Customer_Name'] ?? 'null',
                                     textColor: AppColors.primary,
                                   ),
                                 ],
