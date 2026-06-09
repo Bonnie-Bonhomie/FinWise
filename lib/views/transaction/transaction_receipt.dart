@@ -16,6 +16,7 @@ class TransactionReceipt extends StatelessWidget {
   final GlobalKey receiptKey = GlobalKey();
   final viewModel = HomeViewModel();
   final trans = Get.find<TransactionCtrl>();
+  final acc = Get.find<AccBalanceCtrl>();
   final nav = Get.find<NavControl>();
 
   TransactionModel receiptDet = Get.arguments;
@@ -36,6 +37,7 @@ class TransactionReceipt extends StatelessWidget {
                   nav.selectInd.value = 0;
                   FocusScope.of(context).unfocus();
                   await trans.getTransactions(1);
+                  await acc.getBalance();
                 },
                 child: AppText(text: 'Done', textColor: AppColors.primary),
               ),
@@ -176,7 +178,8 @@ class TransactionReceipt extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(10.0),
+        width: 150,
+        padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Theme.of(context).cardColor,
@@ -192,7 +195,7 @@ class TransactionReceipt extends StatelessWidget {
               ),
               child: Icon(icon, color: AppColors.primary),
             ),
-            AppText(text: title),
+            AppText(text: title, textSize: 14,),
           ],
         ),
       ),
