@@ -245,7 +245,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                   ),
                                   const SizedBox(width: 8.0),
                                   AppText(
-                                    text: electCtrl.verifyDet['Customer_Name'],
+                                    text: electCtrl.verifyDet['Customer_Name'] ?? 'null',
                                     textColor: AppColors.primary,
                                   ),
                                 ],
