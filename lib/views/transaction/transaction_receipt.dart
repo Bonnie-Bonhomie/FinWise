@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/data/models/model_export.dart';
@@ -14,6 +15,8 @@ class TransactionReceipt extends StatelessWidget {
 
   final GlobalKey receiptKey = GlobalKey();
   final viewModel = HomeViewModel();
+  final trans = Get.find<TransactionCtrl>();
+  final nav = Get.find<NavControl>();
 
   TransactionModel receiptDet = Get.arguments;
 
@@ -26,9 +29,13 @@ class TransactionReceipt extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 10),
               child: TextButton(
-                onPressed: () {
-                  Get.back();
+                onPressed: () async{
+                  Get.until((route) {
+                    return route.isFirst;
+                  });
+                  nav.selectInd.value = 0;
                   FocusScope.of(context).unfocus();
+                  await trans.getTransactions(1);
                 },
                 child: AppText(text: 'Done', textColor: AppColors.primary),
               ),
@@ -94,38 +101,34 @@ class TransactionReceipt extends StatelessWidget {
                       receiptDet.category == Categories.airtime ||
                               receiptDet.category == Categories.data
                           ? rowTile('Beneficiary', receiptDet.phoneNo)
-                          : SizedBox(),
+                          : SizedBox.shrink(),
                       receiptDet.category == Categories.education
                           ? rowTile('Token', receiptDet.token ?? 'null')
-                          : SizedBox(),
-                      receiptDet.category == Categories.education
-                          ? rowTile('Pin', receiptDet.pin ?? 'null')
-                          : SizedBox(),
+                          : SizedBox.shrink(),
                       receiptDet.category == Categories.cable
                           ? rowTile(
-                              'Smart card Number',
+                              'Smartcard Number',
                               receiptDet.phoneNo,
                             )
-                          : SizedBox(),
+                          : SizedBox.shrink(),
                       receiptDet.category == Categories.electricity
                           ? rowTile(
                               'Meter Number',
                               receiptDet.phoneNo,
                             )
-                          : SizedBox(),
+                          : SizedBox.shrink(),
                       // dividerBuild(),
                       receiptDet.category == Categories.electricity
                           ? rowTile(
                         'Token',
                         receiptDet.token?.split(' ').last ?? 'null',
-                      ) : SizedBox(),
+                      ) : SizedBox.shrink(),
                       rowTile(
                         'Date',
                         viewModel.formatDate(receiptDet.purchaseAt),
                       ),
-                      dividerBuild(),
-                      const SizedBox(height: 10),
-                      const AppText(text: 'Thank you for using our service!'),
+                      const SizedBox(height: 6),
+                      const AppText(text: 'Thank you for using our service!', textColor: AppColors.darkGreen),
                     ],
                   ),
                 ),
@@ -199,20 +202,32 @@ class TransactionReceipt extends StatelessWidget {
   Divider dividerBuild() =>
       const Divider(color: AppColors.lightGreen, thickness: 2);
 
-  Widget rowTile(String title, String value) {
+  Widget rowTile(String title, String value, ) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 5),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppText(
-                text: title,
-                textWeigh: FontWeight.bold,
-                textColor: AppColors.darkGreen,
+              SizedBox(
+                width: 100,
+                child: AppText(
+                  text: title,
+                  textWeigh: FontWeight.bold,
+                  textColor: AppColors.darkGreen,
+                ),
               ),
-              const Spacer(),
-              AppText(text: value, textColor: AppColors.darkGreen, maxLines: 2)
+              // const SizedBox(width: 30,),
+               SizedBox(
+                  width: 190,
+                  child: Text(value,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                    color: AppColors.darkGreen,
+
+                  ), maxLines: 3))
             ],
           ),
         ),
