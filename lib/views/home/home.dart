@@ -183,10 +183,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
                 colors: [AppColors.primary, AppColors.gradientGreen],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter
               ),
-              boxShadow: [
-                BoxShadow(color: Colors.black12, blurRadius: 10.0, offset: Offset(3, 10)),
-              ],
+              // boxShadow: [
+              //   BoxShadow(color: Colors.black12, blurRadius: 10.0, offset: Offset(3, 10)),
+              // ],
             ),
             padding: const EdgeInsets.all(10.0),
             margin: const EdgeInsets.all(5.0),
@@ -281,7 +283,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             ),
           ),
           CustomLinearProgress(
-            total: ' ${acc.spendingLimit.value.toStringAsFixed(2)}',
+            // total: ' ${acc.spendingLimit.value.toStringAsFixed(2)}
+            total: '',
             percent: percent,
           ),
           SizedBox(height: 20),
