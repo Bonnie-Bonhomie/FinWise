@@ -33,7 +33,7 @@ class _AirtimeViewState extends State<AirtimeView> {
   @override
   void initState() {
     // TODO: implement initState
-    Future.microtask(() async {await acc.getBalance();});
+    Future.microtask(() async {await acc.getBalance(); });
     super.initState();
   }
 
@@ -56,7 +56,7 @@ class _AirtimeViewState extends State<AirtimeView> {
             topChild: CustomAppBar.header(
               title: 'Buy Airtime',
               leftRight: 15,
-              onPressed: () => Get.back(),
+              onPressed: ()=> Get.back(),
             ),
             child: SingleChildScrollView(
               child: TopFormWidget(
@@ -95,7 +95,7 @@ class _AirtimeViewState extends State<AirtimeView> {
                                 ctrl.airtimeNet.isEmpty?
                                 CustomSnackbar.showSnackbar(message: 'Unable to load available networks'):
                                 numberCtrl.text.isNotEmpty
-                                    ? loadCtrl.offLoading(() {
+                                    ? loadCtrl.offLoading(() async{
                                         setState(() {
                                           amount = topAmount.toDouble();
                                         });
@@ -104,6 +104,7 @@ class _AirtimeViewState extends State<AirtimeView> {
                                             .airtimeNet[navCtrl.select.value].imgPath;
 
                                         final networkId = ctrl.airtimeNet[navCtrl.select.value].serviceId;
+                                        await acc.getBalance();
                                         ConfirmBottomSheet().confirmBottomSheet(
                                           list: ctrl.airtimeBenes,
                                           balance: acc.accountBalance.value,
@@ -138,10 +139,13 @@ class _AirtimeViewState extends State<AirtimeView> {
                       amountCtrl: amountCtrl,
                       numberCtrl: numberCtrl,
                       productName: 'Airtime',
+                      onBack: (){},
                       balance: acc.accountBalance.value,
-                      action: (pin) {
-                        ctrl.buyAirtime(
-                          amount: amount,
+                      imgPath: ctrl.airtimeNet[navCtrl.select.value].imgPath,
+                      action: (pin)async {
+                        final amoun = double.parse(amountCtrl.text);
+                        await ctrl.buyAirtime(
+                          amount: amoun,
                           number: numberCtrl.text,
                           netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
                           pin: pin,
