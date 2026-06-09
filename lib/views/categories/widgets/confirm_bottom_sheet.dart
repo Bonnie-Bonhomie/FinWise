@@ -22,7 +22,7 @@ class ConfirmBottomSheet {
     List? list,
     required Function(String pin) action,
     required double balance,
-    String imgPath = '',
+    String? imgPath = '',
     bool data = false,
     String plan = '',
   }) async {
@@ -104,7 +104,7 @@ class ConfirmBottomSheet {
                       child: AppText(
                         text: viewModel.formatCurrency(amount),
                         textWeigh: FontWeight.bold,
-                        textSize: 25,
+                        textSize: 20,
                       ),
                     ),
                     SizedBox(height: 10),
@@ -112,7 +112,7 @@ class ConfirmBottomSheet {
                       'Product Name',
                       Row(
                         children: [
-                          imgPath.isEmpty
+                          imgPath == null
                               ? CircleAvatar(backgroundColor: Theme
                               .of(context)
                               .cardColor, child: Text(productName[0]
@@ -192,22 +192,29 @@ class ConfirmBottomSheet {
                           const SizedBox(height: 10),
                           notEnoughAmount
                               ? Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const AppText(
-                                text: 'Insufficient balance',
-                                textColor: Colors.red,
+                              Expanded(
+                                child: const AppText(
+                                  text: 'Insufficient balance',
+                                  textColor: Colors.red,
+                                ),
                               ),
-                              Spacer(),
-                              TextButton.icon(
-                                  style: TextButton.styleFrom(
-                                      elevation: 2,
-                                      side: BorderSide(color: Colors.white),
-                                      foregroundColor: AppColors.primary),
-                                  onPressed: () {
-                                    FocusScope.of(context).unfocus();
-                                    Get.back();
-                                    Get.offNamed(Routes.fundWallet);
-                                  }, label: AppText(text: 'Fund Wallet'))
+                              // Spacer(),
+                              SizedBox(
+                                width: 100,
+                                height: 30,
+                                child: TextButton.icon(
+                                    style: TextButton.styleFrom(
+                                        elevation: 2,
+                                        side: BorderSide(color: Colors.white),
+                                        foregroundColor: AppColors.primary),
+                                    onPressed: () {
+                                      FocusScope.of(context).unfocus();
+                                      Get.back();
+                                      Get.offNamed(Routes.fundWallet);
+                                    }, label: AppText(text: 'Fund Wallet', textSize: 12,)),
+                              )
                             ],
                           )
                               : SizedBox(),
