@@ -133,6 +133,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                             Expanded(
                               child: PriceFormField(
                                 numberCtrl: smartCardCtrl,
+                                readOnly: correctNumber,
                                 hint: const AppText(
                                   text: 'Enter Your Smartcard Number',
                                 ),
@@ -172,7 +173,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                         });
                                       },
                                       child: Text(
-                                        'Proceed',
+                                        'Verify',
                                         style: TextStyle(fontSize: 12),
                                       ),
                                     ),
@@ -235,7 +236,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                     rowTile(
                                       text: 'Due Date',
                                       child: AppText(
-                                        text: tvCtrl.verifyDet['Due_Date'],
+                                        text: tvCtrl.verifyDet['Due_Date'] ?? 'null',
                                         textSize: 13,
                                       ),
                                     ),
@@ -367,8 +368,11 @@ class _TvSubscriptionState extends State<TvSubscription>
           amount: '₦${service.price}',
           // duration: '${serv.duration} Month',
           onTap: () {
-            smartCardCtrl.text.isNotEmpty
-                ? loaderCtrl.offLoading(() {
+            !correctNumber?  CustomSnackbar.showSnackbar(
+              message: 'Enter your smart card number',
+            ): tvCtrl.verified.value
+                ? loaderCtrl.offLoading(() async{
+                  await acc.getBalance();
                     ConfirmBottomSheet().confirmBottomSheet(
                       context,
                       amount: amount,
@@ -386,12 +390,10 @@ class _TvSubscriptionState extends State<TvSubscription>
                           transPin: pin,
                           productId: service.id,
                         );
+
                       },
                     );
-                  })
-                : CustomSnackbar.showSnackbar(
-                    message: 'Enter your smart card number',
-                  );
+                  }): CustomSnackbar.warningSnack('Verify your smart card number to continue');
           },
         );
       }),
@@ -505,6 +507,7 @@ class _TvSubscriptionState extends State<TvSubscription>
       title: '${tvDetails.serviceId} Renewal',
       amount: 'Enter amount',
       onTap: () {
+        !tvCtrl.verified.value? CustomSnackbar.warningSnack('Verify your Smartcard to continue'):
         showDialog(
           context: context,
           builder: (context) {
@@ -521,7 +524,8 @@ class _TvSubscriptionState extends State<TvSubscription>
                       amountCtrl: amountCtrl,
                       numberCtrl: smartCardCtrl,
                       productName: '${tvDetails.serviceId} subscription',
-                      lowestAmount: 2000,
+                      onBack: ()=> Get.back(),
+                      lowestAmount: 500,
                       errMessage: 'Enter your smartcard number',
                       balance: acc.accountBalance.value,
                       action: (pin) async {
