@@ -21,6 +21,7 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
 
   final viewModel = HomeViewModel();
   final trans = Get.find<TransactionCtrl>();
+  final acc = Get.find<AccBalanceCtrl>();
 
 
   @override
@@ -41,6 +42,7 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
                   });
                   FocusScope.of(context).unfocus();
                   await trans.getTransactions(1);
+                  await acc.getBalance();
                 },
                 child: const AppText(
                   text: 'Done',
@@ -95,7 +97,8 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+        width: 160,
+        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: cs,
@@ -111,7 +114,7 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
               ),
               child: Icon(icon, color: AppColors.primary),
             ),
-            AppText(text: title),
+            AppText(text: title, textSize: 14,),
           ],
         ),
       ),
