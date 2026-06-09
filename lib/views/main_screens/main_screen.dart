@@ -20,8 +20,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    // acc.getBalance();
-    // trans.getTransactions(1);
+    // Future.microtask(() async{
+    //   acc.getBalance();
+    //   trans.getTransactions(1);
+    // });
     super.initState();
   }
   @override
