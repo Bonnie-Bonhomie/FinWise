@@ -58,7 +58,7 @@ class _DataViewState extends State<DataView>
             topChild: CustomAppBar.header(
               title: 'Buy Data',
               leftRight: 15,
-              onPressed: () => Get.back(),
+              onPressed: ()=> Get.back()
             ),
             child: Obx(
               () => SingleChildScrollView(
@@ -208,7 +208,8 @@ class DataCard extends StatelessWidget {
                     message: 'Unable to load available networks',
                   )
                 : numberCtrl.text.isNotEmpty
-                ? loader.offLoading(() {
+                ? loader.offLoading(() async{
+                  await acc.getBalance();
                     ConfirmBottomSheet().confirmBottomSheet(
                       context,
                       amount: amount,
