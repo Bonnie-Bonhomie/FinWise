@@ -6,8 +6,8 @@ class DioClients{
   static final Dio dio = Dio(
     BaseOptions(
       baseUrl: ApiEndpoints.baseUrl,
-      receiveTimeout: Duration(seconds: 20),
-      connectTimeout: Duration(seconds: 20),
+      receiveTimeout: Duration(seconds: 40),
+      connectTimeout: Duration(seconds: 40),
     )
   );
 
