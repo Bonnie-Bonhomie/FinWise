@@ -247,7 +247,7 @@ class TelevisionCtrl extends GetxController {
     } catch (e) {
       print(e);
       CustomSnackbar.showSnackbar(
-          message: 'Something went wrong, try again later.');
+          message: '$e, try again later.');
     }
   }
 }
