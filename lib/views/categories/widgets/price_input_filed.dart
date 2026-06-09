@@ -1,5 +1,4 @@
 
-import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
@@ -7,6 +6,8 @@ import 'package:fin_wise/utils/widgets/price_form_field.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../controllers/controller_exports.dart';
 
 class PriceInputField extends StatefulWidget {
   const PriceInputField({
@@ -16,9 +17,11 @@ class PriceInputField extends StatefulWidget {
     required this.productName,
     required this.balance,
     required this.action,
+    required this.onBack,
     this.lowestAmount = 50,
     this.highestAmount = 50000000,
     this.errMessage = 'Enter recipient number',
+    this.imgPath,
   });
 
   final TextEditingController amountCtrl;
@@ -28,7 +31,9 @@ class PriceInputField extends StatefulWidget {
   final double highestAmount;
   final double balance;
   final String errMessage;
+  final String? imgPath;
   final Function(String pin) action;
+  final VoidCallback onBack;
 
   @override
   State<PriceInputField> createState() => _PriceInputFieldState();
@@ -36,6 +41,7 @@ class PriceInputField extends StatefulWidget {
 
 class _PriceInputFieldState extends State<PriceInputField> {
   final loadCtrl = Get.find<LoaderController>();
+  final acc = Get.find<AccBalanceCtrl>();
   bool hasText = false;
 
   double amount = 0.00;
@@ -83,20 +89,26 @@ class _PriceInputFieldState extends State<PriceInputField> {
                 child:  ElevatedButton(
 
                   onPressed: () {
+
                     FocusScope.of(context).unfocus();
                     // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
+                    print(widget.amountCtrl.text);
                     widget.numberCtrl.text.isNotEmpty
                         ?
-                      loadCtrl.offLoading((){
+                      loadCtrl.offLoading(() async {
+                        await acc.getBalance();
                         print(widget.amountCtrl.text);
-                        Get.back();
+                        // Get.back();
+                        widget.onBack();
                         ConfirmBottomSheet().confirmBottomSheet(
+                          imgPath: widget.imgPath,
                             context,
                             amount: parseAmount(widget.amountCtrl.text.trim()),
                             numberCtrl: widget.numberCtrl,
                             productName: widget.productName,
                              action: widget.action, balance: widget.balance);
                         widget.numberCtrl.text.isNotEmpty? widget.amountCtrl.text ='': null;
+
                         amount = 0.00;
                     })
                         : CustomSnackbar.showSnackbar(title: 'Error', message: widget.errMessage);
