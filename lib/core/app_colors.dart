@@ -9,7 +9,7 @@ class AppColors{
   static const Color primaryLight = Color(0xFF5EECB1);
   static const Color darkGreen = Color(0xFF0C331E);
 
-  static const Color gradientGreen = Color(0xFF68C796);
+  static const Color gradientGreen = Color(0xFF2A794F);
   static const Color surface = Color(0xFF1A1A1A);
   static const Color surfaceVariant = Color(0xFFE0EAE0);
   static const Color cardBg = Color(0xFF2A2A2A);
