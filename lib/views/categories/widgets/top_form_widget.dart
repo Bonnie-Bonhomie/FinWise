@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-
 class TopFormWidget extends StatefulWidget {
   const TopFormWidget({
     super.key,
@@ -54,9 +53,7 @@ class _TopFormWidgetState extends State<TopFormWidget> {
         Container(
           margin: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
-            color: Theme
-                .of(context)
-                .scaffoldBackgroundColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(40),
           ),
           padding: const EdgeInsets.all(15),
@@ -66,24 +63,23 @@ class _TopFormWidgetState extends State<TopFormWidget> {
               Row(
                 children: [
                   Obx(
-                        () =>
-                        SizedBox(
-                          height: 50,
-                          width: 70,
-                          child: widget.networks.isEmpty
-                              ? SkeletonLoader.shimmerLines(
-                            len: 1,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey.shade300,
+                    () => SizedBox(
+                      height: 50,
+                      width: 70,
+                      child: widget.networks.isEmpty
+                          ? SkeletonLoader.shimmerLines(
+                              len: 1,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey.shade300,
+                                ),
                               ),
-                            ),
-                          )
-                              : dropdownServiceProvider(onTap: widget.onTap),
-                        ),
+                            )
+                          : dropdownServiceProvider(onTap: widget.onTap),
+                    ),
                   ),
                   Expanded(
                     child: TextFormField(
@@ -147,14 +143,9 @@ class _TopFormWidgetState extends State<TopFormWidget> {
               child: Container(
                 height: 250,
                 padding: const EdgeInsets.all(20),
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Theme
-                      .of(context)
-                      .cardColor,
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadiusGeometry.directional(
                     bottomStart: Radius.circular(30),
                     bottomEnd: Radius.circular(30),
@@ -163,48 +154,52 @@ class _TopFormWidgetState extends State<TopFormWidget> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: (widget.beneficiaries.isEmpty) ? Center(
-                          child: EmptyState(message: 'No Beneficiary for you')
-                      ) : ListView.builder(
-                        padding: const EdgeInsets.all(15),
-                        itemCount: widget.beneficiaries.length,
-                        itemBuilder: (context, index) {
-                          final item = widget.beneficiaries[index];
-                          return InkWell(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              // setState(() {
-                              //   widget.numberCtrl.text =
-                              //       TopViewModel.formatted(
-                              //         item.number.toString(),
-                              //       );
-                              //   widget.numSelect.provider = item.provider;
-                              //   print(widget.numSelect.provider);
-                              //   cleared = false;
-                              // });
-                              // FocusScope.of(context).unfocus();
-                            },
-                            child: Row(
-                              children: [
-                                AppText(
-                                  text: TopViewModel.formatted(
-                                    item.number.toString(),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                AppText(text: item.provider.name),
-                                Spacer(),
-                                IconButton(
-                                  onPressed: () {
-                                    paymentCtrl.deleteBene(index);
+                      child: (widget.beneficiaries.isEmpty)
+                          ? Center(
+                              child: EmptyState(
+                                message: 'No Beneficiary for you',
+                              ),
+                            )
+                          : ListView.builder(
+                              padding: const EdgeInsets.all(15),
+                              itemCount: widget.beneficiaries.length,
+                              itemBuilder: (context, index) {
+                                final item = widget.beneficiaries[index];
+                                return InkWell(
+                                  onTap: () {
+                                    FocusScope.of(context).unfocus();
+                                    // setState(() {
+                                    //   widget.numberCtrl.text =
+                                    //       TopViewModel.formatted(
+                                    //         item.number.toString(),
+                                    //       );
+                                    //   widget.numSelect.provider = item.provider;
+                                    //   print(widget.numSelect.provider);
+                                    //   cleared = false;
+                                    // });
+                                    // FocusScope.of(context).unfocus();
                                   },
-                                  icon: Icon(Icons.cancel_outlined),
-                                ),
-                              ],
+                                  child: Row(
+                                    children: [
+                                      AppText(
+                                        text: TopViewModel.formatted(
+                                          item.number.toString(),
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      AppText(text: item.provider.name),
+                                      Spacer(),
+                                      IconButton(
+                                        onPressed: () {
+                                          paymentCtrl.deleteBene(index);
+                                        },
+                                        icon: Icon(Icons.cancel_outlined),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -255,21 +250,27 @@ class _TopFormWidgetState extends State<TopFormWidget> {
           },
           // child: AppText(text: service.label[0]),
           child: Container(
-              height: 45,
-              width: 45,
-              decoration: BoxDecoration(shape: BoxShape.circle,
-                  color: Colors.grey.shade400,
-                  image: DecorationImage(image: NetworkImage(img), onError: (_, _)=> Container(
-                    decoration: BoxDecoration(
-                      color: Colors.yellow,
-                      shape: BoxShape.circle,
-                    ),
-                  ), )),
-              // child: Image.network(img.toString(),
-              //     fit: BoxFit.cover,
-              //     headers: const {'Access-Control-Allow-Origin': '*'},
-              //
-              // )
+            height: 45,
+            width: 45,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey.shade400,
+              image: DecorationImage(
+                image: NetworkImage(img),
+                onError: (_, _) => Container(
+                  decoration: BoxDecoration(
+                    color: Colors.yellow,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(Icons.cell_wifi_outlined),
+                ),
+              ),
+            ),
+            // child: Image.network(img.toString(),
+            //     fit: BoxFit.cover,
+            //     headers: const {'Access-Control-Allow-Origin': '*'},
+            //
+            // )
           ),
         );
       }),
