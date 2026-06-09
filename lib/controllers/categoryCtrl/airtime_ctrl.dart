@@ -84,12 +84,11 @@ class AirtimeCtrl extends GetxController {
               title: 'No internet connection',
               message: 'Check your internet connection',
             );
+            return;
           }
           final errData = err.response?.data;
           if (errData != null && errData['message'] != null) {
             CustomSnackbar.showSnackbar(message: errData['message'].toString());
-          } else {
-            CustomSnackbar.showSnackbar(message: 'Server error, try again later');
           }
         }
       }
