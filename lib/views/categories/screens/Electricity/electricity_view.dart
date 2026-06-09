@@ -104,7 +104,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                             Routes.availableElect,
                           );
                           electCtrl.updateElect(selectElect);
-                          print(selectElect.elec);
+
                         },
                         icon: const Icon(Icons.arrow_right),
                       ),
@@ -154,9 +154,10 @@ class _ElectricityViewState extends State<ElectricityView> {
                               child: PriceFormField(
                                 numberCtrl: meterCtrl,
                                 hint: const AppText(text: 'Enter Meter number'),
+                                readOnly: correctMeter,
                                 onChanged: (value) {
                                   setState(() {
-                                    correctMeter = value.length >= 13;
+                                    correctMeter = value.length == 13;
                                   });
                                   // correctMeter? electCtrl.verifyMeter(
                                   //   meterNum: value,
@@ -173,7 +174,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                 },
                               ),
                             ),
-                            electCtrl.verified.value ? Container(
+                            electCtrl.verified.value && correctMeter ? Container(
                               padding: const EdgeInsets.all(5.0),
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -205,7 +206,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                         });
                                       },
                                       child: Text(
-                                        'Proceed',
+                                        'verify',
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
@@ -316,8 +317,11 @@ class _ElectricityViewState extends State<ElectricityView> {
                           return ProductCard(
                             onTap: () {
                               FocusScope.of(context).unfocus();
-                              correctMeter
-                                  ? loadCtrl.offLoading(() {
+                              !correctMeter? CustomSnackbar.showSnackbar(
+                                message: 'Enter your meter number',
+                              ): electCtrl.verified.value
+                                  ? loadCtrl.offLoading(() async{
+                                    await acc.getBalance();
                                       ConfirmBottomSheet().confirmBottomSheet(
                                         context,
                                         amount: price,
@@ -337,10 +341,9 @@ class _ElectricityViewState extends State<ElectricityView> {
                                         },
                                         // plan: electType[selectPaid]
                                       );
-                                    })
-                                  : CustomSnackbar.showSnackbar(
-                                      message: 'Enter your meter number',
-                                    );
+                                    }): CustomSnackbar.showSnackbar(
+                                message: 'Verify your meter number to continue',
+                              );
                             },
                             height: 100,
                             width: 90,
@@ -376,12 +379,15 @@ class _ElectricityViewState extends State<ElectricityView> {
                     ),
                   ),
                   PriceInputField(
+                    onBack: (){},
                     amountCtrl: amountCtrl,
                     numberCtrl: meterCtrl,
-                    lowestAmount: 1000,
+                    lowestAmount: 500,
                     productName: 'Electricity',
                     balance: acc.accountBalance.value,
-                    action: (pin) {},
+                    action: (pin)async {
+                      await electCtrl.buyElectric(amount: amountCtrl.text, meterNum: meterCtrl.text, type: electType[selectPaid], transPin: pin, serviceId: 'change');
+                    },
                   ),
                 ],
               );

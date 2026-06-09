@@ -76,6 +76,7 @@ class BuildElectDiscos extends StatelessWidget {
             return ListTile(
               onTap: () {
                 Get.back(result: ctrl.electDiscos[index]);
+                ctrl.verified.value = false;
                 print(ctrl.electDiscos[index].name);
               },
               title: Text(elect.name, overflow: TextOverflow.ellipsis),
