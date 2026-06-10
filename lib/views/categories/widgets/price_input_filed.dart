@@ -99,7 +99,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                         await acc.getBalance();
                         // print(parseAmount(widget.amountCtrl.text.trim()));
                         // Get.back();
-                        widget.onBack();
+                        // widget.onBack();
                         ConfirmBottomSheet().confirmBottomSheet(
                           imgPath: widget.imgPath,
                             context,
