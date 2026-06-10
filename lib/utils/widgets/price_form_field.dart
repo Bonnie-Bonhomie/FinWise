@@ -12,6 +12,7 @@ class PriceFormField extends StatelessWidget {
   final Color color;
   final VoidCallback? onTap;
   final FormFieldValidator<String?>? validator;
+  final int? length;
   const PriceFormField({
     super.key, required this.numberCtrl,
     required this.hint,
@@ -19,6 +20,7 @@ class PriceFormField extends StatelessWidget {
     this.validator,
     this.onTap,
     this.onComplete,
+    this.length = 20,
     this.onChanged, this.readOnly = false});
 
   @override
@@ -29,13 +31,17 @@ class PriceFormField extends StatelessWidget {
       onTap: onTap,
       autofocus: false,
       readOnly: readOnly,
+      maxLength: length,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}'))
       ],
+      style: TextStyle(fontWeight: FontWeight.bold),
       onEditingComplete: onComplete,
       validator: validator,
       onChanged: onChanged,
       decoration: InputDecoration(
+
+        counterText: '',
         contentPadding: EdgeInsets.all(2.0),
         hint: hint,
         border: OutlineInputBorder(
