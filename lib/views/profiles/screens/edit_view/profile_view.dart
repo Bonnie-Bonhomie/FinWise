@@ -41,7 +41,7 @@ class _ProfileViewState extends State<ProfileView> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SizedBox(height: 40),
-            CustomAppBar.header(title: 'Profile', leftRight: 10, onPressed: () {}),
+            CustomAppBar.header(title: 'Profile', leftRight: 10,needArrow: false),
            Expanded(
               child: Stack(
                 alignment: Alignment.topCenter,
