@@ -9,6 +9,7 @@ class CustomAppBar {
   static header({
     required String title,
     required double leftRight,
+    bool needArrow= true,
     VoidCallback? onPressed,
     VoidCallback? onTap,
     bool notification = true,
@@ -18,11 +19,11 @@ class CustomAppBar {
       padding: EdgeInsets.fromLTRB(leftRight, 15, leftRight, 5.0),
       child: Row(
         children: [
-          IconButton(
+          needArrow? IconButton(
             onPressed: onPressed,
             icon: Icon(Icons.arrow_back),
             color: Colors.white,
-          ),
+          ): SizedBox(),
           Spacer(),
           AppText(text: title, textWeigh: FontWeight.bold, textSize: 20),
           const Spacer(),
