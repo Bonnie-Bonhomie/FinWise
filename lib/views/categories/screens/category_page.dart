@@ -49,7 +49,7 @@ class _CategoryPageState extends State<CategoryPage> {
           bottomPadding: 15,
           topChild: Column(
             children: [
-              CustomAppBar.header(title: 'Services', leftRight: 15, onPressed: () {}),
+              CustomAppBar.header(title: 'Services', leftRight: 15, needArrow: false),
               headerCard(context, percent),
             ],
           ),
