@@ -252,7 +252,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                       child: AppText(
                                         textSize: 13,
                                         text:
-                                        tvCtrl.verifyDet['balance'] ??
+                                        tvCtrl.verifyDet['Balance'] ??
                                             'null',
                                       ),
                                     ):rowTile(
