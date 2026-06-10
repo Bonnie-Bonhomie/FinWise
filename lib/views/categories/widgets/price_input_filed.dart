@@ -92,12 +92,12 @@ class _PriceInputFieldState extends State<PriceInputField> {
 
                     FocusScope.of(context).unfocus();
                     // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
-                    print(widget.amountCtrl.text);
+                    // print(widget.amountCtrl.text);
                     widget.numberCtrl.text.isNotEmpty
                         ?
                       loadCtrl.offLoading(() async {
                         await acc.getBalance();
-                        print(widget.amountCtrl.text);
+                        // print(parseAmount(widget.amountCtrl.text.trim()));
                         // Get.back();
                         widget.onBack();
                         ConfirmBottomSheet().confirmBottomSheet(
