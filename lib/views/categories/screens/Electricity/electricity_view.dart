@@ -68,7 +68,6 @@ class _ElectricityViewState extends State<ElectricityView> {
               onPressed: () => Get.back(),
             ),
             child: Obx(() {
-              final select = electCtrl.selectedElect.value;
 
               if (electCtrl.discoLoad.value) {
                 return Center(
@@ -77,7 +76,7 @@ class _ElectricityViewState extends State<ElectricityView> {
               } else if (electCtrl.selectedElect.value == null) {
                 return EmptyState(message: electCtrl.discoErr.value);
               }
-
+              final select = electCtrl.selectedElect.value;
               return ListView(
                 padding: const EdgeInsets.all(15),
                 children: [
@@ -156,7 +155,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                 numberCtrl: meterCtrl,
                                 length: meterLen,
                                 hint: const AppText(text: 'Enter Meter number'),
-                                readOnly: correctMeter,
+
                                 onChanged: (value) {
                                   setState(() {
                                     correctMeter = value.length == meterLen;
@@ -388,7 +387,8 @@ class _ElectricityViewState extends State<ElectricityView> {
                     productName: 'Electricity',
                     balance: acc.accountBalance.value,
                     action: (pin)async {
-                      await electCtrl.buyElectric(amount: amountCtrl.text, meterNum: meterCtrl.text, type: electType[selectPaid], transPin: pin, serviceId: 'change');
+                      print('This is the elect Price: ${amountCtrl.text}');
+                      await electCtrl.buyElectric(amount: amountCtrl.text.trim(), meterNum: meterCtrl.text, type: electType[selectPaid], transPin: pin, serviceId: select.electricCode);
                     },
                   ),
                 ],
