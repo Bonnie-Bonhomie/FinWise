@@ -36,7 +36,7 @@ class ElectricityRepo{
         'transaction_pin': transPin,
         'type': type
       });
-      print(result);
+      // print(amount);
       return DataSuccess(result.data);
     } on DioException catch (e) {
       print(e);
