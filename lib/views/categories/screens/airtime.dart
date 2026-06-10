@@ -22,7 +22,7 @@ class _AirtimeViewState extends State<AirtimeView> {
   final GlobalKey<FormFieldState> numKey = GlobalKey<FormFieldState>();
   final GlobalKey<FormFieldState> amountKey = GlobalKey<FormFieldState>();
   final TextEditingController numberCtrl = TextEditingController();
-  final TextEditingController amountCtrl = TextEditingController();
+  TextEditingController amountCtrl = TextEditingController();
 
   List<int> topUp = [50, 100, 200, 500, 1000, 2000];
   bool isOpen = false;
@@ -135,24 +135,36 @@ class _AirtimeViewState extends State<AirtimeView> {
                         ),
                       ),
                     ),
-                    // PriceInputField(
-                    //   amountCtrl: amountCtrl,
-                    //   numberCtrl: numberCtrl,
-                    //   productName: 'Airtime',
-                    //   onBack: (){},
-                    //   balance: acc.accountBalance.value,
-                    //   imgPath: ctrl.airtimeNet[navCtrl.select.value].imgPath,
-                    //   action: (pin)async {
-                    //     final amoun = double.parse(amountCtrl.text);
-                    //     await ctrl.buyAirtime(
-                    //       amount: amoun,
-                    //       number: numberCtrl.text,
-                    //       netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
-                    //       pin: pin,
-                    //     );
-                    //   },
-                    // ),
-                    Text('Hello'),
+
+                    Obx((){
+                      if(ctrl.airtimeNet.isEmpty){
+                        return SizedBox();
+                      }
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PriceInputField(
+                            amountCtrl: amountCtrl,
+                            numberCtrl: numberCtrl,
+                            productName: 'Airtime',
+                            onBack: (){},
+                            balance: acc.accountBalance.value,
+                            // imgPath: '',
+                            imgPath: ctrl.airtimeNet[navCtrl.select.value].imgPath,
+                            action: (pin)async {
+                              // final amoun = double.parse(amountCtrl.text);
+                              print(amountCtrl);
+                              // await ctrl.buyAirtime(
+                              //   amount: amoun,
+                              //   number: numberCtrl.text,
+                              //   netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
+                              //   pin: pin,
+                              // );
+                            },
+                          ),
+                        );
+                      }
+                    ),
+
                   ],
                 ),
               ),
