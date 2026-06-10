@@ -69,8 +69,8 @@ class TransactionReceipt extends StatelessWidget {
                       const SizedBox(height: 15),
                       Image(
                         image: AssetImage(PrefStoreKeys.appImage),
-                        height: 80,
-                        width: 80,
+                        height: 70,
+                        width: 70,
                       ),
 
                       const HeadingText(
