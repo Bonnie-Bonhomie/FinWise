@@ -277,7 +277,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                       child: AppText(text: '500'),
                                     ),
                                     rowTile(
-                                      text: 'Customer Account Type',
+                                      text: 'Account Type',
                                       child: AppText(
                                         text:
                                             electCtrl
@@ -286,7 +286,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                       ),
                                     ),
                                     rowTile(
-                                      text: 'Service Address',
+                                      text: 'Address',
                                       child: AppText(
                                         text:
                                             viewModel.textToTims(
