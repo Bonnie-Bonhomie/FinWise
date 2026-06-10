@@ -282,11 +282,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               ],
             ),
           ),
-          CustomLinearProgress(
-            // total: ' ${acc.spendingLimit.value.toStringAsFixed(2)}
-            total: '',
-            percent: percent,
-          ),
+          // CustomLinearProgress(
+          //   // total: ' ${acc.spendingLimit.value.toStringAsFixed(2)}
+          //   total: '',
+          //   percent: percent,
+          // ),
           SizedBox(height: 20),
           Row(
             children: [
@@ -310,7 +310,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               Icon(Icons.check_circle_outline),
               AppText(
                 text:
-                    '$percent% of Your Expenses, Look ${accountState[viewModel.getState(percent)]}.',
+                    'Service at Glance',
               ),
             ],
           ),
