@@ -36,6 +36,7 @@ class _ElectricityViewState extends State<ElectricityView> {
   final electCtrl = Get.find<ElectricityCtrl>();
   final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
   bool correctMeter = false;
+  int meterLen = 13;
   String error = '';
 
   @override
@@ -153,11 +154,12 @@ class _ElectricityViewState extends State<ElectricityView> {
                             Expanded(
                               child: PriceFormField(
                                 numberCtrl: meterCtrl,
+                                length: meterLen,
                                 hint: const AppText(text: 'Enter Meter number'),
                                 readOnly: correctMeter,
                                 onChanged: (value) {
                                   setState(() {
-                                    correctMeter = value.length == 13;
+                                    correctMeter = value.length == meterLen;
                                   });
                                   // correctMeter? electCtrl.verifyMeter(
                                   //   meterNum: value,
