@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(image: AssetImage('Assets/logos/Vector.png')),
+            Image(image: AssetImage(PrefStoreKeys.appImage)),
             // SizedBox(height: 10,),
             const AppText(text: PrefStoreKeys.appName, textColor: Colors.white, textSize: 50, textWeigh: FontWeight.bold),
           ],

@@ -68,7 +68,7 @@ class TransactionReceipt extends StatelessWidget {
                     children: [
                       const SizedBox(height: 15),
                       Image(
-                        image: AssetImage('Assets/logos/Vector.png'),
+                        image: AssetImage(PrefStoreKeys.appImage),
                         height: 80,
                         width: 80,
                       ),

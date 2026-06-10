@@ -42,7 +42,7 @@ class PdfGeneratorService {
             children: [
               pw.SizedBox(height: 15),
 
-              // pw.Image(image: pw.AssetImage('Assets/logos/Vector.png'), height: 80, width: 80,),
+              // pw.Image(image: pw.AssetImage(PrefStoreKeys.appImage), height: 80, width: 80,),
               pw.Text(
                 PrefStoreKeys.appName,
                 style: pw.TextStyle(

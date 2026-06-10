@@ -20,4 +20,5 @@ class PrefStoreKeys{
 
 
   static const String appName = 'DatabooNg';
+  static const String appImage = 'Assets/logos/Vector.png';
 }
