@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/electric_model.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/electricity_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
@@ -45,6 +44,7 @@ class ElectricityCtrl  extends GetxController{
   Future<void> buyElectric({required String amount, required String meterNum, required String type, required String transPin, required String serviceId}) async{
     try{
 
+      // print(amount);
       final String? token = await store.getToken();
       if(token == null) return;
       final result = await repo.buyElect(amount: amount, meterNum: meterNum, token: token, type: type, transPin: transPin, serviceId: serviceId);
