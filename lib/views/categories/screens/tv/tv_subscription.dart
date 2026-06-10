@@ -31,6 +31,7 @@ class _TvSubscriptionState extends State<TvSubscription>
   //Selected Tv
   CableModel tvDetails = Get.arguments;
   bool correctNumber = false;
+  int maxLength = 10;
 
   final tvCtrl = Get.find<TelevisionCtrl>();
   final loaderCtrl = Get.find<LoaderController>();
@@ -133,13 +134,13 @@ class _TvSubscriptionState extends State<TvSubscription>
                             Expanded(
                               child: PriceFormField(
                                 numberCtrl: smartCardCtrl,
-                                readOnly: correctNumber,
+                                length: maxLength,
                                 hint: const AppText(
                                   text: 'Enter Your Smartcard Number',
                                 ),
                                 onChanged: (value) {
                                   setState(() {
-                                    correctNumber = value.length == 10;
+                                    correctNumber = value.length == maxLength;
                                   });
                                 },
                               ),
@@ -233,14 +234,28 @@ class _TvSubscriptionState extends State<TvSubscription>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    rowTile(
+                                    tvDetails.id == 3? rowTile(
+                                      text: 'Type',
+                                      child: AppText(
+                                        text: tvCtrl.verifyDet['commission_details']['computation_type'] ?? 'null',
+                                        textSize: 13,
+                                      ),
+                                    ):rowTile(
                                       text: 'Due Date',
                                       child: AppText(
                                         text: tvCtrl.verifyDet['Due_Date'] ?? 'null',
                                         textSize: 13,
                                       ),
                                     ),
-                                    rowTile(
+                                    tvDetails.id == 3? rowTile(
+                                      text: 'Balance',
+                                      child: AppText(
+                                        textSize: 13,
+                                        text:
+                                        tvCtrl.verifyDet['balance'] ??
+                                            'null',
+                                      ),
+                                    ):rowTile(
                                       text: 'Customer Type',
                                       child: AppText(
                                         textSize: 13,
@@ -249,7 +264,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                             'null',
                                       ),
                                     ),
-                                    rowTile(
+                                   tvDetails.id == 3? SizedBox.shrink(): rowTile(
                                       text: 'Status',
                                       child: AppText(
                                         textSize: 13,
