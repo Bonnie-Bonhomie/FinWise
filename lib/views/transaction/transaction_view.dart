@@ -61,7 +61,7 @@ class _TransactionViewState extends State<TransactionView> {
             topChild: Column(
               children: [
                 CustomAppBar.header(
-                    title: "Transactions", leftRight: 10, onPressed: () {}),
+                    title: "Transactions", leftRight: 10, needArrow: false),
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Column(
