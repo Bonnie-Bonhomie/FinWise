@@ -1,6 +1,7 @@
 import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/constant.dart';
+import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/Helpers/generate_image_service.dart';
@@ -73,7 +74,7 @@ class TransactionReceipt extends StatelessWidget {
                       ),
 
                       const HeadingText(
-                        headingText: 'FinWise',
+                        headingText: PrefStoreKeys.appName,
                         color: AppColors.darkGreen,
                       ),
                       const HeadingText(

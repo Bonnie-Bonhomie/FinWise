@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen>{
           children: [
             Image(image: AssetImage('Assets/logos/Vector.png')),
             // SizedBox(height: 10,),
-            const AppText(text: "FinWise", textColor: Colors.white, textSize: 50, textWeigh: FontWeight.bold),
+            const AppText(text: PrefStoreKeys.appName, textColor: Colors.white, textSize: 50, textWeigh: FontWeight.bold),
           ],
         ),
       ),

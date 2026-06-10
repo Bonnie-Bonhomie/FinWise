@@ -1,4 +1,5 @@
 import 'package:fin_wise/core/constant.dart';
+import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +44,7 @@ class PdfGeneratorService {
 
               // pw.Image(image: pw.AssetImage('Assets/logos/Vector.png'), height: 80, width: 80,),
               pw.Text(
-                'FinWise',
+                PrefStoreKeys.appName,
                 style: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold,
                   fontSize: 25,

@@ -18,4 +18,6 @@ class PrefStoreKeys{
   static const String phone = 'phone';
   static const String userId = 'userId';
 
+
+  static const String appName = 'DatabooNg';
 }
