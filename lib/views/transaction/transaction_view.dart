@@ -46,6 +46,7 @@ class _TransactionViewState extends State<TransactionView> {
   }
 
   Future<void> onRefresh() async {
+    trans.transactionList.clear();
     await trans.getTransactions(1);
   }
 
@@ -113,17 +114,11 @@ class _TransactionViewState extends State<TransactionView> {
             ),
             child: Column(
               children: [
-                InkWell(
-                    onTap: () {
-                      MonthBottomSheet().showMonthBottomSheet(
-                          context, trans, loader);
-                    },
-                    //Display the select month and year
-                    child: topTitle()
-                ),
+                topTitle(),
+
           
                 Expanded(child: TransactionListView(trans: trans)),
-
+                SizedBox(height: 60,)
               ],
             ),
           
@@ -145,16 +140,38 @@ class _TransactionViewState extends State<TransactionView> {
           ]
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Obx(() {
-            final month = DateTime(trans.selectY.value, trans.selectMon.value);
-            return AppText(
-              text: DateFormat('MMM yyyy').format(month),
-              textWeigh: FontWeight.bold,
-              textSize: 20,);
-          }
+          InkWell(
+            onTap: () {
+              MonthBottomSheet().showMonthBottomSheet(
+                  context, trans, loader);
+            },
+            child: Row(
+              children: [
+                Obx(() {
+                  final month = DateTime(trans.selectY.value, trans.selectMon.value);
+                  return AppText(
+                    text: DateFormat('MMM yyyy').format(month),
+                    textWeigh: FontWeight.bold,
+                    textSize: 20,);
+                }
+                ),
+                Icon(Icons.arrow_drop_down_sharp),
+              ],
+            ),
           ),
-          Icon(Icons.arrow_drop_down_sharp),
+
+          InkWell(
+            onTap: (){},
+            child: Row(
+              children: [
+                AppText(text: 'My Deposits', textWeigh: FontWeight.bold,
+                  textSize: 20,),
+                Icon(Icons.arrow_drop_down_sharp),
+              ],
+            ),
+          ),
         ],
       ),
     );
