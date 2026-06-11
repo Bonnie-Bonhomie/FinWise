@@ -188,7 +188,7 @@ class TransactionReceipt extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(3.0),
               margin: const EdgeInsets.only(right: 10),
               decoration: BoxDecoration(
                 color: AppColors.lightGreen,
