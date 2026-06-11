@@ -81,13 +81,14 @@ class EducationController extends GetxController{
     required String transPin,
     required String phoneNumber,
     required int examId,
+    String profileCode = 'null',
   })
   async{
     try{
       final phone = viewModel.numberBack(phoneNumber);
       String? token = await store.getToken();
       if(token == null) return;
-      final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phone, examId: examId.toString(), token: token);
+      final response = await repo.buyEduCard(transPin: transPin, phoneNumber: phone, examId: examId.toString(), token: token, profileCode: profileCode);
 
       if(response is DataSuccess){
         if(response.data['status'] == true){
