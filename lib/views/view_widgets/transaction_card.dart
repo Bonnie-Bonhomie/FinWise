@@ -33,9 +33,9 @@ class TransactionCard extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 10.0),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: Theme.of(context).cardColor, offset: Offset(2, 4),)]
+            // boxShadow: [BoxShadow(color: Theme.of(context).cardColor, )]
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,13 +63,14 @@ class TransactionCard extends StatelessWidget {
               ),
       
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   AppText(
                       text: viewModel.formatCurrency(tx.amount),
                       // textColor: Colors.black : AppColors.blue,
                     ),
                   Container(
-                    padding: const EdgeInsets.fromLTRB(3, 2, 3, 2),
+                    padding: const EdgeInsets.fromLTRB(5, 2, 5, 2),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                       color: tx.apiStatus.color.withValues(alpha: 0.5),
@@ -127,5 +128,83 @@ class BuildTransaction extends StatelessWidget {
       );
     });
 
+  }
+}
+
+
+
+class DepositCard extends StatelessWidget {
+  DepositCard({super.key, required this.tx});
+
+  final DepoModel tx;
+  final viewModel = HomeViewModel();
+
+  @override
+  Widget build(BuildContext context) {
+print(tx.fundAt);
+
+    return Card(
+      child: InkWell(
+        onTap: (){
+          Get.toNamed(Routes.depoReceipt, arguments: tx);
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          height: 80,
+          margin: const EdgeInsets.only(bottom: 10.0),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(20),
+              // boxShadow: [BoxShadow(color: Theme.of(context).cardColor, offset: Offset(2, 2),)]
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                backgroundColor: AppColors.blue,
+                radius: 20,
+                child: AppText(text: tx.narration.toUpperCase(), textColor: Colors.white, textWeigh: FontWeight.bold,),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: Text(tx.narration, overflow: TextOverflow.ellipsis),
+                  ),
+                  AppText(
+                    text: viewModel.formatDate(tx.fundAt),
+                    textColor: Colors.blue,
+                    textSize: 10,
+                  ),
+                ],
+              ),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  AppText(
+                    text: viewModel.formatCurrency(tx.amount),
+                    // textColor: Colors.black : AppColors.blue,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: AppColors.primaryLight,
+                    ),
+                    child: AppText(text: tx.hash, textColor: AppColors.bgColor, textSize: 15),
+                  ),
+                ],
+              ),
+              //
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
