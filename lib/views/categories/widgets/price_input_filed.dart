@@ -18,7 +18,6 @@ class PriceInputField extends StatefulWidget {
     required this.balance,
     required this.action,
     required this.onBack,
-    required this.amount,
     this.lowestAmount = 50,
     this.highestAmount = 50000000,
     this.errMessage = 'Enter recipient number',
@@ -28,7 +27,6 @@ class PriceInputField extends StatefulWidget {
   final TextEditingController amountCtrl;
   final TextEditingController numberCtrl;
   final String productName;
-  double amount;
   final double lowestAmount;
   final double highestAmount;
   final double balance;
@@ -95,7 +93,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                     FocusScope.of(context).unfocus();
                     // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
                     // print(widget.amountCtrl.text);
-                    widget.amount = parseAmount(widget.amountCtrl.text.trim());
+                    amount = parseAmount(widget.amountCtrl.text.trim());
                     widget.numberCtrl.text.isNotEmpty
                         ?
                       loadCtrl.offLoading(() async {
@@ -106,11 +104,11 @@ class _PriceInputFieldState extends State<PriceInputField> {
                         ConfirmBottomSheet().confirmBottomSheet(
                           imgPath: widget.imgPath,
                             context,
-                            amount: widget.amount,
+                            amount: amount,
                             numberCtrl: widget.numberCtrl,
                             productName: widget.productName,
                              action: widget.action, balance: widget.balance);
-                        widget.numberCtrl.text.isNotEmpty? widget.amountCtrl.text ='': null;
+                        widget.numberCtrl.text.isEmpty? widget.amountCtrl.text ='': null;
                         amount = 0.00;
                     })
                         : CustomSnackbar.showSnackbar(title: 'Error', message: widget.errMessage);
