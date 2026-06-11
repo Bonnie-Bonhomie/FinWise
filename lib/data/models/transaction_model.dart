@@ -15,6 +15,7 @@ class TransactionModel {
   int? status;
   final TransactionStatus apiStatus;
   String? message;
+
   // String? benefia;
   String? meterNo;
   String? token;
@@ -51,13 +52,15 @@ class TransactionModel {
       purchaseAt: json['created_at'].toString(),
       amount: double.parse(json['amount_paid'].toString()),
       phoneNo: json['phone_no'].toString(),
-      apiStatus: TransactionStatusExtension.fromApi(json['api_status'].toString()),
+      apiStatus: TransactionStatusExtension.fromApi(
+        json['api_status'].toString(),
+      ),
       status: int.parse(json['status'].toString()),
       message: json['message'].toString(),
       meterNo: json['meter_no'].toString(),
       serviceType: json['service_type'].toString(),
       token: json['token'].toString(),
-      pin: json['pin'].toString()
+      pin: json['pin'].toString(),
     );
   }
 
@@ -74,3 +77,37 @@ class TransactionModel {
   // }
 }
 
+class DepoModel {
+  String tranReference;
+  double amount;
+  String hash;
+  String fundAt;
+  String id;
+  String type;
+  String? fee;
+  String narration;
+
+  DepoModel({
+    required this.tranReference,
+    required this.amount,
+    required this.id,
+    required this.fundAt,
+    required this.type,
+    required this.hash,
+    required this.narration,
+    this.fee,
+  });
+
+  factory DepoModel.fromJson(Map<String, dynamic> json) {
+    return DepoModel(
+      tranReference: json['txn_ref'],
+      amount: double.parse(json['amount'].toString()),
+      id: json['id'],
+      fundAt: json['createdAt'],
+      type: json['type'],
+      hash: json['hash'],
+      narration: json['narration'],
+      fee: json['fee'].toString(),
+    );
+  }
+}
