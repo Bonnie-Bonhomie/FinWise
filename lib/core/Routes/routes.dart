@@ -62,6 +62,7 @@ class Routes{
   //Transaction
   static const String transSuccess = '/transSuccess';
   static const String transReceipt = '/transReceipt';
+  static const String depoReceipt = '/depoReceipt';
 
 
 
