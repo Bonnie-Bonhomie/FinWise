@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>{
 
   Future<void> checkingOnboardShown() async {
     final bool? hasShown = await storage.retrieve<bool>(PrefStoreKeys.isFirstTime);
-      // print(hasShown);
+      print(hasShown);
     if(hasShown == true){
       Get.offNamed(Routes.login);
     }else {
