@@ -1,4 +1,3 @@
-
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
@@ -16,17 +15,16 @@ class TransactionListView extends StatelessWidget {
   });
 
   final TransactionCtrl trans;
+
   // final bool loading;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       final transact = trans.transactionList;
-      if(trans.loading.value == true){
-
+      if (trans.loading.value == true) {
         return Center(
           child: SkeletonLoader.shimmerLines(len: 5),
         );
-
       }
 
       if (transact.isEmpty) {
@@ -34,7 +32,9 @@ class TransactionListView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(image: AssetImage('Assets/images/green_empty.png'), height: 100, width: 100,),
+            Image(image: AssetImage('Assets/images/green_empty.png'),
+              height: 100,
+              width: 100,),
             AppText(text: 'Oops!', textSize: 18,),
             AppText(text: trans.error.value, textSize: 12,)
           ],
@@ -42,7 +42,9 @@ class TransactionListView extends StatelessWidget {
       }
       return ListView.builder(
         padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
-        itemCount: transact.length,
+        itemCount:
+        trans.loadMore.value ? transact.length + 1 :
+        transact.length,
         itemBuilder: (context, index) {
           final tx = transact[index];
           // if(index == transact.length + 1){
@@ -50,16 +52,32 @@ class TransactionListView extends StatelessWidget {
           //     await trans.getTransactions(trans.page++);
           //   }, icon: Icon(Icons.arrow_circle_down_outlined, size: 30, color: AppColors.primary,)): SizedBox.shrink();
           // }
-          return AnimatedCard(
-              index: index,
-              child: TransactionCard(tx: tx));
+          // if (trans.nextPage.value && index == transact.length ) {
+          //   // if(trans.loadMore.value){
+          //   //     return CircularProgressIndicator(color: AppColors.primary,);
+          //   //   }
+          //   //   return IconButton(onPressed: () async {await trans.fetchMoreTran();},
+          //   //       icon: Icon(Icons.arrow_circle_down_outlined, size: 30,
+          //   //         color: AppColors.primary,));
+          //   print('Hello');
+          //
+          // }
+          // else {
+          if(index < transact.length){
+            return AnimatedCard(
+                index: index,
+                child: TransactionCard(tx: tx));
+          }else{
+            return CircularProgressIndicator();
+          }
+
+          // }
         },
       );
-    });
+    },
+    );
   }
 }
-
-
 
 
 // child: DefaultTabController(
