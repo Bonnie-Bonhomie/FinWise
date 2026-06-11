@@ -97,7 +97,7 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 160,
+        width: 140,
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
