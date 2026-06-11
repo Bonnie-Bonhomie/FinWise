@@ -100,13 +100,13 @@ class DepoModel {
 
   factory DepoModel.fromJson(Map<String, dynamic> json) {
     return DepoModel(
-      tranReference: json['txn_ref'],
+      tranReference: json['txn_ref'].toString(),
       amount: double.parse(json['amount'].toString()),
-      id: json['id'],
-      fundAt: json['createdAt'],
-      type: json['type'],
-      hash: json['hash'],
-      narration: json['narration'],
+      id: json['id'].toString(),
+      fundAt: json['updated_at'].toString(),
+      type: json['type'].toString(),
+      hash: json['hash'].toString(),
+      narration: json['narration'].toString(),
       fee: json['fee'].toString(),
     );
   }
