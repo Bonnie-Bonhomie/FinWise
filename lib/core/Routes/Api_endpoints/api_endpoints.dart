@@ -51,6 +51,7 @@ class ApiEndpoints{
 
   static const String buyEduCard = 'education/buy';
   static const String examCard = 'education/exam_card';
+  static const String verifyCard = 'education/exam-card-verify';
 
 
 ///Not yet in use for real API call
