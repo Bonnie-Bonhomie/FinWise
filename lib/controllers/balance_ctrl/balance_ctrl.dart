@@ -4,6 +4,7 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
+import 'package:pdf/pdf.dart';
 
 import '../controller_exports.dart';
 
@@ -24,7 +25,10 @@ class AccBalanceCtrl extends GetxController {
   final AuthCtrl auth = Get.find<AuthCtrl>();
 
   var accountBalance =  0.00.obs;
-  // var accBalance = '0.00'.obs;
+  var dailyExpense = 0.00.obs;
+  var monthlyExpense = 0.00.obs;
+  var bonusBal = 0.00.obs;
+  var totalExpense = 0.00.obs;
   var expense = 1000.00.obs;
   var income = 4000.45.obs;
   var spendingLimit = 2000.00.obs;
@@ -33,6 +37,7 @@ class AccBalanceCtrl extends GetxController {
   var filled = false.obs;
   var name = ''.obs;
   RxBool loading = false.obs;
+  RxBool loadingB = false.obs;
   var balanceErr = ''.obs;
 
   double get spentPercent => expense.value / spendingLimit.value;
@@ -45,19 +50,59 @@ class AccBalanceCtrl extends GetxController {
     accountBalance.value = double.parse(auth.userWallet?.accBalance ?? '0.00');
   }
 
-  var paymentGateWay = <BankModel>[
-    BankModel(
-      name: 'Nomba',
-      availbaleServ: ['Pay with card', 'Transfer and USSD'],
-      imgUrl: '',
-    ),
-    BankModel(name: 'PayStack', availbaleServ: ['PayStack'], imgUrl: ''),
-    BankModel(
-      name: 'Nomba',
-      availbaleServ: ['Pay with card', 'Transfer and USSD'],
-      imgUrl: '',
-    ),
-  ].obs;
+  Future<void> getBonusBal() async{
+
+    try{
+      loadingB.value = true;
+      final String? token = await storage.getToken();
+
+      if(token == null){
+        CustomSnackbar.warningSnack('Unauthenticated');
+
+      }else{
+        final response = await repo.getWallet(token);
+        if(response is DataSuccess){
+          if(response.data['status'] == true){
+            final data = response.data['data'];
+            bonusBal.value = data['referralAmount'];
+            dailyExpense.value = data['daily_spent'];
+            monthlyExpense.value = data['total_spent_amount_with_monthly'];
+            totalExpense.value = data['total_spent_amount'];
+
+          }
+        }else if(response is DataFailed){
+          final err = response.exception;
+
+          if (err is DioException) {
+            //  Network issues
+            if (err.type == DioExceptionType.connectionError) {
+              CustomSnackbar.showSnackbar(message: 'No internet connection, when loading bonus');
+              return;
+            }
+
+            //  Server error
+            final errData = err.response?.data;
+            // print(err.response?.data);
+
+            if (errData != null && errData['message'] != null) {
+              CustomSnackbar.showSnackbar(message: errData['message']);
+            } else {
+              CustomSnackbar.showSnackbar(
+                  message: 'Server error, Unable to load bonus');
+            }
+          } else {
+            CustomSnackbar.showSnackbar(message: 'Unknown error occurred, Unable to load bonus');
+          }
+        }
+      }
+      }catch(e){
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, Unable to load bonus');
+    }finally{
+      loadingB.value = false;
+    }
+  }
+
 
   Future<void> getBalance() async {
     try{
@@ -157,6 +202,20 @@ class AccBalanceCtrl extends GetxController {
       CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
     }
   }
+
+  var paymentGateWay = <BankModel>[
+    BankModel(
+      name: 'Nomba',
+      availbaleServ: ['Pay with card', 'Transfer and USSD'],
+      imgUrl: '',
+    ),
+    BankModel(name: 'PayStack', availbaleServ: ['PayStack'], imgUrl: ''),
+    BankModel(
+      name: 'Nomba',
+      availbaleServ: ['Pay with card', 'Transfer and USSD'],
+      imgUrl: '',
+    ),
+  ].obs;
 }
 
 class BankModel {
