@@ -79,12 +79,11 @@ class _BuyPinViewState extends State<BuyPinView> {
                   readOnly: true,
                   valController: serviceCtrl,
                 ),
-
+                  const SizedBox(height: 30),
                 selectedSchool.serviceName == jamb
                     ? Obx(() {
                         return Container(
                           padding: const EdgeInsets.all(10),
-                          margin: const EdgeInsets.only(top: 30),
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(10),
                           ),
@@ -239,8 +238,9 @@ class _BuyPinViewState extends State<BuyPinView> {
                               action: (pin) async {
                                 await eduCtrl.buyEduCard(
                                   transPin: pin,
-                                  phoneNumber: numberCtrl.text,
+                                  phoneNumber: profileCtrl.text,
                                   examId: selectedSchool.id,
+                                  profileCode: profileCtrl.text,
                                 );
                               },
                             );
@@ -264,7 +264,7 @@ class _BuyPinViewState extends State<BuyPinView> {
     child: AppText(
       text: text,
       textWeigh: FontWeight.bold,
-      textColor: AppColors.darkGreen,
+      // textColor: AppColors.darkGreen,
     ),
   );
 }
