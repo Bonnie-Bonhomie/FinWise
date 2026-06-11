@@ -22,7 +22,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _headerAnim;
   final HomeViewModel viewModel = HomeViewModel();
   final store = SharedPreferService();
@@ -43,13 +44,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     // TODO: implement initState
 
-
     _headerAnim = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 800));
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
     _headerAnim.forward();
     super.initState();
 
-    Future.microtask(()async {
+    Future.microtask(() async {
       getName();
       // (viewModel.greeting());
       await acc.getBalance();
@@ -58,15 +60,17 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     });
   }
 
-
   @override
   void dispose() {
     _headerAnim.dispose();
     super.dispose();
   }
 
-  Future<void> onRefresh()async{
-    Future.delayed(Duration(seconds: 2), () async{ await acc.getBalance(); trans.getTransactions(1);});
+  Future<void> onRefresh() async {
+    Future.delayed(Duration(seconds: 2), () async {
+      await acc.getBalance();
+      trans.getTransactions(1);
+    });
   }
 
   @override
@@ -74,7 +78,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     final percent = (acc.spentPercent * 100).round();
     final nav = Get.find<NavControl>();
     // final acc = Get.find<AccBalanceCtrl>();
-
 
     return Scaffold(
       body: SafeArea(
@@ -184,7 +187,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               gradient: LinearGradient(
                 colors: [AppColors.primary, AppColors.gradientGreen],
                 begin: Alignment.topCenter,
-                end: Alignment.bottomCenter
+                end: Alignment.bottomCenter,
               ),
               // boxShadow: [
               //   BoxShadow(color: Colors.black12, blurRadius: 10.0, offset: Offset(3, 10)),
@@ -220,7 +223,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                               margin: const EdgeInsets.only(top: 3.0),
                               child: acc.balanceErr.value.isEmpty
                                   ? AppText(
-                                      text: viewModel.formatCurrency(acc.accountBalance.value),
+                                      text: viewModel.formatCurrency(
+                                        acc.accountBalance.value,
+                                      ),
                                       textColor: AppColors.lightGreen,
                                       textWeigh: FontWeight.bold,
                                       textSize: 20,
@@ -257,7 +262,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         decoration: BoxDecoration(
                           color: AppColors.primary,
                           borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(color: Colors.white)
+                          border: Border.all(color: Colors.white),
                         ),
                         child: const AppText(text: 'Fund Wallet'),
                       ),
@@ -291,15 +296,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           Row(
             children: [
               BalanceCard(
-                title: 'Income',
+                title: 'Balance',
                 value: acc.accountBalance.value,
                 icon: Icons.arrow_circle_up_outlined,
               ),
               Spacer(),
               BalanceCard(
-                title: 'Expense',
+                title: 'Bonus',
                 icon: Icons.arrow_circle_down_rounded,
-                value: acc.expense.value,
+                value: acc.bonusBal.value,
                 iconColor: Color(0xFF0033FF),
               ),
             ],
@@ -308,10 +313,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.check_circle_outline),
-              AppText(
-                text:
-                    'Service at Glance',
-              ),
+              AppText(text: 'Service at Glance'),
             ],
           ),
         ],
@@ -357,17 +359,27 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 5.0),
       child: Row(
         children: [
+          CircleAvatar(
+            backgroundColor: Colors.white,
+            child: AppText(
+              text: name[0],
+              textWeigh: FontWeight.bold,
+              textSize: 25,
+            ),
+          ),
           SlideTransition(
-            position: Tween<Offset>(
-                begin: const Offset(-0.3, 0), end: Offset.zero)
-                .animate(CurvedAnimation(
-                parent: _headerAnim, curve: Curves.easeOut)),
+            position:
+                Tween<Offset>(
+                  begin: const Offset(-0.3, 0),
+                  end: Offset.zero,
+                ).animate(
+                  CurvedAnimation(parent: _headerAnim, curve: Curves.easeOut),
+                ),
             child: FadeTransition(
               opacity: _headerAnim,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   AppText(
                     text: 'Hi ${name.split(' ').first}',
                     textWeigh: FontWeight.bold,
@@ -380,7 +392,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
 
           const Spacer(),
-          Icon(Icons.person),
+          IconButton(
+            onPressed: () {
+              Get.toNamed(Routes.notify);
+            },
+            icon: Icon(
+              Icons.circle_notifications_rounded,
+              color: AppColors.bgColor,
+              size: 35,
+            ),
+          ),
         ],
       ),
     );
