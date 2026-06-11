@@ -21,64 +21,66 @@ class TransactionCard extends StatelessWidget {
     // final formatDate = DateFormat('MMMM d').format(date);
     // final formatTime = DateFormat('HH:mm').format(date);
 
-    return InkWell(
-      onTap: (){
-        print(tx.category);
-        Get.toNamed(Routes.transReceipt, arguments: tx);
-        FocusScope.of(context).unfocus();
-      },
-      child: Container(
-        height: 80,
-        margin: const EdgeInsets.only(bottom: 10.0),
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [BoxShadow(color: Theme.of(context).cardColor, offset: Offset(2, 4),)]
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundColor: AppColors.blue,
-              radius: 20,
-              child: AppText(text: tx.modelableType[0].toUpperCase(), textColor: Colors.white, textWeigh: FontWeight.bold,),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: Text(tx.modelableType, overflow: TextOverflow.ellipsis),
-                ),
-                AppText(
-                  text: viewModel.formatDate(tx.purchaseAt),
-                  textColor: Colors.blue,
-                  textSize: 10,
-                ),
-              ],
-            ),
-
-            Column(
-              children: [
-                AppText(
-                    text: viewModel.formatCurrency(tx.amount),
-                    // textColor: Colors.black : AppColors.blue,
+    return Card(
+      child: InkWell(
+        onTap: (){
+          print(tx.category);
+          Get.toNamed(Routes.transReceipt, arguments: tx);
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          height: 80,
+          margin: const EdgeInsets.only(bottom: 10.0),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [BoxShadow(color: Theme.of(context).cardColor, offset: Offset(2, 4),)]
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                backgroundColor: AppColors.blue,
+                radius: 20,
+                child: AppText(text: tx.modelableType[0].toUpperCase(), textColor: Colors.white, textWeigh: FontWeight.bold,),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Text(tx.modelableType, overflow: TextOverflow.ellipsis),
                   ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(3, 2, 3, 2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    color: tx.apiStatus.color.withValues(alpha: 0.5),
+                  AppText(
+                    text: viewModel.formatDate(tx.purchaseAt),
+                    textColor: Colors.blue,
+                    textSize: 10,
                   ),
-                  child: AppText(text: tx.apiStatus.label, textColor: AppColors.bgColor, textSize: 10),
-                ),
-              ],
-            ),
-            //
-          ],
+                ],
+              ),
+      
+              Column(
+                children: [
+                  AppText(
+                      text: viewModel.formatCurrency(tx.amount),
+                      // textColor: Colors.black : AppColors.blue,
+                    ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(3, 2, 3, 2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.0),
+                      color: tx.apiStatus.color.withValues(alpha: 0.5),
+                    ),
+                    child: AppText(text: tx.apiStatus.label, textColor: AppColors.bgColor, textSize: 10),
+                  ),
+                ],
+              ),
+              //
+            ],
+          ),
         ),
       ),
     );
