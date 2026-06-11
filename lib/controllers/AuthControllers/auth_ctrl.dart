@@ -146,7 +146,7 @@ class AuthCtrl extends GetxController {
           userWallet = WalletModel.fromJson(data['data']['wallet']);
           // user = UserModel.fromJson(response.data);
           CustomSnackbar.successSnack(data['message'].toString());
-
+          Get.find<SharedPreferService>().saveData<bool>(PrefStoreKeys.isFirstTime, true );
           Get.offAllNamed(Routes.mainS);
         } else {
           CustomSnackbar.showSnackbar(
