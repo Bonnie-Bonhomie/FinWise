@@ -28,12 +28,16 @@ class TransactionCtrl extends GetxController{
   var monthlyExpense = 2000.45.obs;
   var totalExpense = 2000.00.obs;
   var loading = false.obs;
+  var loadMore  = false.obs;
   int page = 1;
+  int currentPage = 1;
+  int lastPage = 1;
   RxBool nextPage = true.obs;
 
 
   List allTransactions = [].obs;
   var transactionList = <TransactionModel>[].obs;
+  List allDeposits = [].obs;
   var error = ''.obs;
 
 
@@ -85,20 +89,19 @@ class TransactionCtrl extends GetxController{
      CustomSnackbar.showSnackbar(message: 'User not authourized');
       return;
     }
-    final transact = await repo.getTransact(token);
+    final transact = await repo.getTransactPerPage(token, page);
     // print(transact.data);
     if(transact is DataSuccess){
       if(transact.data['status'] == true){
-
-        // if(transact.data['data']['next_page_url'] != null){
-        //   nextPage.value = true;
-        // }
-        transactionList.clear();
         final data = transact.data['data'];
+        if(data[page -1 ]['next_page_url'] != null){
+          nextPage.value = true;
+        }
+        print(data[page -1 ]['to']);
+
         List currentPage = data[page - 1]['data'];
         List trans = currentPage;
-
-        print(data);
+        print(transact.data);
         final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
         transactionList.addAll(transac);
@@ -140,6 +143,85 @@ class TransactionCtrl extends GetxController{
 
 
 
+
+  Future<void> loadDepo(int page) async{
+    try{
+
+      loading.value = true;
+      final token = await storage.getToken();
+      if(token == null){
+        CustomSnackbar.showSnackbar(message: 'User not authourized');
+        return;
+      }
+      final transact = await repo.getTransact(token);
+      // print(transact.data);
+      if(transact is DataSuccess){
+        if(transact.data['status'] == true){
+        //   final data = transact.data['data'];
+        //   if(data[page -1 ]['next_page_url'] != null){
+        //     nextPage.value = true;
+        //   }
+        //   print(data[page -1 ]['next_page_url']);
+        //
+        //   List currentPage = data[page - 1]['data'];
+        //   List trans = currentPage;
+        //
+        //   print(data);
+        //   final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
+        //
+        //   transactionList.addAll(transac);
+        //   allTransactions.add(transactionList);
+        //   if(transactionList.isEmpty){
+        //     error.value = 'No transaction history';
+        //   }
+        // }else{
+        //   error.value = 'Unable to load all Transactions';
+        }
+      }
+        else if(transact is DataFailed){
+        final err = transact.exception;
+        print(err);
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            error.value = 'No internet connection';
+            return;
+          }
+
+          final errData = err.response!.data;
+          if(errData != null && errData['message'] != null){
+            error.value = errData['message'].toString();
+          }
+          // else{
+          //   error.value = 'Something went wrong, try to reload';
+          // }
+        }
+        else{
+          error.value = 'Something went wrong, try again later';
+        }
+        // return;
+      }
+    }catch(e){
+      print(e);
+      error.value = 'Something went wrong, try again later';
+    }finally{
+      loading.value = false;
+    }
+  }
+  Future<void> fetchMoreTran() async{
+
+    try{
+      loadMore.value = true;
+      await getTransactions(page + 1);
+    }catch(e){
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Something went wrong');
+    }finally{
+      loadMore.value = false;
+    }
+  }
+
+  bool get hasMore => currentPage < lastPage;
   final List<String> months = [
     'January',
     'February',
