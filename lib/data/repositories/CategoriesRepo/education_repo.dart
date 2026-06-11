@@ -50,4 +50,26 @@ class EducationRepo{
       return DataFailed(e);
     }
   }
+
+  Future<DataState> verifyEduCard({required String type, required String profileCode, required String examId, required String token}) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.postRequestsWithToken(ApiEndpoints.verifyEduCard, token, {
+        'service_id': examId,
+        'billers_code': profileCode,
+        'type': type,
+      });
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
 }

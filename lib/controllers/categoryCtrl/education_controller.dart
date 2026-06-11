@@ -33,6 +33,10 @@ class EducationController extends GetxController{
  var cardError = ''.obs;
  var loadingCard = false.obs;
  var eduCards = <ExamCardModel>[].obs;
+ var verified = false.obs;
+ Map<String, dynamic> verifyDet = {};
+ var verifyError = ''.obs;
+ var verifyLoad = false.obs;
 
  //Available eduction card
   Future<void> getAvailableCard() async{
@@ -77,7 +81,8 @@ class EducationController extends GetxController{
     required String transPin,
     required String phoneNumber,
     required int examId,
-  }) async{
+  })
+  async{
     try{
       final phone = viewModel.numberBack(phoneNumber);
       String? token = await store.getToken();
@@ -119,6 +124,51 @@ class EducationController extends GetxController{
       CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
   }
     }
+
+
+  Future<void> verifyCode({required String profileCode, required String type, required String examId}) async{
+
+    try{
+      verifyLoad.value = true;
+      print(verifyLoad.value);
+      final String? token = await store.getToken();
+      if(token == null) return;
+      final result = await repo.verifyEduCard(type: type, profileCode: profileCode, examId: examId, token: token);
+
+      if(result is DataSuccess){
+        if(result.data['status'] ==  true){
+          verified.value = true;
+          verifyDet = result.data['data'];
+          print(verifyDet);
+        }
+        else{
+          verifyError.value = 'Unable to verify Profile code';
+        }}
+      else if(result is DataFailed){
+        final err =result.exception;
+        if(err is DioException){
+          print(err);
+          if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
+            verifyError.value = 'No internet connection';
+          }
+
+          final errData = err.response?.data;
+          if(errData != null && errData['message'] != null){
+            verifyError.value = errData['message'];
+          }
+        }else{
+          verifyError.value = 'Unable to verify profile code, try again later';
+        }
+      }
+    }catch(e){
+      print(e);
+      verifyError.value = 'Something went wrong, try again later';
+    }finally
+    {
+      verifyLoad.value = false;
+    }
+  }
+
 }
 
 

@@ -26,27 +26,33 @@ class _BuyPinViewState extends State<BuyPinView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final serviceKey = GlobalKey<FormFieldState>();
   final numberKey = GlobalKey<FormFieldState>();
+  final profileKey = GlobalKey<FormFieldState>();
   final TextEditingController serviceCtrl = TextEditingController();
   final TextEditingController amountCtrl = TextEditingController();
   final TextEditingController numberCtrl = TextEditingController();
+  final TextEditingController profileCtrl = TextEditingController();
   final ExamCardModel selectedSchool = Get.arguments ?? 'No Title';
   final HomeViewModel viewModel = HomeViewModel();
+  int length = 10;
+  bool correctNumber = false;
+  String jamb = 'jamb';
 
   @override
   void initState() {
     // TODO: implement initState
-    Future.microtask(() async{
+    Future.microtask(() async {
       await acc.getBalance();
     });
     super.initState();
   }
 
-  Future<void> onRefresh () async{ await acc.getBalance();}
-
+  Future<void> onRefresh() async {
+    await acc.getBalance();
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(selectedSchool.name);
+    print(selectedSchool.id);
     serviceCtrl.text = selectedSchool.name;
     amountCtrl.text = selectedSchool.price.toString();
     return Scaffold(
@@ -65,34 +71,151 @@ class _BuyPinViewState extends State<BuyPinView> {
               padding: const EdgeInsets.all(20),
               children: [
                 labelText('Service type'),
-
-
-                  FormWidget(fieldKey: serviceKey, validator: (val){
+                FormWidget(
+                  fieldKey: serviceKey,
+                  validator: (val) {
                     return null;
-                  }, readOnly:  true, valController: serviceCtrl, ),
+                  },
+                  readOnly: true,
+                  valController: serviceCtrl,
+                ),
+
+                selectedSchool.serviceName == jamb
+                    ? Obx(() {
+                        return Container(
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.only(top: 30),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              labelText('Profile code'),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: PriceFormField(
+                                      numberCtrl: profileCtrl,
+                                      hint: AppText(
+                                        text: 'Enter your profile code',
+                                      ),
+                                      length: length,
+                                      key: profileKey,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          correctNumber = value.length == length;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  eduCtrl.verified.value
+                                      ? Icon(
+                                          Icons.done_outline_outlined,
+                                          color: AppColors.primary,
+                                        )
+                                      : correctNumber
+                                      ? SizedBox(
+                                          height: 25,
+                                          width: 100,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              loader.offLoading(() async {
+                                                await eduCtrl.verifyCode(
+                                                  profileCode: profileCtrl.text,
+                                                  type: selectedSchool
+                                                      .variationCode,
+                                                  examId:
+                                                      selectedSchool.serviceName,
+                                                );
+                                              });
+                                            },
+                                            child: Text(
+                                              'Verify',
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                ],
+                              ),
+                              const SizedBox(height: 5.0),
+                              eduCtrl.verified.value
+                                  ? Row(
+                                      children: [
+                                        Icon(
+                                          Icons.check_circle_sharp,
+                                          color: AppColors.primary,
+                                        ),
+                                        SizedBox(width: 5.0),
+                                        AppText(
+                                          text:
+                                              eduCtrl
+                                                  .verifyDet['Customer_Name'] ??
+                                              'Error',
+                                          textColor: AppColors.primary,
+                                          textSize: 18,
+                                        ),
+                                      ],
+                                    )
+                                  : eduCtrl.verifyLoad.value
+                                  ? Row(
+                                      children: [
+                                        const SizedBox(
+                                          height: 8,
+                                          width: 8,
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                        const SizedBox(width: 8.0),
+                                        AppText(
+                                          text:
+                                              'verifying the profile code...',
+                                          textColor: AppColors.primary,
+                                        ),
+                                      ],
+                                    )
+                                  : AppText(
+                                      text: eduCtrl.verifyError.value,
+                                      textColor: AppColors.declined,
+                                      textAlign: TextAlign.start,
+                                      maxLines: 2,
+                                    ),
+                            ],
+                          ),
+                        );
+                      })
+                    : SizedBox.shrink(),
+
                 const SizedBox(height: 30),
                 labelText('Amount'),
                 Container(
                   padding: const EdgeInsets.only(left: 12.0, right: 8.0),
                   margin: const EdgeInsets.only(bottom: 30),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(12),
-                     color: Theme.of(context).cardColor),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Theme.of(context).cardColor,
+                  ),
                   child: Row(
                     children: [
                       AppText(text: '₦'),
-                      Expanded(child:
-                      PriceFormField(numberCtrl: amountCtrl,
+                      Expanded(
+                        child: PriceFormField(
+                          numberCtrl: amountCtrl,
                           hint: AppText(text: ''),
                           color: AppColors.lightGreen,
-                          readOnly: true,),
-                      )
+                          readOnly: true,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 labelText('Phone number'),
-                PhoneNumberFormField(numberCtrl: numberCtrl,
-                    numberKey: numberKey,
-                    validator: (val) => Validator.validateNumber(val!)),
+                PhoneNumberFormField(
+                  numberCtrl: numberCtrl,
+                  numberKey: numberKey,
+                  validator: (val) => Validator.validateNumber(val!),
+                ),
                 SizedBox(height: 30),
                 // labelText('Network Operator'),
                 // dropdownServiceProvider(eduCtrl.selectedProvider.value),
@@ -100,21 +223,31 @@ class _BuyPinViewState extends State<BuyPinView> {
                 AppBtn(
                   onPressed: () {
                     final amount = double.tryParse(amountCtrl.text);
-                    numberCtrl.text.isNotEmpty?
-                        loader.offLoading(()async{
-                          await acc.getBalance();
-                          ConfirmBottomSheet().confirmBottomSheet(
+                    selectedSchool.serviceName == jamb &&
+                            !eduCtrl.verified.value
+                        ? CustomSnackbar.warningSnack('Verify your profile code to continue',)
+                        : numberCtrl.text.isNotEmpty
+                        ? loader.offLoading(() async {
+                            await acc.getBalance();
+                            ConfirmBottomSheet().confirmBottomSheet(
                               balance: acc.accountBalance.value,
                               context,
                               amount: amount!,
                               numberCtrl: numberCtrl,
                               productName: selectedSchool.variationCode,
                               list: [],
-                              action: (pin) async{
-                                await eduCtrl.buyEduCard(transPin: pin, phoneNumber: numberCtrl.text, examId: selectedSchool.id);
-                              }
+                              action: (pin) async {
+                                await eduCtrl.buyEduCard(
+                                  transPin: pin,
+                                  phoneNumber: numberCtrl.text,
+                                  examId: selectedSchool.id,
+                                );
+                              },
+                            );
+                          })
+                        : CustomSnackbar.warningSnack(
+                            'Enter your registered number',
                           );
-                        }): CustomSnackbar.warningSnack('Enter your registered number');
                   },
                   label: 'Proceed to Payment',
                 ),
@@ -126,16 +259,16 @@ class _BuyPinViewState extends State<BuyPinView> {
     );
   }
 
-  Widget labelText(String text) =>
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: AppText(
-          text: text,
-          textWeigh: FontWeight.bold,
-          textColor: AppColors.darkGreen,
-        ),
-      );
+  Widget labelText(String text) => Padding(
+    padding: const EdgeInsets.only(bottom: 8.0),
+    child: AppText(
+      text: text,
+      textWeigh: FontWeight.bold,
+      textColor: AppColors.darkGreen,
+    ),
+  );
 }
+
 //
 // DropdownButtonFormField<String> dropdownServiceProvider(String value) {
 //   return DropdownButtonFormField(

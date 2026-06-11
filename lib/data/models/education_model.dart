@@ -21,6 +21,7 @@ class ExamCardModel {
   int id;
   String status;
   String name;
+  String serviceName;
   String price;
   String variationCode;
   String createdAt;
@@ -30,6 +31,7 @@ class ExamCardModel {
     required this.id,
     required this.status,
     required this.name,
+    required this.serviceName,
     required this.price,
     required this.variationCode,
     required this.createdAt,
@@ -40,6 +42,7 @@ class ExamCardModel {
     return ExamCardModel(id: json['id'],
         status: json['status'],
         name: json['name'],
+        serviceName: json['service_name'],
         price: json['price'],
         variationCode: json['variation_code'],
         createdAt: json['created_at'],
