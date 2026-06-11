@@ -535,24 +535,24 @@ class _TvSubscriptionState extends State<TvSubscription>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    PriceInputField(
-                      amountCtrl: amountCtrl,
-                      numberCtrl: smartCardCtrl,
-                      productName: '${tvDetails.serviceId} subscription',
-                      onBack: ()=> Get.back(),
-                      lowestAmount: 500,
-                      errMessage: 'Enter your smartcard number',
-                      balance: acc.accountBalance.value,
-                      action: (pin) async {
-                        await tvCtrl.buyTvService(
-                          phone: tvCtrl.verifyDet['Customer_Number'],
-                          smartcard: smartCardCtrl.text,
-                          subType: 'change',
-                          transPin: pin,
-                          productId: '1',
-                        );
-                      },
-                    ),
+                    // PriceInputField(
+                    //   amountCtrl: amountCtrl,
+                    //   numberCtrl: smartCardCtrl,
+                    //   productName: '${tvDetails.serviceId} subscription',
+                    //   onBack: ()=> Get.back(),
+                    //   lowestAmount: 500,
+                    //   errMessage: 'Enter your smartcard number',
+                    //   balance: acc.accountBalance.value,
+                    //   action: (pin) async {
+                    //     await tvCtrl.buyTvService(
+                    //       phone: tvCtrl.verifyDet['Customer_Number'],
+                    //       smartcard: smartCardCtrl.text,
+                    //       subType: 'change',
+                    //       transPin: pin,
+                    //       productId: '1',
+                    //     );
+                    //   },
+                    // ),
                     CancelBtn(onPressed: () => Get.back()),
                     const SizedBox(height: 15),
                   ],
@@ -567,60 +567,3 @@ class _TvSubscriptionState extends State<TvSubscription>
   }
 }
 
-class BuildCableBun extends StatelessWidget {
-  final TelevisionCtrl tvCtrl;
-  final CableModel tvDetails;
-  final TextEditingController smartCardCtrl;
-  final LoaderController loaderCtrl;
-  final AccBalanceCtrl acc;
-
-  const BuildCableBun({
-    super.key,
-    required this.tvCtrl,
-    required this.tvDetails,
-    required this.smartCardCtrl,
-    required this.acc,
-    required this.loaderCtrl,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      runSpacing: 10,
-      spacing: 10,
-      runAlignment: WrapAlignment.center,
-      children: List.generate(tvCtrl.cablePrices.length, (index) {
-        final serv = tvCtrl.cablePrices[index];
-        final amount = double.parse(serv.price);
-        print(amount);
-        return SharedWidget.serviceBox(
-          context: context,
-          title: '${tvDetails.serviceId} ${serv.cableCode}',
-          amount: '₦${serv.price}',
-          // duration: '${serv.duration} Month',
-          onTap: () {
-            smartCardCtrl.text.isNotEmpty
-                ? loaderCtrl.offLoading(() {
-                    ConfirmBottomSheet().confirmBottomSheet(
-                      context,
-                      amount: amount,
-                      numberCtrl: smartCardCtrl,
-                      productName: 'cable',
-                      balance: acc.accountBalance.value,
-                      list: [],
-                      imgPath: '',
-                      plan: tvDetails.serviceId,
-                      action: (pin) {
-                        // tvCtrl.buyTvService(phone: tvCtrl.phone.value, smartcard: smartCardCtrl.text, id: tvDetails.serviceId, subType: subType, transPin: transPin, productId: productId)
-                      },
-                    );
-                  })
-                : CustomSnackbar.showSnackbar(
-                    message: 'Enter your smart card number',
-                  );
-          },
-        );
-      }),
-    );
-  }
-}
