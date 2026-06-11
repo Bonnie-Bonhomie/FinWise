@@ -18,12 +18,14 @@ class TransactionCtrl extends GetxController{
   @override
   void onInit() {
     // TODO: implement onInit
-    debugPrint('Transaction Ctrl');
-    loadTransactions(selectMon.value, selectY.value);
+    // debugPrint('Transaction Ctrl');
+    // loadTransactions(selectMon.value, selectY.value);
+    scrollCtrl.addListener(scrollFunction);
     super.onInit();
 
   }
 
+  final ScrollController scrollCtrl = ScrollController();
   var dailyExpense = 1000.00.obs;
   var monthlyExpense = 2000.45.obs;
   var totalExpense = 2000.00.obs;
@@ -37,7 +39,7 @@ class TransactionCtrl extends GetxController{
 
   List allTransactions = [].obs;
   var transactionList = <TransactionModel>[].obs;
-  List allDeposits = [].obs;
+  var allDeposit = <DepoModel>[].obs;
   var error = ''.obs;
 
 
@@ -78,40 +80,43 @@ class TransactionCtrl extends GetxController{
   //filtered month
 
 
+///Get transaction per page
 
-
-  Future<void> getTransactions(int page) async{
+  Future<List<TransactionModel>> getTransactions(int page) async{
     try{
 
       loading.value = true;
     final token = await storage.getToken();
     if(token == null){
      CustomSnackbar.showSnackbar(message: 'User not authourized');
-      return;
+      return <TransactionModel>[];
     }
     final transact = await repo.getTransactPerPage(token, page);
-    // print(transact.data);
+    transactionList.clear();
+
     if(transact is DataSuccess){
       if(transact.data['status'] == true){
         final data = transact.data['data'];
         if(data[page -1 ]['next_page_url'] != null){
           nextPage.value = true;
         }
-        print(data[page -1 ]['to']);
+        // print(data[page -1 ]['to']);
 
         List currentPage = data[page - 1]['data'];
         List trans = currentPage;
         print(transact.data);
         final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
-        transactionList.addAll(transac);
-        allTransactions.add(transactionList);
+        transactionList.assignAll(transac);
+        print(transactionList.length);
+
         if(transactionList.isEmpty){
           error.value = 'No transaction history';
         }
       }else{
         error.value = 'Unable to load all Transactions';
       }
+
     }else if(transact is DataFailed){
       final err = transact.exception;
       print(err);
@@ -119,7 +124,7 @@ class TransactionCtrl extends GetxController{
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.connectionTimeout) {
           error.value = 'No internet connection';
-          return;
+          return [];
         }
 
         final errData = err.response!.data;
@@ -131,7 +136,7 @@ class TransactionCtrl extends GetxController{
       }else{
         error.value = 'Something went wrong, try again later';
       }
-      return;
+      return [];
     }
     }catch(e){
       print(e);
@@ -139,12 +144,11 @@ class TransactionCtrl extends GetxController{
     }finally{
       loading.value = false;
     }
+    return transactionList;
   }
 
-
-
-
-  Future<void> loadDepo(int page) async{
+///Get all Deposits
+  Future<void> loadDepo() async{
     try{
 
       loading.value = true;
@@ -153,33 +157,30 @@ class TransactionCtrl extends GetxController{
         CustomSnackbar.showSnackbar(message: 'User not authourized');
         return;
       }
-      final transact = await repo.getTransact(token);
-      // print(transact.data);
-      if(transact is DataSuccess){
-        if(transact.data['status'] == true){
-        //   final data = transact.data['data'];
-        //   if(data[page -1 ]['next_page_url'] != null){
-        //     nextPage.value = true;
-        //   }
-        //   print(data[page -1 ]['next_page_url']);
-        //
-        //   List currentPage = data[page - 1]['data'];
-        //   List trans = currentPage;
-        //
-        //   print(data);
-        //   final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
-        //
-        //   transactionList.addAll(transac);
-        //   allTransactions.add(transactionList);
-        //   if(transactionList.isEmpty){
-        //     error.value = 'No transaction history';
-        //   }
-        // }else{
-        //   error.value = 'Unable to load all Transactions';
+      final deposits = await repo.getDeposits(token);
+
+      if(deposits is DataSuccess){
+        if(deposits.data['status'] == true){
+          final data = deposits.data['data'];
+
+
+
+          List depos = data;
+
+          print(deposits.data['data']);
+          final deposit = depos.map<DepoModel>((e) =>DepoModel.fromJson(Map<String, dynamic>.from(e))).toList();
+
+          allDeposit.addAll(deposit);
+
+          if(allDeposit.isEmpty){
+            error.value = 'No transaction history';
+          }
+        }else{
+          error.value = 'Unable to load all Transactions';
         }
       }
-        else if(transact is DataFailed){
-        final err = transact.exception;
+        else if(deposits is DataFailed){
+        final err = deposits.exception;
         print(err);
         if (err is DioException) {
           if (err.type == DioExceptionType.connectionError ||
@@ -212,7 +213,9 @@ class TransactionCtrl extends GetxController{
 
     try{
       loadMore.value = true;
-      await getTransactions(page + 1);
+
+      final response = await getTransactions(page + 1);
+      allTransactions.add(response);
     }catch(e){
       print(e);
       CustomSnackbar.showSnackbar(message: 'Something went wrong');
@@ -236,6 +239,15 @@ class TransactionCtrl extends GetxController{
     'November',
     'December',
   ];
+
+  Future<void> scrollFunction() async {
+    if(scrollCtrl.position.pixels >= scrollCtrl.position.maxScrollExtent){
+          loadMore.value = true;
+          print(loadMore.value);
+    }else{
+      print('Hello');
+    }
+  }
 
 
 }
