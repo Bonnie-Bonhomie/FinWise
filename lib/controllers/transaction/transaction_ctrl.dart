@@ -26,9 +26,6 @@ class TransactionCtrl extends GetxController{
   }
 
   final ScrollController scrollCtrl = ScrollController();
-  var dailyExpense = 1000.00.obs;
-  var monthlyExpense = 2000.45.obs;
-  var totalExpense = 2000.00.obs;
   var loading = false.obs;
   var loadMore  = false.obs;
   int page = 1;
@@ -50,6 +47,8 @@ class TransactionCtrl extends GetxController{
   RxInt selectY =  DateTime.now().year.obs;
 
   Map<String, List<TransactionModel>> montCache = {};
+
+
 
   Future<void> loadTransactions(int month, int year) async{
     String key = '$month-$year';
@@ -76,8 +75,6 @@ class TransactionCtrl extends GetxController{
 
 //End
 
-
-  //filtered month
 
 
 ///Get transaction per page
@@ -209,6 +206,7 @@ class TransactionCtrl extends GetxController{
       loading.value = false;
     }
   }
+
   Future<void> fetchMoreTran() async{
 
     try{
