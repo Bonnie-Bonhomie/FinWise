@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../controllers/controller_exports.dart';
 import '../../core/app_colors.dart';
 import '../../utils/widgets/text_widget.dart';
 import '../view_widgets/shared_widget.dart';
@@ -22,6 +23,7 @@ class TransactionView extends StatefulWidget {
 
 class _TransactionViewState extends State<TransactionView> {
   final trans = Get.find<TransactionCtrl>();
+  final acc = Get.find<AccBalanceCtrl>();
   final loader = Get.find<LoaderController>();
   final HomeViewModel viewModel = HomeViewModel();
 
@@ -43,6 +45,7 @@ class _TransactionViewState extends State<TransactionView> {
     // TODO: implement initState
     Future.microtask(() async {
       await trans.getTransactions(1);
+      await acc.getBonusBal();
     });
 
     super.initState();
@@ -88,7 +91,7 @@ class _TransactionViewState extends State<TransactionView> {
                         children: [
                           const AppText(text: 'Total Expense'),
                           AppText(
-                            text: viewModel.formatCurrency(trans.totalExpense
+                            text: viewModel.formatCurrency(acc.totalExpense
                                 .value),
                             textWeigh: FontWeight.bold,
                             textSize: 20,
@@ -101,13 +104,13 @@ class _TransactionViewState extends State<TransactionView> {
                         BalanceCard(
                           title: 'Monthly',
                           icon: Icons.arrow_circle_up_outlined,
-                          value: trans.monthlyExpense.value,
+                          value: acc.monthlyExpense.value,
                         ),
                         const Spacer(),
                         BalanceCard(
                           title: 'Daily',
                           icon: Icons.arrow_circle_up_outlined,
-                          value: trans.dailyExpense.value,
+                          value: acc.dailyExpense.value,
                           iconColor: Colors.blue,
                         ),
                       ],
