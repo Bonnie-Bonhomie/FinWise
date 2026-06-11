@@ -150,8 +150,8 @@ class _CategoryPageState extends State<CategoryPage> {
                 SectDivider(colors: AppColors.bgColor),
                 Spacer(),
                 totalBox(
-                  title: "Total Expenses",
-                  value: vieModel.formatCurrency(acc.expense.value),
+                  title: "Bonus Balance",
+                  value: vieModel.formatCurrency(acc.bonusBal.value),
                   color: Color(0xFF0000FF),
                   icon: Icons.arrow_circle_down_outlined,
                 ),
@@ -169,8 +169,7 @@ class _CategoryPageState extends State<CategoryPage> {
             children: [
               Icon(Icons.check_circle_outline),
               AppText(
-                text:
-                    ' ${percent.toInt()}% of Your Expenses, Look ${accountState[vieModel.getState(percent)]}.',
+                text: 'Service at Glance',
               ),
             ],
           ),
