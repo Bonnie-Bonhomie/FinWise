@@ -147,20 +147,19 @@ class _AirtimeViewState extends State<AirtimeView> {
                             amountCtrl: amountCtrl,
                             numberCtrl: numberCtrl,
                             productName: 'Airtime',
-                            amount: double.parse(amountCtrl.text),
                             onBack: (){},
                             balance: acc.accountBalance.value,
                             // imgPath: '',
                             imgPath: ctrl.airtimeNet[navCtrl.select.value].imgPath,
                             action: (pin)async {
-                              // final amoun = double.parse(amountCtrl.text);
+                              final amoun = double.parse(amountCtrl.text);
                               print(amountCtrl.text);
-                              // await ctrl.buyAirtime(
-                              //   amount: amoun,
-                              //   number: numberCtrl.text,
-                              //   netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
-                              //   pin: pin,
-                              // );
+                              await ctrl.buyAirtime(
+                                amount: amoun,
+                                number: numberCtrl.text,
+                                netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
+                                pin: pin,
+                              );
                             },
                           ),
                         );
