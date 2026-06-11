@@ -140,19 +140,21 @@ class _AirtimeViewState extends State<AirtimeView> {
                       if(ctrl.airtimeNet.isEmpty){
                         return SizedBox();
                       }
+                      amountCtrl.text = '0.00';
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: PriceInputField(
                             amountCtrl: amountCtrl,
                             numberCtrl: numberCtrl,
                             productName: 'Airtime',
+                            amount: double.parse(amountCtrl.text),
                             onBack: (){},
                             balance: acc.accountBalance.value,
                             // imgPath: '',
                             imgPath: ctrl.airtimeNet[navCtrl.select.value].imgPath,
                             action: (pin)async {
                               // final amoun = double.parse(amountCtrl.text);
-                              print(amountCtrl);
+                              print(amountCtrl.text);
                               // await ctrl.buyAirtime(
                               //   amount: amoun,
                               //   number: numberCtrl.text,
