@@ -29,7 +29,7 @@ class EducationRepo{
   }
 
 
-  Future<DataState> buyEduCard({required String transPin, required String phoneNumber, required String examId, required String token}) async {
+  Future<DataState> buyEduCard({required String transPin, required String phoneNumber, required String examId, required String token, required String profileCode}) async {
     try {
       if (!await info.connected) {
         return DataFailed(
@@ -43,6 +43,7 @@ class EducationRepo{
       final result = await services.postRequestsWithToken(ApiEndpoints.buyEduCard, token, {
         'exam_id': examId,
         'phone_number': phoneNumber,
+        'billers_code': profileCode,
         'transaction_pin': transPin,
       });
       return DataSuccess(result.data);
