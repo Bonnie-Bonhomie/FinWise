@@ -26,6 +26,7 @@ class _TransactionViewState extends State<TransactionView> {
   final HomeViewModel viewModel = HomeViewModel();
 
   int isSelected = 1;
+  int viewSelct = 1;
 
   void select() {
     setState(() {
@@ -40,7 +41,9 @@ class _TransactionViewState extends State<TransactionView> {
   @override
   void initState() {
     // TODO: implement initState
-    Future.microtask(() async{ await trans.getTransactions(1);});
+    Future.microtask(() async {
+      await trans.getTransactions(1);
+    });
 
     super.initState();
   }
@@ -48,6 +51,7 @@ class _TransactionViewState extends State<TransactionView> {
   Future<void> onRefresh() async {
     trans.transactionList.clear();
     await trans.getTransactions(1);
+    await trans.loadDepo();
   }
 
   @override
@@ -55,75 +59,78 @@ class _TransactionViewState extends State<TransactionView> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: onRefresh,
-        child: SingleChildScrollView(
-          child: PageContainer(
-            topPadding: 40,
-            topMargin: 15,
-            topChild: Column(
-              children: [
-                CustomAppBar.header(
-                    title: "Transactions", leftRight: 10, needArrow: false),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Column(
-                    children: [
-                      Container(
-                        // height: 60,
-                        width: MediaQuery
+        child: PageContainer(
+          topPadding: 40,
+          topMargin: 15,
+          topChild: Column(
+            children: [
+              CustomAppBar.header(
+                  title: "Transactions", leftRight: 10, needArrow: false),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  children: [
+                    Container(
+                      // height: 60,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
+                      padding: const EdgeInsets.all(7),
+                      margin: const EdgeInsets.only(bottom: 15),
+                      decoration: BoxDecoration(
+                        color: Theme
                             .of(context)
-                            .size
-                            .width,
-                        padding: const EdgeInsets.all(7),
-                        margin: const EdgeInsets.only(bottom: 15),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Column(
-                          children: [
-                            const AppText(text: 'Total Expense'),
-                            AppText(
-                              text: viewModel.formatCurrency(trans.totalExpense
-                                  .value),
-                              textWeigh: FontWeight.bold,
-                              textSize: 20,
-                            ),
-                          ],
-                        ),
+                            .cardColor,
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      Row(
+                      child: Column(
                         children: [
-                          BalanceCard(
-                            title: 'Monthly',
-                            icon: Icons.arrow_circle_up_outlined,
-                            value: trans.monthlyExpense.value,
-                          ),
-                          const Spacer(),
-                          BalanceCard(
-                            title: 'Daily',
-                            icon: Icons.arrow_circle_up_outlined,
-                            value: trans.dailyExpense.value,
-                            iconColor: Colors.blue,
+                          const AppText(text: 'Total Expense'),
+                          AppText(
+                            text: viewModel.formatCurrency(trans.totalExpense
+                                .value),
+                            textWeigh: FontWeight.bold,
+                            textSize: 20,
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Row(
+                      children: [
+                        BalanceCard(
+                          title: 'Monthly',
+                          icon: Icons.arrow_circle_up_outlined,
+                          value: trans.monthlyExpense.value,
+                        ),
+                        const Spacer(),
+                        BalanceCard(
+                          title: 'Daily',
+                          icon: Icons.arrow_circle_up_outlined,
+                          value: trans.dailyExpense.value,
+                          iconColor: Colors.blue,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Column(
-              children: [
-                topTitle(),
-
-          
-                Expanded(child: TransactionListView(trans: trans)),
-                SizedBox(height: 60,)
-              ],
-            ),
-          
-          
+              ),
+            ],
           ),
+          child: Column(
+            children: [
+              topTitle(),
+
+              viewSelct == 1
+                  ?
+              Expanded(child: TransactionListView(trans: trans))
+                  : viewSelct == 2 ? Expanded(
+                  child: DepositListView(trans: trans)) : SizedBox(),
+              SizedBox(height: 120,)
+            ],
+          ),
+
+
         ),
       ),
     );
@@ -134,7 +141,9 @@ class _TransactionViewState extends State<TransactionView> {
       padding: EdgeInsets.all(5),
       margin: const EdgeInsets.only(left: 20, right: 20),
       decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Theme
+              .of(context)
+              .scaffoldBackgroundColor,
           boxShadow: [
             BoxShadow(color: AppColors.lightGreen, offset: Offset(0, 3))
           ]
@@ -144,16 +153,21 @@ class _TransactionViewState extends State<TransactionView> {
         children: [
           InkWell(
             onTap: () {
-              MonthBottomSheet().showMonthBottomSheet(
-                  context, trans, loader);
+              // MonthBottomSheet().showMonthBottomSheet(
+              //     context, trans, loader);
+              setState(() {
+                viewSelct = 1;
+              });
             },
             child: Row(
               children: [
                 Obx(() {
-                  final month = DateTime(trans.selectY.value, trans.selectMon.value);
+                  final month = DateTime(
+                      trans.selectY.value, trans.selectMon.value);
                   return AppText(
                     text: DateFormat('MMM yyyy').format(month),
                     textWeigh: FontWeight.bold,
+                    textColor: viewSelct == 1 ? AppColors.primary: Theme.of(context).textTheme.bodyMedium?.color,
                     textSize: 20,);
                 }
                 ),
@@ -163,10 +177,16 @@ class _TransactionViewState extends State<TransactionView> {
           ),
 
           InkWell(
-            onTap: (){},
+            onTap: () async{
+              await trans.loadDepo();
+              setState(() {
+                viewSelct = 2;
+              });
+            },
             child: Row(
               children: [
                 AppText(text: 'My Deposits', textWeigh: FontWeight.bold,
+                 textColor: viewSelct == 2 ? AppColors.primary: Theme.of(context).textTheme.bodyMedium?.color,
                   textSize: 20,),
                 Icon(Icons.arrow_drop_down_sharp),
               ],
