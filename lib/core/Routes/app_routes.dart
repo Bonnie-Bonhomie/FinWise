@@ -1,4 +1,5 @@
 import 'package:fin_wise/binding/binding_exports.dart';
+import 'package:fin_wise/views/transaction/deposits_receipt.dart';
 import 'package:fin_wise/views/view_export.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/views/analysisViews/searchView/search_view.dart';
@@ -50,6 +51,7 @@ class AppRoutes{
 
     GetPage(name: Routes.transSuccess, page: () => TransactionSuccessfulView()),
     GetPage(name: Routes.transReceipt, page: () => TransactionReceipt()),
+    GetPage(name: Routes.depoReceipt, page: () => DepositsReceipt()),
 
 
   ];
