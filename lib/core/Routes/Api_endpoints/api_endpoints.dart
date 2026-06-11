@@ -21,6 +21,7 @@ class ApiEndpoints{
   static const String bonusBal = 'profile/bonusbalance';
   static const String withdrawBonus = 'profile/updatewithdrawbonus';
 
+
   static const String changePwd = 'auth/user/acc';
   static const String changePin = 'auth/user/acc';
   static const String forgetPin = 'auth/user/acc';
