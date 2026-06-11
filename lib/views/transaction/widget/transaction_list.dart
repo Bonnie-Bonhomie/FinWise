@@ -41,37 +41,23 @@ class TransactionListView extends StatelessWidget {
         );
       }
       return ListView.builder(
+        controller: trans.scrollCtrl,
         padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
         itemCount:
-        trans.loadMore.value ? transact.length + 1 :
+        // trans.loadMore.value ? transact.length + 1 :
         transact.length,
         itemBuilder: (context, index) {
           final tx = transact[index];
-          // if(index == transact.length + 1){
-          //   return trans.nextPage.value? IconButton(onPressed: ()async{
-          //     await trans.getTransactions(trans.page++);
-          //   }, icon: Icon(Icons.arrow_circle_down_outlined, size: 30, color: AppColors.primary,)): SizedBox.shrink();
-          // }
-          // if (trans.nextPage.value && index == transact.length ) {
-          //   // if(trans.loadMore.value){
-          //   //     return CircularProgressIndicator(color: AppColors.primary,);
-          //   //   }
-          //   //   return IconButton(onPressed: () async {await trans.fetchMoreTran();},
-          //   //       icon: Icon(Icons.arrow_circle_down_outlined, size: 30,
-          //   //         color: AppColors.primary,));
-          //   print('Hello');
-          //
-          // }
-          // else {
+
           if(index < transact.length){
+            print(index);
             return AnimatedCard(
                 index: index,
                 child: TransactionCard(tx: tx));
           }else{
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
 
-          // }
         },
       );
     },
@@ -79,29 +65,50 @@ class TransactionListView extends StatelessWidget {
   }
 }
 
+class DepositListView extends StatelessWidget {
+  const DepositListView({
+    super.key,
+    required this.trans,
+  });
 
-// child: DefaultTabController(
-//   length: 1,
-//
-//   child: Column(
-//     children: [
-//       TabBar(
-//
-//         tabs: [
-//         Tab(
-//           child: Obx(() {
-//             final month = trans.selectedMonth.value;
-//             return AppText(text: DateFormat('MMM yyyy').format(month), textAlign: TextAlign.start,);
-//           }),
-//
-//         )
-//       ],
-//       ),
-//       Expanded(
-//         child: TabBarView(children: [
-//           TransactionListView(trans: trans),]
-//         ),
-//       ),
-//     ],
-//   ),
-// )
+  final TransactionCtrl trans;
+
+  // final bool loading;
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      final transact = trans.allDeposit;
+      if (trans.loading.value == true) {
+        return Center(
+          child: SkeletonLoader.shimmerLines(len: 5),
+        );
+      }
+
+      if (transact.isEmpty) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(image: AssetImage('Assets/images/green_empty.png'),
+              height: 100,
+              width: 100,),
+            AppText(text: 'Oops!', textSize: 18,),
+            AppText(text: trans.error.value, textSize: 12,)
+          ],
+        );
+      }
+      return ListView.builder(
+        controller: trans.scrollCtrl,
+        padding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+        itemCount: transact.length,
+        itemBuilder: (context, index) {
+          final tx = transact[index];
+            return AnimatedCard(
+                index: index,
+                child: DepositCard(tx: tx));
+        },
+      );
+    },
+    );
+  }
+}
