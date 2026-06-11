@@ -66,7 +66,7 @@ class TransactionRepo {
   }
 
 
-  Future<DataState> getSingleTransact(String token) async {
+  Future<DataState> getSingleTransact(String token, String ref) async {
     try {
       if (!await internetInfo.connected) {
         return DataFailed(DioException(requestOptions: RequestOptions(path: ''),
