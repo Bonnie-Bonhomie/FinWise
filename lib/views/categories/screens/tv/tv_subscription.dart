@@ -84,12 +84,12 @@ class _TvSubscriptionState extends State<TvSubscription>
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
                 children: [
                   ListTile(
-                    title: AppText(text: tvDetails.name),
+                    title: AppText(text: tvDetails.name, textSize: 22,),
                     titleTextStyle: TextStyle(overflow: TextOverflow.ellipsis),
                     leading: CircleAvatar(
                       child: Text(
                         tvDetails.name[0],
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                       ),
                     ),
                   ),
@@ -332,34 +332,6 @@ class _TvSubscriptionState extends State<TvSubscription>
     );
   }
 
-  // Wrap premiumBuild() {
-  //   return Wrap(
-  //     crossAxisAlignment: WrapCrossAlignment.center,
-  //     spacing: 15,
-  //     runSpacing: 5.0,
-  //     children: List.generate(tvCtrl.premiumService.length, (index) {
-  //       final serv = tvCtrl.premiumService[index];
-  //       return serviceBox(
-  //         title: serv.title,
-  //         amount: '₦${serv.amount}',
-  //         duration: '${serv.duration} Month',
-  //         onTap: () {
-  //           final amount = double.parse(serv.amount);
-  //           // smartCardCtrl.text.isNotEmpty
-  //           //     ? loaderCtrl.offLoading((){
-  //           //   ConfirmBottomSheet().confirmBottomSheet(
-  //           //     context,
-  //           //     amount: amount,
-  //           //     numberCtrl: smartCardCtrl,
-  //           //     productName: 'cable',
-  //           //   );
-  //           // })
-  //           //     : CustomSnackbar.showSnackbar(message: 'Enter your smartcard number');
-  //         },
-  //       );
-  //     }),
-  //   );
-  // }
 
   Widget buildColumn() {
     int len = tvCtrl.cablePrices.length + 1;
@@ -383,6 +355,7 @@ class _TvSubscriptionState extends State<TvSubscription>
           amount: '₦${service.price}',
           // duration: '${serv.duration} Month',
           onTap: () {
+            FocusScope.of(context).unfocus();
             !correctNumber?  CustomSnackbar.showSnackbar(
               message: 'Enter your smart card number',
             ): tvCtrl.verified.value
@@ -395,7 +368,6 @@ class _TvSubscriptionState extends State<TvSubscription>
                       productName: 'cable',
                       balance: acc.accountBalance.value,
                       list: [],
-                      imgPath: '',
                       plan: tvDetails.serviceId,
                       action: (pin) async {
                         await tvCtrl.buyTvService(
@@ -405,8 +377,9 @@ class _TvSubscriptionState extends State<TvSubscription>
                           transPin: pin,
                           productId: service.id,
                         );
-
+                        FocusScope.of(context).unfocus();
                       },
+
                     );
                   }): CustomSnackbar.warningSnack('Verify your smart card number to continue');
           },
@@ -535,24 +508,24 @@ class _TvSubscriptionState extends State<TvSubscription>
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // PriceInputField(
-                    //   amountCtrl: amountCtrl,
-                    //   numberCtrl: smartCardCtrl,
-                    //   productName: '${tvDetails.serviceId} subscription',
-                    //   onBack: ()=> Get.back(),
-                    //   lowestAmount: 500,
-                    //   errMessage: 'Enter your smartcard number',
-                    //   balance: acc.accountBalance.value,
-                    //   action: (pin) async {
-                    //     await tvCtrl.buyTvService(
-                    //       phone: tvCtrl.verifyDet['Customer_Number'],
-                    //       smartcard: smartCardCtrl.text,
-                    //       subType: 'change',
-                    //       transPin: pin,
-                    //       productId: '1',
-                    //     );
-                    //   },
-                    // ),
+                    PriceInputField(
+                      amountCtrl: amountCtrl,
+                      numberCtrl: smartCardCtrl,
+                      productName: '${tvDetails.serviceId} subscription',
+                      onBack: ()=> Get.back(),
+                      lowestAmount: 500,
+                      errMessage: 'Enter your smartcard number',
+                      balance: acc.accountBalance.value,
+                      action: (pin) async {
+                        await tvCtrl.buyTvService(
+                          phone: tvCtrl.verifyDet['Customer_Number'],
+                          smartcard: smartCardCtrl.text,
+                          subType: 'change',
+                          transPin: pin,
+                          productId: '1',
+                        );
+                      },
+                    ),
                     CancelBtn(onPressed: () => Get.back()),
                     const SizedBox(height: 15),
                   ],
