@@ -44,8 +44,9 @@ class _TransactionViewState extends State<TransactionView> {
   void initState() {
     // TODO: implement initState
     Future.microtask(() async {
-      await trans.getTransactions(1);
+      await trans.loadFresh();
       await acc.getBonusBal();
+      await trans.loadDepo();
     });
 
     super.initState();
@@ -62,78 +63,80 @@ class _TransactionViewState extends State<TransactionView> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: onRefresh,
-        child: PageContainer(
-          topPadding: 40,
-          topMargin: 15,
-          topChild: Column(
-            children: [
-              CustomAppBar.header(
-                  title: "Transactions", leftRight: 10, needArrow: false),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Column(
-                  children: [
-                    Container(
-                      // height: 60,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
-                      padding: const EdgeInsets.all(7),
-                      margin: const EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                        color: Theme
+        child: SingleChildScrollView(
+          child: PageContainer(
+            topPadding: 40,
+            topMargin: 15,
+            topChild: Column(
+              children: [
+                CustomAppBar.header(
+                    title: "Transactions", leftRight: 10, needArrow: false),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    children: [
+                      Container(
+                        // height: 60,
+                        width: MediaQuery
                             .of(context)
-                            .cardColor,
-                        borderRadius: BorderRadius.circular(8.0),
+                            .size
+                            .width,
+                        padding: const EdgeInsets.all(7),
+                        margin: const EdgeInsets.only(bottom: 15),
+                        decoration: BoxDecoration(
+                          color: Theme
+                              .of(context)
+                              .cardColor,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Column(
+                          children: [
+                            const AppText(text: 'Total Expense'),
+                            AppText(
+                              text: viewModel.formatCurrency(acc.totalExpense
+                                  .value),
+                              textWeigh: FontWeight.bold,
+                              textSize: 20,
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
+                      Row(
                         children: [
-                          const AppText(text: 'Total Expense'),
-                          AppText(
-                            text: viewModel.formatCurrency(acc.totalExpense
-                                .value),
-                            textWeigh: FontWeight.bold,
-                            textSize: 20,
+                          BalanceCard(
+                            title: 'Monthly',
+                            icon: Icons.arrow_circle_up_outlined,
+                            value: acc.monthlyExpense.value,
+                          ),
+                          const Spacer(),
+                          BalanceCard(
+                            title: 'Daily',
+                            icon: Icons.arrow_circle_up_outlined,
+                            value: acc.dailyExpense.value,
+                            iconColor: Colors.blue,
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        BalanceCard(
-                          title: 'Monthly',
-                          icon: Icons.arrow_circle_up_outlined,
-                          value: acc.monthlyExpense.value,
-                        ),
-                        const Spacer(),
-                        BalanceCard(
-                          title: 'Daily',
-                          icon: Icons.arrow_circle_up_outlined,
-                          value: acc.dailyExpense.value,
-                          iconColor: Colors.blue,
-                        ),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            child: Column(
+              children: [
+                topTitle(),
+
+                viewSelct == 1
+                    ?
+                Expanded(child: TransactionListView(trans: trans))
+                    : viewSelct == 2 ? Expanded(
+                    child: DepositListView(trans: trans)) : SizedBox(),
+                SizedBox(height: 80,)
+              ],
+            ),
+
+
           ),
-          child: Column(
-            children: [
-              topTitle(),
-
-              viewSelct == 1
-                  ?
-              Expanded(child: TransactionListView(trans: trans))
-                  : viewSelct == 2 ? Expanded(
-                  child: DepositListView(trans: trans)) : SizedBox(),
-              SizedBox(height: 120,)
-            ],
-          ),
-
-
         ),
       ),
     );
@@ -181,7 +184,7 @@ class _TransactionViewState extends State<TransactionView> {
 
           InkWell(
             onTap: () async{
-              await trans.loadDepo();
+              // await trans.loadDepo();
               setState(() {
                 viewSelct = 2;
               });
