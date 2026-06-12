@@ -50,6 +50,14 @@ class NotificationSettings extends StatelessWidget {
                   ctrl.mailNotify.value = val;
                   ctrl.saveUpdate(PrefStoreKeys.mailNot, ctrl.mailNotify.value);
                 }),
+                switchTile('System Mode', ctrl.systemMode.value, (val) {
+                  ctrl.systemMode.value = val;
+                  ctrl.saveUpdate(PrefStoreKeys.system, ctrl.systemMode.value);
+                }),
+                switchTile('App Mode', ctrl.appMode.value, (val) {
+                  ctrl.appMode.value = val;
+                  ctrl.saveUpdate(PrefStoreKeys.appMode, ctrl.appMode.value);
+                }),
               ],
             );
           }),
