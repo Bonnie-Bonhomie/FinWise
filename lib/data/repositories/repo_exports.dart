@@ -10,3 +10,4 @@ export 'profileRepo/edit_profile_repo.dart';
 export 'transacetionRepository/transact_repo.dart';
 
 export 'analysis_repo.dart';
+export 'notification_repo.dart';
