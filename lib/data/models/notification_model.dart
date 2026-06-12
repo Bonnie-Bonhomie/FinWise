@@ -2,21 +2,27 @@ class NotifyModel {
   String id;
   String title;
   String description;
-  DateTime date;
+  String date;
+  String status;
+  String updatedAt;
 
   NotifyModel({
     required this.id,
     required this.title,
     required this.description,
     required this.date,
+    required this.status,
+    required this.updatedAt,
   });
 
   factory NotifyModel.fromJson(Map<String, dynamic> json) {
     return NotifyModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      date: json['date'],
+      id: json['id'].toString(),
+      title: json['title'].toString(),
+      description: json['data'].toString(),
+      date: json['created_at'].toString(),
+      status: json['status'].toString(),
+      updatedAt: json['updated_at'].toString(),
     );
   }
 
