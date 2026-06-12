@@ -140,7 +140,6 @@ class _AirtimeViewState extends State<AirtimeView> {
                       if(ctrl.airtimeNet.isEmpty){
                         return SizedBox();
                       }
-                      amountCtrl.text = '0.00';
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: PriceInputField(
@@ -157,7 +156,7 @@ class _AirtimeViewState extends State<AirtimeView> {
                               await ctrl.buyAirtime(
                                 amount: amoun,
                                 number: numberCtrl.text,
-                                netId: ctrl.airtimeNet[navCtrl.select.value - 1].serviceId,
+                                netId: ctrl.airtimeNet[navCtrl.select.value].serviceId,
                                 pin: pin,
                               );
                             },
