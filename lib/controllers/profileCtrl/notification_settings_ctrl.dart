@@ -14,6 +14,8 @@ class NoteSettingsCtrl extends GetxController{
   var lowBalance = true.obs;
   var pushNotify = true.obs;
   var mailNotify = true.obs;
+  var systemMode = true.obs;
+  var appMode = true.obs;
   var loading = false.obs;
 
   Future<void> saveUpdate(String key, bool value) async{
@@ -46,6 +48,16 @@ class NoteSettingsCtrl extends GetxController{
     mailNotify.value = value ?? true;
     return value ?? true;
   }
+  Future<bool> getSystem() async {
+    final bool? value = await service.retrieve(PrefStoreKeys.system);
+    systemMode.value = value ?? true;
+    return value ?? true;
+  }
+  Future<bool> getAppMode() async {
+    final bool? value = await service.retrieve(PrefStoreKeys.appMode);
+    appMode.value = value ?? true;
+    return value ?? true;
+  }
 
   @override
   void onReady() {
@@ -55,6 +67,8 @@ class NoteSettingsCtrl extends GetxController{
     getMailNot();
     getTrans();
     getPush();
+    getAppMode();
+    getSystem();
     super.onReady();
   }
 }
