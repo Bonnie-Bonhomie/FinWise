@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import '../../../controllers/controller_exports.dart';
 
 class PriceInputField extends StatefulWidget {
-  PriceInputField({
+  const PriceInputField({
     super.key,
     required this.amountCtrl,
     required this.numberCtrl,
@@ -42,6 +42,7 @@ class PriceInputField extends StatefulWidget {
 class _PriceInputFieldState extends State<PriceInputField> {
   final loadCtrl = Get.find<LoaderController>();
   final acc = Get.find<AccBalanceCtrl>();
+  final rootContext = Get.context!;
   bool hasText = false;
 
   double amount = 0.00;
@@ -60,7 +61,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
 
     return Container(
       margin: const EdgeInsets.only(top: 40, bottom: 20),
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
@@ -74,8 +75,8 @@ class _PriceInputFieldState extends State<PriceInputField> {
                 child: PriceFormField(
                     numberCtrl: widget.amountCtrl,
                     onChanged: (value){
-                      // print(value);
                       setState(() {
+
                         hasText = (parseAmount(value) >= widget.lowestAmount) && (parseAmount(value) <= widget.highestAmount);
                       });
                     },
@@ -89,8 +90,10 @@ class _PriceInputFieldState extends State<PriceInputField> {
                 child:  ElevatedButton(
 
                   onPressed: () {
-
-                    FocusScope.of(context).unfocus();
+                    // if (widget.onBack != null) {
+                      widget.onBack();
+                    // }
+                    FocusScope.of(rootContext).unfocus();
                     // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
                     // print(widget.amountCtrl.text);
                     amount = parseAmount(widget.amountCtrl.text.trim());
@@ -99,18 +102,19 @@ class _PriceInputFieldState extends State<PriceInputField> {
                       loadCtrl.offLoading(() async {
                         await acc.getBalance();
                         // print(parseAmount(widget.amountCtrl.text.trim()));
-                        // Get.back();
-                        // widget.onBack();
-                        ConfirmBottomSheet().confirmBottomSheet(
-                          imgPath: widget.imgPath,
-                            context,
+
+                        Future.delayed(const Duration(milliseconds: 100), (){
+                            ConfirmBottomSheet().confirmBottomSheet(
+                            imgPath: widget.imgPath,
+                            rootContext,
                             amount: amount,
                             numberCtrl: widget.numberCtrl,
                             productName: widget.productName,
-                             action: widget.action, balance: widget.balance);
-                        widget.numberCtrl.text.isEmpty? widget.amountCtrl.text ='': null;
+                            action: widget.action, balance: widget.balance);
+                            widget.numberCtrl.text.isEmpty? widget.amountCtrl.text ='': null;
                         amount = 0.00;
-                    })
+                        });
+                      })
                         : CustomSnackbar.showSnackbar(title: 'Error', message: widget.errMessage);
 
                     setState(() {
