@@ -44,7 +44,7 @@ class TransactionCard extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: AppColors.blue,
                 radius: 20,
-                child: AppText(text: tx.modelableType[0].toUpperCase(), textColor: Colors.white, textWeigh: FontWeight.bold,),
+                child: Icon(tx.category.icon),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,7 +165,7 @@ print(tx.fundAt);
               CircleAvatar(
                 backgroundColor: AppColors.blue,
                 radius: 20,
-                child: AppText(text: tx.narration.toUpperCase(), textColor: Colors.white, textWeigh: FontWeight.bold,),
+                child: AppText(text: tx.narration[0].toUpperCase(), textColor: Colors.white, textWeigh: FontWeight.bold,),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
