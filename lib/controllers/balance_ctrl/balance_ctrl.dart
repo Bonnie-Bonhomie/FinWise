@@ -4,7 +4,7 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
-import 'package:pdf/pdf.dart';
+
 
 import '../controller_exports.dart';
 
@@ -49,6 +49,10 @@ class AccBalanceCtrl extends GetxController {
   void fillBalance() {
     accountBalance.value = double.parse(auth.userWallet?.accBalance ?? '0.00');
   }
+  double formatDouble(String amount){
+    double formated = double.parse(amount);
+    return formated;
+  }
 
   Future<void> getBonusBal() async{
 
@@ -60,20 +64,22 @@ class AccBalanceCtrl extends GetxController {
         CustomSnackbar.warningSnack('Unauthenticated');
 
       }else{
-        final response = await repo.getWallet(token);
+        final response = await repo.getBonusBal(token);
         if(response is DataSuccess){
           if(response.data['status'] == true){
             final data = response.data['data'];
-            bonusBal.value = data['referralAmount'];
-            dailyExpense.value = data['daily_spent'];
-            monthlyExpense.value = data['total_spent_amount_with_monthly'];
-            totalExpense.value = data['total_spent_amount'];
+            print(data);
+            bonusBal.value = formatDouble((data['referralAmount'].toString()));
+            dailyExpense.value = formatDouble(data['daily_spent'].toString());
+            monthlyExpense.value = formatDouble(data['total_spent_amount_with_monthly'].toString());
+            totalExpense.value = formatDouble(data['total_spent_amount'].toString());
 
           }
         }else if(response is DataFailed){
           final err = response.exception;
 
           if (err is DioException) {
+            print(err);
             //  Network issues
             if (err.type == DioExceptionType.connectionError) {
               CustomSnackbar.showSnackbar(message: 'No internet connection, when loading bonus');
@@ -82,22 +88,22 @@ class AccBalanceCtrl extends GetxController {
 
             //  Server error
             final errData = err.response?.data;
-            // print(err.response?.data);
+            print(err.response?.data);
 
             if (errData != null && errData['message'] != null) {
               CustomSnackbar.showSnackbar(message: errData['message']);
             } else {
               CustomSnackbar.showSnackbar(
-                  message: 'Server error, Unable to load bonus');
+                  message: 'Server error, Unable to load expenses');
             }
           } else {
-            CustomSnackbar.showSnackbar(message: 'Unknown error occurred, Unable to load bonus');
+            CustomSnackbar.showSnackbar(message: 'Unknown error occurred, Unable to load expenses');
           }
         }
       }
       }catch(e){
       print(e);
-      CustomSnackbar.showSnackbar(message: 'Something went wrong, Unable to load bonus');
+      CustomSnackbar.showSnackbar(message: 'Something went wrong, Unable to load expenses');
     }finally{
       loadingB.value = false;
     }
