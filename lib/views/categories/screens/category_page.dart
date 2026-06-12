@@ -45,7 +45,7 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: PageContainer(
-          topMargin: 30,
+          topMargin: 10,
           bottomPadding: 15,
           topChild: Column(
             children: [
@@ -158,16 +158,16 @@ class _CategoryPageState extends State<CategoryPage> {
               ],
             ),
           ),
-          CustomLinearProgress(
-            total: ' ${acc.spendingLimit.value.toStringAsFixed(2)}',
-            percent: percent,
-          ),
+          // CustomLinearProgress(
+          //   total: ' ${acc.spendingLimit.value.toStringAsFixed(2)}',
+          //   percent: percent,
+          // ),
           SizedBox(height: 20),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.check_circle_outline),
+              Icon(Icons.check_circle_sharp),
               AppText(
                 text: 'Service at Glance',
               ),
