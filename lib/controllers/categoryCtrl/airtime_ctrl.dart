@@ -115,7 +115,6 @@ class AirtimeCtrl extends GetxController {
 
         //3. Then add the list in your own list
         airtimeNet.addAll(netwok);
-        // selected.value = airtimeNet[0];
         print(airtimeNet);
       } else {
         return;
