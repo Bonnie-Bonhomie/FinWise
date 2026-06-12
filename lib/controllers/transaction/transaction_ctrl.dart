@@ -79,32 +79,34 @@ class TransactionCtrl extends GetxController{
 
 ///Get transaction per page
 
-  Future<List<TransactionModel>> getTransactions(int page) async{
+  Future<void> getTransactions(int page) async{
     try{
-
-      loading.value = true;
     final token = await storage.getToken();
     if(token == null){
      CustomSnackbar.showSnackbar(message: 'User not authourized');
-      return <TransactionModel>[];
+      return;
     }
     final transact = await repo.getTransactPerPage(token, page);
-    transactionList.clear();
+    // transactionList.clear();
 
     if(transact is DataSuccess){
       if(transact.data['status'] == true){
         final data = transact.data['data'];
-        if(data[page -1 ]['next_page_url'] != null){
+        if(data[0]['next_page_url'] != null){
           nextPage.value = true;
         }
-        // print(data[page -1 ]['to']);
 
-        List currentPage = data[page - 1]['data'];
+        List currentPage = data[0]['data'];
         List trans = currentPage;
         print(transact.data);
         final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
-        transactionList.assignAll(transac);
+        if(page == 1){
+          transactionList.assignAll(transac);
+        }else{
+          transactionList.addAll(transac);
+        }
+
         print(transactionList.length);
 
         if(transactionList.isEmpty){
@@ -121,27 +123,37 @@ class TransactionCtrl extends GetxController{
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.connectionTimeout) {
           error.value = 'No internet connection';
-          return [];
+          return ;
         }
 
         final errData = err.response!.data;
         if(errData != null && errData['message'] != null){
           error.value = errData['message'].toString();
-        }else{
-          error.value = 'Something went wrong, try to reload';
         }
-      }else{
-        error.value = 'Something went wrong, try again later';
+        // else{
+        //   error.value = 'Something went wrong, try to reload';
+        // }
       }
-      return [];
+      else{
+        error.value = 'Something went wrong, reload page';
+      }
+      return ;
     }
     }catch(e){
       print(e);
-      error.value = 'Something went wrong, try again later';
-    }finally{
-      loading.value = false;
+      error.value = 'Something went wrong, reload page';
     }
-    return transactionList;
+  }
+
+  Future<void> loadFresh() async{
+    loading.value = true;
+    try{
+      await getTransactions(1);
+    }catch(e){
+      print(e);
+    }
+
+    loading.value = false;
   }
 
 ///Get all Deposits
@@ -209,11 +221,11 @@ class TransactionCtrl extends GetxController{
 
   Future<void> fetchMoreTran() async{
 
+    if(!nextPage.value)return;
     try{
       loadMore.value = true;
-
-      final response = await getTransactions(page + 1);
-      allTransactions.add(response);
+      page = page +1;
+      await getTransactions(page);
     }catch(e){
       print(e);
       CustomSnackbar.showSnackbar(message: 'Something went wrong');
@@ -239,12 +251,14 @@ class TransactionCtrl extends GetxController{
   ];
 
   Future<void> scrollFunction() async {
-    if(scrollCtrl.position.pixels >= scrollCtrl.position.maxScrollExtent){
+    if(!nextPage.value)return;
+    if(scrollCtrl.position.pixels >= scrollCtrl.position.maxScrollExtent && !loadMore.value){
           loadMore.value = true;
           print(loadMore.value);
-    }else{
-      print('Hello');
+          await fetchMoreTran();
+          print(transactionList.length);
     }
+    return;
   }
 
 
