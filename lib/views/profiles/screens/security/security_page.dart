@@ -27,7 +27,7 @@ class SecurityPage extends StatelessWidget {
                 textWeigh: FontWeight.bold,
               ),
               secureTile('Change Pin', (){Get.find<ProfileMainControl>().toChangePin();}),
-              secureTile('FingerPrint', (){Get.find<ProfileMainControl>().toFingerPrints();}),
+              // secureTile('FingerPrint', (){Get.find<ProfileMainControl>().toFingerPrints();}),
               secureTile('Terms and Condition', (){Get.toNamed(Routes.terms);}),
             ],
           ),
