@@ -20,6 +20,7 @@ class ApiEndpoints{
   static const String referralList = 'profile/referrals';
   static const String bonusBal = 'profile/bonusbalance';
   static const String withdrawBonus = 'profile/updatewithdrawbonus';
+  static const String notification = 'profile/notifications';
 
 
   static const String changePwd = 'auth/user/acc';
@@ -55,7 +56,7 @@ class ApiEndpoints{
   static const String verifyEduCard = 'education/exam-card-verify';
 
 
-///Not yet in use for real API call
+///Transaction Api endpoint///
   static const String virtual = 'virtual';
   static const String transact = 'transaction';
   static const String deposits = 'deposits';
