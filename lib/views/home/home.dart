@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 
 import '../../core/Routes/routes.dart';
 import '../../core/app_colors.dart';
-import '../../utils/widgets/custom_linear_progress.dart';
 import '../view_widgets/category_card.dart';
 import '../view_widgets/transaction_card.dart';
 
@@ -55,7 +54,7 @@ class _HomePageState extends State<HomePage>
       getName();
       // (viewModel.greeting());
       await acc.getBalance();
-      // if(trans.transactionList.isNotEmpty){return;}else{
+      await acc.getBonusBal();
       await trans.getTransactions(1);
     });
   }
@@ -69,6 +68,7 @@ class _HomePageState extends State<HomePage>
   Future<void> onRefresh() async {
     Future.delayed(Duration(seconds: 2), () async {
       await acc.getBalance();
+      await acc.getBonusBal();
       trans.getTransactions(1);
     });
   }
@@ -87,6 +87,7 @@ class _HomePageState extends State<HomePage>
           child: SingleChildScrollView(
             child: Obx(() {
               return PageContainer(
+                topPadding: 30,
                 topMargin: 10,
                 topChild: Column(
                   children: [
@@ -358,15 +359,13 @@ class _HomePageState extends State<HomePage>
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 5.0),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: Colors.white,
-            child: AppText(
-              text: name[0],
-              textWeigh: FontWeight.bold,
-              textSize: 25,
-            ),
+            backgroundColor: AppColors.primaryLight,
+            child: Icon(Icons.account_circle, size: 40,)
           ),
+          const SizedBox(width: 3.0,),
           SlideTransition(
             position:
                 Tween<Offset>(
