@@ -379,18 +379,18 @@ class _ElectricityViewState extends State<ElectricityView> {
                       ),
                     ),
                   ),
-                  // PriceInputField(
-                  //   onBack: (){},
-                  //   amountCtrl: amountCtrl,
-                  //   numberCtrl: meterCtrl,
-                  //   lowestAmount: 500,
-                  //   productName: 'Electricity',
-                  //   balance: acc.accountBalance.value,
-                  //   action: (pin)async {
-                  //     print('This is the elect Price: ${amountCtrl.text}');
-                  //     await electCtrl.buyElectric(amount: amountCtrl.text.trim(), meterNum: meterCtrl.text, type: electType[selectPaid], transPin: pin, serviceId: select.electricCode);
-                  //   },
-                  // ),
+                  PriceInputField(
+                    onBack: (){},
+                    amountCtrl: amountCtrl,
+                    numberCtrl: meterCtrl,
+                    lowestAmount: 500,
+                    productName: 'Electricity',
+                    balance: acc.accountBalance.value,
+                    action: (pin)async {
+                      print('This is the elect Price: ${amountCtrl.text}');
+                      await electCtrl.buyElectric(amount: amountCtrl.text.trim(), meterNum: meterCtrl.text, type: electType[selectPaid], transPin: pin, serviceId: select.electricCode);
+                    },
+                  ),
                 ],
               );
             }),
