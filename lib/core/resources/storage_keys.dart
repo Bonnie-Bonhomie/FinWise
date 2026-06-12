@@ -7,6 +7,8 @@ class PrefStoreKeys{
   static const String lowBalance = 'lowBalance';
   static const String mailNot = 'mailNot';
   static const String pushNot = 'pushNot';
+  static const String system = 'system';
+  static const String appMode = 'appMode';
 
 
   static const String enableFingerprint = 'Enable';
