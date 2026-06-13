@@ -22,14 +22,12 @@ class ApiEndpoints{
   static const String withdrawBonus = 'profile/updatewithdrawbonus';
   static const String notification = 'profile/notifications';
 
-
+///Not in use
   static const String changePwd = 'auth/user/acc';
-  static const String changePin = 'auth/user/acc';
-  static const String forgetPin = 'auth/user/acc';
-  static const String recoverPwd = 'auth/user/acc';
+
 
   ///Payment GateWay
-  static const String paymentInit = 'payment/paystack-init';
+  static const String paymentChannel = 'payment/channels';
 
   //Services
   static const String airtimeNetwork = 'airtime/networks';
