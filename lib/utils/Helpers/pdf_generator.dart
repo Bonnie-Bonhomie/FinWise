@@ -2,6 +2,7 @@ import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:pdf/pdf.dart';
@@ -24,6 +25,11 @@ class PdfGeneratorService {
   }
 
   Future<void> generatePdfAndShare(TransactionModel receipt) async {
+
+    final ByteData data = await rootBundle.load(PrefStoreKeys.appImage);
+    final Uint8List bytes = data.buffer.asUint8List();
+
+    final image = pw.MemoryImage(bytes);
     final pdf = pw.Document();
     final viewModel = HomeViewModel();
     final roboto = pw.Font.ttf(
@@ -42,7 +48,7 @@ class PdfGeneratorService {
             children: [
               pw.SizedBox(height: 15),
 
-              // pw.Image(image: pw.AssetImage(PrefStoreKeys.appImage), height: 80, width: 80,),
+              pw.Image(image, width: 70, height: 70),
               pw.Text(
                 PrefStoreKeys.appName,
                 style: pw.TextStyle(
