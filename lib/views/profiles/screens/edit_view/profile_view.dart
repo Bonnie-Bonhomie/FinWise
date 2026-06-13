@@ -21,7 +21,7 @@ class _ProfileViewState extends State<ProfileView> {
   final home = Get.find<NavControl>();
   final loader = Get.find<LoaderController>();
   String name = '';
-  String id = '000';
+  String email = '';
 
 
 
@@ -65,7 +65,7 @@ class _ProfileViewState extends State<ProfileView> {
                           textWeigh: FontWeight.bold,
                           textSize: 25,
                         ),
-                        AppText(text: 'ID: ${auth.id}'),
+                        AppText(text: auth.email.value),
                         SizedBox(height: 20),
 
                         //Profile Lists
