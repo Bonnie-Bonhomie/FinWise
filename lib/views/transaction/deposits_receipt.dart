@@ -1,11 +1,9 @@
 import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/Helpers/generate_image_service.dart';
-import 'package:fin_wise/utils/Helpers/pdf_generator.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +12,7 @@ import 'package:get/get.dart';
 class DepositsReceipt extends StatelessWidget {
   DepositsReceipt({super.key});
 
-  final GlobalKey receiptKey = GlobalKey();
+  final GlobalKey depositKey = GlobalKey();
   final viewModel = HomeViewModel();
   final trans = Get.find<TransactionCtrl>();
   final acc = Get.find<AccBalanceCtrl>();
@@ -46,7 +44,7 @@ class DepositsReceipt extends StatelessWidget {
             const SizedBox(height: 30),
             Center(
               child: RepaintBoundary(
-                key: receiptKey,
+                key: depositKey,
                 child: Container(
                   alignment: Alignment.center,
                   height: 600,
@@ -73,10 +71,10 @@ class DepositsReceipt extends StatelessWidget {
                         width: 70,
                       ),
 
-                      const HeadingText(
-                        headingText: PrefStoreKeys.appName,
-                        color: AppColors.darkGreen,
-                      ),
+                      // const HeadingText(
+                      //   headingText: PrefStoreKeys.appName,
+                      //   color: AppColors.darkGreen,
+                      // ),
                       const HeadingText(
                         headingText: 'Deposit Receipt',
                         color: AppColors.darkGreen,
@@ -121,7 +119,7 @@ class DepositsReceipt extends StatelessWidget {
                   'Share as image',
                       () {
                     ImageGenerationService(
-                      receiptKey,
+                      depositKey,
                       receiptDet.tranReference,
                     ).shareImage();
                   },
