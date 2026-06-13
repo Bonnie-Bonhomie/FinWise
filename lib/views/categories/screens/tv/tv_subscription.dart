@@ -65,8 +65,13 @@ class _TvSubscriptionState extends State<TvSubscription>
 
   @override
   Widget build(BuildContext context) {
-    tvDetails = Get.arguments ?? tvCtrl.availableCable[0];
-    print(tvDetails);
+    final args = Get.arguments;
+
+    if (args is CableModel) {
+      tvDetails = args;
+    } else {
+      tvDetails = tvCtrl.availableCable[0];
+    }
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: onRefresh,
@@ -141,11 +146,15 @@ class _TvSubscriptionState extends State<TvSubscription>
                                 onChanged: (value) {
                                   setState(() {
                                     correctNumber = value.length == maxLength;
+
                                   });
+                                  if(!correctNumber){
+                                    tvCtrl.verified.value = false;
+                                  }
                                 },
                               ),
                             ),
-                            tvCtrl.verified.value
+                            tvCtrl.verified.value && correctNumber
                                 ? Container(
                                     padding: const EdgeInsets.all(5.0),
                                     decoration: BoxDecoration(
@@ -198,7 +207,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                   ),
                                 ],
                               )
-                            : tvCtrl.verified.value
+                            : tvCtrl.verified.value && correctNumber
                             ? Row(
                                 children: [
                                   const Icon(
@@ -219,7 +228,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                               ),
 
                         ///Details after verification
-                        tvCtrl.verified.value
+                        tvCtrl.verified.value && correctNumber
                             ? Container(
                                 margin: const EdgeInsets.only(top: 15),
                                 padding: const EdgeInsets.all(15),
@@ -243,7 +252,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                     ):rowTile(
                                       text: 'Due Date',
                                       child: AppText(
-                                        text: tvCtrl.verifyDet['Due_Date'].toString(),
+                                        text: viewModel.formatDateOnly(tvCtrl.verifyDet['Due_Date']) ?? 'null',
                                         textSize: 13,
                                       ),
                                     ),
