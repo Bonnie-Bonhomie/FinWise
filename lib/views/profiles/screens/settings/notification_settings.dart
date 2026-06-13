@@ -1,6 +1,7 @@
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/notification_settings_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
@@ -17,50 +18,98 @@ class NotificationSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageContainer(
-        topMargin: 20,
-        topChild: CustomAppBar.header(
-          title: 'Notification Settings',
-          leftRight: 15,
-          onPressed: () => Get.find<ProfileMainControl>().back(),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Obx(() {
-            return Column(
-              children: [
-                switchTile('General Notification', ctrl.general.value, (val) async{
+      body: SingleChildScrollView(
+        child: PageContainer(
+          topMargin: 20,
+          topChild: CustomAppBar.header(
+            title: 'Notification Settings',
+            leftRight: 15,
+            onPressed: () => Get.find<ProfileMainControl>().back(),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Obx(() {
+              return Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        switchTile('General Notification', ctrl.general.value, (val) async{
 
-                  ctrl.general.value = val;
-                  await ctrl.saveUpdate(PrefStoreKeys.generalNot, ctrl.general.value);
-                }),
-                switchTile('Transaction Update', ctrl.transUpdate.value, (val) async{
-                  ctrl.transUpdate.value = val;
-                  await ctrl.saveUpdate(PrefStoreKeys.transactionUpdate, ctrl.transUpdate.value);
-                }),
-                switchTile('Low Balance Alerts', ctrl.lowBalance.value, (val) async{
-                  ctrl.lowBalance.value = val;
-                  await ctrl.saveUpdate(PrefStoreKeys.lowBalance, ctrl.lowBalance.value);
-                }),
-                switchTile('Push Notification', ctrl.pushNotify.value, (val) async {
-                  ctrl.pushNotify.value = val;
-                  await ctrl.saveUpdate(PrefStoreKeys.pushNot, ctrl.pushNotify.value);
-                }),
-                switchTile('Email Notification', ctrl.mailNotify.value, (val) {
-                  ctrl.mailNotify.value = val;
-                  ctrl.saveUpdate(PrefStoreKeys.mailNot, ctrl.mailNotify.value);
-                }),
-                switchTile('System Mode', ctrl.systemMode.value, (val) {
-                  ctrl.systemMode.value = val;
-                  ctrl.saveUpdate(PrefStoreKeys.system, ctrl.systemMode.value);
-                }),
-                switchTile('App Mode', ctrl.appMode.value, (val) {
-                  ctrl.appMode.value = val;
-                  ctrl.saveUpdate(PrefStoreKeys.appMode, ctrl.appMode.value);
-                }),
-              ],
-            );
-          }),
+                          ctrl.general.value = val;
+                          await ctrl.saveUpdate(PrefStoreKeys.generalNot, ctrl.general.value);
+                        }),
+                        switchTile('Transaction Update', ctrl.transUpdate.value, (val) async{
+                          ctrl.transUpdate.value = val;
+                          await ctrl.saveUpdate(PrefStoreKeys.transactionUpdate, ctrl.transUpdate.value);
+                        }),
+                        switchTile('Low Balance Alerts', ctrl.lowBalance.value, (val) async{
+                          ctrl.lowBalance.value = val;
+                          await ctrl.saveUpdate(PrefStoreKeys.lowBalance, ctrl.lowBalance.value);
+                        }),
+                        switchTile('Push Notification', ctrl.pushNotify.value, (val) async {
+                          ctrl.pushNotify.value = val;
+                          await ctrl.saveUpdate(PrefStoreKeys.pushNot, ctrl.pushNotify.value);
+                        }),
+                        switchTile('Email Notification', ctrl.mailNotify.value, (val) {
+                          ctrl.mailNotify.value = val;
+                          ctrl.saveUpdate(PrefStoreKeys.mailNot, ctrl.mailNotify.value);
+                        }),
+
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                        children: [
+                          RadioListTile<AppThemeMode>(
+                            title: const Text('System'),
+                            value: AppThemeMode.system,
+                            groupValue: ctrl.themeMode.value,
+                            onChanged: (value) {
+                              if (value != null) {
+                                ctrl.changeTheme(value);
+                              }
+                            },
+                          ),
+                          RadioListTile<AppThemeMode>(
+                            title: const Text('Light'),
+                            value: AppThemeMode.light,
+                            groupValue: ctrl.themeMode.value,
+                            onChanged: (value) {
+                              if (value != null) {
+                                ctrl.changeTheme(value);
+                              }
+                            },
+                          ),
+                          RadioListTile<AppThemeMode>(
+                            title: const Text('Dark'),
+                            value: AppThemeMode.dark,
+                            groupValue: ctrl.themeMode.value,
+                            onChanged: (value) {
+                              if (value != null) {
+                                ctrl.changeTheme(value);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              );
+            }),
+          ),
         ),
       ),
     );
