@@ -160,11 +160,9 @@ class _ElectricityViewState extends State<ElectricityView> {
                                   setState(() {
                                     correctMeter = value.length == meterLen;
                                   });
-                                  // correctMeter? electCtrl.verifyMeter(
-                                  //   meterNum: value,
-                                  //   type: electType[selectPaid],
-                                  //   serviceId: select.electricCode,
-                                  // ):null;
+                                 if(!correctMeter){
+                                   electCtrl.verified.value = false;
+                                 }
                                 },
                                 onComplete: () {
                                   electCtrl.verifyMeter(
@@ -258,7 +256,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                               ),
 
                         ///Details after verification
-                        electCtrl.verified.value
+                        electCtrl.verified.value && correctMeter
                             ? Container(
                                 margin: const EdgeInsets.only(top: 15),
                                 padding: const EdgeInsets.all(15),
