@@ -171,12 +171,12 @@ class TransactionCtrl extends GetxController{
       if(deposits is DataSuccess){
         if(deposits.data['status'] == true){
           final data = deposits.data['data'];
-
+          allDeposit.clear();
 
 
           List depos = data;
 
-          print(deposits.data['data']);
+          // print(deposits.data['data']);
           final deposit = depos.map<DepoModel>((e) =>DepoModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
           allDeposit.addAll(deposit);
