@@ -237,13 +237,13 @@ class _TvSubscriptionState extends State<TvSubscription>
                                     tvDetails.id == 3? rowTile(
                                       text: 'Type',
                                       child: AppText(
-                                        text: tvCtrl.verifyDet['commission_details']['computation_type'] ?? 'null',
+                                        text: tvCtrl.verifyDet['commission_details']['computation_type'].toString(),
                                         textSize: 13,
                                       ),
                                     ):rowTile(
                                       text: 'Due Date',
                                       child: AppText(
-                                        text: tvCtrl.verifyDet['Due_Date'] ?? 'null',
+                                        text: tvCtrl.verifyDet['Due_Date'].toString(),
                                         textSize: 13,
                                       ),
                                     ),
@@ -252,8 +252,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                       child: AppText(
                                         textSize: 13,
                                         text:
-                                        tvCtrl.verifyDet['Balance'] ??
-                                            'null',
+                                        tvCtrl.verifyDet['Balance'].toString()
                                       ),
                                     ):rowTile(
                                       text: 'Customer Type',
@@ -371,7 +370,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                       plan: tvDetails.serviceId,
                       action: (pin) async {
                         await tvCtrl.buyTvService(
-                          phone: tvCtrl.verifyDet['Customer_Number'],
+                          phone: tvCtrl.verifyDet['Customer_Number'].toString(),
                           smartcard: smartCardCtrl.text,
                           subType: 'change',
                           transPin: pin,
@@ -518,7 +517,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                       balance: acc.accountBalance.value,
                       action: (pin) async {
                         await tvCtrl.buyTvService(
-                          phone: tvCtrl.verifyDet['Customer_Number'],
+                          phone: tvCtrl.verifyDet['Customer_Number'].toString(),
                           smartcard: smartCardCtrl.text,
                           subType: 'change',
                           transPin: pin,
