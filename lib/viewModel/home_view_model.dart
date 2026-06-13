@@ -74,6 +74,16 @@ class HomeViewModel {
     String formatTime = DateFormat('HH:mm').format(date);
     return '$formatted ~ $formatTime';
   }
+
+  String formatDateOnly(String value){
+
+    DateTime date =  DateTime.parse(value);
+
+    String formatted = DateFormat('MMMM dd, yyyy').format(date);
+    return formatted;
+  }
+
+
   String? textToTims(String text){
     String formated = text;
     if(text.length <= 4) return formated;
