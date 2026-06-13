@@ -82,11 +82,8 @@ class _BuyPinViewState extends State<BuyPinView> {
                   const SizedBox(height: 30),
                 selectedSchool.serviceName == jamb
                     ? Obx(() {
-                        return Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(10),
-                          ),
+                        return SizedBox(
+
                           child: Column(
 
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,21 +92,30 @@ class _BuyPinViewState extends State<BuyPinView> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: PriceFormField(
-                                      numberCtrl: profileCtrl,
-                                      hint: AppText(
-                                        text: 'Enter your profile code',
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(10),
                                       ),
-                                      length: length,
-                                      key: profileKey,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          correctNumber = value.length == length;
-                                        });
-                                      },
+                                      child: PriceFormField(
+                                        numberCtrl: profileCtrl,
+                                        hint: AppText(
+                                          text: 'Enter your profile code',
+                                        ),
+                                        length: length,
+                                        key: profileKey,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            correctNumber = value.length == length;
+                                          });
+                                          if(!correctNumber){
+                                            eduCtrl.verified.value = false;
+                                          }
+                                        },
+                                      ),
                                     ),
                                   ),
-                                  eduCtrl.verified.value
+                                  eduCtrl.verified.value && correctNumber
                                       ? Icon(
                                           Icons.done_outline_outlined,
                                           color: AppColors.primary,
@@ -140,7 +146,7 @@ class _BuyPinViewState extends State<BuyPinView> {
                                 ],
                               ),
                               const SizedBox(height: 5.0),
-                              eduCtrl.verified.value
+                              eduCtrl.verified.value && correctNumber
                                   ? Row(
                                       children: [
                                         Icon(
@@ -154,7 +160,6 @@ class _BuyPinViewState extends State<BuyPinView> {
                                                   .verifyDet['Customer_Name'] ??
                                               'Error',
                                           textColor: AppColors.primary,
-                                          textSize: 18,
                                         ),
                                       ],
                                     )
