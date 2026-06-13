@@ -174,7 +174,7 @@ class _TransactionViewState extends State<TransactionView> {
                     text: DateFormat('MMM yyyy').format(month),
                     textWeigh: FontWeight.bold,
                     textColor: viewSelct == 1 ? AppColors.primary: Theme.of(context).textTheme.bodyMedium?.color,
-                    textSize: 20,);
+                  );
                 }
                 ),
                 Icon(Icons.arrow_drop_down_sharp),
@@ -193,7 +193,7 @@ class _TransactionViewState extends State<TransactionView> {
               children: [
                 AppText(text: 'My Deposits', textWeigh: FontWeight.bold,
                  textColor: viewSelct == 2 ? AppColors.primary: Theme.of(context).textTheme.bodyMedium?.color,
-                  textSize: 20,),
+                ),
                 Icon(Icons.arrow_drop_down_sharp),
               ],
             ),
