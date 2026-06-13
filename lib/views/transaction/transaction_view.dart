@@ -30,22 +30,13 @@ class _TransactionViewState extends State<TransactionView> {
   int isSelected = 1;
   int viewSelct = 1;
 
-  void select() {
-    setState(() {
-      if (isSelected < 2) {
-        isSelected++;
-      } else {
-        isSelected = 0;
-      }
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     Future.microtask(() async {
       await trans.loadFresh();
       await acc.getBonusBal();
+      await acc.getBalance();
       await trans.loadDepo();
     });
 
@@ -91,9 +82,9 @@ class _TransactionViewState extends State<TransactionView> {
                         ),
                         child: Column(
                           children: [
-                            const AppText(text: 'Total Expense'),
+                            const AppText(text: 'Current Balance'),
                             AppText(
-                              text: viewModel.formatCurrency(acc.totalExpense
+                              text: viewModel.formatCurrency(acc.accountBalance
                                   .value),
                               textWeigh: FontWeight.bold,
                               textSize: 20,
