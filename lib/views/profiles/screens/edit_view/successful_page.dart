@@ -68,7 +68,7 @@ class _SuccessfulPageState extends State<SuccessfulPage>{
             ),
             SizedBox(
                 width: 200,
-                child: AppText(text: args ?? 'Successfully', textColor: AppColors.bgColor, textAlign: TextAlign.center, textSize: 20, textWeigh: FontWeight.bold,))
+                child: Text(args ?? 'Successfully', textAlign: TextAlign.center, maxLines: 2, style: TextStyle(fontWeight:  FontWeight.bold, fontSize: 18),))
           ],
         ),
       ),
