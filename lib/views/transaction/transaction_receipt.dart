@@ -72,11 +72,11 @@ class TransactionReceipt extends StatelessWidget {
                         height: 70,
                         width: 70,
                       ),
-
-                      const HeadingText(
-                        headingText: PrefStoreKeys.appName,
-                        color: AppColors.darkGreen,
-                      ),
+                      const SizedBox(height: 20,),
+                      // const HeadingText(
+                      //   headingText: PrefStoreKeys.appName,
+                      //   color: AppColors.darkGreen,
+                      // ),
                       const HeadingText(
                         headingText: 'Transaction Receipt',
                         color: AppColors.darkGreen,
