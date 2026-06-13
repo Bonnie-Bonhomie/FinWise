@@ -96,4 +96,21 @@ extension TransactionStatusExtension on TransactionStatus{
 }
 
 
+enum AppThemeMode {
+  system,
+  light,
+  dark,
+
+}
+
+extension AppThemeExten on AppThemeMode{
+  static AppThemeMode getMode(String mode) {
+    return AppThemeMode.values.firstWhere(
+          (e) => e.name.toLowerCase() == mode.toLowerCase(),
+      orElse: () => AppThemeMode.system,
+    );
+  }
+}
+
+
 
