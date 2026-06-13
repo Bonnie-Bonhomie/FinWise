@@ -120,7 +120,7 @@ class AccBalanceCtrl extends GetxController {
 
     if (response is DataSuccess) {
       final data = response.data;
-      // print(data['data']['bal']);
+      print(data);
       if (data['status'] == true) {
 
         accountBalance.value = double.parse(data['data']['bal']);
@@ -133,12 +133,12 @@ class AccBalanceCtrl extends GetxController {
       if (err is DioException) {
         //  Network issues
         if (err.type == DioExceptionType.connectionError ) {
-          balanceErr.value = 'no internet connection';
+          balanceErr.value = 'No network ';
         }
 
         //  Server error
         final errData = err.response?.data;
-        // print(err.response?.data);
+        print(err.response?.data);
 
         print(errData);
         if (errData != null && errData['message'] != null) {
@@ -146,11 +146,10 @@ class AccBalanceCtrl extends GetxController {
         } else {
           balanceErr.value = 'unable to load balance';
         }
-      } }else{
-      balanceErr.value = 'unable to load balance';
-    }
+      } }
     }}catch(e){
-      balanceErr.value = 'Something went wrong try again later';
+      print(e);
+      balanceErr.value = 'reload page';
     }finally{
       loading.value = false;
     }
