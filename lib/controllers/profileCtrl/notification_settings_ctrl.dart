@@ -1,13 +1,13 @@
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class NoteSettingsCtrl extends GetxController{
-
+class NoteSettingsCtrl extends GetxController {
   final SharedPreferService service;
+
   NoteSettingsCtrl(this.service);
-
-
 
   RxBool general = true.obs;
   var transUpdate = false.obs;
@@ -18,44 +18,65 @@ class NoteSettingsCtrl extends GetxController{
   var appMode = true.obs;
   var loading = false.obs;
 
-  Future<void> saveUpdate(String key, bool value) async{
+  final themeMode = AppThemeMode.system.obs;
+
+  void changeTheme(AppThemeMode mode,{bool save = true}) async{
+    themeMode.value = mode;
+
+    switch (mode) {
+      case AppThemeMode.system:
+        Get.changeThemeMode(ThemeMode.system);
+        break;
+      case AppThemeMode.light:
+        Get.changeThemeMode(ThemeMode.light);
+        break;
+      case AppThemeMode.dark:
+        Get.changeThemeMode(ThemeMode.dark);
+        break;
+    }
+    if(save){
+      await service.saveData<String>(PrefStoreKeys.appMode, mode.name);
+    }
+  }
+
+
+  Future<void> getAppMode() async {
+    final value = await service.retrieve(PrefStoreKeys.appMode);
+
+    final mode = AppThemeExten.getMode(value);
+    changeTheme(mode, save: false);
+  }
+  Future<void> saveUpdate(String key, bool value) async {
     await service.saveData<bool>(key, value);
   }
 
-
   Future<void> getGeneral() async {
-   final bool? value = await service.retrieve(PrefStoreKeys.generalNot);
-   general.value = value ?? true;
-   print(value);
+    final bool? value = await service.retrieve(PrefStoreKeys.generalNot);
+    general.value = value ?? true;
+    print(value);
   }
+
   Future<void> getTrans() async {
     final bool? value = await service.retrieve(PrefStoreKeys.transactionUpdate);
     transUpdate.value = value ?? false;
     print(value);
   }
+
   Future<void> getLowBal() async {
     final bool? value = await service.retrieve(PrefStoreKeys.lowBalance);
     lowBalance.value = value ?? true;
     print(value);
   }
+
   Future<void> getPush() async {
     final bool? value = await service.retrieve(PrefStoreKeys.pushNot);
     pushNotify.value = value ?? true;
     print(value);
   }
+
   Future<bool> getMailNot() async {
     final bool? value = await service.retrieve(PrefStoreKeys.mailNot);
     mailNotify.value = value ?? true;
-    return value ?? true;
-  }
-  Future<bool> getSystem() async {
-    final bool? value = await service.retrieve(PrefStoreKeys.system);
-    systemMode.value = value ?? true;
-    return value ?? true;
-  }
-  Future<bool> getAppMode() async {
-    final bool? value = await service.retrieve(PrefStoreKeys.appMode);
-    appMode.value = value ?? true;
     return value ?? true;
   }
 
@@ -68,7 +89,6 @@ class NoteSettingsCtrl extends GetxController{
     getTrans();
     getPush();
     getAppMode();
-    getSystem();
     super.onReady();
   }
 }
