@@ -171,7 +171,6 @@ class TransactionCtrl extends GetxController{
       if(deposits is DataSuccess){
         if(deposits.data['status'] == true){
           final data = deposits.data['data'];
-          allDeposit.clear();
 
 
           List depos = data;
@@ -179,7 +178,7 @@ class TransactionCtrl extends GetxController{
           // print(deposits.data['data']);
           final deposit = depos.map<DepoModel>((e) =>DepoModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
-          allDeposit.addAll(deposit);
+          allDeposit.assignAll(deposit);
 
           if(allDeposit.isEmpty){
             error.value = 'No transaction history';
