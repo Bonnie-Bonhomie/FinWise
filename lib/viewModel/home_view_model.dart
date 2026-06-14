@@ -58,11 +58,11 @@ class HomeViewModel {
     }
   }
 
-  Future<void> launchre() async {
-    final Uri url = Uri.parse('https://google.com');
+  Future<void> launchre(String source) async {
+    final Uri url = Uri.parse(source);
 
     if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
+      await launchUrl(url,);
     }
   }
 
