@@ -79,7 +79,7 @@ class PaymentBottomSheet {
                 style: TextButton.styleFrom(
                   shape: RoundedRectangleBorder(),
                 ),
-                icon: const Icon(Icons.dangerous_outlined, size: 25),
+                icon: const Icon(Icons.close, size: 25),
               ),
             ],
           ),
