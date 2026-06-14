@@ -75,3 +75,87 @@ class BottomChild extends StatelessWidget {
     );
   }
 }
+
+
+
+
+// Container bottomContent(VoidCallback onPressed, AccBalanceCtrl acc) {
+//   return Container(
+//     height: 250,
+//     width: 320,
+//     alignment: Alignment.center,
+//     margin: const EdgeInsets.all(15),
+//     padding: const EdgeInsets.all(15),
+//     decoration: BoxDecoration(
+//       color: Theme.of(context).scaffoldBackgroundColor,
+//       borderRadius: BorderRadius.circular(20),
+//     ),
+//     child: Form(
+//       key: formKey,
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//         children: [
+//           Row(
+//             children: [
+//               const AppText(text: 'Enter amount to fund', textSize: 20),
+//               const Spacer(),
+//               IconButton(
+//                 onPressed: () {
+//                   setState(() {
+//                     isOpen = false;
+//                   });
+//                   print(isOpen);
+//                 },
+//                 icon: const Icon(Icons.cancel_outlined),
+//               ),
+//             ],
+//           ),
+//           Container(
+//             padding: const EdgeInsets.only(left: 15, right: 15),
+//             decoration: BoxDecoration(
+//               color: Theme.of(context).cardColor,
+//               borderRadius: BorderRadius.circular(20),
+//             ),
+//             child: Row(
+//               children: [
+//                 AppText(text: '₦', textSize: 20),
+//                 Expanded(
+//                   child: PriceFormField(
+//                     numberCtrl: amountCtrl,
+//                     hint: AppText(text: 'Enter amount to fund'),
+//                     color: Colors.transparent,
+//                     key: amountKey,
+//                     onTap: () {
+//                       setState(() {
+//                         focused = true;
+//                       });
+//                     },
+//                     validator: (val) => Validator.validatePrice(val!),
+//                     onChanged: (val) => amountKey.currentState!.validate(),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           // AppText(text: 'Please enter amount you want to fund', textColor: Colors.red,),
+//           Divider(color: AppColors.lightGreen, thickness: 3),
+//           AppBtn(
+//             onPressed: () {
+//               if (formKey.currentState!.validate()) {
+//                 setState(() {
+//                   focused = false;
+//                   isOpen = false;
+//                 });
+//                 onPressed();
+//
+//               } else {}
+//               amountCtrl.text = '';
+//               acc.selectPay.value = '';
+//             },
+//             label: 'Proceed to payment',
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
