@@ -222,7 +222,10 @@ class TransactionCtrl extends GetxController{
 
   Future<void> fetchMoreTran() async{
 
-    if(!nextPage.value)return;
+    if(!nextPage.value){
+      page = 1;
+      return;
+    }
     try{
       loadMore.value = true;
       page = page +1;
