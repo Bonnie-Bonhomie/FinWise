@@ -38,6 +38,7 @@ class _TransactionViewState extends State<TransactionView> {
       await acc.getBonusBal();
       await acc.getBalance();
       await trans.loadDepo();
+      trans.page = 1;
     });
 
     super.initState();
