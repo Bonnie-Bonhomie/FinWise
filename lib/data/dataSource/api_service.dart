@@ -5,6 +5,7 @@ import 'package:fin_wise/data/dataSource/dio_client.dart';
 
 class ApiServices {
   final Dio mDio = DioClients.dio;
+  final Dio dio = Dio();
 
   Future<Response> postRequests(
     String endPoint,
@@ -30,6 +31,26 @@ class ApiServices {
       ) async {
     final response = await mDio.post(
       endPoint,
+      data: data,
+      options: Options(
+        headers: {
+          // 'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      ),
+    );
+    // print(response.data);
+    return response;
+  }
+
+  Future<Response> postWithUrlToken(
+      String url,
+      String token,
+      Map<String, dynamic>? data,
+      ) async {
+    final response = await dio.post(
+      url,
       data: data,
       options: Options(
         headers: {
@@ -75,6 +96,22 @@ class ApiServices {
 
   }
 
+  Future<Response> getWIthUrlToken(
+      String url, String token,{
+        Map<String, dynamic>? queryParam,
+      }) async {
+    final response = await mDio.get(
+      url,
+      queryParameters: queryParam,
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      }),
+    );
+
+    return response;
+
+  }
 
   Future<Response> updateProfile({
     required String endPoint,
@@ -107,5 +144,20 @@ class ApiServices {
     );
 
     return response;
+  }
+
+
+  Future<Response> deleteRequestWIthToken(
+      String endpoint, String token) async {
+    final response = await mDio.delete(
+      endpoint,
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      }),
+    );
+
+    return response;
+
   }
 }
