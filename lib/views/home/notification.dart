@@ -81,7 +81,7 @@ class Notification extends StatelessWidget {
             ),
             child: Obx(() {
               print(ctrl.todayNote);
-              if(ctrl.loading.value){
+              if (ctrl.loading.value) {
                 return SkeletonLoader.shimmerLines(len: 5);
               }
               if (ctrl.notifications.isEmpty) {
@@ -121,7 +121,7 @@ class Notification extends StatelessWidget {
                     notificationList(ctrl.otherNote, (index) {
                       // ctrl.deleteNotify(index, ctrl.otherNote);
                       ctrl.markAsRead(index, ctrl.otherNote);
-                    }, ctrl.isRead.value,),
+                    }, ctrl.isRead.value),
                   ],
                 ],
               );
@@ -136,7 +136,7 @@ class Notification extends StatelessWidget {
     List<NotifyModel> list,
     Function(int) onDismissed,
     bool isRead,
-      // BuildContext context,
+    // BuildContext context,
   ) {
     return ListView.builder(
       padding: EdgeInsets.fromLTRB(0, 15, 5, 0),
@@ -147,8 +147,9 @@ class Notification extends StatelessWidget {
         list.sort((a, b) => a.date.compareTo(b.date));
         final nt = list[index];
         return AnimatedCard(
-            index: index,
-            child: notificationCard(nt, onDismissed, isRead, () {}, context));
+          index: index,
+          child: notificationCard(nt, onDismissed, isRead, () {}, context),
+        );
       },
       itemCount: list.length,
     );
@@ -163,7 +164,7 @@ class Notification extends StatelessWidget {
     Function(int) onDismissed,
     bool isRead,
     Function confirm,
-      BuildContext context
+    BuildContext context,
   ) {
     return Dismissible(
       key: Key(notify.title),
@@ -181,11 +182,15 @@ class Notification extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: isRead? AppColors.primaryLight: Theme.of(context).cardColor,
+          color: isRead ? AppColors.primaryLight : Theme.of(context).cardColor,
         ),
         child: ListTile(
-          onTap: (){},
-          leading: CircleAvatar(child: isRead? Icon(Icons.notifications_active): Icon(Icons.notifications_active_outlined),),
+          onTap: () {},
+          leading: CircleAvatar(
+            child: isRead
+                ? Icon(Icons.notifications_active)
+                : Icon(Icons.notifications_active_outlined),
+          ),
           title: AppText(
             text: notify.title,
             textWeigh: FontWeight.bold,
@@ -209,6 +214,33 @@ class Notification extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void showMoreInfo(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          maxChildSize: 0.9,
+          minChildSize: 0.5,
+          builder: (__, context) {
+            return Container(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.notifications_none),
+                      Text('data'),
+                      Icon(Icons.cancel_outlined),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
