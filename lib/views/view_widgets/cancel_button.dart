@@ -23,7 +23,7 @@ class CancelBtn extends StatelessWidget {
         ),
         child: const AppText(
           text: 'Cancel',
-          textColor: AppColors.darkGreen,
+          // textColor: AppColors.darkGreen,.
           textSize: 17,
         ),
       ),
