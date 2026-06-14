@@ -62,7 +62,7 @@ class ProfileMainControl extends GetxController{
     update();
   }
   void toDelAccount(){
-    pages.add(GetPage(name: Routes.delAcc, page: () => DeleteAccount()));
+    pages.add(GetPage(name: Routes.delAcc, page: () => DeleteAccount(), binding: DeleteBinding()));
     update();
   }
   // Settings End
