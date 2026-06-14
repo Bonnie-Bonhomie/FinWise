@@ -34,9 +34,8 @@ class AccBalanceCtrl extends GetxController {
   var income = 4000.45.obs;
   var spendingLimit = 2000.00.obs;
   var virtualAcc = ''.obs;
+
   var selectPay = 0.obs;
-  var filled = false.obs;
-  var name = ''.obs;
 
   RxBool isFilled = false.obs;
   RxBool loading = false.obs;
@@ -65,7 +64,7 @@ class AccBalanceCtrl extends GetxController {
   }
 //Get bonus balance function
   Future<void> getBonusBal() async{
-
+    if(loadingB.value)return;
     try{
       loadingB.value = true;
       final String? token = await storage.getToken();
@@ -122,6 +121,7 @@ class AccBalanceCtrl extends GetxController {
 
 ///Get balance function
   Future<void> getBalance() async {
+    if(loading.value)return;
     try{
     loading.value = true;
     final String? token = await storage.getToken();
@@ -225,6 +225,7 @@ class AccBalanceCtrl extends GetxController {
   ///get payment channels
   ///
   Future<void> getPayemntChannels() async {
+    if(loading.value)return;
     try{
       loading.value = true;
       final String? token = await storage.getToken();
