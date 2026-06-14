@@ -148,13 +148,13 @@ class _FundWalletPageState extends State<FundWalletPage> {
                           index,
                         ) {
                           final item = acc.paymentGateWay[index];
-                          int select = index;
+                          int select = int.parse(item.id);
                           return Padding(
                             padding: const EdgeInsets.only(top: 10, bottom: 10),
                             child: ListTile(
                               onTap: () {
                                 acc.selectPay.value = select;
-                                showPaymentSheet(context);
+                                showPaymentSheet(context, index);
                               },
                               leading: CircleAvatar(
                                 radius: 20,
@@ -194,7 +194,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
     );
   }
   
-  void showPaymentSheet(BuildContext context){
+  void showPaymentSheet(BuildContext context, int index){
     bool hasText = false;
      showModalBottomSheet(
       context: context,
@@ -210,7 +210,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
            borderRadius: BorderRadius.circular(20),
          ),
           child: Obx((){
-            final selected = acc.paymentGateWay[acc.selectPay.value];
+            final selected = acc.paymentGateWay[index];
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
