@@ -146,6 +146,7 @@ class TransactionCtrl extends GetxController{
   }
 
   Future<void> loadFresh() async{
+    if(loading.value)return;
     loading.value = true;
     try{
       await getTransactions(1);
@@ -158,6 +159,7 @@ class TransactionCtrl extends GetxController{
 
 ///Get all Deposits
   Future<void> loadDepo() async{
+    if(loading.value)return;
     try{
 
       loading.value = true;
