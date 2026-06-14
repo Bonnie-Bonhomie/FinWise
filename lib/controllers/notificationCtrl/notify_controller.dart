@@ -32,12 +32,12 @@ class NotifyCtrl extends GetxController{
   var isRead = false.obs;
   var notifications = <NotifyModel>[].obs;
   var noteErr = ''.obs;
+  var deleteLoad = false.obs;
   var loading = false.obs;
 
 
 
-  void markAsRead(index, List list){
-    list[index];
+  void markAsRead(index){
     isRead.value = true;
     update();
   }
@@ -51,13 +51,14 @@ class NotifyCtrl extends GetxController{
         CustomSnackbar.showSnackbar(message: 'Unauthenticated');
         return;
       }
-      final response = await repo.deleteAllNotify(token);
+      final response = await repo.deleteSingleNotify(token, index+1);
+      print(response.data);
       if(response is DataSuccess){
         if(response.data['status'] == true){
 
           list.removeAt(index);
           update();
-          print(response.data);
+
         }else{
           CustomSnackbar.showSnackbar(message: 'Unable to delete notifications');
         }
@@ -66,7 +67,7 @@ class NotifyCtrl extends GetxController{
 
         if (err is DioException) {
           //  Network issues
-          if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
+          if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout|| err.type == DioExceptionType.receiveTimeout) {
             CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection and try again' );
             return;
           }
@@ -96,6 +97,7 @@ class NotifyCtrl extends GetxController{
   ///Delete all Notification
   Future<void> deleteAll() async {
     try{
+      deleteLoad.value = true;
         String? token = await store.getToken();
         if(token == null){
           CustomSnackbar.showSnackbar(message: 'Unauthenticated');
@@ -136,6 +138,8 @@ class NotifyCtrl extends GetxController{
     }catch(e){
       print(e);
       CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
+    }finally{
+      deleteLoad.value = false;
     }
 
   }
