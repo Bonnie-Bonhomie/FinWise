@@ -36,6 +36,7 @@ class ApiEndpoints{
 
   ///Payment GateWay
   static const String paymentChannel = 'payment/channels';
+  static const String payment = 'payment';
 
   //Services
   static const String airtimeNetwork = 'airtime/networks';
