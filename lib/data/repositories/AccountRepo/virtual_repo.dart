@@ -48,34 +48,6 @@ class AccountRepo {
     }
   }
 
-  Future<DataState> generateVirtual({
-    required String fullname,
-    required String bvn,
-    required String phoneNumber,
-    required dob,
-  }) async {
-    try {
-      if (!await info.connected) {
-        return DataFailed(
-          DioException(
-            requestOptions: RequestOptions(path: ''),
-            type: DioExceptionType.connectionError,
-            error: 'No internet connection',
-          ),
-        );
-      }
-      final result = await services.postRequests(ApiEndpoints.virtual, {
-        'fullName': fullname,
-        'bvn': bvn,
-        'phoneNumber': phoneNumber,
-        'dob': dob,
-      });
-      return DataSuccess(result.data);
-    } on DioException catch (e) {
-      return DataFailed(e);
-    }
-  }
-
   Future<DataState> getWallet(String token) async {
     try {
       if (!await info.connected) {
@@ -112,7 +84,70 @@ class AccountRepo {
     } on DioException catch (e) {
       return DataFailed(e);
     }
+  }    ///Bonus balan
+
+  Future<DataState> postPayment(String url, String token, String amount) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.postRequestsWithToken('${ApiEndpoints.payment}/$url', token, {'amount': amount});
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
   }
 
+  Future<DataState> getPaymentUrl(String url, String token, String amount) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.getRequestWIthToken('${ApiEndpoints.payment}/$url', token, queryParam: {'amount': amount});
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  Future<DataState> generateVirtual({
+    required String fullname,
+    required String bvn,
+    required String phoneNumber,
+    required dob,
+  }) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.postRequests(ApiEndpoints.virtual, {
+        'fullName': fullname,
+        'bvn': bvn,
+        'phoneNumber': phoneNumber,
+        'dob': dob,
+      });
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
 
 }
