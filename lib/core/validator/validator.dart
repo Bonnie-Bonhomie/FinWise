@@ -120,8 +120,11 @@ class Validator {
   }
 
   static String? validatePrice(String val){
+    double amount = double.parse(val);
     if(val.isEmpty){
       return 'Please enter amount you want to fund';
+    }else if(amount < 100){
+      return 'Amount must not less than 100';
     }
     return null;
   }

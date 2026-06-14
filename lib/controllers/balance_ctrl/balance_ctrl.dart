@@ -6,6 +6,7 @@ import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 
+import '../../data/models/model_export.dart';
 import '../controller_exports.dart';
 
 class AccBalanceCtrl extends GetxController {
@@ -33,12 +34,18 @@ class AccBalanceCtrl extends GetxController {
   var income = 4000.45.obs;
   var spendingLimit = 2000.00.obs;
   var virtualAcc = ''.obs;
-  var selectPay = ''.obs;
+  var selectPay = 0.obs;
   var filled = false.obs;
   var name = ''.obs;
+
+  RxBool isFilled = false.obs;
   RxBool loading = false.obs;
   RxBool loadingB = false.obs;
+
+  var channelErr = ''.obs;
   var balanceErr = ''.obs;
+
+  var paymentGateWay = <BankModel>[].obs;
 
   double get spentPercent => expense.value / spendingLimit.value;
 
@@ -49,11 +56,14 @@ class AccBalanceCtrl extends GetxController {
   void fillBalance() {
     accountBalance.value = double.parse(auth.userWallet?.accBalance ?? '0.00');
   }
+  void fillAmount(double value) {
+    isFilled.value = value >= 100;
+  }
   double formatDouble(String amount){
     double formated = double.parse(amount);
     return formated;
   }
-
+//Get bonus balance function
   Future<void> getBonusBal() async{
 
     try{
@@ -108,8 +118,9 @@ class AccBalanceCtrl extends GetxController {
       loadingB.value = false;
     }
   }
+  //Get bonus balance function
 
-
+///Get balance function
   Future<void> getBalance() async {
     try{
     loading.value = true;
@@ -125,7 +136,7 @@ class AccBalanceCtrl extends GetxController {
 
         accountBalance.value = double.parse(data['data']['bal']);
       }else {
-        balanceErr.value = 'Reload the page';
+        balanceErr.value = '--';
       }
     }else if(response is DataFailed){
       final err = response.exception;
@@ -142,27 +153,29 @@ class AccBalanceCtrl extends GetxController {
 
         print(errData);
         if (errData != null && errData['message'] != null) {
-          balanceErr.value = 'unable to load balance';
+          balanceErr.value = '-.--';
         } else {
-          balanceErr.value = 'unable to load balance';
+          balanceErr.value = '-.--';
         }
       } }
     }}catch(e){
       print(e);
-      balanceErr.value = 'reload page';
+      balanceErr.value = '-.--';
     }finally{
       loading.value = false;
     }
 
   }
+///End Get balance function
 
-  //
+  //generate virtual account function
   Future<void> generateVirtual({
     required String fullname,
     required String phoneNumber,
     required String bvn,
     required String dob,
-  }) async {
+  })
+  async {
     try {
       final response = await repo.generateVirtual(
         fullname: fullname,
@@ -207,30 +220,63 @@ class AccBalanceCtrl extends GetxController {
       CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
     }
   }
+  //generate virtual account function
 
-  var paymentGateWay = <BankModel>[
-    BankModel(
-      name: 'Nomba',
-      availbaleServ: ['Pay with card', 'Transfer and USSD'],
-      imgUrl: '',
-    ),
-    BankModel(name: 'PayStack', availbaleServ: ['PayStack'], imgUrl: ''),
-    BankModel(
-      name: 'Nomba',
-      availbaleServ: ['Pay with card', 'Transfer and USSD'],
-      imgUrl: '',
-    ),
-  ].obs;
+  ///get payment channels
+  ///
+  Future<void> getPayemntChannels() async {
+    try{
+      loading.value = true;
+      final String? token = await storage.getToken();
+
+      if(token != null){
+        final response = await repo.getPaymentChannel(token);
+
+        if (response is DataSuccess) {
+          final data = response.data;
+          print(data);
+          if (data['status'] == true) {
+
+            List channels = data['data'];
+
+            if(channels.isEmpty){
+              channelErr.value = 'Payment getway is unavailable';
+            }
+            final channel = channels.map((e)=> BankModel.fromJson(e)).toList();
+            paymentGateWay.assignAll(channel);
+
+          }else {
+            channelErr.value = 'Unable to load available payment channel. Reload page';
+          }
+        }else if(response is DataFailed){
+          final err = response.exception;
+
+          if (err is DioException) {
+            //  Network issues
+            if (err.type == DioExceptionType.connectionError ) {
+              channelErr.value = 'No internet connection';
+            }
+
+            //  Server error
+            final errData = err.response?.data;
+            print(err.response?.data);
+
+            print(errData);
+            if (errData != null && errData['message'] != null) {
+              balanceErr.value = errData['message'];
+            } else {
+              channelErr.value = 'unable to load available channel, reload page';
+            }
+          } }
+      }}catch(e){
+      print(e);
+      channelErr.value = 'Something went wrong, reload';
+    }finally{
+      loading.value = false;
+    }
+
+  }
+  ///get payment channels
 }
 
-class BankModel {
-  final String name;
-  final List<String> availbaleServ;
-  final String imgUrl;
 
-  BankModel({
-    required this.name,
-    required this.availbaleServ,
-    required this.imgUrl,
-  });
-}
