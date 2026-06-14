@@ -10,7 +10,7 @@ import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+
 
 class Notification extends StatelessWidget {
   Notification({super.key});
@@ -30,7 +30,6 @@ class Notification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).cardColor;
     return Scaffold(
       body: SafeArea(
         top: false,
@@ -222,7 +221,7 @@ class ShowBottomInfo {
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(40),
+                borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
               ),
               child: ListView(
                 children: [
