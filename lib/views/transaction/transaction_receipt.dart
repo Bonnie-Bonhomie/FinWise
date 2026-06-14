@@ -179,7 +179,7 @@ class TransactionReceipt extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 150,
+        // width: 150,
         padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
