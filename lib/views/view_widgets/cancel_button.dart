@@ -19,7 +19,7 @@ class CancelBtn extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.lightGreen,
+            backgroundColor: Theme.of(context).cardColor
         ),
         child: const AppText(
           text: 'Cancel',

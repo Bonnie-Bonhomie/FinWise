@@ -1,5 +1,5 @@
-// import 'package:fin_wise/controllers/profileCtrl/change_pin_ctrl.dart';
-// import 'package:fin_wise/data/repositories/profileRepo/change_pin_repository.dart';
+// import 'package:fin_wise/controllers/profileCtrl/delete_acc_ctrl.dart';
+// import 'package:fin_wise/data/repositories/profileRepo/delete_acc_repo.dart';
 // import 'package:get/get.dart';
 //
 // class ChangePinBinding extends Bindings{
