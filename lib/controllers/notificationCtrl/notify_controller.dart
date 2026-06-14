@@ -48,10 +48,7 @@ class NotifyCtrl extends GetxController{
     update();
   }
 
-  void deleteAll(){
-    notifications.clear();
-    update();
-  }
+
   void markAsRead(index, List list){
     list[index];
     isRead.value = true;
@@ -59,6 +56,15 @@ class NotifyCtrl extends GetxController{
   }
 
 
+  Future<void> deleteAll() async {
+    try{
+
+    }catch(e){
+
+    }
+    notifications.clear();
+    update();
+  }
   Future<void> getNotification()
   async {
 
