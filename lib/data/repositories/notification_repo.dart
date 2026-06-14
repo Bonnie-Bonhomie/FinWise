@@ -68,7 +68,7 @@ class NotificationRepo{
           ),
         );
       }
-      final response = await service.getRequestWIthToken('${ApiEndpoints.deleteAllNote}/$id', token);
+      final response = await service.deleteRequestWIthToken('${ApiEndpoints.deleteAllNote}/$id', token);
       return DataSuccess(response.data);
     } on DioException catch (e) {
       print(e.response?.data);
