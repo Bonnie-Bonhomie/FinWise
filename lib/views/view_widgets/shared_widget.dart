@@ -2,7 +2,9 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../data/models/model_export.dart';
 import '../../utils/utils_export.dart';
+import '../view_export.dart';
 
 
 class SharedWidget{
@@ -174,5 +176,79 @@ class _AnimatedCardState extends State<AnimatedCard>
     child: SlideTransition(position: _slide, child: widget.child),
   );
 }
+
+
+
+class NotificationCard extends StatelessWidget {
+  const NotificationCard({
+    super.key,
+    required this.notify,
+    required this.onDismissed,
+    required this.index,
+    required this.isRead,
+    required this.markAsRead,
+  });
+  final NotifyModel notify;
+  final Function(int) onDismissed;
+  final Function(int) markAsRead;
+  final bool isRead;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dismissible(
+      key: Key(notify.title),
+      onDismissed: (val) => onDismissed,
+      secondaryBackground: Container(
+        color: Colors.lightGreen,
+        alignment: Alignment.centerRight,
+        child: Icon(Icons.done_all_outlined, color: Colors.white, size: 30),
+      ),
+      // background: Container(color: AppColors.primary, alignment: Alignment.centerLeft, child: Icon(Icons.done_all, size: 30, color: Colors.white),),
+      background: Container(),
+      direction: DismissDirection.endToStart,
+      // confirmDismiss: (val) {return confirm();},
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Theme.of(context).cardColor,
+        ),
+        child: ListTile(
+          tileColor: Theme.of(context).cardColor,
+          onTap: () {
+            ShowBottomInfo().showMoreInfo(context, notify);
+            markAsRead(index);
+          },
+          leading: CircleAvatar(
+            backgroundColor: Colors.grey,
+            child: isRead
+                ? Icon(Icons.notifications_active)
+                : Icon(Icons.notifications_active_outlined),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: AppText(
+                  text: notify.title,
+                  textWeigh: FontWeight.bold,
+                  textSize: 15,
+                ),
+              ),
+              Icon(Icons.circle, color: isRead? AppColors.primary: AppColors.declined, size: 10,)
+            ],
+          ),
+          subtitle: Text(
+            notify.description,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 
