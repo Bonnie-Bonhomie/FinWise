@@ -185,8 +185,10 @@ class Notification extends StatelessWidget {
           color: isRead ? AppColors.primaryLight : Theme.of(context).cardColor,
         ),
         child: ListTile(
+          tileColor: Theme.of(context).cardColor,
           onTap: () {},
           leading: CircleAvatar(
+            backgroundColor: Colors.grey,
             child: isRead
                 ? Icon(Icons.notifications_active)
                 : Icon(Icons.notifications_active_outlined),
@@ -204,45 +206,51 @@ class Notification extends StatelessWidget {
               Icon(Icons.circle, color: isRead? AppColors.primary: AppColors.declined,)
             ],
           ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                notify.description,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 12),
-              ),
-              AppText(
-                text: viewModel.formatDate(notify.date),
-                textColor: Colors.blue,
-                textAlign: TextAlign.end,
-                textSize: 10,
-              ),
-            ],
+          subtitle: Text(
+            notify.description,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12),
           ),
         ),
       ),
     );
   }
 
-  void showMoreInfo(BuildContext context) {
+  void showMoreInfo(BuildContext context, NotifyModel note, int index) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
+        ctrl.markAsRead(index);
         return DraggableScrollableSheet(
-          maxChildSize: 0.9,
-          minChildSize: 0.5,
-          builder: (__, context) {
+          maxChildSize: 0.95,
+          minChildSize: 0.3,
+          initialChildSize: 0.5,
+          builder: (__, ___) {
             return Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(20)
+              ),
               child: Column(
                 children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        CircleAvatar(child: Icon(Icons.notifications_none)),
+                        Text(note.title, maxLines: 3, ),Icon(Icons.circle, color: AppColors.primary,),
+                        IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.close),)
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
                   Row(
                     children: [
-                      Icon(Icons.notifications_none),
-                      Text('data'),
-                      Icon(Icons.cancel_outlined),
+                      Icon(Icons.access_alarm),
+                      AppText(text: viewModel.formatDate(note.date), textColor: AppColors.superBlue,)
                     ],
                   ),
+                  AppText(text: note.description),
                 ],
               ),
             );
