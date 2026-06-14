@@ -15,12 +15,20 @@ class ApiEndpoints{
 
   static const String transactPin = 'profile/update_pin';
   // static const String accDetail = 'profile/accdetails';
+
+
   static const String balance = 'profile/walletbalance';
   static const String profile = 'profile/dashboard';
   static const String referralList = 'profile/referrals';
   static const String bonusBal = 'profile/bonusbalance';
   static const String withdrawBonus = 'profile/updatewithdrawbonus';
   static const String notification = 'profile/notifications';
+  static const String deleteAllNote = 'profile/delete_all_notifications';
+  static const String deleteAccount = 'profile/delete_account';
+
+  ///Terms and Policy
+  static const String terms = 'https://pantherfinder.online/term-and-condition';
+  static const String policy = 'https://pantherfinder.online/privacy-policy';
 
 ///Not in use
   static const String changePwd = 'auth/user/acc';
