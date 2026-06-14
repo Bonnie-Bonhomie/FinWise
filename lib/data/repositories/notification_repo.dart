@@ -46,7 +46,7 @@ class NotificationRepo{
           ),
         );
       }
-      final response = await service.getRequestWIthToken(ApiEndpoints.deleteAllNote, token);
+      final response = await service.deleteRequestWIthToken(ApiEndpoints.deleteAllNote, token);
       return DataSuccess(response.data);
     } on DioException catch (e) {
       print(e.response?.data);
@@ -55,4 +55,25 @@ class NotificationRepo{
     }
   }
 
+///Delete single notification
+  Future<DataState> deleteSingleNotify(String token, String id) async {
+    try {
+      if (!await internet.connected) {
+
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: "No Internet Connection",
+          ),
+        );
+      }
+      final response = await service.getRequestWIthToken('${ApiEndpoints.deleteAllNote}/$id', token);
+      return DataSuccess(response.data);
+    } on DioException catch (e) {
+      print(e.response?.data);
+      //Passing the real error by returning DataFailed(e)
+      return DataFailed(e);
+    }
+  }
 }

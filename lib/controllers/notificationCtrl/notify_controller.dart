@@ -36,19 +36,6 @@ class NotifyCtrl extends GetxController{
 
 
 
-
-  // void filterByDate(DateTime date){
-  //   todayNote = notifications.where((e) => isSameDay(e.date, date)).toList();
-  //   update();
-  // }
-
-
-  void deleteNotify(index, List list){
-    list.removeAt(index);
-    update();
-  }
-
-
   void markAsRead(index, List list){
     list[index];
     isRead.value = true;
@@ -56,17 +43,105 @@ class NotifyCtrl extends GetxController{
   }
 
 
+  Future<void> deleteNotify(index, List list) async {
+
+    try{
+      String? token = await store.getToken();
+      if(token == null){
+        CustomSnackbar.showSnackbar(message: 'Unauthenticated');
+        return;
+      }
+      final response = await repo.deleteAllNotify(token);
+      if(response is DataSuccess){
+        if(response.data['status'] == true){
+
+          list.removeAt(index);
+          update();
+          print(response.data);
+        }else{
+          CustomSnackbar.showSnackbar(message: 'Unable to delete notifications');
+        }
+      }else if(response is DataFailed){
+        final err = response.exception;
+
+        if (err is DioException) {
+          //  Network issues
+          if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
+            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection and try again' );
+            return;
+          }
+
+          //  Server error
+          final errData = err.response?.data;
+          print(err.response?.data);
+
+          if (errData != null && errData['message'] != null) {
+            CustomSnackbar.showSnackbar(message: errData['message'].toString());
+          } else {
+            CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
+          }
+        } else{
+          CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
+        }
+      }
+    }catch(e){
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
+    }
+
+  }
+
+
+
+  ///Delete all Notification
   Future<void> deleteAll() async {
     try{
+        String? token = await store.getToken();
+        if(token == null){
+          CustomSnackbar.showSnackbar(message: 'Unauthenticated');
+          return;
+        }
+        final response = await repo.deleteAllNotify(token);
+        if(response is DataSuccess){
+          if(response.data['status'] == true){
+            notifications.clear();
+            update();
+            print(response.data);
+          }else{
+            CustomSnackbar.showSnackbar(message: 'Unable to delete notifications');
+          }
+        }else if(response is DataFailed){
+          final err = response.exception;
 
+          if (err is DioException) {
+            //  Network issues
+            if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
+              CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection and try again' );
+              return;
+            }
+
+            //  Server error
+            final errData = err.response?.data;
+            print(err.response?.data);
+
+            if (errData != null && errData['message'] != null) {
+              CustomSnackbar.showSnackbar(message: errData['message'].toString());
+            } else {
+              CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
+            }
+          } else{
+            CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
+          }
+        }
     }catch(e){
-
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
     }
-    notifications.clear();
-    update();
+
   }
-  Future<void> getNotification()
-  async {
+
+  ///Get all Notification
+  Future<void> getNotification() async {
 
     try{
       loading.value = true;
