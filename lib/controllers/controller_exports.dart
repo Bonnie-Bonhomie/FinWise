@@ -15,7 +15,7 @@ export 'categoryCtrl/television_ctrl.dart';
 
 export 'notificationCtrl/notify_controller.dart';
 
-export 'profileCtrl/change_pin_ctrl.dart';
+export 'profileCtrl/delete_acc_ctrl.dart';
 export 'profileCtrl/change_pwd_ctrl.dart';
 export 'profileCtrl/edit_ctrl.dart';
 export 'profileCtrl/fingerprint_ctrl.dart';
