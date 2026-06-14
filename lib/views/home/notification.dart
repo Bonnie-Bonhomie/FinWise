@@ -45,38 +45,13 @@ class Notification extends StatelessWidget {
               notification: false,
               notificationPage: true,
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Icon(
-                        Icons.info_outline,
-                        color: AppColors.declined,
-                        size: 80,
-                      ),
-                      content: AppText(
-                        text:
-                            'Are you sure want to delete all your notifications. Once you delete it can not be recover. Do you want to continue',
-                        textAlign: TextAlign.center,
-                      ),
-                      actions: [
-                        AppBtn(
-                          onPressed: () {
-                            ctrl.deleteAll();
-                            Get.back();
-                          },
-                          label: 'Yes, Delete',
-                        ),
-                        const SizedBox(height: 8.0),
-                        CancelBtn(
-                          onPressed: () {
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
+                ctrl.notifications.isNotEmpty?
+               showDeleteAllDialog(context, (){
+                 Get.back();
+                 loadCtrl.offLoading(() async{
+                   await ctrl.deleteAll();
+                 });
+               }):  null;
               },
             ),
             child: Obx(() {
@@ -104,24 +79,42 @@ class Notification extends StatelessWidget {
                 children: [
                   if (ctrl.todayNote.isNotEmpty) ...[
                     sectionTitle('Today'),
-                    notificationList(ctrl.todayNote, (index) {
-                      // ctrl.markAsRead(index, ctrl.todayNote);
-                      ctrl.deleteNotify(index, ctrl.todayNote);
-                    }, ctrl.isRead.value),
+                    BuildNotifyList(
+                      list: ctrl.todayNote,
+                      isRead: ctrl.isRead.value,
+                      onDismissed: (index) {
+                        ctrl.deleteNotify(index, ctrl.todayNote);
+                      },
+                      markAsRead: (index) {
+                        ctrl.markAsRead(index);
+                      },
+                    ),
                   ],
                   if (ctrl.yesterNote.isNotEmpty) ...[
                     sectionTitle('Yesterday'),
-                    notificationList(ctrl.yesterNote, (index) {
-                      ctrl.deleteNotify(index, ctrl.yesterNote);
-                      // ctrl.markAsRead(index, ctrl.yesterNote);
-                    }, ctrl.isRead.value),
+                    BuildNotifyList(
+                      list: ctrl.yesterNote,
+                      isRead: ctrl.isRead.value,
+                      onDismissed: (index) {
+                        ctrl.deleteNotify(index, ctrl.yesterNote);
+                      },
+                      markAsRead: (index) {
+                        ctrl.markAsRead(index);
+                      },
+                    ),
                   ],
                   if (ctrl.otherNote.isNotEmpty) ...[
                     sectionTitle('Older Notifications'),
-                    notificationList(ctrl.otherNote, (index) {
-                      ctrl.deleteNotify(index, ctrl.otherNote);
-                      // ctrl.markAsRead(index, ctrl.otherNote);
-                    }, ctrl.isRead.value),
+                    BuildNotifyList(
+                      list: ctrl.otherNote,
+                      isRead: ctrl.isRead.value,
+                      onDismissed: (index) {
+                        ctrl.deleteNotify(index, ctrl.otherNote);
+                      },
+                     markAsRead: (index) {
+                        ctrl.markAsRead(index);
+                      },
+                    ),
                   ],
                 ],
               );
@@ -132,12 +125,59 @@ class Notification extends StatelessWidget {
     );
   }
 
-  Widget notificationList(
-    List<NotifyModel> list,
-    Function(int) onDismissed,
-    bool isRead,
-    // BuildContext context,
-  ) {
+  Widget sectionTitle(String title) {
+    return AppText(text: title, textWeigh: FontWeight.bold, textSize: 17);
+  }
+
+  void showDeleteAllDialog(BuildContext context, VoidCallback onPressed){
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Icon(
+            Icons.info_outline,
+            color: AppColors.declined,
+            size: 80,
+          ),
+          content: AppText(
+            text:
+            'Are you sure want to delete all your notifications. Once you delete it can not be recover. Do you want to continue',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            AppBtn(
+              onPressed: onPressed,
+              label: 'Yes, Delete',
+            ),
+            const SizedBox(height: 8.0),
+            CancelBtn(
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class BuildNotifyList extends StatelessWidget {
+  const BuildNotifyList({
+    super.key,
+    required this.list,
+    required this.isRead,
+    required this.onDismissed,
+    required this.markAsRead,
+  });
+
+  final List<NotifyModel> list;
+  final Function(int) onDismissed;
+  final Function(int) markAsRead;
+  final bool isRead;
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.builder(
       padding: EdgeInsets.fromLTRB(0, 15, 5, 0),
       shrinkWrap: true,
@@ -148,115 +188,84 @@ class Notification extends StatelessWidget {
         final nt = list[index];
         return AnimatedCard(
           index: index,
-          child: notificationCard(nt, onDismissed, isRead, () {}, context),
+          child: NotificationCard(
+            notify: nt,
+            onDismissed: onDismissed,
+            isRead: isRead,
+            index: index,
+            markAsRead: markAsRead,
+          ),
         );
       },
       itemCount: list.length,
     );
   }
+}
 
-  Widget sectionTitle(String title) {
-    return AppText(text: title, textWeigh: FontWeight.bold, textSize: 17);
-  }
+class ShowBottomInfo {
+  final viewModel = HomeViewModel();
 
-  Widget notificationCard(
-    NotifyModel notify,
-    Function(int) onDismissed,
-    bool isRead,
-    Function confirm,
-    BuildContext context,
-  ) {
-    return Dismissible(
-      key: Key(notify.title),
-      onDismissed: (val) => onDismissed,
-      secondaryBackground: Container(
-        color: Colors.lightGreen,
-        alignment: Alignment.centerRight,
-        child: Icon(Icons.done_all_outlined, color: Colors.white, size: 30),
-      ),
-      // background: Container(color: AppColors.primary, alignment: Alignment.centerLeft, child: Icon(Icons.done_all, size: 30, color: Colors.white),),
-      background: Container(),
-      direction: DismissDirection.endToStart,
-      // confirmDismiss: (val) {return confirm();},
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: isRead ? AppColors.primaryLight : Theme.of(context).cardColor,
-        ),
-        child: ListTile(
-          tileColor: Theme.of(context).cardColor,
-          onTap: () {},
-          leading: CircleAvatar(
-            backgroundColor: Colors.grey,
-            child: isRead
-                ? Icon(Icons.notifications_active)
-                : Icon(Icons.notifications_active_outlined),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: AppText(
-                  text: notify.title,
-                  textWeigh: FontWeight.bold,
-                  textSize: 15,
-                ),
-              ),
-              Icon(Icons.circle, color: isRead? AppColors.primary: AppColors.declined,)
-            ],
-          ),
-          subtitle: Text(
-            notify.description,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 12),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void showMoreInfo(BuildContext context, NotifyModel note, int index) {
+  void showMoreInfo(BuildContext context, NotifyModel note) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.green.withOpacity(0.4),
+      showDragHandle: true,
+      enableDrag: true,
       builder: (context) {
-        ctrl.markAsRead(index);
+
         return DraggableScrollableSheet(
-          maxChildSize: 0.95,
-          minChildSize: 0.3,
-          initialChildSize: 0.5,
-          builder: (__, ___) {
+          maxChildSize: 1.0,
+          initialChildSize: 0.98,
+          builder: (_,__) {
             return Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(20)
+                borderRadius: BorderRadius.circular(40),
               ),
-              child: Column(
+              child: ListView(
                 children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        CircleAvatar(child: Icon(Icons.notifications_none)),
-                        Text(note.title, maxLines: 3, ),Icon(Icons.circle, color: AppColors.primary,),
-                        IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.close),)
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 20,),
                   Row(
                     children: [
-                      Icon(Icons.access_alarm),
-                      AppText(text: viewModel.formatDate(note.date), textColor: AppColors.superBlue,)
+                      CircleAvatar(child: Icon(Icons.notifications_none)),
+                      const SizedBox(width: 10),
+
+                      Expanded(child: Text(note.title,overflow: TextOverflow.ellipsis, maxLines: 3, textAlign: TextAlign.justify, style: TextStyle(fontWeight: FontWeight.bold),)),
+                      const SizedBox(width: 20,),
+                      Icon(Icons.circle, color: AppColors.primary, size: 10),
+                      const SizedBox(width: 10),
+                      IconButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        icon: Icon(Icons.close),
+                      ),
                     ],
                   ),
-                  AppText(text: note.description),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const SizedBox(width: 5.0),
+                      Icon(Icons.access_alarm, size: 12,),
+                      const SizedBox(width: 10),
+                      AppText(
+                        text: viewModel.formatDate(note.date),
+                        textColor: AppColors.superBlue,
+                        textSize: 12,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Text(note.description),
                 ],
               ),
             );
-          },
+          }
         );
       },
     );
   }
+
+
 }
