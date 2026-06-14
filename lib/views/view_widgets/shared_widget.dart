@@ -200,9 +200,9 @@ class NotificationCard extends StatelessWidget {
       key: Key(notify.title),
       onDismissed: (val) => onDismissed,
       secondaryBackground: Container(
-        color: Colors.lightGreen,
+        color: AppColors.declined,
         alignment: Alignment.centerRight,
-        child: Icon(Icons.done_all_outlined, color: Colors.white, size: 30),
+        child: Icon(Icons.delete, color: Colors.white, size: 30),
       ),
       // background: Container(color: AppColors.primary, alignment: Alignment.centerLeft, child: Icon(Icons.done_all, size: 30, color: Colors.white),),
       background: Container(),
