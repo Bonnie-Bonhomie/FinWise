@@ -75,6 +75,15 @@ class HomeViewModel {
     return '$formatted ~ $formatTime';
   }
 
+  double parseAmount(text){
+    double amount;
+    if(text.isNotEmpty){
+      amount = double.parse(text);
+      return amount;
+    }
+    return 0.00;
+  }
+
   String formatDateOnly(String value){
 
     DateTime date =  DateTime.parse(value);
