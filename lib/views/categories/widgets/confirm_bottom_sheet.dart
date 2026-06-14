@@ -73,7 +73,7 @@ class ConfirmBottomSheet {
                               builder: (context) => CustomAlertDialog(),
                             );
                           },
-                          icon: const Icon(Icons.dangerous_outlined),
+                          icon: const Icon(Icons.close),
                         ), const Spacer(),
                         const AppText(
                           text: 'Add to Beneficiary  ',
