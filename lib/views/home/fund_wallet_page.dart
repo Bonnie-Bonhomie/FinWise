@@ -1,4 +1,4 @@
-import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
+
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
@@ -64,7 +64,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
                     color: Theme.of(context).cardColor,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.shade300,
+                        color: Colors.green,
                         offset: Offset(2, 3),
                         blurRadius: 8.0,
                       ),
@@ -94,7 +94,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
                               height: 50,
                               margin: const EdgeInsets.only(top: 20),
                               decoration: BoxDecoration(
-                                color: AppColors.lightGreen,
+                                // color: AppColors.lightGreen,
                                 border: Border.all(
                                   color: AppColors.primary,
                                   width: 2,
@@ -117,7 +117,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
                     color: Theme.of(context).cardColor,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.shade300,
+                        color: Colors.green,
                         offset: Offset(2, 3),
                         blurRadius: 8.0,
                       ),
@@ -205,6 +205,8 @@ class _FundWalletPageState extends State<FundWalletPage> {
       backgroundColor: Colors.transparent,
       barrierColor: Colors.green.withOpacity(0.4),
       isDismissible: false,
+      // isScrollControlled: true,
+
       builder: (context) {
         return WillPopScope(
           onWillPop:  () async {
@@ -214,91 +216,96 @@ class _FundWalletPageState extends State<FundWalletPage> {
             );
             return shouldPop ?? false;
           },
-          child: Container(
-            padding: const EdgeInsets.all(20),
-           margin: const EdgeInsets.all(20),
-           decoration: BoxDecoration(
-             color: Theme.of(context,).scaffoldBackgroundColor,
-             borderRadius: BorderRadius.circular(20),
-           ),
-            child: Obx((){
-              final selected = acc.paymentGateWay[index];
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-
-                    Row(
+          child: ListView(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+               margin: const EdgeInsets.all(20),
+               decoration: BoxDecoration(
+                 color: Theme.of(context,).scaffoldBackgroundColor,
+                 borderRadius: BorderRadius.circular(20),
+               ),
+                child: Obx((){
+                  final selected = acc.paymentGateWay[index];
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        AppText(
-                          text: '${selected.name} Gateway',
-                          textSize: 17,
-                          textColor: AppColors.primary,
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            Get.back();
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const AppText(
-                      text: 'Enter amount to fund',
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius:
-                        BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        children: [
-                          AppText(
-                            text: '₦',
-                            textSize: 20,
-                          ),
-                          Expanded(
-                            child: PriceFormField(
-                              numberCtrl: amountCtrl,
-                              hint: AppText(text: 'Enter amount to fund',),
-                              color: Colors.transparent,
-                              onChanged: (val){
-                                double value = viewModel.parseAmount(val);
-                                acc.fillAmount(value);
-                              },
+
+                        Row(
+                          children: [
+                            AppText(
+                              text: '${selected.name} Gateway',
+                              textSize: 17,
+                              textColor: AppColors.primary,
                             ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              icon: const Icon(
+                                Icons.close,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const AppText(
+                          text: 'Enter amount to fund',
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                            right: 15,
                           ),
-                        ],
-                      ),
-                    ),
-                    // AppText(text: 'Please enter amount you want to fund', textColor: Colors.red,),
-                    Divider(
-                      color: AppColors.lightGreen,
-                      thickness: 3,
-                    ),
-                    acc.isFilled.value? AppBtn(
-                      onPressed: () async {
-                        Get.back();
-                        loader.offLoading(()async{
-                          await acc.paymentFunction(selected.method, amountCtrl.text, selected.url);
-                          acc.selectPay.value = 0;
-                        });
-                        print(acc.selectPay.value);
-                      },
-                      label: 'Proceed',
-                    ): DisableButton(label: 'Proceed'),
-                  ],
-                );
-              }
-            ),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                            borderRadius:
+                            BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            children: [
+                              AppText(
+                                text: '₦',
+                                textSize: 20,
+                              ),
+                              Expanded(
+                                child: PriceFormField(
+                                  numberCtrl: amountCtrl,
+                                  hint: AppText(text: 'Enter amount to fund',),
+                                  color: Colors.transparent,
+                                  onChanged: (val){
+                                    double value = viewModel.parseAmount(val);
+                                    acc.fillAmount(value);
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // AppText(text: 'Please enter amount you want to fund', textColor: Colors.red,),
+                        Divider(
+                          color: AppColors.lightGreen,
+                          thickness: 3,
+                        ),
+                        acc.isFilled.value? AppBtn(
+                          onPressed: () async {
+                            String url = selected.url.split('/').last;
+                            Get.back();
+                            loader.offLoading(()async{
+                              await acc.paymentFunction(selected.method, amountCtrl.text, url);
+                              acc.selectPay.value = 0;
+                            });
+                            print(acc.selectPay.value);
+                          },
+                          label: 'Proceed',
+                        ): DisableButton(label: 'Proceed'),
+                      ],
+                    );
+                  }
+                ),
+              ),
+            ],
           ),
         );
       },
