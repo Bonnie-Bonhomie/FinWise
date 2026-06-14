@@ -1,8 +1,10 @@
 import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ class _SignInViewState extends State<SignInView> {
   final TextEditingController dobCtrl = TextEditingController();
   final AuthCtrl authCtrl = Get.find<AuthCtrl>();
   final loader = Get.find<LoaderController>();
+  final viewModel = HomeViewModel();
 
   bool pwdObscure = true;
   bool confirmPwdObscure = true;
@@ -193,15 +196,26 @@ class _SignInViewState extends State<SignInView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const AppText(text: "By continuing, you agree to"),
-              InkWell(
-                onTap: () {
-                  Get.toNamed(Routes.terms);
-                },
-                child: const AppText(
-                  text: "Terms of Use and Privacy Policy.",
-                  textWeigh: FontWeight.bold,
-                ),
-              ),
+              RichText(
+                text: TextSpan(
+                  text: "Terms of Use ",
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      viewModel.openUrl(ApiEndpoints.terms);
+                    },
+                  children: [
+                    TextSpan(text: 'and '),
+                    TextSpan(
+                      text: 'Privacy Policy.',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          viewModel.openUrl(ApiEndpoints.policy);
+                        },
+                    ),
+                  ],
+              ),),
               const SizedBox(height: 20),
               AppBtn(
                 onPressed: () async { _register();},
