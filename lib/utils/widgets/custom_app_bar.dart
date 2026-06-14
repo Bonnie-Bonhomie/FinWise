@@ -39,7 +39,7 @@ class CustomAppBar {
                   ),
                 )
               : notificationPage
-              ? IconButton(onPressed: onTap, icon: Icon(Icons.delete_forever_outlined, color: AppColors.bgColor,))
+              ? IconButton(onPressed: onTap, style: IconButton.styleFrom(backgroundColor: AppColors.bgColor, ),icon: Icon(Icons.delete, color: AppColors.primary,))
               : const SizedBox.shrink(),
         ],
       ),
