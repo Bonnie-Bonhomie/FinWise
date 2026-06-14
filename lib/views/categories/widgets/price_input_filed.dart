@@ -3,6 +3,7 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/utils/widgets/price_form_field.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,14 +48,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
 
   double amount = 0.00;
 
-  double parseAmount(text){
-    double amount;
-    if(text.isNotEmpty){
-      amount = double.parse(text);
-      return amount;
-    }
-    return 0.00;
-  }
+  final viewModel = HomeViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +71,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                     onChanged: (value){
                       setState(() {
 
-                        hasText = (parseAmount(value) >= widget.lowestAmount) && (parseAmount(value) <= widget.highestAmount);
+                        hasText = (viewModel.parseAmount(value) >= widget.lowestAmount) && (viewModel.parseAmount(value) <= widget.highestAmount);
                       });
                     },
                     hint: Text('${(widget.lowestAmount.toInt()).toString()} - 5,000,000')
@@ -96,7 +90,7 @@ class _PriceInputFieldState extends State<PriceInputField> {
                     FocusScope.of(rootContext).unfocus();
                     // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
                     // print(widget.amountCtrl.text);
-                    amount = parseAmount(widget.amountCtrl.text.trim());
+                    amount = viewModel.parseAmount(widget.amountCtrl.text.trim());
                     widget.numberCtrl.text.isNotEmpty
                         ?
                       loadCtrl.offLoading(() async {
