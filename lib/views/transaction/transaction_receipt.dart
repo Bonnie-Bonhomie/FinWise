@@ -63,8 +63,8 @@ class TransactionReceipt extends StatelessWidget {
                     ],
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // mainAxisAlignment: MainAxisAlignment.space,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 15),
                       Image(
@@ -72,7 +72,7 @@ class TransactionReceipt extends StatelessWidget {
                         height: 70,
                         width: 70,
                       ),
-                      const SizedBox(height: 20,),
+                      // const SizedBox(height: 20,),
                       // const HeadingText(
                       //   headingText: PrefStoreKeys.appName,
                       //   color: AppColors.darkGreen,
@@ -81,20 +81,24 @@ class TransactionReceipt extends StatelessWidget {
                         headingText: 'Transaction Receipt',
                         color: AppColors.darkGreen,
                       ),
-                     AppText(
-                        text: receiptDet.apiStatus.label,
-                        textColor: AppColors.darkGreen,
-                      ),
+                     Center(
+                       child: AppText(
+                          text: receiptDet.apiStatus.label,
+                          textColor: AppColors.darkGreen,
+                        ),
+                     ),
                       const HeadingText(
                         headingText: 'Amount',
                         color: AppColors.darkGreen,
                       ),
-                      AppText(
-                        text: viewModel.formatCurrency(receiptDet.amount),
-                        textWeigh: FontWeight.bold,
-                        textColor: Colors.black,
+                      Center(
+                        child: AppText(
+                          text: viewModel.formatCurrency(receiptDet.amount),
+                          textWeigh: FontWeight.bold,
+                          textColor: Colors.black,
+                        ),
                       ),
-
+                      const SizedBox(height: 30),
                       rowTile('Reference', receiptDet.referenceId),
                       // dividerBuild(),
                       rowTile('Payment Type', receiptDet.modelableType),
@@ -131,7 +135,7 @@ class TransactionReceipt extends StatelessWidget {
                         viewModel.formatDate(receiptDet.purchaseAt),
                       ),
                       const SizedBox(height: 6),
-                      const AppText(text: 'Thank you for using our service!', textColor: AppColors.darkGreen),
+                      Center(child: const AppText(text: 'Thank you for using our service!', textColor: AppColors.darkGreen)),
                     ],
                   ),
                 ),
