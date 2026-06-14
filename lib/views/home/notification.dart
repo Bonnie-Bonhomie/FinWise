@@ -105,22 +105,22 @@ class Notification extends StatelessWidget {
                   if (ctrl.todayNote.isNotEmpty) ...[
                     sectionTitle('Today'),
                     notificationList(ctrl.todayNote, (index) {
-                      ctrl.markAsRead(index, ctrl.todayNote);
-                      // ctrl.deleteNotify(index, ctrl.todayNote);
+                      // ctrl.markAsRead(index, ctrl.todayNote);
+                      ctrl.deleteNotify(index, ctrl.todayNote);
                     }, ctrl.isRead.value),
                   ],
                   if (ctrl.yesterNote.isNotEmpty) ...[
                     sectionTitle('Yesterday'),
                     notificationList(ctrl.yesterNote, (index) {
-                      // ctrl.deleteNotify(index, ctrl.yesterNote);
-                      ctrl.markAsRead(index, ctrl.yesterNote);
+                      ctrl.deleteNotify(index, ctrl.yesterNote);
+                      // ctrl.markAsRead(index, ctrl.yesterNote);
                     }, ctrl.isRead.value),
                   ],
                   if (ctrl.otherNote.isNotEmpty) ...[
                     sectionTitle('Older Notifications'),
                     notificationList(ctrl.otherNote, (index) {
-                      // ctrl.deleteNotify(index, ctrl.otherNote);
-                      ctrl.markAsRead(index, ctrl.otherNote);
+                      ctrl.deleteNotify(index, ctrl.otherNote);
+                      // ctrl.markAsRead(index, ctrl.otherNote);
                     }, ctrl.isRead.value),
                   ],
                 ],
@@ -191,10 +191,18 @@ class Notification extends StatelessWidget {
                 ? Icon(Icons.notifications_active)
                 : Icon(Icons.notifications_active_outlined),
           ),
-          title: AppText(
-            text: notify.title,
-            textWeigh: FontWeight.bold,
-            textSize: 15,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: AppText(
+                  text: notify.title,
+                  textWeigh: FontWeight.bold,
+                  textSize: 15,
+                ),
+              ),
+              Icon(Icons.circle, color: isRead? AppColors.primary: AppColors.declined,)
+            ],
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
