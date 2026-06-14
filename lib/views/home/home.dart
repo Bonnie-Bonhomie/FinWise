@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage>
       // (viewModel.greeting());
       await acc.getBalance();
       await acc.getBonusBal();
-      await trans.getTransactions(1);
+      await trans.loadFresh();
     });
   }
 
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage>
     Future.delayed(Duration(seconds: 2), () async {
       await acc.getBalance();
       await acc.getBonusBal();
-      trans.getTransactions(1);
+      trans.loadFresh();
     });
   }
 
