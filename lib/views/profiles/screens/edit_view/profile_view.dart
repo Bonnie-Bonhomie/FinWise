@@ -104,7 +104,7 @@ class _ProfileViewState extends State<ProfileView> {
                         profileTile(
                           'Logout',
                           Icons.logout_outlined,
-                          AppColors.blue,
+                          AppColors.declined.withOpacity(0.3),
                           () {
                             logoutDialog(context, (){
                               loader.offLoading(() async{
