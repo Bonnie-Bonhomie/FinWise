@@ -85,7 +85,7 @@ class Notification extends StatelessWidget {
                         ctrl.deleteNotify(index, ctrl.todayNote);
                       },
                       markAsRead: (index) {
-                        ctrl.markAsRead(index);
+                        // ctrl.markAsRead(index);
                       },
                     ),
                   ],
@@ -98,7 +98,7 @@ class Notification extends StatelessWidget {
                         ctrl.deleteNotify(index, ctrl.yesterNote);
                       },
                       markAsRead: (index) {
-                        ctrl.markAsRead(index);
+                        // ctrl.markAsRead(index);
                       },
                     ),
                   ],
@@ -111,7 +111,7 @@ class Notification extends StatelessWidget {
                         ctrl.deleteNotify(index, ctrl.otherNote);
                       },
                      markAsRead: (index) {
-                        ctrl.markAsRead(index);
+                        // ctrl.markAsRead(index);
                       },
                     ),
                   ],
@@ -138,8 +138,7 @@ class Notification extends StatelessWidget {
             color: AppColors.declined,
             size: 80,
           ),
-          content: AppText(
-            text:
+          content: Text(
             'Are you sure want to delete all your notifications. Once you delete it can not be recover. Do you want to continue',
             textAlign: TextAlign.center,
           ),
@@ -162,7 +161,7 @@ class Notification extends StatelessWidget {
 }
 
 class BuildNotifyList extends StatelessWidget {
-  const BuildNotifyList({
+  BuildNotifyList({
     super.key,
     required this.list,
     required this.isRead,
@@ -175,6 +174,7 @@ class BuildNotifyList extends StatelessWidget {
   final Function(int) markAsRead;
   final bool isRead;
 
+  final NotifyCtrl ctrl = Get.find<NotifyCtrl>();
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -189,7 +189,10 @@ class BuildNotifyList extends StatelessWidget {
           index: index,
           child: NotificationCard(
             notify: nt,
-            onDismissed: onDismissed,
+            onDismissed: (index)async{
+              // await ctrl.deleteNotify(index, list);
+            },
+            ctrl: ctrl,
             isRead: isRead,
             index: index,
             markAsRead: markAsRead,
