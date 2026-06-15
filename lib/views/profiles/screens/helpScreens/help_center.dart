@@ -25,138 +25,140 @@ class _HelpCenterState extends State<HelpCenter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageContainer(
-        topMargin: 20,
-        topChild: CustomAppBar.header(
-          title: 'Helps & FAQS',
-          leftRight: 15,
-          onPressed: () => Get.find<ProfileMainControl>().back(),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              HeadingText(headingText: 'How can we help you?'),
-              SizedBox(height: 20),
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).cardColor,
+      body: SingleChildScrollView(
+        child: PageContainer(
+          topMargin: 20,
+          topChild: CustomAppBar.header(
+            title: 'Helps & FAQS',
+            leftRight: 15,
+            onPressed: () => Get.find<ProfileMainControl>().back(),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                HeadingText(headingText: 'How can we help you?'),
+                SizedBox(height: 20),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(2, (index) {
+                      return selectBox(
+                        titles[index],
+                        () {
+                          setState(() {
+                            selectIndex = index;
+                          });
+                        },
+                        selectIndex == index
+                            ? AppColors.primary
+                            : Colors.transparent,
+                      );
+                    }),
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(2, (index) {
-                    return selectBox(
-                      titles[index],
-                      () {
-                        setState(() {
-                          selectIndex = index;
-                        });
-                      },
-                      selectIndex == index
-                          ? AppColors.primary
-                          : Colors.transparent,
-                    );
-                  }),
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Container(
-                // width: 300,
-                padding: const EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Theme.of(context).cardColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                SizedBox(height: 8.0),
+                Container(
+                  // width: 300,
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-                  children: List.generate(helpCtrl.faqSections.length, (index) {
-                    final title = helpCtrl.faqSections[index];
-                    return InkWell(
-                      onTap: () {
-                        helpCtrl.faqIndex.value = index;
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AppText(
-                          text: title,
-                          textWeigh: selectIndex == index ? FontWeight.bold : FontWeight.w300,
-                          textColor: selectIndex == index
-                              ? AppColors.primary
-                              : Theme.of(context).colorScheme.onSurface,
+                    children: List.generate(helpCtrl.faqSections.length, (index) {
+                      final title = helpCtrl.faqSections[index];
+                      return InkWell(
+                        onTap: () {
+                          helpCtrl.faqIndex.value = index;
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AppText(
+                            text: title,
+                            textWeigh: selectIndex == index ? FontWeight.bold : FontWeight.w300,
+                            textColor: selectIndex == index
+                                ? AppColors.primary
+                                : Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+
+                SizedBox(height: 15.0),
+                SizedBox(
+                  height: 40,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      hint: const AppText(text: 'Search...'),
+                      filled: true,
+                      fillColor: Theme.of(context).cardColor,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: AppColors.primary,
+                          width: 1.5,
                         ),
                       ),
-                    );
-                  }),
-                ),
-              ),
-
-              SizedBox(height: 15.0),
-              SizedBox(
-                height: 40,
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    hint: const AppText(text: 'Search...'),
-                    filled: true,
-                    fillColor: Theme.of(context).cardColor,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: AppColors.primary,
-                        width: 1.5,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primary,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.primary,
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              selectIndex == 0
-                  ? Expanded(
-                      child: Obx(() {
-                        helpCtrl.faqGeneralQ.add(helpCtrl.faqServiceQ);
-                        helpCtrl.faqGeneralQ.add(helpCtrl.faqAccountQ);
-                        final index = helpCtrl.faqIndex.value;
-                        return index == 0
-                            ? faqsQuestionSectList(helpCtrl.faqGeneralQ[index])
-                            : index == 1
-                            ? faqsQuestionSectList(helpCtrl.faqAccountQ)
-                            : faqsQuestionSectList(helpCtrl.faqServiceQ);
-                      }),
-                    )
-                  : Column(
-                      children: [
-                        contactTile(
-                          'Customer Service',
-                          Icons.help_outline_rounded,
-                          () {
-                            Get.find<ProfileMainControl>().toOnlineHelp();
-                          },
-                        ),
-                        contactTile('Website', Icons.webhook_outlined, () {}),
-                        contactTile('Facebook', Icons.facebook_outlined, () {}),
-                        contactTile(
-                          'Whatsapp',
-                          Icons.lightbulb_circle_outlined,
-                          () {},
-                        ),
-                        contactTile(
-                          'Instagram',
-                          Icons.camera_alt_outlined,
-                          () {},
-                        ),
-                      ],
-                    ),
-            ],
+                SizedBox(height: 20),
+                selectIndex == 0
+                    ? Expanded(
+                        child: Obx(() {
+                          helpCtrl.faqGeneralQ.add(helpCtrl.faqServiceQ);
+                          helpCtrl.faqGeneralQ.add(helpCtrl.faqAccountQ);
+                          final index = helpCtrl.faqIndex.value;
+                          return index == 0
+                              ? faqsQuestionSectList(helpCtrl.faqGeneralQ[index])
+                              : index == 1
+                              ? faqsQuestionSectList(helpCtrl.faqAccountQ)
+                              : faqsQuestionSectList(helpCtrl.faqServiceQ);
+                        }),
+                      )
+                    : Column(
+                        children: [
+                          contactTile(
+                            'Customer Service',
+                            Icons.help_outline_rounded,
+                            () {
+                              Get.find<ProfileMainControl>().toOnlineHelp();
+                            },
+                          ),
+                          contactTile('Website', Icons.webhook_outlined, () {}),
+                          contactTile('Facebook', Icons.facebook_outlined, () {}),
+                          contactTile(
+                            'Whatsapp',
+                            Icons.lightbulb_circle_outlined,
+                            () {},
+                          ),
+                          contactTile(
+                            'Instagram',
+                            Icons.camera_alt_outlined,
+                            () {},
+                          ),
+                        ],
+                      ),
+              ],
+            ),
           ),
         ),
       ),
