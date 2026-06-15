@@ -73,7 +73,7 @@ class DeleteAccount extends StatelessWidget {
                 onPressed: () {
                   showDelDialog(context);
                 },
-                label: 'Yes, Delete Account',
+                label: 'Yes, Delete Account',isDel: true,
               ),
               const SizedBox(height: 15),
               ElevatedButton(
@@ -129,6 +129,7 @@ class DeleteAccount extends StatelessWidget {
               },
               label: 'Yes, Delete Account',
               textSize: 15,
+              isDel: true,
             ),
             const SizedBox(height: 10),
             SizedBox(

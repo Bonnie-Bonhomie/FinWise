@@ -146,7 +146,7 @@ class Notification extends StatelessWidget {
           actions: [
             AppBtn(
               onPressed: onPressed,
-              label: 'Yes, Delete',
+              label: 'Yes, Delete',isDel: true,
             ),
             const SizedBox(height: 8.0),
             CancelBtn(

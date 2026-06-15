@@ -34,6 +34,7 @@ class SettingsView extends StatelessWidget {
             settingTile(
               'Delete Account',
               Icons.person_outline_outlined,
+              color: AppColors.declined,
               () => Get.find<ProfileMainControl>().toDelAccount(),
             ),
           ],
@@ -42,15 +43,15 @@ class SettingsView extends StatelessWidget {
     );
   }
 
-  Widget settingTile(String title, IconData icon, VoidCallback onTap) {
+  Widget settingTile(String title, IconData icon, VoidCallback onTap, {Color? color}) {
     return ListTile(
       title: AppText(text: title),
       leading: CircleAvatar(
         radius: 15.0,
         backgroundColor: AppColors.primary,
-        child: Icon(icon, color: AppColors.lightGreen,),
+        child: Icon(icon, color: color ?? AppColors.lightGreen,),
       ),
-      trailing: const Icon(Icons.arrow_right,),
+      trailing: Icon(Icons.arrow_right, color: color ?? AppColors.primary,),
       onTap: onTap,
     );
   }
