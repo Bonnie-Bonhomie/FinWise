@@ -114,7 +114,7 @@ class TransactionReceipt extends StatelessWidget {
                           : SizedBox.shrink(),
                       receiptDet.category == Categories.cable
                           ? rowTile(
-                              'Smartcard Number',
+                              'Smartcard',
                               receiptDet.phoneNo,
                             )
                           : SizedBox.shrink(),
@@ -218,17 +218,14 @@ class TransactionReceipt extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: 100,
-                child: AppText(
-                  text: title,
-                  textWeigh: FontWeight.bold,
-                  textColor: AppColors.darkGreen,
-                ),
+              AppText(
+                text: title,
+                textWeigh: FontWeight.bold,
+                textColor: AppColors.darkGreen,
               ),
               // const SizedBox(width: 30,),
                SizedBox(
-                  width: 190,
+                  width: 200,
                   child: Text(value,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.end,
