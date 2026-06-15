@@ -70,6 +70,7 @@ class TelevisionBillView extends StatelessWidget {
                         return ListTile(
                           onTap: () {
                             ctrl.verified.value = false;
+                            ctrl.verifyErr.value = '';
                             Get.toNamed(Routes.tvSubscription, arguments: tv);
                           },
                           title: Text(tv.name, overflow: TextOverflow.ellipsis),
