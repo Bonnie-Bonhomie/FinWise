@@ -252,7 +252,7 @@ class _TvSubscriptionState extends State<TvSubscription>
                                     ):rowTile(
                                       text: 'Due Date',
                                       child: AppText(
-                                        text: viewModel.formatDateOnly(tvCtrl.verifyDet['Due_Date']) ?? 'null',
+                                        text: tvCtrl.verifyDet['Due_Date'].toString(),
                                         textSize: 13,
                                       ),
                                     ),
