@@ -160,14 +160,14 @@ class _FundWalletPageState extends State<FundWalletPage> {
                                   acc.selectPay.value = select;
                                   showPaymentSheet(context, index);
                                 },
-                                leading: CircleAvatar(
-                                  radius: 20,
+                                leading: Container(
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(2)),
                                   // backgroundColor: AppColors.lightGreen,
                                   child: Image.network(
                                     item.imgUrl,
                                     width: 100,
                                     height: 100,
-                                    // fit: BoxFit.scaleDown,
+                                    fit: BoxFit.cover,
                                     errorBuilder: (context, __, ___) {
                                       return Icon(Icons.paypal);
                                     },
