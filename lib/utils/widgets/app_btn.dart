@@ -12,6 +12,7 @@ class AppBtn extends StatelessWidget {
     this.needColor = false,
     this.loadWidget,
     this.textSize,
+    this.isDel = false,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class AppBtn extends StatelessWidget {
   final double? textSize;
   final bool loading;
   final Widget? loadWidget;
+  final bool isDel;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class AppBtn extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(17),
         gradient: LinearGradient(colors: [
-          AppColors.primary,
+          isDel? AppColors.declined: AppColors.primary,
           // AppColors.primary,
           AppColors.darkGreen
         ],
@@ -43,10 +45,6 @@ class AppBtn extends StatelessWidget {
       ),
       child: InkWell(
         onTap: onPressed,
-        // style: ElevatedButton.styleFrom(
-        //   backgroundColor: needColor!?  bgColor: Colors.transparent,
-        //
-        // ),
         child: loading
             ? loadWidget
             : Center(
