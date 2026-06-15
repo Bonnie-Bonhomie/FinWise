@@ -70,7 +70,7 @@ void logoutDialog(BuildContext context, VoidCallback action){
         AppBtn(onPressed: (){
           Get.back();
           action();
-        }, label: 'Yes, End Session', textSize: 15),
+        }, label: 'End Session', textSize: 15, isDel: true,),
         SizedBox(height: 10,),
         SizedBox(
             width: MediaQuery.of(context).size.width,
