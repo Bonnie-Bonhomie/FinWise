@@ -3,7 +3,6 @@ import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/notification_model.dart';
 import 'package:fin_wise/data/repositories/notification_repo.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -44,7 +43,7 @@ class NotifyCtrl extends GetxController{
 
 
   Future<void> deleteNotify(index, List list) async {
-
+    print('Delete called');
     try{
       String? token = await store.getToken();
       if(token == null){
@@ -55,9 +54,9 @@ class NotifyCtrl extends GetxController{
       print(response.data);
       if(response is DataSuccess){
         if(response.data['status'] == true){
-
-          list.removeAt(index);
-          update();
+          print('I worked');
+          // list.removeAt(index);
+          // update();
 
         }else{
           CustomSnackbar.showSnackbar(message: 'Unable to delete notifications');
