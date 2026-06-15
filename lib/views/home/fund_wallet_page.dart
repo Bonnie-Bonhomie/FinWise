@@ -165,8 +165,8 @@ class _FundWalletPageState extends State<FundWalletPage> {
                                   // backgroundColor: AppColors.lightGreen,
                                   child: Image.network(
                                     item.imgUrl,
-                                    width: 100,
-                                    height: 100,
+                                    width: 30,
+                                    height: 40,
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, __, ___) {
                                       return Icon(Icons.paypal);
