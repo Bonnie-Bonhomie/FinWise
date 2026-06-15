@@ -71,27 +71,30 @@ class _HelpCenterState extends State<HelpCenter> {
                     borderRadius: BorderRadius.circular(20),
                     color: Theme.of(context).cardColor,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  child: Obx((){
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
-                    children: List.generate(helpCtrl.faqSections.length, (index) {
-                      final title = helpCtrl.faqSections[index];
-                      return InkWell(
-                        onTap: () {
-                          helpCtrl.faqIndex.value = index;
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AppText(
-                            text: title,
-                            textWeigh: selectIndex == index ? FontWeight.bold : FontWeight.w300,
-                            textColor: selectIndex == index
-                                ? AppColors.primary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ),
+                        children: List.generate(helpCtrl.faqSections.length, (index) {
+                          final title = helpCtrl.faqSections[index];
+                          return InkWell(
+                            onTap: () {
+                              helpCtrl.faqIndex.value = index;
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              child: AppText(
+                                text: title,
+                                textWeigh: helpCtrl.faqIndex.value == index ? FontWeight.bold : FontWeight.w300,
+                                textColor: helpCtrl.faqIndex.value == index
+                                    ? AppColors.primary
+                                    : Theme.of(context).colorScheme.onSurface,
+                              ),
+                            ),
+                          );
+                        }),
                       );
-                    }),
+                    }
                   ),
                 ),
 
