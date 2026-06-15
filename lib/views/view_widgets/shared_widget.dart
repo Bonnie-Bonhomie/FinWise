@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:flutter/material.dart';
@@ -187,23 +188,26 @@ class NotificationCard extends StatelessWidget {
     required this.index,
     required this.isRead,
     required this.markAsRead,
+    required this.ctrl
   });
   final NotifyModel notify;
   final Function(int) onDismissed;
   final Function(int) markAsRead;
   final bool isRead;
   final int index;
+  final NotifyCtrl ctrl;
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: Key(notify.title),
-      onDismissed: (val) => onDismissed,
+      onDismissed: (val) async{await ctrl.deleteNotify(index, []);},
       secondaryBackground: Container(
         color: AppColors.declined,
         alignment: Alignment.centerRight,
         child: Icon(Icons.delete, color: Colors.white, size: 30),
       ),
+
       // background: Container(color: AppColors.primary, alignment: Alignment.centerLeft, child: Icon(Icons.done_all, size: 30, color: Colors.white),),
       background: Container(),
       direction: DismissDirection.endToStart,
