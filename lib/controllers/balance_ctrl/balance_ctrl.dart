@@ -3,6 +3,7 @@ import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:get/get.dart';
 
 import '../../data/models/model_export.dart';
@@ -20,7 +21,7 @@ class AccBalanceCtrl extends GetxController {
     //   getBalance();
     super.onInit();
   }
-
+  final HomeViewModel viewModel = HomeViewModel();
   final AuthCtrl auth = Get.find<AuthCtrl>();
 
   var accountBalance = 0.00.obs;
@@ -259,6 +260,9 @@ class AccBalanceCtrl extends GetxController {
 
       if (response is DataSuccess) {
         if (response.data['status'] == true) {
+          final data = response.data['data'];
+          viewModel.openUrl(data['url']);
+
           print(response.data);
         } else {
           CustomSnackbar.showSnackbar(
