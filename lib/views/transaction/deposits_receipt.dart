@@ -151,7 +151,6 @@ class DepositsReceipt extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 150,
         padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -159,15 +158,8 @@ class DepositsReceipt extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(5.0),
-              margin: const EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                color: AppColors.lightGreen,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Icon(icon, color: AppColors.primary),
-            ),
+             Icon(icon, color: AppColors.primary),
+            const SizedBox(width: 3,),
             AppText(text: title, textSize: 14,),
           ],
         ),
