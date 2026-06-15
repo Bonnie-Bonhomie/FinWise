@@ -342,7 +342,8 @@ class _TvSubscriptionState extends State<TvSubscription>
 
 
   Widget buildColumn() {
-    int len = tvCtrl.cablePrices.length + 1;
+    // int len = tvCtrl.cablePrices.length + 1;
+    int len = tvCtrl.cablePrices.length ;
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.start,
       alignment: WrapAlignment.start,
@@ -351,11 +352,12 @@ class _TvSubscriptionState extends State<TvSubscription>
       children: List.generate(len, (index) {
 
 
-        if (index == 0) {
-          return amountBox();
-        }
+        // if (index == 0) {
+        //   return amountBox();
+        // }
 
-        final service = tvCtrl.cablePrices[index - 1];
+        // final service = tvCtrl.cablePrices[index - 1];
+        final service = tvCtrl.cablePrices[index];
         final amount = double.parse(service.price);
         return SharedWidget.serviceBox(
           context: context,
