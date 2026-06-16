@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage>
     Future.microtask(() async {
       getName();
       // (viewModel.greeting());
-      await trans.loadFresh();
+      await trans.getTransactions(1);
       await acc.getBalance();
       await acc.getBonusBal();
 
