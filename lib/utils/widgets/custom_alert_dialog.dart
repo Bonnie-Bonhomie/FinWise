@@ -14,7 +14,7 @@ class CustomAlertDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       // backgroundColor: AppColors.bgColor,
-      title: Center(child: AppText(text: 'Do you want to continue your transaction?', textAlign: TextAlign.center, textSize: 17,)),
+      title: Center(child: Text('Do you want to continue your transaction?', textAlign: TextAlign.center, style: TextStyle(fontSize: 17),)),
       actions: [
         AppBtn(onPressed: (){
           Get.back();
