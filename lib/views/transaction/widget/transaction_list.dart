@@ -67,7 +67,7 @@ class DepositListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final transact = trans.allDeposit;
-      if (trans.loading.value == true) {
+      if (trans.loadingDepo.value == true) {
         return Center(child: SkeletonLoader.shimmerLines(len: 5));
       }
 
