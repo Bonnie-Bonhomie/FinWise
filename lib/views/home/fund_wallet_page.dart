@@ -205,6 +205,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
       backgroundColor: Colors.transparent,
       barrierColor: Colors.green.withOpacity(0.4),
       isDismissible: false,
+
       // isScrollControlled: true,
 
       builder: (context) {
