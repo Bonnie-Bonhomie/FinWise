@@ -4,6 +4,8 @@ import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:fin_wise/views/home/payment_web_view.dart';
+
 import 'package:get/get.dart';
 
 import '../../data/models/model_export.dart';
@@ -261,7 +263,13 @@ class AccBalanceCtrl extends GetxController {
       if (response is DataSuccess) {
         if (response.data['status'] == true) {
           final data = response.data['data'];
-          viewModel.openUrl(data['url']);
+          // viewModel.openUrl(data['url']);
+          String paymentUrl = data['url'];
+          String failedUrl = data['failure_url'];
+          String successUrl = data['success_url'];
+
+          Get.off(() => PaymentWebView(paymentUrl: paymentUrl, failedUrl: failedUrl, successUrl: successUrl));
+
 
           print(response.data);
         } else {
