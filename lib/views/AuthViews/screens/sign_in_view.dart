@@ -205,7 +205,7 @@ class _SignInViewState extends State<SignInView> {
                       viewModel.openUrl(ApiEndpoints.terms);
                     },
                   children: [
-                    TextSpan(text: 'and '),
+                    TextSpan(text: 'and ', style: TextStyle(fontSize: 14)),
                     TextSpan(
                       text: 'Privacy Policy.',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
