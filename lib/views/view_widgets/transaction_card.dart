@@ -16,10 +16,7 @@ class TransactionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DateTime date = DateT;
-    // final date = tx.time;
-    // final formatDate = DateFormat('MMMM d').format(date);
-    // final formatTime = DateFormat('HH:mm').format(date);
+
 
     return Card(
       child: InkWell(
@@ -51,7 +48,7 @@ class TransactionCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 100,
+                    width: 150,
                     child: Text(tx.modelableType, overflow: TextOverflow.ellipsis),
                   ),
                   AppText(
