@@ -9,7 +9,7 @@ enum Categories {
   electricity('Electricity', Icons.electric_bolt),
   education('Education', Icons.school_outlined),
   solar('Solar', Icons.emoji_transportation_outlined),
-  chowDeck('ChowDeck', Icons.deck),
+  market('Market', Icons.production_quantity_limits),
   invitation('invitation', Icons.insert_invitation),
   gift('Gift Card', Icons.card_giftcard);
 
