@@ -219,48 +219,51 @@ class ShowBottomInfo {
         return DraggableScrollableSheet(
           maxChildSize: 1.0,
           initialChildSize: 0.98,
-          builder: (_,__) {
-            return Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-              ),
-              child: ListView(
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(child: Icon(Icons.notifications_none)),
-                      const SizedBox(width: 10),
+          builder: (context,scrollCtrl) {
+            return SingleChildScrollView(
+              controller: scrollCtrl,
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+                ),
+                child: ListView(
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(child: Icon(Icons.notifications_none)),
+                        const SizedBox(width: 10),
 
-                      Expanded(child: Text(note.title,overflow: TextOverflow.ellipsis, maxLines: 3, textAlign: TextAlign.justify, style: TextStyle(fontWeight: FontWeight.bold),)),
-                      const SizedBox(width: 20,),
-                      Icon(Icons.circle, color: AppColors.primary, size: 10),
-                      const SizedBox(width: 10),
-                      IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      const SizedBox(width: 5.0),
-                      Icon(Icons.access_alarm, size: 12,),
-                      const SizedBox(width: 10),
-                      AppText(
-                        text: viewModel.formatDate(note.date),
-                        textColor: AppColors.superBlue,
-                        textSize: 12,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Text(note.description),
-                ],
+                        Expanded(child: Text(note.title,overflow: TextOverflow.ellipsis, maxLines: 3, textAlign: TextAlign.justify, style: TextStyle(fontWeight: FontWeight.bold),)),
+                        const SizedBox(width: 20,),
+                        Icon(Icons.circle, color: AppColors.primary, size: 10),
+                        const SizedBox(width: 10),
+                        IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: Icon(Icons.close),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const SizedBox(width: 5.0),
+                        Icon(Icons.access_alarm, size: 12,),
+                        const SizedBox(width: 10),
+                        AppText(
+                          text: viewModel.formatDate(note.date),
+                          textColor: AppColors.superBlue,
+                          textSize: 12,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text(note.description),
+                  ],
+                ),
               ),
             );
           }
