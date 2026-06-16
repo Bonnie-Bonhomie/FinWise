@@ -35,11 +35,11 @@ class _PaymentWebViewState extends State<PaymentWebView> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (value) {
-            setState(() {
-              loading = value < 100;
-            });
-          },
+          // onProgress: (value) {
+          //   setState(() {
+          //     loading = value < 100;
+          //   });
+          // },
           onNavigationRequest: (request) {
             final url = request.url;
             print('Current ur: $url');
@@ -73,9 +73,9 @@ class _PaymentWebViewState extends State<PaymentWebView> {
         return shouldPop ?? false;
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Payment")),
+        appBar: AppBar(title: const Text("Payment"), backgroundColor: AppColors.primary,),
         body: loading
-            ? Center(child: LinearProgressIndicator())
+            ? Center(child: SizedBox(width: 200, height: 5, child: LinearProgressIndicator()))
             : WebViewWidget(controller: controller),
       ),
     );
@@ -86,34 +86,35 @@ class _PaymentWebViewState extends State<PaymentWebView> {
       return Dialog(
         backgroundColor: Colors.transparent,
         child: Stack(
-          alignment: Alignment.center,
+          alignment: Alignment.topCenter,
           children: [
             Positioned(
-              top: 50,
+              top: 100,
               child: Container(
-                height: 50,
-                width: 50,
+                height: 100,
+                width: 100,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.primary,
-                    border: Border.all(color: AppColors.darkGreen, width: 3)
+                    border: Border.all(color: AppColors.primary, width: 3)
                 ),
-                child: Icon(Icons.check_circle_sharp),
+                child: Icon(Icons.check_circle_sharp, size: 100,),
               ),
             ),
             Container(
+              padding: const EdgeInsets.all(15 ),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25)
+                  borderRadius: BorderRadius.circular(25),
+                color: Theme.of(context).cardColor
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Excellent 🤗'),
+                  Text('Excellent 🤗', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
                   const SizedBox(height: 10,),
-                  Text('You have successfully fund your wallet and funds has been credited to your wallet.'),
+                  Text('You have successfully fund your wallet and funds has been credited to your wallet.', textAlign: TextAlign.center,),
                   const SizedBox(height: 10,),
                   AppBtn(onPressed: (){
-                    Get.back();
                     Get.back();
                     Get.back();
                   }, label: 'Continue')
@@ -135,11 +136,10 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           children: [
             Text('Oops 😒'),
             Text('Payment failed, try again later'),
-            CancelBtn(onPressed: (){
+            AppBtn(onPressed: (){
               Get.back();
               Get.back();
-              Get.back();
-            })
+            }, label: 'Failed', isDel: true,)
           ],
         ),
       );
