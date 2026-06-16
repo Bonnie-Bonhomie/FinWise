@@ -1,15 +1,18 @@
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
+import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
 class SecurityPage extends StatelessWidget {
-  const SecurityPage({super.key});
+  SecurityPage({super.key});
 
+  final HomeViewModel viewModel = HomeViewModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +31,7 @@ class SecurityPage extends StatelessWidget {
               ),
               secureTile('Change Pin', (){Get.find<ProfileMainControl>().toChangePin();}),
               // secureTile('FingerPrint', (){Get.find<ProfileMainControl>().toFingerPrints();}),
-              secureTile('Terms and Condition', (){Get.toNamed(Routes.terms);}),
+              secureTile('Terms and Condition', (){viewModel.openUrl(ApiEndpoints.terms);}),
             ],
           ),
         ),
