@@ -42,24 +42,24 @@ class NotifyCtrl extends GetxController{
   }
 
 
-  Future<void> deleteNotify(index, List list) async {
+  Future<void> deleteNotify(id, index) async {
     print('Delete called');
+    notifications.removeAt(index);
+    update();
     try{
       String? token = await store.getToken();
       if(token == null){
         CustomSnackbar.showSnackbar(message: 'Unauthenticated');
         return;
       }
-      final response = await repo.deleteSingleNotify(token, index+1);
+      int noteId = int.parse(id);
+      final response = await repo.deleteSingleNotify(token, noteId);
       print(response.data);
       if(response is DataSuccess){
         if(response.data['status'] == true){
           print('I worked');
-          // list.removeAt(index);
-          // update();
 
-        }else{
-          CustomSnackbar.showSnackbar(message: 'Unable to delete notifications');
+
         }
       }else if(response is DataFailed){
         final err = response.exception;
@@ -77,11 +77,7 @@ class NotifyCtrl extends GetxController{
 
           if (errData != null && errData['message'] != null) {
             CustomSnackbar.showSnackbar(message: errData['message'].toString());
-          } else {
-            CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
           }
-        } else{
-          CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
         }
       }
     }catch(e){
