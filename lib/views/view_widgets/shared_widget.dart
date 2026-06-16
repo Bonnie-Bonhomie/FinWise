@@ -200,8 +200,12 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: Key(notify.title),
-      onDismissed: (val) async{await ctrl.deleteNotify(index, []);},
+      key: ValueKey(notify.id),
+
+      confirmDismiss: (_) async {
+        await ctrl.deleteNotify(notify.id, index);
+        return true;
+      },
       secondaryBackground: Container(
         color: AppColors.declined,
         alignment: Alignment.centerRight,
