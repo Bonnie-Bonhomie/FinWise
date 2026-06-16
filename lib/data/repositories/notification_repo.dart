@@ -56,7 +56,7 @@ class NotificationRepo{
   }
 
 ///Delete single notification
-  Future<DataState> deleteSingleNotify(String token, String id) async {
+  Future<DataState> deleteSingleNotify(String token, int id) async {
     try {
       if (!await internet.connected) {
 
@@ -68,7 +68,7 @@ class NotificationRepo{
           ),
         );
       }
-      final response = await service.deleteRequestWIthToken('${ApiEndpoints.deleteAllNote}/$id', token);
+      final response = await service.deleteRequestWIthToken('${ApiEndpoints.notification}/$id', token);
       return DataSuccess(response.data);
     } on DioException catch (e) {
       print(e.response?.data);
