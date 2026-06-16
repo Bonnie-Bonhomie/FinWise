@@ -27,8 +27,10 @@ class _HomePageState extends State<HomePage>
   final HomeViewModel viewModel = HomeViewModel();
   final store = SharedPreferService();
 
-  final acc = Get.find<AccBalanceCtrl>();
+
   final trans = Get.find<TransactionCtrl>();
+  final acc = Get.find<AccBalanceCtrl>();
+
   String name = '';
 
   void getName() async {
@@ -53,9 +55,10 @@ class _HomePageState extends State<HomePage>
     Future.microtask(() async {
       getName();
       // (viewModel.greeting());
+      await trans.loadFresh();
       await acc.getBalance();
       await acc.getBonusBal();
-      await trans.loadFresh();
+
     });
   }
 
