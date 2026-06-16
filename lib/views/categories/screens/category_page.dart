@@ -34,7 +34,7 @@ class _CategoryPageState extends State<CategoryPage> {
   final elect = Categories.electricity;
   final education = Categories.education;
   final invite = Categories.invitation;
-  final chow = Categories.chowDeck;
+  final market = Categories.market;
   final solar = Categories.solar;
   final gift = Categories.gift;
 
@@ -91,24 +91,24 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
                 CategoriesCard(
                   index: 6,
-                  icon: chow.icon,
-                  title: chow.label,
+                  icon: market.icon,
+                  title: market.label,
                   onTap: () {showToast();},
-                  color: AppColors.subBlue,
+
                 ),
                 CategoriesCard(
-                  index: 7,
+                    index: 7,
+                    icon: solar.icon,
+                    title: solar.label,
+                    onTap: () {showToast();}),
+                CategoriesCard(
+                  index: 8,
                   icon: invite.icon,
                   title: invite.label,
                   color: AppColors.subBlue,
                   onTap: () {showToast();},
                 ),
-                CategoriesCard(
-                  index: 8,
-                  icon: solar.icon,
-                  title: solar.label,
-                  color: AppColors.subBlue,
-                  onTap: () {showToast();}),
+
                 CategoriesCard(
                   index: 9,
                   icon: gift.icon,
