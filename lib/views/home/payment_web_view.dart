@@ -1,6 +1,7 @@
+import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/utils_export.dart';
-import 'package:fin_wise/views/view_widgets/cancel_button.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -23,6 +24,7 @@ class PaymentWebView extends StatefulWidget {
 
 class _PaymentWebViewState extends State<PaymentWebView> {
   late final WebViewController controller;
+  final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
 
   bool loading = false;
   int progress = 0;
@@ -102,7 +104,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(15 ),
+              padding: const EdgeInsets.all(30 ),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                 color: Theme.of(context).cardColor
@@ -111,12 +113,13 @@ class _PaymentWebViewState extends State<PaymentWebView> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text('Excellent 🤗', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                  const SizedBox(height: 10,),
-                  Text('You have successfully fund your wallet and funds has been credited to your wallet.', textAlign: TextAlign.center,),
-                  const SizedBox(height: 10,),
+                  const SizedBox(height: 15,),
+                  Text('You have successfully fund your wallet and funds has been credited to your wallet.', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),),
+                  const SizedBox(height: 15,),
                   AppBtn(onPressed: (){
                     Get.back();
                     Get.back();
+                    acc.getBalance();
                   }, label: 'Continue')
                 ],
               ),
@@ -135,7 +138,10 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Oops 😒'),
+            const SizedBox(height: 15,),
             Text('Payment failed, try again later'),
+            const SizedBox(height: 15,),
+
             AppBtn(onPressed: (){
               Get.back();
               Get.back();
