@@ -81,9 +81,6 @@ class Notification extends StatelessWidget {
                     BuildNotifyList(
                       list: ctrl.todayNote,
                       isRead: ctrl.isRead.value,
-                      onDismissed: (index) {
-                        ctrl.deleteNotify(index, ctrl.todayNote);
-                      },
                       markAsRead: (index) {
                         // ctrl.markAsRead(index);
                       },
@@ -94,9 +91,6 @@ class Notification extends StatelessWidget {
                     BuildNotifyList(
                       list: ctrl.yesterNote,
                       isRead: ctrl.isRead.value,
-                      onDismissed: (index) {
-                        ctrl.deleteNotify(index, ctrl.yesterNote);
-                      },
                       markAsRead: (index) {
                         // ctrl.markAsRead(index);
                       },
@@ -107,9 +101,6 @@ class Notification extends StatelessWidget {
                     BuildNotifyList(
                       list: ctrl.otherNote,
                       isRead: ctrl.isRead.value,
-                      onDismissed: (index) {
-                        ctrl.deleteNotify(index, ctrl.otherNote);
-                      },
                      markAsRead: (index) {
                         // ctrl.markAsRead(index);
                       },
@@ -165,12 +156,10 @@ class BuildNotifyList extends StatelessWidget {
     super.key,
     required this.list,
     required this.isRead,
-    required this.onDismissed,
     required this.markAsRead,
   });
 
   final List<NotifyModel> list;
-  final Function(int) onDismissed;
   final Function(int) markAsRead;
   final bool isRead;
 
@@ -189,12 +178,10 @@ class BuildNotifyList extends StatelessWidget {
           index: index,
           child: NotificationCard(
             notify: nt,
-            onDismissed: (index)async{
-              // await ctrl.deleteNotify(index, list);
-            },
             ctrl: ctrl,
             isRead: isRead,
             index: index,
+            list: list,
             markAsRead: markAsRead,
           ),
         );
