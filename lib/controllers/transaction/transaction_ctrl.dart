@@ -27,6 +27,7 @@ class TransactionCtrl extends GetxController{
 
   final ScrollController scrollCtrl = ScrollController();
   var loading = false.obs;
+  var loadingDepo = false.obs;
   var loadMore  = false.obs;
   int page = 1;
   int currentPage = 1;
@@ -38,6 +39,7 @@ class TransactionCtrl extends GetxController{
   var transactionList = <TransactionModel>[].obs;
   var allDeposit = <DepoModel>[].obs;
   var error = ''.obs;
+  var errorDepo = ''.obs;
 
 
 //Start
@@ -162,7 +164,7 @@ class TransactionCtrl extends GetxController{
     if(loading.value)return;
     try{
 
-      loading.value = true;
+      loadingDepo.value = true;
       final token = await storage.getToken();
       if(token == null){
         CustomSnackbar.showSnackbar(message: 'User not authourized');
@@ -186,7 +188,7 @@ class TransactionCtrl extends GetxController{
             error.value = 'No transaction history';
           }
         }else{
-          error.value = 'Unable to load all Transactions';
+          errorDepo.value = 'Unable to load all Transactions';
         }
       }
         else if(deposits is DataFailed){
@@ -195,28 +197,28 @@ class TransactionCtrl extends GetxController{
         if (err is DioException) {
           if (err.type == DioExceptionType.connectionError ||
               err.type == DioExceptionType.connectionTimeout) {
-            error.value = 'No internet connection';
+            errorDepo.value = 'No internet connection';
             return;
           }
 
           final errData = err.response!.data;
           if(errData != null && errData['message'] != null){
-            error.value = errData['message'].toString();
+            errorDepo.value = errData['message'].toString();
           }
           // else{
           //   error.value = 'Something went wrong, try to reload';
           // }
         }
         else{
-          error.value = 'Something went wrong, try again later';
+          errorDepo.value = 'Something went wrong, try again later';
         }
         // return;
       }
     }catch(e){
       print(e);
-      error.value = 'Something went wrong, try again later';
+      errorDepo.value = 'Something went wrong, try again later';
     }finally{
-      loading.value = false;
+      loadingDepo.value = false;
     }
   }
 
