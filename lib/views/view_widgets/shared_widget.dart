@@ -184,14 +184,14 @@ class NotificationCard extends StatelessWidget {
   const NotificationCard({
     super.key,
     required this.notify,
-    required this.onDismissed,
+    required this.list,
     required this.index,
     required this.isRead,
     required this.markAsRead,
     required this.ctrl
   });
   final NotifyModel notify;
-  final Function(int) onDismissed;
+  final List<NotifyModel> list;
   final Function(int) markAsRead;
   final bool isRead;
   final int index;
@@ -203,7 +203,7 @@ class NotificationCard extends StatelessWidget {
       key: ValueKey(notify.id),
 
       confirmDismiss: (_) async {
-        await ctrl.deleteNotify(notify.id, index);
+        await ctrl.deleteNotify(notify.id, index, list);
         return true;
       },
       secondaryBackground: Container(
