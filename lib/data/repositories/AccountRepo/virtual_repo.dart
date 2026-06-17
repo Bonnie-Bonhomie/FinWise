@@ -84,7 +84,7 @@ class AccountRepo {
     } on DioException catch (e) {
       return DataFailed(e);
     }
-  }    ///Bonus balan
+  }    ///Bonus balance
 
   Future<DataState> postPayment(String url, String token, String amount) async {
     try {
@@ -116,6 +116,24 @@ class AccountRepo {
         );
       }
       final result = await services.getRequestWIthToken('${ApiEndpoints.payment}/$url', token, queryParam: {'amount': amount});
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+  Future<DataState> verifyPayment(String url, String token, String reference) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.postRequestsWithToken('${ApiEndpoints.payment}/$url', token, {'amount': reference});
       return DataSuccess(result.data);
     } on DioException catch (e) {
       return DataFailed(e);
