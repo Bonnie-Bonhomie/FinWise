@@ -42,10 +42,9 @@ class NotifyCtrl extends GetxController{
   }
 
 
-  Future<void> deleteNotify(id, index) async {
+  Future<void> deleteNotify(id, index, List list) async {
     print('Delete called');
-    notifications.removeAt(index);
-    update();
+
     try{
       String? token = await store.getToken();
       if(token == null){
@@ -59,7 +58,8 @@ class NotifyCtrl extends GetxController{
         if(response.data['status'] == true){
           print('I worked');
 
-
+          list.removeAt(index);
+          update();
         }
       }else if(response is DataFailed){
         final err = response.exception;
