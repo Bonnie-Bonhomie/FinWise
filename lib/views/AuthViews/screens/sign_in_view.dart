@@ -3,6 +3,7 @@ import 'package:fin_wise/controllers/loader_contrl.dart';
 import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/utils/widgets/general_web_view.dart';
 import 'package:fin_wise/utils/widgets/widget.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
@@ -202,7 +203,7 @@ class _SignInViewState extends State<SignInView> {
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      viewModel.openUrl(ApiEndpoints.terms);
+                      Get.to(() => GeneralWebView(url: ApiEndpoints.terms));
                     },
                   children: [
                     TextSpan(text: 'and ', style: TextStyle(fontSize: 14)),
@@ -211,7 +212,8 @@ class _SignInViewState extends State<SignInView> {
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          viewModel.openUrl(ApiEndpoints.policy);
+                          Get.to(() => GeneralWebView(url: ApiEndpoints.policy));
+
                         },
                     ),
                   ],
