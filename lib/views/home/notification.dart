@@ -215,7 +215,7 @@ class ShowBottomInfo {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
                 ),
-                child: ListView(
+                child: Column(
                   children: [
                     Row(
                       children: [
