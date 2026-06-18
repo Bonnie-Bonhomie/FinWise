@@ -20,15 +20,13 @@ class _ProfileViewState extends State<ProfileView> {
   final nav = Get.find<ProfileMainControl>();
   final home = Get.find<NavControl>();
   final loader = Get.find<LoaderController>();
-  String name = '';
-  String email = '';
 
 
 
   @override
   void initState() {
     // TODO: implement initState
-
+    Future.microtask(() async{await auth.getEmail();});
     super.initState();
   }
   @override
@@ -57,64 +55,68 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       color: Theme.of(context).scaffoldBackgroundColor,
                     ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 50),
-                        AppText(
-                          text: auth.name.value,
-                          textWeigh: FontWeight.bold,
-                          textSize: 25,
-                        ),
-                        AppText(text: auth.email.value),
-                        SizedBox(height: 20),
+                    child: Obx((){
+                        return Column(
+                          children: [
+                            SizedBox(height: 50),
+                            AppText(
+                              text: auth.name.value,
+                              textWeigh: FontWeight.bold,
+                              textSize: 25,
+                            ),
+                            AppText(text: auth.email.value),
+                            SizedBox(height: 20),
 
-                        //Profile Lists
-                        profileTile(
-                          'Edit Profile',
-                          Icons.person_outline_outlined,
-                          AppColors.blue,
-                          () {
-                            Get.find<ProfileMainControl>().toEdit();
-                          },
-                        ),
-                        profileTile(
-                          'Security',
-                          Icons.safety_check,
-                          AppColors.subBlue,
-                          () {
-                            Get.find<ProfileMainControl>().toSecurity();
-                          },
-                        ),
-                        profileTile(
-                          'Setting',
-                          Icons.settings_outlined,
-                          AppColors.superBlue,
-                          () {
-                            Get.find<ProfileMainControl>().toSettings();
-                          },
-                        ),
-                        profileTile(
-                          'Help',
-                          Icons.help_outline_rounded,
-                          AppColors.subBlue,
-                          () {
-                            Get.find<ProfileMainControl>().toHelp();
-                          },
-                        ),
-                        profileTile(
-                          'Logout',
-                          Icons.logout_outlined,
-                          AppColors.declined.withOpacity(0.3),
-                          () {
-                            logoutDialog(context, (){
-                              loader.offLoading(() async{
-                                await auth.logOut();
-                              });
-                              home.selectInd.value = 0;
-                            });
-                          },
-                        ),
-                      ],
+                            //Profile Lists
+                            profileTile(
+                              'Edit Profile',
+                              Icons.person_outline_outlined,
+                              AppColors.blue,
+                              () {
+                                Get.find<ProfileMainControl>().toEdit();
+                              },
+                            ),
+                            profileTile(
+                              'Security',
+                              Icons.safety_check,
+                              AppColors.subBlue,
+                              () {
+                                Get.find<ProfileMainControl>().toSecurity();
+                              },
+                            ),
+                            profileTile(
+                              'Setting',
+                              Icons.settings_outlined,
+                              AppColors.superBlue,
+                              () {
+                                Get.find<ProfileMainControl>().toSettings();
+                              },
+                            ),
+                            profileTile(
+                              'Help',
+                              Icons.help_outline_rounded,
+                              AppColors.subBlue,
+                              () {
+                                Get.find<ProfileMainControl>().toHelp();
+                              },
+                            ),
+                            profileTile(
+                              'Logout',
+                              Icons.logout_outlined,
+                              AppColors.declined.withOpacity(0.3),
+                              () {
+                                logoutDialog(context, (){
+                                  loader.offLoading(() async{
+                                    await auth.logOut();
+                                    home.selectInd.value = 0;
+                                  });
+
+                                });
+                              },
+                            ),
+                          ],
+                        );
+                      }
                     ),
                   ),
                   Obx((){
