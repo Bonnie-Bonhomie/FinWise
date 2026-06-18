@@ -1,4 +1,6 @@
+import 'package:fin_wise/binding/CategorieBindings/market_binding.dart';
 import 'package:fin_wise/binding/binding_exports.dart';
+import 'package:fin_wise/views/categories/screens/MarketPlace/availble_view.dart';
 import 'package:fin_wise/views/transaction/deposits_receipt.dart';
 import 'package:fin_wise/views/view_export.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
@@ -38,6 +40,8 @@ class AppRoutes{
     GetPage(name: Routes.profileNav, page: () => Profiles()),
     GetPage(name: Routes.successful, page: () => SuccessfulPage()),
     GetPage(name: Routes.terms, page: () => TermsAndCondition()),
+
+
 //Services Pages
     GetPage(name: Routes.airtime, page: () => AirtimeView(), binding: AirtimeBinding()),
     GetPage(name: Routes.data, page: () => DataView(), binding: DataBindings()),
@@ -52,6 +56,7 @@ class AppRoutes{
     GetPage(name: Routes.transSuccess, page: () => TransactionSuccessfulView()),
     GetPage(name: Routes.transReceipt, page: () => TransactionReceipt()),
     GetPage(name: Routes.depoReceipt, page: () => DepositsReceipt()),
+    GetPage(name: Routes.market, page: () => ProductView(), binding: MarketBinding()),
 
 
   ];
