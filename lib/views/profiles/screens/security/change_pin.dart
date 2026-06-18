@@ -26,6 +26,10 @@ class _ChangePinViewState extends State<ChangePinView> {
   final TextEditingController newCtrl = TextEditingController();
   final TextEditingController confirmCtrl = TextEditingController();
 
+  bool oldPin = false;
+  bool newPin = false;
+  bool cfmPin = false;
+
   int changeToInt(String source) {
     int format = int.parse(source);
     return format;
@@ -67,16 +71,16 @@ class _ChangePinViewState extends State<ChangePinView> {
                       currentCtrl, 'enter current pin', currentKey, (val) {
                     if (val == null) return 'Enter your current pin';
                     return null;
-                  }),
+                  }, oldPin),
                   labelText('New Pin'),
                   inputField(newCtrl, 'enter new pin', newKey, (val) =>
-                      Validator.validatePin(val!)),
+                      Validator.validatePin(val!), newPin),
                   labelText('Confirm Pin'),
                   inputField(
 
                       confirmCtrl, 'enter pin again', confirmKey, (val) =>
                       Validator.validateConfirmPassword(
-                          firstPassword: newCtrl.text, value: val)),
+                          firstPassword: newCtrl.text, value: val), cfmPin),
                   SizedBox(height: 30,),
                   AppBtn(onPressed: () {
                     if (formKey.currentState!.validate()) {
@@ -103,7 +107,7 @@ class _ChangePinViewState extends State<ChangePinView> {
       AppText(text: title, textWeigh: FontWeight.w500,);
 
   Widget inputField(TextEditingController ctrl, String label,
-      GlobalKey<FormFieldState> key, FormFieldValidator<String> validator) {
+      GlobalKey<FormFieldState> key, FormFieldValidator<String> validator, bool obscure) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30, top: 10),
       child: TextFormField(
@@ -116,6 +120,11 @@ class _ChangePinViewState extends State<ChangePinView> {
         decoration: InputDecoration(
             hintText: label,
             counterText: '',
+          suffix: IconButton(onPressed: (){
+            setState(() {
+              obscure = !obscure;
+            });
+          }, icon: obscure? Icon(Icons.visibility_off_outlined): Icon(Icons.visibility_outlined),)
         ),
       ),
     );
