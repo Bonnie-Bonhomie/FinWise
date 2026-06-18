@@ -73,13 +73,22 @@ class _ChangePinViewState extends State<ChangePinView> {
                       Validator.validatePin(val!)),
                   labelText('Confirm Pin'),
                   inputField(
+
                       confirmCtrl, 'enter pin again', confirmKey, (val) =>
                       Validator.validateConfirmPassword(
                           firstPassword: newCtrl.text, value: val)),
                   SizedBox(height: 30,),
                   AppBtn(onPressed: () {
-                    setPin();
-                    Focus.of(context).unfocus();
+                    if (formKey.currentState!.validate()) {
+                      loader.offLoading(() async {
+                        await auth.setPin(
+                            oldPin: changeToInt(currentCtrl.text.trim()),
+                            newPin: changeToInt(newCtrl.text.trim()),
+                            cfmPin: changeToInt(confirmCtrl.text.trim()));
+                      });
+                    } else {
+                      CustomSnackbar.warningSnack('Fill all the required field to continue');
+                    }
                   }, label: 'Change Pin')
                 ],
               ),
@@ -106,7 +115,7 @@ class _ChangePinViewState extends State<ChangePinView> {
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
             hintText: label,
-            counterText: ''
+            counterText: '',
         ),
       ),
     );
