@@ -93,7 +93,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   index: 6,
                   icon: market.icon,
                   title: market.label,
-                  onTap: () {showToast();},
+                  onTap: () => Get.toNamed(Routes.market),
 
                 ),
                 CategoriesCard(
