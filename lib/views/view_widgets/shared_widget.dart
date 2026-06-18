@@ -229,10 +229,10 @@ class NotificationCard extends StatelessWidget {
             markAsRead(index);
           },
           leading: CircleAvatar(
-            backgroundColor: Colors.grey,
+            backgroundColor: AppColors.primary,
             child: isRead
-                ? Icon(Icons.notifications_active)
-                : Icon(Icons.notifications_active_outlined),
+                ? Icon(Icons.notifications_active, color: AppColors.bgColor,)
+                : Icon(Icons.notifications_active_outlined,  color: AppColors.bgColor,),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
