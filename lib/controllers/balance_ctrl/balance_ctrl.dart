@@ -148,8 +148,6 @@ class AccBalanceCtrl extends GetxController {
           print(data);
           if (data['status'] == true) {
             accountBalance.value = double.parse(data['data']['bal']);
-          } else {
-            balanceErr.value = '--';
           }
         } else if (response is DataFailed) {
           final err = response.exception;
@@ -166,16 +164,16 @@ class AccBalanceCtrl extends GetxController {
 
             print(errData);
             if (errData != null && errData['message'] != null) {
-              balanceErr.value = '-.--';
+              balanceErr.value = 'Unable to load balance';
             } else {
-              balanceErr.value = '-.--';
+              balanceErr.value = 'Unable to load balance';
             }
           }
         }
       }
     } catch (e) {
       print(e);
-      balanceErr.value = '-.--';
+      balanceErr.value = 'Unable to load balance';
     } finally {
       loading.value = false;
     }
