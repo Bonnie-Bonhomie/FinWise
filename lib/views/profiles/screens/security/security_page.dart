@@ -1,6 +1,7 @@
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
 import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
+import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/general_web_view.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
@@ -30,10 +31,10 @@ class SecurityPage extends StatelessWidget {
                 textSize: 25,
                 textWeigh: FontWeight.bold,
               ),
-              secureTile('Change Pin', (){Get.find<ProfileMainControl>().toChangePin();}),
+              secureTile('Change Pin', (){Get.find<ProfileMainControl>().toChangePin();}, Icons.keyboard_command_key_sharp),
               // secureTile('FingerPrint', (){Get.find<ProfileMainControl>().toFingerPrints();}),
-              secureTile('Terms and Condition', (){Get.to(() => GeneralWebView(url: ApiEndpoints.terms));}),
-              secureTile('Privacy Policy', (){Get.to(() => GeneralWebView(url: ApiEndpoints.policy));}),
+              secureTile('Terms and Condition', (){Get.to(() => GeneralWebView(url: ApiEndpoints.terms));}, Icons.rule_folder_outlined),
+              secureTile('Privacy Policy', (){Get.to(() => GeneralWebView(url: ApiEndpoints.policy));}, Icons.policy_outlined),
             ],
           ),
         ),
@@ -41,8 +42,9 @@ class SecurityPage extends StatelessWidget {
     );
   }
 
-  Widget secureTile(String title, VoidCallback onTap) {
+  Widget secureTile(String title, VoidCallback onTap, IconData icon) {
     return ListTile(
+      leading: CircleAvatar(backgroundColor: AppColors.primary, radius: 15.0, child: Icon(icon),),
       title: AppText(text: title),
       trailing: const Icon(Icons.arrow_right),
       onTap: onTap,
