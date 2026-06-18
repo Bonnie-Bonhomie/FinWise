@@ -28,16 +28,24 @@ class CustomAppBar {
           AppText(text: title, textWeigh: FontWeight.bold, textSize: 20),
           const Spacer(),
           notification
-              ? IconButton(
-                  onPressed: () {
-                    Get.toNamed(Routes.notify);
-                  },
-                  icon: Icon(
-                    Icons.circle_notifications_rounded,
-                    color: AppColors.bgColor,
-                    size: 35,
-                  ),
-                )
+              ? Stack(
+                children: [
+
+                  IconButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.notify);
+                      },
+                              style: IconButton.styleFrom(backgroundColor: AppColors.bgColor),
+                      icon: Icon(
+                        Icons.notifications,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Icon(Icons.circle, color: AppColors.declined, size: 15,)),
+                ],
+              )
               : notificationPage
               ? IconButton(onPressed: onTap, style: IconButton.styleFrom(backgroundColor: AppColors.bgColor, ),icon: Icon(Icons.delete, color: AppColors.primary,))
               : const SizedBox.shrink(),
