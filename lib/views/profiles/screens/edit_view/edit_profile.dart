@@ -94,7 +94,7 @@ class _EditProfileState extends State<EditProfile> {
                                     textSize: 20,
                                   ),
                                   const SizedBox(height: 20),
-                                  labelText('UserName'),
+                                  labelText('Full Name'),
                                   inputField(ctrl: nav.nameCtrl, label: user.name),
                                   labelText('Phone Number'),
                                   inputField(
