@@ -60,6 +60,9 @@ class Routes{
   static const String tvSubscription = '/tvSubscription';
 
   static const String market = '/marketPlace';
+  static const String productDet = '/productDetails';
+
+  static const String solar = '/solar';
 
   //Transaction
   static const String transSuccess = '/transSuccess';
