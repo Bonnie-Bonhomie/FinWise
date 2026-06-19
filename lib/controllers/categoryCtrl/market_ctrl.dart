@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:fin_wise/core/Routes/routes.dart';
+import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/models/product_model.dart';
+import 'package:fin_wise/data/models/transaction_model.dart';
 import 'package:fin_wise/data/repositories/CategoriesRepo/market_repo.dart';
+import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:get/get.dart';
 
@@ -103,10 +107,9 @@ class MarketCtrl extends GetxController{
 
   Future<void> buyProduct({required String productId, required String deliveryAdd, required String phone, required int quantity, required String pin}) async{
     try{
-      loadingProd.value = true;
       String? token = await store.getToken();
       if(token == null){
-        productErr.value = 'Unauthenticated';
+       CustomSnackbar.showSnackbar(message: 'Unauthenticated');
         return;
       }
       String phoneNo = viewModel.numberBack(phone);
@@ -115,27 +118,33 @@ class MarketCtrl extends GetxController{
       if(response is DataSuccess){
         if(response.data['status'] == true){
           final data = response.data['data'];
+
+          TransactionModel receipt = TransactionModel.fromJson(data);
+          if (receipt.apiStatus == TransactionStatus.failed) {
+            CustomSnackbar.showSnackbar(
+                message: 'Unable to complete transaction, try again later');
+          } else {
+            Get.toNamed(Routes.transSuccess, arguments: receipt);
+          }
           print(data);
         }
       }else if (response is DataFailed){
         final err = response.exception;
         if(err is DioException){
           if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout || err.type == DioExceptionType.receiveTimeout){
-            productErr.value = 'No internet connection';
+            CustomSnackbar.showSnackbar(message: 'Check your internet connection', title: 'No internet connection');
           }
           final errData = err.response?.data;
           if(errData != null && errData['message'] != null){
-            productErr.value = errData['message'];
+            CustomSnackbar.showSnackbar(message: errData['message']);
           }
         }else{
-          productErr.value = 'Server error, reload page';
+          CustomSnackbar.showSnackbar(message: 'Server error, try again later');
         }
       }
     }catch(e){
       print(e);
-      productErr.value = 'Unknown err occur';
-    }finally {
-      loadingProd.value = false;
+      CustomSnackbar.showSnackbar(message: 'Unknown err occur, ty again later');
     }
   }
 
