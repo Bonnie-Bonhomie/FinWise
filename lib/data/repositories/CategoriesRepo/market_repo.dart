@@ -11,7 +11,7 @@ class MarketRepo{
 
   MarketRepo(this.services, this.info);
 
-  Future<DataState> getProducts(String token) async {
+  Future<DataState> getProducts(String token, String category) async {
     try {
       if (!await info.connected) {
         return DataFailed(
@@ -22,7 +22,7 @@ class MarketRepo{
           ),
         );
       } else {
-        final result = await services.getRequestWIthToken(ApiEndpoints.fishMarket, token);
+        final result = await services.getRequestWIthToken('${ApiEndpoints.market}?category=$category', token);
         return DataSuccess(result.data);
       }
     } on DioException catch (e) {
@@ -60,7 +60,7 @@ class MarketRepo{
           ),
         );
       } else {
-        final result = await services.postRequestsWithToken(ApiEndpoints.airtimeNetwork, token, {
+        final result = await services.postRequestsWithToken(ApiEndpoints.buyFish, token, {
           'product_id': productId,
           'delivery_address': deliveryAdd,
           'quantity': quantity,
