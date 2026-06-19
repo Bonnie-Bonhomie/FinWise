@@ -1,6 +1,8 @@
 import 'package:fin_wise/binding/CategorieBindings/market_binding.dart';
+import 'package:fin_wise/binding/CategorieBindings/solar_binding.dart';
 import 'package:fin_wise/binding/binding_exports.dart';
 import 'package:fin_wise/views/categories/screens/MarketPlace/products_view.dart';
+import 'package:fin_wise/views/categories/screens/solar/solar_view.dart';
 import 'package:fin_wise/views/transaction/deposits_receipt.dart';
 import 'package:fin_wise/views/view_export.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
@@ -58,6 +60,6 @@ class AppRoutes{
     GetPage(name: Routes.depoReceipt, page: () => DepositsReceipt()),
     GetPage(name: Routes.market, page: () => ProductView(), binding: MarketBinding()),
 
-
+    GetPage(name: Routes.solar, page: () => SolarView(), binding: SolarBinding()),
   ];
 }
