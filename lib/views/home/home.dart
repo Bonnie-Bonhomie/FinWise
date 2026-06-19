@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage>
     Future.microtask(() async {
       getName();
       await acc.getBalance();
-      await trans.getTransactions(1);
+      await trans.loadFresh();
       await acc.getBonusBal();
 
     });
@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage>
     Future.delayed(Duration(seconds: 2), () async {
       await acc.getBalance();
       await acc.getBonusBal();
-      trans.loadFresh();
+      await trans.loadFresh();
     });
   }
 
