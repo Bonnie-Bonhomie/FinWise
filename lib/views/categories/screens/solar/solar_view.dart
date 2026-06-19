@@ -50,25 +50,27 @@ class _SolarViewState extends State<SolarView> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  Obx(() {
-                    if (ctrl.loadingProd.value) {
-                      return MarketSkeleton();
-                    }
-                    if (ctrl.solarProduct.isEmpty) {
-                      return Column(
-                        children: [
-                          Icon(Icons.not_interested_sharp, size: 30,),
-                          Text(ctrl.productErr.value),
-                        ],
-                      );
-                    }
-                    return ListView.builder(
-                        itemCount: ctrl.solarProduct.length,
-                        itemBuilder: (context, index) {
-                          final item = ctrl.solarProduct[index];
-                          return MarketProdCard(item: item);
-                        });
-                  }),
+                  Expanded(
+                    child: Obx(() {
+                      if (ctrl.loadingProd.value) {
+                        return MarketSkeleton();
+                      }
+                      if (ctrl.solarProduct.isEmpty) {
+                        return Column(
+                          children: [
+                            Icon(Icons.not_interested_sharp, size: 30,),
+                            Text(ctrl.productErr.value),
+                          ],
+                        );
+                      }
+                      return ListView.builder(
+                          itemCount: ctrl.solarProduct.length,
+                          itemBuilder: (context, index) {
+                            final item = ctrl.solarProduct[index];
+                            return MarketProdCard(item: item);
+                          });
+                    }),
+                  ),
                 ],
               ),
             ),
