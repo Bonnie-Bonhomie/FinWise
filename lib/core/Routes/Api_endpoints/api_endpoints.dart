@@ -64,7 +64,7 @@ class ApiEndpoints{
   static const String examCard = 'education/exam_card';
   static const String verifyEduCard = 'education/exam-card-verify';
 
-  static const String fishMarket = 'fish/products';
+  static const String market = 'fish/products';
   static const String singleFish = 'fish/product';
   static const String buyFish = 'fish/buy';
 
