@@ -100,7 +100,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     index: 7,
                     icon: solar.icon,
                     title: solar.label,
-                    onTap: () {showToast();}),
+                    onTap: () => Get.toNamed(Routes.solar)),
                 CategoriesCard(
                   index: 8,
                   icon: invite.icon,
