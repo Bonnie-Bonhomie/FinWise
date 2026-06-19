@@ -21,7 +21,7 @@ class ConfirmBottomSheet {
     required String productName,
     List? list,
     required Function(String pin) action,
-    required double balance,
+    double? balance,
     String? imgPath = '',
     bool data = false,
     String plan = '',
@@ -36,7 +36,7 @@ class ConfirmBottomSheet {
             .of(context)
             .scaffoldBackgroundColor,
         builder: (context) {
-          bool notEnoughAmount = balance < amount;
+          bool notEnoughAmount = acc.accountBalance.value < amount;
           // print(notEnoughAmount);
           // print(accCtrl.accountBalance.value);
           return WillPopScope(
@@ -175,7 +175,7 @@ class ConfirmBottomSheet {
                               const SizedBox(width: 10),
                               AppText(
                                 text:
-                                viewModel.formatCurrency(balance),
+                                viewModel.formatCurrency(acc.accountBalance.value),
                                 textColor: notEnoughAmount
                                     ? Colors.red
                                     : AppColors.primary,
