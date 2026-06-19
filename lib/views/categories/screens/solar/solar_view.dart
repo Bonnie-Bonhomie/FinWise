@@ -1,0 +1,157 @@
+import 'package:fin_wise/controllers/categoryCtrl/market_ctrl.dart';
+import 'package:fin_wise/controllers/categoryCtrl/solar_ctrl.dart';
+import 'package:fin_wise/data/models/product_model.dart';
+import 'package:fin_wise/utils/utils_export.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/views/categories/screens/MarketPlace/market_skeleton.dart';
+import 'package:fin_wise/views/categories/screens/MarketPlace/product_details.dart';
+import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class SolarView extends StatefulWidget {
+  const SolarView({super.key});
+
+  @override
+  State<SolarView> createState() => _SolarViewState();
+}
+
+class _SolarViewState extends State<SolarView> {
+  final ctrl = Get.find<SolarCtrl>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() async {
+      await ctrl.loadFresh();
+    });
+    super.initState();
+  }
+
+  Future<void> onRefresh() async {
+    await ctrl.loadFresh();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: LoaderWrapper(
+        child: RefreshIndicator(
+          onRefresh: onRefresh,
+          child: PageContainer(
+            bottomPadding: 20,
+            topMargin: 20,
+            topChild: CustomAppBar.header(
+              title: 'Market Place',
+              leftRight: 15,
+              onPressed: () => Get.back(),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  Obx(() {
+                    if (ctrl.loadingProd.value) {
+                      return MarketSkeleton();
+                    }
+                    if (ctrl.solarProduct.isEmpty) {
+                      return Column(
+                        children: [
+                          Icon(Icons.not_interested_sharp, size: 30,),
+                          Text(ctrl.productErr.value),
+                        ],
+                      );
+                    }
+                    return ListView.builder(
+                        itemCount: ctrl.solarProduct.length,
+                        itemBuilder: (context, index) {
+                          final item = ctrl.solarProduct[index];
+                          return MarketProdCard(item: item);
+                        });
+                  }),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget categoryBox(BuildContext context, cat, VoidCallback onSelect) {
+    return InkWell(
+      onTap: onSelect,
+      child: Container(
+        height: 20,
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Theme.of(context).colorScheme.onSurface),
+        ),
+        child: Text(cat),
+      ),
+    );
+  }
+}
+
+class MarketProdCard extends StatelessWidget {
+  const MarketProdCard({super.key, required this.item});
+
+  final ProductModel item;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => Get.to(() => ProductDetails(product: item)),
+      child: Hero(
+        tag: item.name,
+        child: Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 130,
+                // width: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: NetworkImage(item.coverImage),
+                    fit: BoxFit.cover,
+                    onError: (__, ___) => Container(
+                      color: Colors.grey,
+                      child: Icon(Icons.image_outlined),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(item.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
+                  Icon(Icons.favorite)
+                ],
+              ),
+              const SizedBox(height: 5.0,),
+              Row(
+                children: [
+                  Text('Regular Price: ${item.regularPrice}', style: TextStyle(fontSize: 14)),
+                  const SizedBox(width: 15,),
+                  Text('${item.discountPrice}% discount', style: TextStyle(fontSize: 14,)),
+                ],
+              ),
+              Row(
+                children: [
+                  Text('Sale Price: ${item.salePrice}'),
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
