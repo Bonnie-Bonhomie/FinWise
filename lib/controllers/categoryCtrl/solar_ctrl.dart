@@ -29,14 +29,14 @@ class SolarCtrl extends GetxController{
         if(response.data['status'] == true){
           final data = response.data['data'];
           print(data);
-          // List products = data['data'];
-          //
-          // if(products.isEmpty){
-          //   productErr.value = 'Fish products is not available';
-          // }else{
-          //   final prod = products.map((e) => ProductModel.fromJson(e)).toList();
-          //   solarProduct.assignAll(prod);
-          // }
+          List products = data['data'];
+
+          if(products.isEmpty){
+            productErr.value = 'Fish products is not available';
+          }else{
+            final prod = products.map((e) => ProductModel.fromJson(e)).toList();
+            solarProduct.assignAll(prod);
+          }
 
         }
       }else if (response is DataFailed){
