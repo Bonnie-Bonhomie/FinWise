@@ -201,20 +201,20 @@ class ShowBottomInfo {
       barrierColor: Colors.green.withOpacity(0.4),
       showDragHandle: true,
       enableDrag: true,
-      builder: (context) {
+      isScrollControlled: true,
 
+      builder: (context) {
         return DraggableScrollableSheet(
           maxChildSize: 1.0,
-          initialChildSize: 0.98,
+          initialChildSize: 0.5,
+          // minChildSize: 0.5,
+          expand: true,
           builder: (context,scrollCtrl) {
-            return SingleChildScrollView(
-              controller: scrollCtrl,
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-                ),
+            return Container(
+              decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor, borderRadius: BorderRadius.circular(30)),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                controller: scrollCtrl,
                 child: Column(
                   children: [
                     Row(
