@@ -106,12 +106,16 @@ class TransactionReceipt extends StatelessWidget {
                       rowTile('Provider', receiptDet.modelableId),
                       // dividerBuild(),
                       receiptDet.category == Categories.airtime ||
-                              receiptDet.category == Categories.data
+                              receiptDet.category == Categories.data ||
+                          receiptDet.category == Categories.fish
                           ? rowTile('Beneficiary', receiptDet.phoneNo)
                           : SizedBox.shrink(),
                       receiptDet.category == Categories.education
                           ? rowTile('Token', receiptDet.token ?? 'null')
                           : SizedBox.shrink(),
+                      // receiptDet.category == Categories.fish
+                      //     ? rowTile('Address', receiptDet.token ?? 'null')
+                      //     : SizedBox.shrink(),
                       receiptDet.category == Categories.cable
                           ? rowTile(
                               'Smartcard',
