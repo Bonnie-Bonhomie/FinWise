@@ -8,10 +8,11 @@ enum Categories {
   cable('TV', Icons.cable),
   electricity('Electricity', Icons.electric_bolt),
   education('Education', Icons.school_outlined),
-  solar('Solar', Icons.emoji_transportation_outlined),
-  market('Market', Icons.production_quantity_limits),
+  solar('Solar', Icons.sunny_snowing),
+  market('Market', Icons.add_shopping_cart_outlined),
   invitation('invitation', Icons.insert_invitation),
-  gift('Gift Card', Icons.card_giftcard);
+  gift('Gift Card', Icons.card_giftcard),
+  fish('Fish', Icons.anchor);
 
   final String label;
   final IconData icon;
