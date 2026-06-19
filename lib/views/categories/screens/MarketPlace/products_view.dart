@@ -5,6 +5,7 @@ import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/categories/screens/MarketPlace/market_skeleton.dart';
 import 'package:fin_wise/views/categories/screens/MarketPlace/product_details.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -85,25 +86,30 @@ class _ProductViewState extends State<ProductView> {
                   //     ),
                   //   ],
                   // ),
-                  Obx(() {
-                    if (ctrl.loadingProd.value) {
-                      return MarketSkeleton();
-                    }
-                    if (ctrl.fishProduct.isEmpty) {
-                      return Column(
-                        children: [
-                          Icon(Icons.not_interested_sharp, size: 40,),
-                          Text(ctrl.productErr.value),
-                        ],
-                      );
-                    }
-                    return ListView.builder(
-                      itemCount: ctrl.fishProduct.length,
-                      itemBuilder: (context, index) {
-                        final item = ctrl.fishProduct[index];
-                        return MarketProdCard(item: item);
-                      });
-                  }),
+                  Expanded(
+                    child: Obx(() {
+                      if (ctrl.loadingProd.value) {
+                        return MarketSkeleton();
+                      }
+                      if (ctrl.fishProduct.isEmpty) {
+                        return Column(
+                          children: [
+                            Icon(Icons.not_interested_sharp, size: 40,),
+                            Text(ctrl.productErr.value),
+                          ],
+                        );
+                      }
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(0),
+                        itemCount: ctrl.fishProduct.length,
+                        itemBuilder: (context, index) {
+                          final item = ctrl.fishProduct[index];
+                          return AnimatedCard(
+                              index: index,
+                              child: MarketProdCard(item: item));
+                        });
+                    }),
+                  ),
                 ],
               ),
             ),
@@ -165,7 +171,7 @@ class MarketProdCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(item.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
+                  Text(item.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17), overflow: TextOverflow.ellipsis,),
                   Icon(Icons.favorite)
                 ],
               ),
