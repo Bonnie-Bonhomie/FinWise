@@ -167,10 +167,10 @@ class _FundWalletPageState extends State<FundWalletPage> {
                                   showPaymentSheet(context, index);
                                 },
                                 leading: Container(
-                                  height: 30,
-                                  width: 30,
+                                  height: 40,
+                                  width: 40,
                                   decoration: BoxDecoration(
-
+                                      color: Colors.grey,
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           image: NetworkImage(item.imgUrl),
@@ -311,6 +311,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
                             await acc.paymentFunction(
                                 selected.method, amountCtrl.text, url);
                             acc.selectPay.value = 0;
+                            amountCtrl.text = '';
                           });
                           print(acc.selectPay.value);
                         },
