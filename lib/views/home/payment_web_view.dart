@@ -1,5 +1,6 @@
 import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 
 import 'package:flutter/material.dart';
@@ -75,7 +76,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
         return shouldPop ?? false;
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text("Payment"), backgroundColor: AppColors.primary,),
+        appBar: AppBar(title: Text(PrefStoreKeys.appName), backgroundColor: AppColors.primary,),
         body: loading
             ? Center(child: SizedBox(width: 200, height: 5, child: LinearProgressIndicator()))
             : WebViewWidget(controller: controller),
