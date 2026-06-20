@@ -35,15 +35,16 @@ class CustomAppBar {
                       onPressed: () {
                         Get.toNamed(Routes.notify);
                       },
-                              style: IconButton.styleFrom(backgroundColor: AppColors.bgColor),
                       icon: Icon(
-                        Icons.notifications,
-                        color: AppColors.primary,
+                        Icons.circle_notifications,
+                        size: 35,
+                        color: AppColors.bgColor,
                       ),
                     ),
-                  Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Icon(Icons.circle, color: AppColors.declined, size: 15,)),
+                  Positioned(
+                    top: 8,
+                      right: 8,
+                      child: Icon(Icons.circle, color: Colors.red, size: 13,)),
                 ],
               )
               : notificationPage
