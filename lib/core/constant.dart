@@ -12,7 +12,7 @@ enum Categories {
   market('Market', Icons.add_shopping_cart_outlined),
   invitation('invitation', Icons.insert_invitation),
   gift('Gift Card', Icons.card_giftcard),
-  fish('Fish', Icons.anchor);
+  fish('Fish', Icons.fitbit_sharp);
 
   final String label;
   final IconData icon;
