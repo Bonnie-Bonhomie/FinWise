@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage>
   final HomeViewModel viewModel = HomeViewModel();
   final store = SharedPreferService();
 
-
   final trans = Get.find<TransactionCtrl>();
   final acc = Get.find<AccBalanceCtrl>();
 
@@ -57,7 +56,6 @@ class _HomePageState extends State<HomePage>
       await acc.getBalance();
       await trans.loadFresh();
       await acc.getBonusBal();
-
     });
   }
 
@@ -365,9 +363,9 @@ class _HomePageState extends State<HomePage>
         children: [
           CircleAvatar(
             backgroundColor: AppColors.primaryLight,
-            child: Icon(Icons.account_circle, size: 40,)
+            child: Icon(Icons.account_circle, size: 40),
           ),
-          const SizedBox(width: 3.0,),
+          const SizedBox(width: 3.0),
           SlideTransition(
             position:
                 Tween<Offset>(
@@ -393,15 +391,21 @@ class _HomePageState extends State<HomePage>
           ),
 
           const Spacer(),
-          IconButton(
-            onPressed: () {
-              Get.toNamed(Routes.notify);
-            },
-            icon: Icon(
-              Icons.circle_notifications_rounded,
-              color: AppColors.bgColor,
-              size: 35,
-            ),
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Get.toNamed(Routes.notify);
+                },
+                // style: IconButton.styleFrom(backgroundColor: AppColors.bgColor),
+                icon: Icon(Icons.circle_notifications, size: 35,color: AppColors.bgColor,),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: Icon(Icons.circle, color: Colors.red, size: 13),
+              ),
+            ],
           ),
         ],
       ),
