@@ -83,6 +83,7 @@ class EditProfileCtrl extends GetxController{
                 err.type == DioExceptionType.receiveTimeout ||
                 err.type == DioExceptionType.connectionTimeout) {
               CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+            return;
             }
 
             //  Server error
@@ -94,6 +95,7 @@ class EditProfileCtrl extends GetxController{
               CustomSnackbar.showSnackbar(
                 message: 'Server error, try again later,',
               );
+              return;
             }
           } else {
             CustomSnackbar.showSnackbar(message: 'Unknown error occurred, try again later.');
@@ -143,6 +145,7 @@ class EditProfileCtrl extends GetxController{
                 err.type == DioExceptionType.receiveTimeout ||
                 err.type == DioExceptionType.connectionTimeout) {
               referralErr.value= 'No internet connection';
+              return;
             }
 
             //  Server error
