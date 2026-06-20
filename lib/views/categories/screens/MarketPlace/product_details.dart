@@ -180,6 +180,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                                 const SizedBox(height: 15),
                                 Card(
+                                  borderOnForeground: true,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 20),
                                     child: Form(
@@ -191,7 +192,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           const SizedBox(height: 10),
                                           TextFormField(
                                               maxLines: 5,
-                                              minLines: 3,
+                                              minLines: 1,
                                               controller: addressCtrl,
                                               key: addressKey,
                                               validator: (val)=> Validator.validateText(val, 'Address'),
