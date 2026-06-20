@@ -236,7 +236,7 @@ class TransactionReceipt extends StatelessWidget {
                       style: TextStyle(
                     color: AppColors.darkGreen,
 
-                  ), maxLines: 3))
+                  ), maxLines: 5))
             ],
           ),
         ),
