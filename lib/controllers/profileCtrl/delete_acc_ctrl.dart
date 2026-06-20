@@ -30,7 +30,8 @@ class DeleteCtrl extends GetxController{
             await shareStore.deleteValue(PrefStoreKeys.mail);
             await shareStore.deleteValue(PrefStoreKeys.username);
             await shareStore.deleteValue(PrefStoreKeys.userId);
-            Get.offAllNamed(Routes.login);
+            await shareStore.deleteValue(PrefStoreKeys.phone);
+            Get.offAllNamed(Routes.signIn);
           }
 
         }else if(response is DataFailed){
