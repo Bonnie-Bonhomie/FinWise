@@ -25,10 +25,10 @@ class ApiServices {
   }
 
   Future<Response> postRequestsWithToken(
-      String endPoint,
-      String token,
-      Map<String, dynamic>? data,
-      ) async {
+    String endPoint,
+    String token,
+    Map<String, dynamic>? data,
+  ) async {
     final response = await mDio.post(
       endPoint,
       data: data,
@@ -36,7 +36,7 @@ class ApiServices {
         headers: {
           // 'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $token',
         },
       ),
     );
@@ -44,73 +44,50 @@ class ApiServices {
     return response;
   }
 
-  Future<Response> postWithUrlToken(
-      String url,
-      String token,
-      Map<String, dynamic>? data,
-      ) async {
-    final response = await dio.post(
-      url,
-      data: data,
+  Future<Response> getRequestWIthToken(
+    String endpoint,
+    String token, {
+    Map<String, dynamic>? queryParam,
+  }) async {
+    final response = await mDio.get(
+      endpoint,
+      queryParameters: queryParam,
       options: Options(
         headers: {
-          // 'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token'
+        },
+      ),
+    );
+
+    return response;
+  }
+
+  Future<Response> getRequest(String endpoint) async {
+    final response = await mDio.get(
+      endpoint,
+      options: Options(headers: {'Accept': 'application/json'}),
+    );
+    return response;
+  }
+
+  Future<Response> getWIthUrlToken(
+    String url,
+    String token, {
+    Map<String, dynamic>? queryParam,
+  }) async {
+    final response = await mDio.get(
+      url,
+      queryParameters: queryParam,
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
         },
       ),
     );
     print(response.data);
     return response;
-  }
-
-
-  Future<Response> getRequestWIthToken(
-    String endpoint, String token,{
-    Map<String, dynamic>? queryParam,
-  }) async {
-      final response = await mDio.get(
-        endpoint,
-        queryParameters: queryParam,
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
-      );
-
-      return response;
-
-  }
-
-
-
-  Future<Response> getRequest(
-      String endpoint) async {
-    final response = await mDio.get(
-      endpoint,
-      options: Options(headers: {
-        'Accept': 'application/json',
-      }),
-    );
-    return response;
-
-  }
-
-  Future<Response> getWIthUrlToken(
-      String url, String token,{
-        Map<String, dynamic>? queryParam,
-      }) async {
-    final response = await mDio.get(
-      url,
-      queryParameters: queryParam,
-      options: Options(headers: {
-        'Authorization': 'Bearer $token',
-        'Accept': 'application/json',
-      }),
-    );
-print(response.data);
-    return response;
-
   }
 
   Future<Response> updateProfile({
@@ -146,18 +123,37 @@ print(response.data);
     return response;
   }
 
-
-  Future<Response> deleteRequestWIthToken(
-      String endpoint, String token) async {
+  Future<Response> deleteRequestWIthToken(String endpoint, String token) async {
     final response = await mDio.delete(
       endpoint,
-      options: Options(headers: {
-        'Authorization': 'Bearer $token',
-        'Accept': 'application/json',
-      }),
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        },
+      ),
     );
 
     return response;
+  }
 
+  Future<Response> putRequestsWithToken(
+    String endPoint,
+    String token,
+    Map<String, dynamic>? data,
+  ) async {
+    final response = await mDio.put(
+      endPoint,
+      data: data,
+      options: Options(
+        headers: {
+          // 'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      ),
+    );
+    // print(response.data);
+    return response;
   }
 }
