@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "946890937033",
+    "project_id": "databootng-ffdd3",
+    "storage_bucket": "databootng-ffdd3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946890937033:android:756c8dce069f5c76c57318",
+        "android_client_info": {
+          "package_name": "com.example.fin_wise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs3EdYS9lFC3qXRLRLwBNDv3WzdnIKnJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
