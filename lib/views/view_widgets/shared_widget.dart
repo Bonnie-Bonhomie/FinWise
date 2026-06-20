@@ -1,7 +1,10 @@
 import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
+import 'package:fin_wise/data/models/product_model.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:fin_wise/views/categories/screens/MarketPlace/product_details.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../data/models/model_export.dart';
 import '../../utils/utils_export.dart';
@@ -258,5 +261,73 @@ class NotificationCard extends StatelessWidget {
   }
 }
 
+
+
+class MarketProdCard extends StatelessWidget {
+  const MarketProdCard({super.key, required this.item});
+
+  final ProductModel item;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => Get.to(() => ProductDetails(product: item)),
+      child: Hero(
+        tag: item.name,
+        child: Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+
+                  Container(
+                    height: 150,
+                    // width: 150,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(
+                        image: NetworkImage(item.coverImage),
+                        fit: BoxFit.cover,
+                        onError: (__, ___) => Container(
+                          color: Colors.grey,
+                          child: Icon(Icons.image_outlined),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 4,
+                      right: 5,
+                      child: Icon(Icons.favorite, color: AppColors.declined,)),
+                ],
+              ),
+              const SizedBox(height: 5.0,),
+
+                  Text(item.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17), overflow: TextOverflow.ellipsis, maxLines: 2,),
+
+              const SizedBox(height: 5.0,),
+              Row(
+                children: [
+                  Text('Regular Price: ₦${item.regularPrice}', style: TextStyle(fontSize: 14, decoration: TextDecoration.overline)),
+                  const Spacer(),
+                  Text('Discount: ₦${item.discountPrice}', style: TextStyle(fontSize: 14,)),
+                ],
+              ),
+              const SizedBox(height: 5.0,),
+              Row(
+                children: [
+                  Text('Sale Price: ₦${item.salePrice}'),
+                ],
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
