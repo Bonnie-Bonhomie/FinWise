@@ -12,8 +12,11 @@ export 'CategorieBindings/data_binding.dart';
 export 'CategorieBindings/education_category_binding.dart';
 export 'CategorieBindings/electricity_binding.dart';
 export 'CategorieBindings/television_bindings.dart';
+export 'CategorieBindings/market_binding.dart';
+export 'CategorieBindings/solar_binding.dart';
 
 export 'profileBindings/delete_binding.dart';
 export 'profileBindings/change_pwd_binding.dart';
 export 'profileBindings/edit_profile_binding.dart';
 export 'profileBindings/notification_setting_binding.dart';
+export 'profileBindings/help_center_binding.dart';
