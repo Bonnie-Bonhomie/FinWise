@@ -67,33 +67,20 @@ class _ChangePinViewState extends State<ChangePinView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   labelText('Current Pin'),
-                  inputField(
-                      currentCtrl, 'enter current pin', currentKey, (val) {
-                    if (val == null) return 'Enter your current pin';
-                    return null;
-                  },obscure:  oldPin,suffix: IconButton(onPressed: (){
-                    setState(() {
-                     oldPin = !oldPin;
-                    });
-                  }, icon: oldPin? Icon(Icons.visibility_off_outlined): Icon(Icons.visibility_outlined),)),
-                  labelText('New Pin'),
-                  inputField(newCtrl, 'enter new pin', newKey, (val) =>
-                      Validator.validatePin(val!), obscure: newPin, suffix: IconButton(onPressed: (){
-                    setState(() {
-                      newPin = !newPin;
-                    });
-                  }, icon: newPin? Icon(Icons.visibility_off_outlined): Icon(Icons.visibility_outlined),)),
-                  labelText('Confirm Pin'),
-                  inputField(
+                  const SizedBox(height: 10,),
+                  CustomPinCodeField(pinTextCtrl: currentCtrl, len: 4, pinKey: currentKey, onComplete: (pin){},),
 
-                      confirmCtrl, 'enter pin again', confirmKey, (val) =>
-                      Validator.validateConfirmPassword(
-                          firstPassword: newCtrl.text, value: val),obscure:  cfmPin, suffix: IconButton(onPressed: (){
-                    setState(() {
-                      cfmPin = !cfmPin;
-                    });
-                  }, icon: cfmPin? Icon(Icons.visibility_off_outlined): Icon(Icons.visibility_outlined),)),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 20,),
+                  labelText('New Pin'),
+                  const SizedBox(height: 10,),
+                  CustomPinCodeField(pinTextCtrl: newCtrl, len: 4, pinKey: newKey),
+
+                  const SizedBox(height: 20,),
+                  labelText('Confirm Pin'),
+                  const SizedBox(height: 10,),
+                  CustomPinCodeField(pinTextCtrl: confirmCtrl, len: 4, pinKey: confirmKey),
+
+                  SizedBox(height: 40,),
                   AppBtn(onPressed: () {
                     if (formKey.currentState!.validate()) {
                       loader.offLoading(() async {
@@ -117,25 +104,4 @@ class _ChangePinViewState extends State<ChangePinView> {
 
   Widget labelText(String title) =>
       AppText(text: title, textWeigh: FontWeight.w500,);
-
-  Widget inputField(TextEditingController ctrl, String label,
-      GlobalKey<FormFieldState> key, FormFieldValidator<String> validator,
-      {required bool obscure, required Widget suffix}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30, top: 10),
-      child: TextFormField(
-        controller: ctrl,
-        validator: validator,
-        key: key,
-        maxLength: 4,
-        obscureText: obscure,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-            hintText: label,
-            counterText: '',
-          suffix: suffix
-        ),
-      ),
-    );
-  }
 }
