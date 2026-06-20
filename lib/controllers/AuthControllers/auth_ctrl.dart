@@ -55,6 +55,7 @@ class AuthCtrl extends GetxController {
     required String phone,
     required String password,
     required String confirmPassword,
+    String referral = '',
   })
   async {
     try {
@@ -66,6 +67,7 @@ class AuthCtrl extends GetxController {
         phone: phone,
         password: password,
         confirmPassword: confirmPassword,
+        referral: referral
       );
       // print(response);
       // final token = response.data['token'];
@@ -85,6 +87,7 @@ class AuthCtrl extends GetxController {
           await store.saveData<String>(PrefStoreKeys.userId, userId);
           signMail.value = user!.email;
           CustomSnackbar.successSnack(data['message']);
+          Get.find<SharedPreferService>().saveData<bool>(PrefStoreKeys.isFirstTime, true );
           Get.offNamed(Routes.verAcc);
         } else {
           //  backend handled inside success (if API returns 200 with status false)
