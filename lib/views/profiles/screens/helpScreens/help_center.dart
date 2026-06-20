@@ -1,5 +1,4 @@
-import 'package:fin_wise/controllers/profileCtrl/help_center_ctrl.dart';
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
@@ -17,10 +16,17 @@ class HelpCenter extends StatefulWidget {
 }
 
 class _HelpCenterState extends State<HelpCenter> {
-  final helpCtrl = Get.put(HelpControl());
+  final helpCtrl = Get.find<HelpControl>();
 
   int selectIndex = 0;
   List<String> titles = ['FAQ', 'Contact Us'];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.microtask(() async{await helpCtrl.getFaqs();});
+  }
 
   @override
   Widget build(BuildContext context) {
