@@ -10,7 +10,7 @@ class ChangePwdRepo {
 
   ChangePwdRepo(this.apiServices, this.internet);
 
-  Future<DataState> submitPwd({
+  Future<DataState> changePwd({
     required String currentPwd,
     required String newPwd,
     required String confirmPwd,
@@ -23,25 +23,21 @@ class ChangePwdRepo {
         return DataFailed(
           DioException(
             requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
             error: 'No internet connection',
           ),
         );
       }
-      final result = await apiServices.postRequestsWithToken(ApiEndpoints.changePwd,
+      final result = await apiServices.putRequestsWithToken(ApiEndpoints.changePwd,
           token,
           {
-        'current_pwd': currentPwd,
-        'new_pwd': newPwd,
-        'confirm_pwd': confirmPwd,
+        'old_password': currentPwd,
+        'new_password': newPwd,
+        'confirm_new_password': confirmPwd,
       });
       return DataSuccess(result.data);
-    } catch (e) {
-      return DataFailed(
-        DioException(
-          requestOptions: RequestOptions(path: ''),
-          error: 'Unable to change password: error ${e.toString()}',
-        ),
-      );
+    }on DioException catch (e) {
+      return DataFailed(e);
     }
   }
 }
