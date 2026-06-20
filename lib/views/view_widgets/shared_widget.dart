@@ -10,9 +10,7 @@ import '../../data/models/model_export.dart';
 import '../../utils/utils_export.dart';
 import '../view_export.dart';
 
-
-class SharedWidget{
-
+class SharedWidget {
   static Widget serviceBox({
     required BuildContext context,
     required String title,
@@ -28,8 +26,8 @@ class SharedWidget{
         padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
         margin: const EdgeInsets.only(bottom: 10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).cardColor
+          borderRadius: BorderRadius.circular(10),
+          color: Theme.of(context).cardColor,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -39,18 +37,20 @@ class SharedWidget{
             duration == ''
                 ? SizedBox.shrink()
                 : Container(
-              padding: const EdgeInsets.all(3.4),
-              margin: const EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                color: Colors.orangeAccent.shade100.withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              child: AppText(
-                text: duration,
-                textColor: Colors.orange,
-                textWeigh: FontWeight.bold,
-              ),
-            ),
+                    padding: const EdgeInsets.all(3.4),
+                    margin: const EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.orangeAccent.shade100.withValues(
+                        alpha: 0.5,
+                      ),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: AppText(
+                      text: duration,
+                      textColor: Colors.orange,
+                      textWeigh: FontWeight.bold,
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
@@ -67,6 +67,7 @@ class SharedWidget{
     );
   }
 }
+
 class HeadingText extends StatelessWidget {
   const HeadingText({
     super.key,
@@ -84,17 +85,16 @@ class HeadingText extends StatelessWidget {
     return Text(
       headingText,
       style: TextStyle(
-          color: color ?? Theme.of(context).textTheme.headlineMedium?.color,
-          decoration: TextDecoration.none,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-          // fontFamily: 'Poppins'
+        color: color ?? Theme.of(context).textTheme.headlineMedium?.color,
+        decoration: TextDecoration.none,
+        fontSize: 22,
+        fontWeight: FontWeight.bold,
+        // fontFamily: 'Poppins'
       ),
       textAlign: textAlign,
     );
   }
 }
-
 
 class BalanceCard extends StatelessWidget {
   BalanceCard({
@@ -102,14 +102,16 @@ class BalanceCard extends StatelessWidget {
     required this.title,
     required this.icon,
     this.iconColor,
-    required this.value
+    required this.value,
   });
+
   final String title;
   final IconData icon;
   final Color? iconColor;
   final double value;
 
   final HomeViewModel viewModel = HomeViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -119,7 +121,7 @@ class BalanceCard extends StatelessWidget {
       // color: ,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: Theme.of(context).cardColor
+        color: Theme.of(context).cardColor,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -138,11 +140,12 @@ class BalanceCard extends StatelessWidget {
   }
 }
 
-
 class AnimatedCard extends StatefulWidget {
   final Widget child;
   final int index;
+
   const AnimatedCard({super.key, required this.child, required this.index});
+
   @override
   State<AnimatedCard> createState() => _AnimatedCardState();
 }
@@ -157,11 +160,14 @@ class _AnimatedCardState extends State<AnimatedCard>
   void initState() {
     super.initState();
     _ctrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
     _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
     _slide = Tween<Offset>(
-        begin: const Offset(0, 0.08), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
+      begin: const Offset(0, 0.08),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeOut));
     final delay = Duration(milliseconds: widget.index * 80);
     Future.delayed(delay, () {
       if (mounted) _ctrl.forward();
@@ -181,8 +187,6 @@ class _AnimatedCardState extends State<AnimatedCard>
   );
 }
 
-
-
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
     super.key,
@@ -191,8 +195,9 @@ class NotificationCard extends StatelessWidget {
     required this.index,
     required this.isRead,
     required this.markAsRead,
-    required this.ctrl
+    required this.ctrl,
   });
+
   final NotifyModel notify;
   final List<NotifyModel> list;
   final Function(int) markAsRead;
@@ -234,8 +239,11 @@ class NotificationCard extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: AppColors.primary,
             child: isRead
-                ? Icon(Icons.notifications_active, color: AppColors.bgColor,)
-                : Icon(Icons.notifications_active_outlined,  color: AppColors.bgColor,),
+                ? Icon(Icons.notifications_active, color: AppColors.bgColor)
+                : Icon(
+                    Icons.notifications_active_outlined,
+                    color: AppColors.bgColor,
+                  ),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -247,7 +255,11 @@ class NotificationCard extends StatelessWidget {
                   textSize: 15,
                 ),
               ),
-              Icon(Icons.circle, color: isRead? AppColors.primary: AppColors.declined, size: 10,)
+              Icon(
+                Icons.circle,
+                color: isRead ? AppColors.primary : AppColors.declined,
+                size: 10,
+              ),
             ],
           ),
           subtitle: Text(
@@ -261,15 +273,18 @@ class NotificationCard extends StatelessWidget {
   }
 }
 
-
-
 class MarketProdCard extends StatelessWidget {
-  const MarketProdCard({super.key, required this.item});
+  MarketProdCard({super.key, required this.item});
 
   final ProductModel item;
+  final viewModel = HomeViewModel();
 
   @override
   Widget build(BuildContext context) {
+    double regular = viewModel.parseAmount(item.regularPrice);
+    double sale = viewModel.parseAmount(item.salePrice);
+    double discount = viewModel.parseAmount(item.discountPrice);
+
     return InkWell(
       onTap: () => Get.to(() => ProductDetails(product: item)),
       child: Hero(
@@ -281,7 +296,6 @@ class MarketProdCard extends StatelessWidget {
               Stack(
                 clipBehavior: Clip.none,
                 children: [
-
                   Container(
                     height: 150,
                     // width: 150,
@@ -299,29 +313,43 @@ class MarketProdCard extends StatelessWidget {
                   ),
                   Positioned(
                     top: 4,
-                      right: 5,
-                      child: Icon(Icons.favorite, color: AppColors.declined,)),
+                    right: 5,
+                    child: Icon(Icons.favorite, color: AppColors.declined),
+                  ),
                 ],
               ),
-              const SizedBox(height: 5.0,),
+              const SizedBox(height: 5.0),
+              Text(
+                item.name,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
 
-                  Text(item.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17), overflow: TextOverflow.ellipsis, maxLines: 2,),
-
-              const SizedBox(height: 5.0,),
+              const SizedBox(height: 5.0),
               Row(
                 children: [
-                  Text('Regular Price: ₦${item.regularPrice}', style: TextStyle(fontSize: 14, decoration: TextDecoration.overline)),
+                  Text(
+                    'Regular Price: ${viewModel.formatCurrency(regular)}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      decoration: TextDecoration.lineThrough,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const Spacer(),
-                  Text('Discount: ₦${item.discountPrice}', style: TextStyle(fontSize: 14,)),
+                  Text(
+                    'Discount Price: ${viewModel.formatCurrency(discount)}',
+                    style: TextStyle(fontSize: 14),
+                  ),
                 ],
               ),
-              const SizedBox(height: 5.0,),
-              Row(
-                children: [
-                  Text('Sale Price: ₦${item.salePrice}'),
-                ],
-              ),
+              const SizedBox(height: 5.0),
 
+              Text(
+                'Sale Price: ${viewModel.formatCurrency(sale)}',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ],
           ),
         ),
@@ -329,5 +357,3 @@ class MarketProdCard extends StatelessWidget {
     );
   }
 }
-
-
