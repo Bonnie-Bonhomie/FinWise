@@ -62,6 +62,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 controller: _controller,
                 slivers: [
                   SliverAppBar(
+                    leading: IconButton(onPressed: ()=> Get.back(), icon: Icon(Icons.arrow_back, color: AppColors.primary,)),
                     expandedHeight: 250,
                     pinned: true,
                     flexibleSpace: FlexibleSpaceBar(
@@ -95,10 +96,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Regular Price: ${widget.product.regularPrice}',
+                                      'Regular Price: ₦${widget.product.regularPrice}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
+                                        decoration: TextDecoration.overline
                                       ),
                                     ),
                                     const SizedBox(width: 15),
@@ -111,7 +113,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Sale Price: ${widget.product.salePrice}',
+                                      'Sale Price: ₦${widget.product.salePrice}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -159,16 +161,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     Text('Delivery Duration', style: TextStyle(fontWeight: FontWeight.bold)),
                                     const Spacer(),
                                     Text(widget.product.deliveryDurat),
+                                    const SizedBox(width: 15,)
                                   ],
                                 ),
 
                                 const SizedBox(height: 30),
-                                Row(
-                                  children: [
+
                                     Text('Description: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                                     Text(widget.product.longDes),
-                                  ],
-                                ),
+
                                 const SizedBox(height: 15),
                                 Card(
                                   child: Padding(
