@@ -167,10 +167,10 @@ class _FundWalletPageState extends State<FundWalletPage> {
                                   showPaymentSheet(context, index);
                                 },
                                 leading: Container(
-                                  height: 40,
-                                  width: 40,
+                                  height: 60,
+                                  width: 60,
                                   decoration: BoxDecoration(
-                                      color: Colors.grey,
+
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           image: NetworkImage(item.imgUrl),
