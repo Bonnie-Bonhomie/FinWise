@@ -5,8 +5,12 @@ export 'CategoriesRepo/data_repository.dart';
 export 'CategoriesRepo/education_repo.dart';
 export 'CategoriesRepo/electricity_repo.dart';
 export 'CategoriesRepo/television_repo.dart';
+export 'CategoriesRepo/market_repo.dart';
 
 export 'profileRepo/edit_profile_repo.dart';
+export 'profileRepo/help_center_repo.dart';
+export 'profileRepo/delete_acc_repo.dart';
+export 'profileRepo/change_pwd_repo.dart';
 export 'transacetionRepository/transact_repo.dart';
 
 export 'analysis_repo.dart';
