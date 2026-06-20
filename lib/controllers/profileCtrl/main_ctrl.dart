@@ -15,7 +15,7 @@ class ProfileMainControl extends GetxController{
   final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
 
   final pages = <Page>[
-    GetPage(name: '/', page: () => ProfileView())
+    GetPage(name: '/', page: () => ProfileView(), binding: EditBinding())
   ].obs;
 
   void toEdit(){
@@ -43,11 +43,9 @@ class ProfileMainControl extends GetxController{
     pages.add(GetPage(name: Routes.deleteFinger, page: () => DeleteFingerprint(), ));
     update();
   }
-  // void toTerms(){
-  //   pages.add(GetPage(name: Routes.terms, page: () => TermsAndCondition()));
-  //   update();
-  // }
-  //Security Ends
+
+  ///Security Ends
+
   //Settings Pages
   void toSettings(){
     pages.add(GetPage(name: Routes.settings, page: () => SettingsView()));
@@ -65,10 +63,11 @@ class ProfileMainControl extends GetxController{
     pages.add(GetPage(name: Routes.delAcc, page: () => DeleteAccount(), binding: DeleteBinding()));
     update();
   }
-  // Settings End
+  /// Settings End
+
   //Help Pages
   void toHelp(){
-    pages.add(GetPage(name: Routes.help, page: () => HelpCenter()));
+    pages.add(GetPage(name: Routes.help, page: () => HelpCenter(), binding: HelpCenterBinding()));
     update();
   }
   void toOnlineHelp(){
