@@ -42,7 +42,7 @@ final ThemeData lightTheme = ThemeData(
     fillColor: AppColors.lightGreen,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(color: AppColors.primary),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),

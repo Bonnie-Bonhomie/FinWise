@@ -38,12 +38,13 @@ final ThemeData darkTheme = ThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16),
     ),),
+
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: AppColors.cardBg,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide.none,
+      borderSide: BorderSide(color: AppColors.primary),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
