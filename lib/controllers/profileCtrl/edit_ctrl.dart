@@ -34,6 +34,7 @@ class EditProfileCtrl extends GetxController{
   final dobCtrl = TextEditingController();
   final mailCtrl = TextEditingController();
   ProfileModel? userProfile;
+  RxString profileErr = ''.obs;
 
   Rxn<ProfileModel> profile = Rxn<ProfileModel>();
 
@@ -42,6 +43,10 @@ class EditProfileCtrl extends GetxController{
   RxString email = ''.obs;
   RxString phone = ''.obs;
 
+  RxString referralErr = ''.obs;
+  var loadRef = false.obs;
+  var referralList = [].obs;
+
   void getSavedPro() async{
     name.value =  await storage.retrieve(PrefStoreKeys.username);
     email.value =  await storage.retrieve(PrefStoreKeys.mail);
@@ -49,52 +54,117 @@ class EditProfileCtrl extends GetxController{
   }
 
   Future<void> getProfile() async {
-    loading.value = true;
-    final String? token = await store.getToken();
-    if (token == null) {
-      CustomSnackbar.showSnackbar(message: 'You are unauthorized to set pin');
-    } else {
-      final response = await repo.getProfile(token);
-      print(response.data);
-      if (response is DataSuccess) {
-        final data = response.data;
+    try{
+      loading.value = true;
+      final String? token = await store.getToken();
+      if (token == null) {
+        CustomSnackbar.showSnackbar(message: 'Unauthenticated');
+      } else {
+        final response = await repo.getProfile(token);
+        print(response.data);
+        if (response is DataSuccess) {
+          final data = response.data;
 
-        if (data['status'] == true) {
+          if (data['status'] == true) {
 
-          userProfile = ProfileModel.fromJson(data['data']['user']);
-          setProfile(userProfile);
+            userProfile = ProfileModel.fromJson(data['data']['user']);
+            setProfile(userProfile);
 
-        } else {
-          // backend handled inside success (if API returns 200 with status false)
-
-        }
-      } else if (response is DataFailed) {
-        final err = response.exception;
-
-        if (err is DioException) {
-          //  Network issues
-          if (err.type == DioExceptionType.connectionError ||
-              err.type == DioExceptionType.receiveTimeout ||
-              err.type == DioExceptionType.connectionTimeout) {
-            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
-          }
-
-          //  Server error
-          final errData = err.response?.data;
-
-          if (errData != null && errData['message'] != null) {
-            CustomSnackbar.showSnackbar(message: errData['message']);
           } else {
-            CustomSnackbar.showSnackbar(
-              message: 'Server error, try again later,',
-            );
+            // backend handled inside success (if API returns 200 with status false)
+
           }
-        } else {
-          CustomSnackbar.showSnackbar(message: 'Unknown error occurred, try again later.');
+        } else if (response is DataFailed) {
+          final err = response.exception;
+
+          if (err is DioException) {
+            //  Network issues
+            if (err.type == DioExceptionType.connectionError ||
+                err.type == DioExceptionType.receiveTimeout ||
+                err.type == DioExceptionType.connectionTimeout) {
+              CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+            }
+
+            //  Server error
+            final errData = err.response?.data;
+
+            if (errData != null && errData['message'] != null) {
+              CustomSnackbar.showSnackbar(message: errData['message']);
+            } else {
+              CustomSnackbar.showSnackbar(
+                message: 'Server error, try again later,',
+              );
+            }
+          } else {
+            CustomSnackbar.showSnackbar(message: 'Unknown error occurred, try again later.');
+          }
         }
       }
+    }catch(e){
+      print(e);
+      CustomSnackbar.showSnackbar(message: 'Unknown error occurred, try again later.');
     }
     loading.value = false;
+  }
+
+
+  Future<void> getReferrals() async {
+    try{
+      loadRef.value = true;
+      final String? token = await store.getToken();
+      if (token == null) {
+        CustomSnackbar.showSnackbar(message: 'Unauthenticated');
+      } else {
+        final response = await repo.getReferrals(token);
+
+        if (response is DataSuccess) {
+
+
+          if (response.data['status'] == true) {
+
+            final data = response.data['data'];
+            List refer = data['referrals'] as List;
+
+            print(refer);
+            if(refer.isEmpty){
+              referralErr.value = 'No Referrals';
+            }else{
+              referralList.assignAll(refer);
+            }
+
+
+          }
+        } else if (response is DataFailed) {
+          final err = response.exception;
+
+          if (err is DioException) {
+            //  Network issues
+            if (err.type == DioExceptionType.connectionError ||
+                err.type == DioExceptionType.receiveTimeout ||
+                err.type == DioExceptionType.connectionTimeout) {
+              referralErr.value= 'No internet connection';
+            }
+
+            //  Server error
+            final errData = err.response?.data;
+
+            if (errData != null && errData['message'] != null) {
+              referralErr.value = errData['message'];
+            } else {
+              referralErr.value = 'Server error';
+            }
+          } else {
+            referralErr.value = 'Unknown error occurred';
+          }
+        }
+      }
+    }catch(e){
+      print(e);
+      referralErr.value = 'Unknown error occurred';
+    }
+    finally{
+      loadRef.value = false;
+    }
   }
 
 
