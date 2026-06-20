@@ -1,3 +1,4 @@
+import 'package:fin_wise/controllers/categoryCtrl/market_ctrl.dart';
 import 'package:fin_wise/data/models/product_model.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
@@ -19,6 +20,7 @@ class _SolarDetailsViewState extends State<SolarDetailsView> {
 
   final ScrollController _controller = ScrollController();
   final loader = Get.find<LoaderController>();
+  final ctrl = Get.find<MarketCtrl>();
   double offset = 0;
 
   @override
@@ -67,38 +69,48 @@ class _SolarDetailsViewState extends State<SolarDetailsView> {
                     ),
                   ),
                 ),
-                SliverToBoxAdapter(child: Column(
-                  children: [
-                    ListTile(
-                      title: Text(widget.product.name),
-                      subtitle:  Text(widget.product.shortDes),
-                      trailing: Icon(Icons.favorite),
-                    ),
-                    const SizedBox(height: 10,),
+                SliverToBoxAdapter(child: Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text(widget.product.name, overflow: TextOverflow.ellipsis,),
+                        subtitle:  Text(widget.product.shortDes),
+                        trailing: Icon(Icons.favorite),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          children: [
 
-                    Row(
-                      children: [
-                        Text('Duration'), Text(widget.product.deliveryDurat),
-                      ],
-                    ),
-                    const SizedBox(height: 15,),
-                    Row(
-                      children: [
-                        Text('Regular Price: ${widget.product.regularPrice}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                        const SizedBox(width: 15,),
-                        Text('${widget.product.discountPrice}% discount', style: TextStyle(fontSize: 14,)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text('Sale Price: ${widget.product.salePrice}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      ],
-                    ),
-                    const SizedBox(height: 15,),
-                    Text(widget.product.longDes),
+                            const SizedBox(height: 10,),
 
-                    AppBtn(onPressed: (){}, label: 'Buy')
-                  ],
+                            Row(
+                              children: [
+                                Text('Duration'), Text(widget.product.deliveryDurat),
+                              ],
+                            ),
+                            const SizedBox(height: 15,),
+                            Row(
+                              children: [
+                                Text('Regular Price: ${widget.product.regularPrice}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                                const SizedBox(width: 15,),
+                                Text('${widget.product.discountPrice}% discount', style: TextStyle(fontSize: 14,)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('Sale Price: ${widget.product.salePrice}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                              ],
+                            ),
+                            const SizedBox(height: 15,),
+                            Text(widget.product.longDes),
+
+                            // AppBtn(onPressed: (){}, label: 'Buy')
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),)
               ],
             ),
