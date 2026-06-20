@@ -4,6 +4,7 @@ import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/data/models/product_model.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/categories/service_export.dart';
 
 import 'package:flutter/material.dart';
@@ -30,6 +31,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   final numberKey = GlobalKey<FormFieldState>();
   final addressKey = GlobalKey<FormFieldState>();
   final formKey = GlobalKey<FormState>();
+  final viewModel = HomeViewModel();
+
   double offset = 0;
   int quantity = 1;
 
@@ -46,6 +49,11 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+
+    double regular = viewModel.parseAmount(widget.product.regularPrice);
+    double sale = viewModel.parseAmount(widget.product.salePrice);
+    double discount = viewModel.parseAmount(widget.product.discountPrice);
+
     final screenWidth = MediaQuery.of(context).size.width;
 
     final progress = (offset / 150).clamp(0.0, 1.0);
@@ -96,16 +104,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Regular Price: ₦${widget.product.regularPrice}',
+                                      'Regular Price: ${viewModel.formatCurrency(regular)}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
-                                        decoration: TextDecoration.overline
+                                        decoration: TextDecoration.lineThrough
                                       ),
                                     ),
                                     const SizedBox(width: 15),
                                     Text(
-                                      '${widget.product.discountPrice}% discount',
+                                      'Discount Price: ${viewModel.formatCurrency(discount)}',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ],
@@ -113,7 +121,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Sale Price: ₦${widget.product.salePrice}',
+                                      'Sale Price: ${viewModel.formatCurrency(sale)}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -167,7 +175,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                                 const SizedBox(height: 30),
 
-                                    Text('Description: ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                                    Text('Description: ${widget.product.name}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
                                     Text(widget.product.longDes),
 
                                 const SizedBox(height: 15),
