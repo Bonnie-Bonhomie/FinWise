@@ -82,7 +82,7 @@ class _EditProfileState extends State<EditProfile> {
                                 textWeigh: FontWeight.bold,
                                 textSize: 20,
                               ),
-                              AppText(text: ' ID: ${user.id}'),
+                              AppText(text: user.email),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
