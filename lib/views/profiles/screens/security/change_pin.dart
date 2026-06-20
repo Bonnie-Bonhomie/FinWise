@@ -1,5 +1,4 @@
 import 'package:fin_wise/controllers/controller_exports.dart';
-import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
@@ -68,29 +67,48 @@ class _ChangePinViewState extends State<ChangePinView> {
                 children: [
                   labelText('Current Pin'),
                   const SizedBox(height: 10,),
-                  CustomPinCodeField(pinTextCtrl: currentCtrl, len: 4, pinKey: currentKey, onComplete: (pin){},),
+                  CustomPinCodeField(pinTextCtrl: currentCtrl,
+                    len: 4,
+                    pinKey: currentKey,
+                    onComplete: (pin) {
+                      if (pin.length == 4) {
+                        setState(() => oldPin = true);
+                      }
+                    },),
 
                   const SizedBox(height: 20,),
                   labelText('New Pin'),
                   const SizedBox(height: 10,),
-                  CustomPinCodeField(pinTextCtrl: newCtrl, len: 4, pinKey: newKey),
+                  CustomPinCodeField(
+                      pinTextCtrl: newCtrl, len: 4, pinKey: newKey, onComplete: (pin) {
+                    if (pin.length == 4) {
+                      setState(() => newPin = true);
+                    }
+                  },),
 
                   const SizedBox(height: 20,),
                   labelText('Confirm Pin'),
                   const SizedBox(height: 10,),
-                  CustomPinCodeField(pinTextCtrl: confirmCtrl, len: 4, pinKey: confirmKey),
+                  CustomPinCodeField(
+                      pinTextCtrl: confirmCtrl, len: 4, pinKey: confirmKey, onComplete: (pin) {
+                    if (pin.length == 4) {
+                      setState(() => cfmPin = true);
+                    }
+                  }),
 
                   SizedBox(height: 40,),
                   AppBtn(onPressed: () {
-                    if (formKey.currentState!.validate()) {
+                    if (oldPin && newPin && cfmPin) {
                       loader.offLoading(() async {
                         await auth.setPin(
                             oldPin: changeToInt(currentCtrl.text.trim()),
                             newPin: changeToInt(newCtrl.text.trim()),
                             cfmPin: changeToInt(confirmCtrl.text.trim()));
                       });
+                      Get.find<ProfileMainControl>().back();
                     } else {
-                      CustomSnackbar.warningSnack('Fill all the required field to continue');
+                      CustomSnackbar.warningSnack(
+                          'Fill all the required field to continue');
                     }
                   }, label: 'Change Pin')
                 ],
