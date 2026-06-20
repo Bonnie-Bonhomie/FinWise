@@ -60,6 +60,6 @@ class AppRoutes{
     GetPage(name: Routes.depoReceipt, page: () => DepositsReceipt()),
     GetPage(name: Routes.market, page: () => ProductView(), binding: MarketBinding()),
 
-    GetPage(name: Routes.solar, page: () => SolarView(), binding: SolarBinding()),
+    GetPage(name: Routes.solar, page: () => SolarView(), bindings: [MarketBinding(), SolarBinding()]),
   ];
 }
