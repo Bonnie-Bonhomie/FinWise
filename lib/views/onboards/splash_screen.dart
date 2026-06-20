@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>{
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 3), (){checkingOnboardShown();});
+    Future.delayed(Duration(seconds: 3), ()async{ await checkingOnboardShown();});
     // FocusScope.of(context).unfocus();
 
   }
