@@ -181,7 +181,7 @@ class _ProfileViewState extends State<ProfileView> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.all(10),
-                        alignment: Alignment.center,
+                        // alignment: Alignment.center,
                         decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(20)),
                         child: editCtrl.loadRef.value? Text('loading...'): editCtrl.referralList.isEmpty?  Text(editCtrl.referralErr.value):
                         Column(
