@@ -43,7 +43,7 @@ class _TransactionPinState extends State<TransactionPin> {
   // }
 
   void setPin() async {
-    if (pinCtrl.text.isNotEmpty && confirmPinCtrl.text.isNotEmpty) {
+    if (pinCtrl.text.length == 4 && confirmPinCtrl.text.length == 4) {
       final pin = int.parse(pinCtrl.text.trim());
       final cfmPin = int.parse(confirmPinCtrl.text.trim());
       loader.offLoading(() async {

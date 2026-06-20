@@ -371,8 +371,6 @@ class AuthCtrl extends GetxController {
               message: 'Server error, try again later',
             );
           }
-        } else {
-          CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
         }
       }
     }}catch(e){
