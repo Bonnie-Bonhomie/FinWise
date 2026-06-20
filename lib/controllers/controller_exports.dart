@@ -12,6 +12,8 @@ export 'categoryCtrl/category_nav_ctrl.dart';
 export 'categoryCtrl/education_controller.dart';
 export 'categoryCtrl/electricity_ctrl.dart';
 export 'categoryCtrl/television_ctrl.dart';
+export 'categoryCtrl/market_ctrl.dart';
+export 'categoryCtrl/solar_ctrl.dart';
 
 export 'notificationCtrl/notify_controller.dart';
 
