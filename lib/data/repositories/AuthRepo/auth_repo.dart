@@ -19,6 +19,7 @@ class AuthRepository {
     required String phone,
     required String password,
     required String confirmPassword,
+    String referral = ''
   })
   async {
     try {
@@ -39,6 +40,7 @@ class AuthRepository {
         'phone': phone,
         'username': name,
         'password': password,
+        'referral': referral,
       });
       return DataSuccess(response.data);
     } on DioException catch (e) {
