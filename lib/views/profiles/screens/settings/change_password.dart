@@ -1,7 +1,9 @@
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/controllers/profileCtrl/change_pwd_ctrl.dart';
 import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/validator/validator.dart';
+import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
@@ -19,6 +21,7 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   final ChangePwdControl ctrl = Get.find<ChangePwdControl>();
+  final loader = Get.find<LoaderController>();
 
   final formKey = GlobalKey<FormState>();
   final currentPwd = GlobalKey<FormFieldState>();
@@ -51,96 +54,91 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
 
-
-
     return Scaffold(
-      body: PageContainer(
-        topMargin: 20,
-        bottomPadding: 0,
-        topChild: CustomAppBar.header(
-          title: 'Password Settings',
-          leftRight: 15,
-           onPressed: () => Get.find<ProfileMainControl>().back(),
-        ),
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
-            child: ListView(
-              children: [
-                const SizedBox(height: 30),
-                //Email
-                const AppText(text: "Current Password"),
-                const SizedBox(height: 10.0),
-                FormWidget(
-                    valController: currentPwdCtrl,
-                    fieldKey: currentPwd,
-                    obscure: currentObscure,
-                    validator: (val) {
-                      return null;
-                    },
-                    onChanged: (val) => currentPwd.currentState?.validate(),
-                    hintText: "Enter current password",
+      body: LoaderWrapper(
+        child: PageContainer(
+          topMargin: 20,
+          bottomPadding: 0,
+          topChild: CustomAppBar.header(
+            title: 'Password Settings',
+            leftRight: 15,
+             onPressed: () => Get.find<ProfileMainControl>().back(),
+          ),
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
+              child: ListView(
+                children: [
+                  const SizedBox(height: 30),
+                  //Email
+                  const AppText(text: "Current Password"),
+                  const SizedBox(height: 10.0),
+                  FormWidget(
+                      valController: currentPwdCtrl,
+                      fieldKey: currentPwd,
+                      obscure: currentObscure,
+                      validator: (val) => Validator.validatePassword(val),
+                      onChanged: (val) => currentPwd.currentState?.validate(),
+                      hintText: "Enter current password",
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          showCurr();
+                        },
+                        icon: currentObscure
+                            ? const Icon(Icons.visibility_off_outlined)
+                            : const Icon(Icons.visibility_outlined),
+                      ),
+                    ),
+
+                  const SizedBox(height: 25,),
+                  const AppText(text: "New Password"),
+                  const SizedBox(height: 10.0),
+                  FormWidget(
+                    valController: pwdCtrl,
+                    fieldKey: pwdKey,
+                    obscure: pwdObscure,
+                    textType: TextInputType.emailAddress,
+                    validator: (val) => Validator.validatePassword(val),
+                    onChanged: (val) => pwdKey.currentState?.validate(),
+                    hintText: "Enter Password",
                     suffixIcon: IconButton(
-                      onPressed: () {
-                        showCurr();
-                      },
-                      icon: currentObscure
+                      onPressed: () =>showPass(),
+                      icon: pwdObscure
+                          ? const Icon(Icons.visibility_off_outlined)
+                          : const Icon(Icons.visibility_outlined),
+                    ),
+                  ),
+                  const SizedBox(height: 25,),
+                  const AppText(text: "Confirm New Password"),
+                  const SizedBox(height: 10.0),
+                  FormWidget(
+                    valController: confirmPwdCtrl,
+                    fieldKey: confirmPwdKey,
+                    obscure: confirmPwdObscure,
+                    validator: (val) =>
+                        Validator.validateConfirmPassword(
+                            firstPassword: pwdCtrl.text.trim(), value: val),
+                    onChanged: (val) => confirmPwdKey.currentState?.validate(),
+                    hintText: "Confirm New Password",
+                    suffixIcon: IconButton(
+                      onPressed: ()  => showConfirm(),
+                      icon: confirmPwdObscure
                           ? const Icon(Icons.visibility_off_outlined)
                           : const Icon(Icons.visibility_outlined),
                     ),
                   ),
 
-                const SizedBox(height: 25,),
-                const AppText(text: "New Password"),
-                const SizedBox(height: 10.0),
-                FormWidget(
-                  valController: pwdCtrl,
-                  fieldKey: pwdKey,
-                  obscure: pwdObscure,
-                  textType: TextInputType.emailAddress,
-                  validator: (val) => Validator.validatePassword(val),
-                  onChanged: (val) => pwdKey.currentState?.validate(),
-                  hintText: "Enter Password",
-                  suffixIcon: IconButton(
-                    onPressed: () =>showPass(),
-                    icon: pwdObscure
-                        ? const Icon(Icons.visibility_off_outlined)
-                        : const Icon(Icons.visibility_outlined),
-                  ),
-                ),
-                const SizedBox(height: 25,),
-                const AppText(text: "Confirm New Password"),
-                const SizedBox(height: 10.0),
-                FormWidget(
-                  valController: confirmPwdCtrl,
-                  fieldKey: confirmPwdKey,
-                  obscure: confirmPwdObscure,
-                  validator: (val) =>
-                      Validator.validateConfirmPassword(
-                          firstPassword: pwdCtrl.text.trim(), value: val),
-                  onChanged: (val) => confirmPwdKey.currentState?.validate(),
-                  hintText: "Confirm New Password",
-                  suffixIcon: IconButton(
-                    onPressed: ()  => showConfirm(),
-                    icon: confirmPwdObscure
-                        ? const Icon(Icons.visibility_off_outlined)
-                        : const Icon(Icons.visibility_outlined),
-                  ),
-                ),
-
-                const SizedBox(height: 80),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppBtn(onPressed: () {
-                      Get.toNamed(Routes.successful,
-                          arguments: 'Password has been changed successfully');
-                    }, label: "Change Password"),
-
-                  ],
-                ),
-              ],
+                  const SizedBox(height: 80),
+                  AppBtn(onPressed: () {
+                    if(formKey.currentState!.validate()){
+                      loader.offLoading(() async{
+                        await ctrl.changePwd(currentPwd: currentPwdCtrl.text, newPwd: pwdCtrl.text, confirmPwd: confirmPwdCtrl.text);
+                      });
+                    }
+                  }, label: "Change Password"),
+                ],
+              ),
             ),
           ),
         ),
