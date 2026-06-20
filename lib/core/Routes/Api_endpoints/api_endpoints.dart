@@ -25,13 +25,16 @@ class ApiEndpoints{
   static const String notification = 'profile/notifications';
   static const String deleteAllNote = 'profile/delete_all_notifications';
   static const String deleteAccount = 'profile/delete_account';
+  static const String changePwd = 'profile/update_password';
+  static const String faqs = 'profile/faqs';
+
 
   ///Terms and Policy
   static const String terms = 'https://pantherfinder.online/term-and-condition';
   static const String policy = 'https://pantherfinder.online/privacy-policy';
 
-///Not in use
-  static const String changePwd = 'auth/user/acc';
+
+
 
 
   ///Payment GateWay
