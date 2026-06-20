@@ -31,6 +31,25 @@ class EditProfileRepo {
     }
   }
 
+  Future<DataState> getReferrals(String token) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet Connection',
+          ),
+        );
+      }
+
+      final response = await api.getRequestWIthToken(ApiEndpoints.referralList, token);
+      return DataSuccess(response.data);
+    } on DioException catch(e){
+      return DataFailed(e);
+    }
+  }
+
 
   Future<DataState> updateProfile({
     required String name,
