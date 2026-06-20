@@ -148,7 +148,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             });
                                           },
                                           icon: Icon(
-                                            Icons.do_not_disturb_on_outlined,
+                                            Icons.do_not_disturb_on, color: AppColors.declined,
                                           ),
                                         ),
                                         Text(quantity.toString()),
@@ -157,7 +157,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             setState(() => quantity = quantity +1);
                                           },
                                           icon: Icon(
-                                            Icons.add_circle_outline_outlined,
+                                            Icons.add_circle,color: AppColors.primary,
                                           ),
                                         ),
                                       ],
@@ -180,7 +180,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
                                 const SizedBox(height: 15),
                                 Card(
-                                  borderOnForeground: true,
+                                  color: Colors.grey.shade300,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 20),
                                     child: Form(
