@@ -5,6 +5,7 @@ import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/views/categories/screens/MarketPlace/market_skeleton.dart';
 import 'package:fin_wise/views/categories/screens/MarketPlace/product_details.dart';
+import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,7 +43,7 @@ class _SolarViewState extends State<SolarView> {
             bottomPadding: 20,
             topMargin: 20,
             topChild: CustomAppBar.header(
-              title: 'Market Place',
+              title: 'Solar Panels',
               leftRight: 15,
               onPressed: () => Get.back(),
             ),
@@ -64,6 +65,7 @@ class _SolarViewState extends State<SolarView> {
                         );
                       }
                       return ListView.builder(
+                          padding: const EdgeInsets.all(0),
                           itemCount: ctrl.solarProduct.length,
                           itemBuilder: (context, index) {
                             final item = ctrl.solarProduct[index];
@@ -93,66 +95,6 @@ class _SolarViewState extends State<SolarView> {
           border: Border.all(color: Theme.of(context).colorScheme.onSurface),
         ),
         child: Text(cat),
-      ),
-    );
-  }
-}
-
-class MarketProdCard extends StatelessWidget {
-  const MarketProdCard({super.key, required this.item});
-
-  final ProductModel item;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Get.to(() => ProductDetails(product: item)),
-      child: Hero(
-        tag: item.name,
-        child: Card(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 130,
-                // width: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                    image: NetworkImage(item.coverImage),
-                    fit: BoxFit.cover,
-                    onError: (__, ___) => Container(
-                      color: Colors.grey,
-                      child: Icon(Icons.image_outlined),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 5.0,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(item.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                  Icon(Icons.favorite)
-                ],
-              ),
-              const SizedBox(height: 5.0,),
-              Row(
-                children: [
-                  Text('Regular Price: ${item.regularPrice}', style: TextStyle(fontSize: 14)),
-                  const SizedBox(width: 15,),
-                  Text('${item.discountPrice}% discount', style: TextStyle(fontSize: 14,)),
-                ],
-              ),
-              Row(
-                children: [
-                  Text('Sale Price: ${item.salePrice}'),
-                ],
-              ),
-
-            ],
-          ),
-        ),
       ),
     );
   }
