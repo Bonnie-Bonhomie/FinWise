@@ -313,7 +313,7 @@ class _HomePageState extends State<HomePage>
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.check_circle_outline),
+              Icon(Icons.check_circle_sharp),
               AppText(text: 'Service at Glance'),
             ],
           ),
