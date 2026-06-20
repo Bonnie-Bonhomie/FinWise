@@ -28,12 +28,16 @@ class _SignInViewState extends State<SignInView> {
   final mailKey = GlobalKey<FormFieldState>();
   final pwdKey = GlobalKey<FormFieldState>();
   final confirmPwdKey = GlobalKey<FormFieldState>();
+  final referKey = GlobalKey<FormFieldState>();
+
   final TextEditingController nameCtrl = TextEditingController();
   final TextEditingController numberCtrl = TextEditingController();
   final TextEditingController mailCtrl = TextEditingController();
   final TextEditingController pwdCtrl = TextEditingController();
   final TextEditingController confirmPwdCtrl = TextEditingController();
   final TextEditingController dobCtrl = TextEditingController();
+  final TextEditingController referCtrl = TextEditingController();
+
   final AuthCtrl authCtrl = Get.find<AuthCtrl>();
   final loader = Get.find<LoaderController>();
   final viewModel = HomeViewModel();
@@ -147,10 +151,23 @@ class _SignInViewState extends State<SignInView> {
             validator: (value) => Validator.validateNumber(value!),
             onChanged: (val) => numberKey.currentState!.validate(),
           ),
+
           const SizedBox(height: 15),
           labelText("Date of Birth"),
           const SizedBox(height: 8.0),
           DatePicker(dateControl: dobCtrl),
+
+          const SizedBox(height: 15.0),
+          labelText("Referral Link"),
+          const SizedBox(height: 8.0),
+          FormWidget(
+            valController:referCtrl,
+            fieldKey: referKey,
+            validator: (val) {},
+            hintText: "(Optional)",
+
+          ),
+
           const SizedBox(height: 15.0),
           labelText("Password"),
           const SizedBox(height: 8.0),
@@ -170,6 +187,7 @@ class _SignInViewState extends State<SignInView> {
                   : const Icon(Icons.visibility_outlined),
             ),
           ),
+
           const SizedBox(height: 15),
           labelText("Confirm Password"),
           const SizedBox(height: 8.0),
