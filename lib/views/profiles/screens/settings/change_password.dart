@@ -1,8 +1,7 @@
 import 'package:fin_wise/controllers/controller_exports.dart';
-import 'package:fin_wise/controllers/profileCtrl/change_pwd_ctrl.dart';
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
+
 import 'package:fin_wise/core/validator/validator.dart';
+import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
@@ -135,6 +134,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                       loader.offLoading(() async{
                         await ctrl.changePwd(currentPwd: currentPwdCtrl.text, newPwd: pwdCtrl.text, confirmPwd: confirmPwdCtrl.text);
                       });
+                    }else{
+                      CustomSnackbar.showSnackbar(message: 'Enter password to continue');
                     }
                   }, label: "Change Password"),
                 ],
