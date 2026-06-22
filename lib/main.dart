@@ -18,6 +18,8 @@ Future<void> main() async {
 
   await FirebaseMsgService().initFCM();
 
+
+
   DependencyInjection.init();
 
   SystemChrome.setPreferredOrientations([

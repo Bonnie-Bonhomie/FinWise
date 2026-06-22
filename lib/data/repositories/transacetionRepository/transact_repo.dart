@@ -75,7 +75,7 @@ class TransactionRepo {
       }
 
       final transact = await apiServices.getRequestWIthToken(
-        ApiEndpoints.transact, //Url
+        '${ApiEndpoints.transact}/$ref', //Url
         token,);
       return DataSuccess(transact.data);
 

@@ -48,6 +48,9 @@ class AuthCtrl extends GetxController {
     id.value = await store.retrieve(PrefStoreKeys.userId);
   }
 
+
+
+
   Future<void> registerUser({
     required String name,
     required String mail,
@@ -59,6 +62,7 @@ class AuthCtrl extends GetxController {
   })
   async {
     try {
+
       LoaderController.to.show();
       final response = await authRepo.registerUser(
         name: name,
@@ -79,6 +83,8 @@ class AuthCtrl extends GetxController {
         if (data['status'] == true) {
           user = ProfileModel.fromJson(data['data']);
 
+
+
           final name = user!.name;
           final mail = user!.email;
           final userId = user!.id;
@@ -88,6 +94,7 @@ class AuthCtrl extends GetxController {
           signMail.value = user!.email;
           CustomSnackbar.successSnack(data['message']);
           Get.find<SharedPreferService>().saveData<bool>(PrefStoreKeys.isFirstTime, true );
+
           Get.offNamed(Routes.verAcc);
         } else {
           //  backend handled inside success (if API returns 200 with status false)
@@ -127,6 +134,7 @@ class AuthCtrl extends GetxController {
 
   Future<void> loginUser(String mail, String password) async {
     try{
+      String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
       final response = await authRepo.loginUser(email: mail, password: password);
 
       print(response.data);
@@ -145,6 +153,8 @@ class AuthCtrl extends GetxController {
           await store.saveData<String>(PrefStoreKeys.mail, mail);
           await store.saveData<String>(PrefStoreKeys.phone, phone);
           await store.saveData<String>(PrefStoreKeys.userId, userId);
+
+          await authRepo.updateDeviceToken(fireToken, token);
 
           userWallet = WalletModel.fromJson(data['data']['wallet']);
           // user = UserModel.fromJson(response.data);
@@ -221,6 +231,8 @@ class AuthCtrl extends GetxController {
   })
   async {
     try{
+      String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
+
       final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
       print(response.data);
       if (response is DataSuccess) {
@@ -231,6 +243,8 @@ class AuthCtrl extends GetxController {
           if (token != null) {
             await storage.saveToken(token);
           }
+
+          await authRepo.updateDeviceToken(fireToken, token);
 
           await store.saveData<String>(PrefStoreKeys.mail, user!.email);
           await store.saveData<String>(PrefStoreKeys.username, user!.name);

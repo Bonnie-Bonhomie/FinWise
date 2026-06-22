@@ -39,7 +39,10 @@ class TransactionCtrl extends GetxController{
   var transactionList = <TransactionModel>[].obs;
   var allDeposit = <DepoModel>[].obs;
   var error = ''.obs;
+  var receiptErr = ''.obs;
   var errorDepo = ''.obs;
+  var loadingT = false.obs;
+  var receiptDet;
 
 
 //Start
@@ -75,7 +78,54 @@ class TransactionCtrl extends GetxController{
     }
   }
 
-//End
+//Get single transaction
+  Future<void> getSingleReceipt(String ref) async{
+    if(loadingT.value)return;
+    try{
+
+      loadingT.value = true;
+      final token = await storage.getToken();
+      if(token == null){
+        CustomSnackbar.showSnackbar(message: 'Unauthenticated');
+        return;
+      }
+      final receipt = await repo.getSingleTransact(token, ref);
+
+      if(receipt is DataSuccess){
+        if(receipt.data['status'] == true){
+          final data = receipt.data['data'];
+          receiptDet = TransactionModel.fromJson(data);
+      }}
+      else if(receipt is DataFailed){
+        final err = receipt.exception;
+        print(err);
+        if (err is DioException) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout) {
+            receiptErr.value = 'No internet connection';
+            return;
+          }
+
+          final errData = err.response!.data;
+          if(errData != null && errData['message'] != null){
+            receiptErr.value = errData['message'].toString();
+          }
+          // else{
+          //   error.value = 'Something went wrong, try to reload';
+          // }
+        }
+        else{
+          receiptErr.value = 'Something went wrong, try again later';
+        }
+        // return;
+      }
+    }catch(e){
+      print(e);
+      receiptErr.value = 'Something went wrong, try again later';
+    }finally{
+      loadingDepo.value = false;
+    }
+  }
 
 
 
@@ -160,6 +210,7 @@ class TransactionCtrl extends GetxController{
   }
 
 ///Get all Deposits
+  ///
   Future<void> loadDepo() async{
     if(loading.value)return;
     try{
@@ -191,7 +242,7 @@ class TransactionCtrl extends GetxController{
           errorDepo.value = 'Unable to load all Transactions';
         }
       }
-        else if(deposits is DataFailed){
+      else if(deposits is DataFailed){
         final err = deposits.exception;
         print(err);
         if (err is DioException) {
@@ -221,6 +272,7 @@ class TransactionCtrl extends GetxController{
       loadingDepo.value = false;
     }
   }
+
 
   Future<void> fetchMoreTran() async{
 

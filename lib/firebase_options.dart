@@ -53,7 +53,6 @@ class DefaultFirebaseOptions {
     projectId: 'databootng-ffdd3',
     storageBucket: 'databootng-ffdd3.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAEILPg5b7IUfogCVygSbzmRxxHrCa_iic',
     appId: '1:946890937033:ios:e60b869c3b3a75bdc57318',
@@ -62,7 +61,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'databootng-ffdd3.firebasestorage.app',
     iosBundleId: 'com.example.finWise',
   );
-
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAEILPg5b7IUfogCVygSbzmRxxHrCa_iic',
     appId: '1:946890937033:ios:e60b869c3b3a75bdc57318',

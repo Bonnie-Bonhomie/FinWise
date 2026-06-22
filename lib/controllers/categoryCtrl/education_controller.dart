@@ -97,7 +97,7 @@ class EducationController extends GetxController{
           TransactionModel receipt = TransactionModel.fromJson(data);
 
           if(receipt.apiStatus == TransactionStatus.completed){
-            Get.toNamed(Routes.transSuccess, arguments: receipt);
+            Get.toNamed(Routes.transSuccess, arguments: receipt.productRef);
           }else{
             CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
           }
