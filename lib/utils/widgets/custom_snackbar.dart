@@ -23,7 +23,7 @@ class CustomSnackbar {
       colorText: textColor,
       icon: icon != null ? Icon(icon, color: textColor) : null,
       // isDismissible: true,
-      messageText: AppText(text: message, textColor: textColor),
+      messageText: Text( message, style: TextStyle(color: textColor) ),
       forwardAnimationCurve: Curves.easeOutBack,
     );
   }
