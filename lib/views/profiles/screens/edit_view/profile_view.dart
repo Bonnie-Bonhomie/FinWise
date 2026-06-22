@@ -276,6 +276,6 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void showToast(){
-    Fluttertoast.showToast(msg: 'Copied', backgroundColor: AppColors.lightGreen);
+    Fluttertoast.showToast(msg: 'Copied', backgroundColor: AppColors.primaryLight, textColor: AppColors.bgColor, );
   }
 }
