@@ -27,6 +27,7 @@ class ApiEndpoints{
   static const String deleteAccount = 'profile/delete_account';
   static const String changePwd = 'profile/update_password';
   static const String faqs = 'profile/faqs';
+  static const String deviceToken = 'profile/device_token';
 
 
   ///Terms and Policy
