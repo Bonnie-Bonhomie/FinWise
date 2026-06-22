@@ -66,6 +66,7 @@ class AccBalanceCtrl extends GetxController {
     return formated;
   }
 
+
   //Get bonus balance function
   Future<void> getBonusBal() async {
     if (loadingB.value) return;
