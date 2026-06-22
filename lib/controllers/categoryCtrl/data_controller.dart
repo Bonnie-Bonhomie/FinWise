@@ -65,7 +65,7 @@ class DataController extends GetxController {
         if(receipt.apiStatus == TransactionStatus.failed){
           CustomSnackbar.showSnackbar(message: 'Unable to complete transaction, try again later');
         }else{
-          Get.toNamed(Routes.transSuccess, arguments: receipt.productRef);
+          Get.toNamed(Routes.transSuccess, arguments: receipt);
         }
       } else {
         CustomSnackbar.showSnackbar(message: 'Unable to complete transaction');
