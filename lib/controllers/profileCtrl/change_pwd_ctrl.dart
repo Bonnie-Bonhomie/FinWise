@@ -51,7 +51,6 @@ class ChangePwdControl extends GetxController {
           // final data = response.data['data'];
           successMessage =
               response.data['message'] ?? 'Password has been changed successfully';
-          Get.find<ProfileMainControl>().back();
           Get.toNamed(Routes.successful, arguments: successMessage);
         }
       }
