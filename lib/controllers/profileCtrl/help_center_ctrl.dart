@@ -19,27 +19,30 @@ class HelpControl extends GetxController {
   final ScrollController scroll = ScrollController();
   var faqSections = ['General', 'Account', 'Service'];
 
-  var faqGeneralQ = [].obs;
+  var faqQuestion = <FaqsModel>[].obs;
+  var faqServiceQ = [].obs;
+  var faqAccountQ = [].obs;
+  var faqError = ''.obs;
   var faqIndex = 0.obs;
   var loading = false.obs;
 
-  Future<void> getFaqs() async {
-
+  Future<void> getFaqs(int index) async {
     try {
       loading.value = true;
       final token = await store.getToken();
 
-      if(token == null){
-        CustomSnackbar.showSnackbar(message: 'Unauthenticated');
+      if (token == null) {
+        faqError.value = 'Unauthenticated';
         return;
       }
-      final response = await repo.getFaqs(token);
+      String type = faqSections[index].toLowerCase();
+      final response = await repo.getFaqs(token, type);
 
       print(response.data);
-      if(response is DataSuccess ){
-
-        print(response.data);
-
+      if (response is DataSuccess) {
+        List questions = response.data;
+        final quest = questions.map((e) => FaqsModel.fromJson(e));
+        faqQuestion.assignAll(quest);
       }
       else if (response is DataFailed) {
         final err = response.exception;
@@ -49,7 +52,8 @@ class HelpControl extends GetxController {
           if (err.type == DioExceptionType.connectionError ||
               err.type == DioExceptionType.receiveTimeout ||
               err.type == DioExceptionType.connectionTimeout) {
-            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+            CustomSnackbar.showSnackbar(title: 'No internet connection',
+                message: 'Check your internet connection');
             return;
           }
 
@@ -67,15 +71,14 @@ class HelpControl extends GetxController {
           CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
         }
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
     }
-    finally{
+    finally {
       loading.value = false;
     }
   }
-
 
 
   var chats = [
@@ -106,30 +109,4 @@ class HelpControl extends GetxController {
     update();
     scrollDown();
   }
-
-  var faqServiceQ = [
-    FaqsModel(
-      question: 'How can I create my account?',
-      answer:
-          'Go to sign up page , enter your full name, date of birth, phone number and create password for yourself',
-    ),
-    FaqsModel(
-      question: 'How can I change my password?',
-      answer:
-          'Go to the Edit page select Settings then select Change password and follow the instructions ',
-    ),
-  ];
-
-  var faqAccountQ = [
-    FaqsModel(
-      question: 'How to sell Data?',
-      answer:
-          'Login to your account select the data category and follow the given instructions in the category.',
-    ),
-    FaqsModel(
-      question: 'How to check my expense',
-      answer:
-          'To check all your expenses Go to the transaction page you will see the list of your transaction and your daily, monthly and yearly expenses',
-    ),
-  ].obs;
 }
