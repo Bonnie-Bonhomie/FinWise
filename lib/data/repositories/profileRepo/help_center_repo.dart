@@ -10,7 +10,7 @@ class HelpCenterRepo {
 
   HelpCenterRepo(this.apiServices, this.internet);
 
-  Future<DataState> getFaqs(String token) async {
+  Future<DataState> getFaqs(String token, String type) async {
 
     try {
 
@@ -23,7 +23,7 @@ class HelpCenterRepo {
           ),
         );
       }
-      final result = await apiServices.getRequestWIthToken(ApiEndpoints.faqs, token);
+      final result = await apiServices.getRequestWIthToken('${ApiEndpoints.faqs}?type=$type', token);
       return DataSuccess(result.data);
     }on DioException catch (e) {
       return DataFailed(e);
