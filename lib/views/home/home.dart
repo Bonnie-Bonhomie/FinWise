@@ -53,6 +53,7 @@ class _HomePageState extends State<HomePage>
 
     Future.microtask(() async {
       getName();
+
       await acc.getBalance();
       await trans.loadFresh();
       await acc.getBonusBal();
