@@ -60,7 +60,7 @@ class ElectricityCtrl  extends GetxController{
             CustomSnackbar.showSnackbar(
                 message: 'Unable to complete transaction, try again later');
           } else {
-            Get.toNamed(Routes.transSuccess, arguments: receipt.productRef);
+            Get.toNamed(Routes.transSuccess, arguments: receipt);
           }
           /// To do
         }
