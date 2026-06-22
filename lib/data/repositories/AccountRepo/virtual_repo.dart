@@ -29,6 +29,25 @@ class AccountRepo {
     }
   }
 
+  Future<DataState> getDeviceToken(String token) async {
+    try {
+      if (!await info.connected) {
+        return DataFailed(
+          DioException(
+            requestOptions: RequestOptions(path: ''),
+            type: DioExceptionType.connectionError,
+            error: 'No internet connection',
+          ),
+        );
+      }
+      final result = await services.getRequestWIthToken(ApiEndpoints.deviceToken, token);
+      return DataSuccess(result.data);
+    } on DioException catch (e) {
+      return DataFailed(e);
+    }
+  }
+
+
   ///Pay stack init
   Future<DataState> getPayInit(String token, String endPoint) async {
     try {
