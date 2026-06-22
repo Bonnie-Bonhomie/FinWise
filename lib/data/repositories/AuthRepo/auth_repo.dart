@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:fin_wise/Services/device_info_service.dart';
 import 'package:fin_wise/core/connection/network.dart';
 import 'package:fin_wise/data/dataSource/api_service.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
+import 'package:fin_wise/data/dataSource/storage_file.dart';
 
 import '../../../core/Routes/Api_endpoints/api_endpoints.dart';
 
@@ -220,6 +222,25 @@ class AuthRepository {
     }
   }  // forget password
 
+
+
+  Future<void> updateDeviceToken(String fireToken, String token) async {
+
+    final device = await getDeviceInfo();
+
+
+      final response = await apiServices.postRequestsWithToken(
+        ApiEndpoints.deviceToken,
+        token,
+        {
+          'device_token': fireToken,
+          'device_type': device['deviceType'],
+          'device_name': device['deviceName'],
+        },
+      );
+      print(response.data);
+
+  }
 }
 
 // if(response.statusCode == 200){
