@@ -142,25 +142,31 @@ class AuthCtrl extends GetxController {
         final data = response.data;
 
         if (data['status'] == true) {
-          final token = data['data']['token'];
-          await storage.saveToken(token);
+          if(data['data']['email_verified_at'] == null){
+            CustomSnackbar.warningSnack(data['message']);
+            Get.offNamed(Routes.verAcc);
+          }
+          else{
+            final token = data['data']['token'];
+            await storage.saveToken(token);
 
-          final name = data['data']['name'];
-          final mail = data['data']['email'];
-          final userId = data['data']['id'].toString();
-          final phone = data['data']['phone'];
-          await store.saveData<String>(PrefStoreKeys.username, name);
-          await store.saveData<String>(PrefStoreKeys.mail, mail);
-          await store.saveData<String>(PrefStoreKeys.phone, phone);
-          await store.saveData<String>(PrefStoreKeys.userId, userId);
+            final name = data['data']['name'];
+            final mail = data['data']['email'];
+            final userId = data['data']['id'].toString();
+            final phone = data['data']['phone'];
+            await store.saveData<String>(PrefStoreKeys.username, name);
+            await store.saveData<String>(PrefStoreKeys.mail, mail);
+            await store.saveData<String>(PrefStoreKeys.phone, phone);
+            await store.saveData<String>(PrefStoreKeys.userId, userId);
 
-          await authRepo.updateDeviceToken(fireToken, token);
+            await authRepo.updateDeviceToken(fireToken, token);
 
-          userWallet = WalletModel.fromJson(data['data']['wallet']);
-          // user = UserModel.fromJson(response.data);
-          CustomSnackbar.successSnack(data['message'].toString());
-          Get.find<SharedPreferService>().saveData<bool>(PrefStoreKeys.isFirstTime, true );
-          Get.offAllNamed(Routes.mainS);
+            userWallet = WalletModel.fromJson(data['data']['wallet']);
+            // user = UserModel.fromJson(response.data);
+            CustomSnackbar.successSnack(data['message'].toString());
+            Get.find<SharedPreferService>().saveData<bool>(PrefStoreKeys.isFirstTime, true );
+            Get.offAllNamed(Routes.mainS);
+          }
         } else {
           CustomSnackbar.showSnackbar(
             message: 'Something went wrong. Try again later.',
