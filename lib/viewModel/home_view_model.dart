@@ -66,6 +66,56 @@ class HomeViewModel {
     }
   }
 
+
+  Future<void> openWhatsApp() async {
+    try{
+      final Uri whatsapp = Uri.parse(
+        'https://wa.me/2349032350594?text=Thank%20you%20for%20contacting%20DatabootNg.%20How%20can%20we%20help%20you%20today%3F',
+      );
+
+      if (!await launchUrl(whatsapp, mode: LaunchMode.externalApplication)) {
+        throw Exception('Could not launch $whatsapp');
+      }
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future<void> openEmail() async {
+
+
+    try{
+      // final Uri email = Uri(
+      //   scheme: 'mailto',
+      //   path: 'akinyemi4taiwo@gmail.com',
+      //   queryParameters: {
+      //     'subject': 'Support+Request',
+      //     'body': 'Hello, I need help with...',
+      //   },
+      // );
+
+      final email = Uri.parse('mailto:akinyemi4taiwo@gmail.com?subject=Support%20Request&body=Hello,%20I%20need%20help%20with...');
+
+      if (!await canLaunchUrl(email)) {
+        await launchUrl(email);
+      }
+
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future<void> makeCall() async {
+    final Uri phone = Uri(
+      scheme: 'tel',
+      path: '09032350594',
+    );
+
+    if (await canLaunchUrl(phone)) {
+      await launchUrl(phone);
+    }
+  }
+
   String formatDate(String value){
 
     DateTime date =  DateTime.parse(value);
