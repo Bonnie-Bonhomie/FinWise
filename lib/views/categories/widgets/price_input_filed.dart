@@ -83,32 +83,30 @@ class _PriceInputFieldState extends State<PriceInputField> {
                 height: 30,
                 child:  ElevatedButton(
 
-                  onPressed: () {
-                    // if (widget.onBack != null) {
-                      widget.onBack();
-                    // }
+                  onPressed: !hasText? (){}: () {
+                    widget.onBack();
                     FocusScope.of(rootContext).unfocus();
                     // widget.amountCtrl.text = '${widget.amountCtrl.text}.00';
                     // print(widget.amountCtrl.text);
                     amount = viewModel.parseAmount(widget.amountCtrl.text.trim());
                     widget.numberCtrl.text.isNotEmpty
                         ?
-                      loadCtrl.offLoading(() async {
-                        await acc.getBalance();
-                        // print(parseAmount(widget.amountCtrl.text.trim()));
+                    loadCtrl.offLoading(() async {
+                      await acc.getBalance();
+                      // print(parseAmount(widget.amountCtrl.text.trim()));
 
-                        Future.delayed(const Duration(milliseconds: 100), (){
-                            ConfirmBottomSheet().confirmBottomSheet(
+                      Future.delayed(const Duration(milliseconds: 100), (){
+                        ConfirmBottomSheet().confirmBottomSheet(
                             imgPath: widget.imgPath,
                             rootContext,
                             amount: amount,
                             numberCtrl: widget.numberCtrl,
                             productName: widget.productName,
                             action: widget.action, balance: widget.balance);
-                            widget.numberCtrl.text.isEmpty? widget.amountCtrl.text ='': null;
+                        widget.numberCtrl.text.isEmpty? widget.amountCtrl.text ='': null;
                         amount = 0.00;
-                        });
-                      })
+                      });
+                    })
                         : CustomSnackbar.showSnackbar(title: 'Error', message: widget.errMessage);
 
                     setState(() {
