@@ -9,6 +9,8 @@ class PrefStoreKeys{
   static const String pushNot = 'pushNot';
   static const String system = 'system';
   static const String appMode = 'appMode';
+  static const String fcmToken = 'fcm-token';
+  static const String fcmChannel = 'databoot-channel';
 
 
   static const String enableFingerprint = 'Enable';
