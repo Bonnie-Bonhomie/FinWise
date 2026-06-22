@@ -217,7 +217,7 @@ class TelevisionCtrl extends GetxController {
             CustomSnackbar.showSnackbar(
                 message: 'Unable to complete transaction, try again later');
           } else {
-            Get.toNamed(Routes.transSuccess, arguments: receipt.productRef);
+            Get.toNamed(Routes.transSuccess, arguments: receipt);
           }
         } else {
           error = 'Unable to Complete transaction';
