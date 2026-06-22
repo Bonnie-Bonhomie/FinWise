@@ -1,8 +1,10 @@
 import 'package:fin_wise/controllers/controller_exports.dart';
+import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
 import 'package:fin_wise/utils/widgets/text_widget.dart';
 import 'package:fin_wise/data/models/faqs_model.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/view_widgets/shared_widget.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ class HelpCenter extends StatefulWidget {
 
 class _HelpCenterState extends State<HelpCenter> {
   final helpCtrl = Get.find<HelpControl>();
+  final viewModel = HomeViewModel();
 
   int selectIndex = 0;
   List<String> titles = ['FAQ', 'Contact Us'];
@@ -25,7 +28,7 @@ class _HelpCenterState extends State<HelpCenter> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.microtask(() async{await helpCtrl.getFaqs();});
+    Future.microtask(() async{await helpCtrl.getFaqs(0);});
   }
 
   @override
@@ -84,8 +87,9 @@ class _HelpCenterState extends State<HelpCenter> {
                         children: List.generate(helpCtrl.faqSections.length, (index) {
                           final title = helpCtrl.faqSections[index];
                           return InkWell(
-                            onTap: () {
+                            onTap: () async{
                               helpCtrl.faqIndex.value = index;
+                             await helpCtrl.getFaqs(index);
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8.0),
@@ -133,37 +137,43 @@ class _HelpCenterState extends State<HelpCenter> {
                 selectIndex == 0
                     ? Expanded(
                         child: Obx(() {
-                          helpCtrl.faqGeneralQ.add(helpCtrl.faqServiceQ);
-                          helpCtrl.faqGeneralQ.add(helpCtrl.faqAccountQ);
-                          final index = helpCtrl.faqIndex.value;
-                          return index == 0
-                              ? faqsQuestionSectList(helpCtrl.faqGeneralQ[index])
-                              : index == 1
-                              ? faqsQuestionSectList(helpCtrl.faqAccountQ)
-                              : faqsQuestionSectList(helpCtrl.faqServiceQ);
+                          if(helpCtrl.loading.value){
+                            return Center(child: CircularProgressIndicator(),);
+                          }
+                          return faqsQuestionSectList(helpCtrl.faqQuestion);
                         }),
                       )
                     : Column(
                         children: [
                           contactTile(
-                            'Customer Service',
-                            Icons.help_outline_rounded,
+                            'Call Support',
+                            Icons.dialer_sip_outlined,
                             () {
-                              Get.find<ProfileMainControl>().toOnlineHelp();
+                              viewModel.makeCall();
                             },
                           ),
-                          contactTile('Website', Icons.webhook_outlined, () {}),
-                          contactTile('Facebook', Icons.facebook_outlined, () {}),
                           contactTile(
-                            'Whatsapp',
-                            Icons.lightbulb_circle_outlined,
-                            () {},
+                            'Chat Admin',
+                            Icons.mark_unread_chat_alt_outlined,
+                                () {
+                              viewModel.openWhatsApp();
+                            },
                           ),
                           contactTile(
-                            'Instagram',
-                            Icons.camera_alt_outlined,
-                            () {},
+                            'Send Mail',
+                            Icons.mail_lock,
+                                () {
+                              viewModel.openEmail();
+                            },
                           ),
+                          contactTile('Website', Icons.webhook_outlined, () {viewModel.openUrl(ApiEndpoints.baseUrl);}),
+                          // contactTile('Facebook', Icons.facebook_outlined, () {}),
+
+                          // contactTile(
+                          //   'Instagram',
+                          //   Icons.camera_alt_outlined,
+                          //   () {},
+                          // ),
                         ],
                       ),
               ],
@@ -179,8 +189,8 @@ class _HelpCenterState extends State<HelpCenter> {
       padding: const EdgeInsets.all(5.0),
       itemCount: list.length,
       itemBuilder: (context, index) {
-        final quest = list[index].question;
-        final content = list[index].answer;
+        final quest = list[index].title;
+        final content = list[index].description;
         return ExpansionTile(
           title: AppText(text: quest),
           trailing: Icon(Icons.arrow_right),
