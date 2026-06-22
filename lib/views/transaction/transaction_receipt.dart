@@ -29,27 +29,19 @@ class _TransactionReceiptState extends State<TransactionReceipt> {
 
   final nav = Get.find<NavControl>();
 
-  String ref = Get.arguments;
+  TransactionModel receiptDet = Get.arguments;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.microtask(() async{
-      await trans.getSingleReceipt(ref);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Obx((){
-          if(trans.loadingT.value){
-            return Center(child: CircularProgressIndicator(),);
-          }
-          TransactionModel receiptDet = trans.receiptDet;
-            return ListView(
+        child: ListView(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
@@ -196,9 +188,7 @@ class _TransactionReceiptState extends State<TransactionReceipt> {
                         ],
                       ),
               ],
-            );
-          }
-        ),
+            )
       ),
     );
   }

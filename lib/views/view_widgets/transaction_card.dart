@@ -22,7 +22,7 @@ class TransactionCard extends StatelessWidget {
       child: InkWell(
         onTap: (){
           print(tx.category);
-          Get.toNamed(Routes.transReceipt, arguments: tx.productRef);
+          Get.toNamed(Routes.transReceipt, arguments: tx);
           FocusScope.of(context).unfocus();
         },
         child: Container(
