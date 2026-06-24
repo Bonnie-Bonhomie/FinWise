@@ -64,7 +64,7 @@ class Notification extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Image(
-                        image: AssetImage('Assets/images/green_empty.png'),
+                        image: AssetImage('assets/images/green_empty.png'),
                         height: 150,
                         width: 150,
                       ),
