@@ -14,6 +14,7 @@ class CustomPinCodeField extends StatelessWidget {
   final bool obscure;
   final GlobalKey<FormFieldState> pinKey;
   final FormFieldValidator? validator;
+  final bool autoFocus;
 
   const CustomPinCodeField({
     super.key,
@@ -26,6 +27,7 @@ class CustomPinCodeField extends StatelessWidget {
     this.readOnly = false,
     this.showCursor = true,
     this.obscure = false,
+    this.autoFocus = false,
     this.validator,
   });
 
@@ -45,6 +47,7 @@ class CustomPinCodeField extends StatelessWidget {
       textStyle: TextStyle(fontSize: textSize),
       onCompleted: onComplete,
       validator: validator,
+      autoFocus: autoFocus,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'^[0-9]{0,6}'))
       ],
