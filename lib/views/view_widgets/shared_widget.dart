@@ -339,7 +339,7 @@ class MarketProdCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Discount Price: ${viewModel.formatCurrency(discount)}',
+                    'Discount: ${viewModel.formatCurrency(discount)}',
                     style: TextStyle(fontSize: 14),
                   ),
                 ],
