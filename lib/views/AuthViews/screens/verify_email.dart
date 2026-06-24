@@ -36,6 +36,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
       final otp = int.parse(pinTextCtrl.text.trim());
       loader.offLoading(() async {
         await authCtrl.verifyEmail(context: context, otp: otp);
+        pinTextCtrl.text ='';
       });
     } else {
       CustomSnackbar.warningSnack('Fill all the required field to continue');
@@ -61,10 +62,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
   Widget build(BuildContext context) {
     return LoaderWrapper(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: PageContainer(
-            topPadding: 70,
-            topChild: const HeadingText(headingText: "Verify Account"),
+        body: PageContainer(
+          topPadding: 70,
+          topChild: const HeadingText(headingText: "Verify Account"),
+          child: SingleChildScrollView(
             child: SizedBox(
               height: 650,
               child: Padding(
@@ -87,11 +88,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           size: 40,
                           textSize: 15,
                           pinKey: pinKey,
+                          autoFocus: true,
                         ),
                       ),
                       const SizedBox(height: 30),
                       AppBtn(
-                        onPressed: () {
+                        onPressed: (){
                           _verify();
                         },
                         label: "Submit",
