@@ -179,10 +179,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     Text(widget.product.longDes),
 
                                 const SizedBox(height: 15),
-                                Card(
-                                  color: Colors.grey.shade300,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 20),
+                                Container(
+                                  decoration: BoxDecoration(border: Border.all(color: Colors.white12), borderRadius: BorderRadius.circular(20)),
+                                    padding: const EdgeInsets.all(10),
                                     child: Form(
                                       key: formKey,
                                       child: Column(
@@ -258,7 +257,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       ),
                                     ),
                                   ),
-                                ),
                                 const SizedBox(height: 15),
 
                               ],
