@@ -55,7 +55,7 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
                 child: SizedBox(
                   height: 120,
                   child: Lottie.asset(
-                    'Assets/animations/Success.json',
+                    'assets/animations/Success.json',
                     repeat: false,
                     fit: BoxFit.cover,
                   ),
