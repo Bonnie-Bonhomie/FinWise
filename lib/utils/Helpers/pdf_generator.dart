@@ -33,10 +33,10 @@ class PdfGeneratorService {
     final pdf = pw.Document();
     final viewModel = HomeViewModel();
     final roboto = pw.Font.ttf(
-      await rootBundle.load('Assets/fonts/Roboto-Regular.ttf')
+      await rootBundle.load('assets/fonts/Roboto-Regular.ttf')
     );
     final robotoBold = pw.Font.ttf(
-        await rootBundle.load('Assets/fonts/Roboto-Bold.ttf')
+        await rootBundle.load('assets/fonts/Roboto-Bold.ttf')
     );
 
     pdf.addPage(
