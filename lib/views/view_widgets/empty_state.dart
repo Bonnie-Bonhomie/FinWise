@@ -12,7 +12,7 @@ class EmptyState extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image(image: AssetImage('Assets/images/green_empty.png'), height: 90, width: 90,),
+        Image(image: AssetImage('assets/images/green_empty.png'), height: 90, width: 90,),
         AppText(text: 'Oops!', textSize: 18,),
         AppText(text: message, textSize: 12,textWeigh: FontWeight.w300,)
       ],
