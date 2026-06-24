@@ -232,11 +232,7 @@ class AuthCtrl extends GetxController {
   } //LOginWIth Finger print
 
   //Email verification
-  Future<void> verifyEmail({
-    required BuildContext context,
-    required int otp,
-  })
-  async {
+  Future<void> verifyEmail({required BuildContext context, required int otp,}) async {
     try{
 
       String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
