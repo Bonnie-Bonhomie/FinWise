@@ -128,6 +128,8 @@ class _TransactionReceiptState extends State<TransactionReceipt> {
                           receiptDet.category == Categories.education
                               ? rowTile('Token', receiptDet.token ?? 'null')
                               : SizedBox.shrink(),
+                          receiptDet.category == Categories.fish
+                              ? rowTile('Address', receiptDet.productRef) : SizedBox.shrink(),
                           // receiptDet.category == Categories.fish
                           //     ? rowTile('Address', receiptDet.token ?? 'null')
                           //     : SizedBox.shrink(),
@@ -214,7 +216,6 @@ class _TransactionReceiptState extends State<TransactionReceipt> {
               padding: const EdgeInsets.all(3.0),
               margin: const EdgeInsets.only(right: 10),
               decoration: BoxDecoration(
-                color: AppColors.lightGreen,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Icon(icon, color: AppColors.primary),
