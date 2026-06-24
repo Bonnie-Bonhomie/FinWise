@@ -13,8 +13,8 @@ class OnboardControl extends GetxController{
     "¿Are You Ready To Take Control Of Your Finances?"
   ];
   List<String> imagePath =[
-    "Assets/images/onboard-1.png",
-    "Assets/images/onboard-2.png"
+    "assets/images/onboard-1.png",
+    "assets/images/onboard-2.png"
   ];
 
   void nextPage(BuildContext context){
@@ -24,7 +24,7 @@ class OnboardControl extends GetxController{
     else{
       loading.value = true;
       Future.delayed(Duration(seconds: 2));
-      Navigator.popAndPushNamed(context, Routes.login);
+      Navigator.popAndPushNamed(context, Routes.signIn);
     }
     loading.value = false;
   }
