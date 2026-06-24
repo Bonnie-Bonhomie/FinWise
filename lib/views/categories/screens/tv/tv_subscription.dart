@@ -221,9 +221,8 @@ class _TvSubscriptionState extends State<TvSubscription>
                                   ),
                                 ],
                               )
-                            : AppText(
-                                text: tvCtrl.verifyErr.value,
-                                textColor: AppColors.declined,
+                            : Text(tvCtrl.verifyErr.value,
+                                style: TextStyle(color: AppColors.declined),
                                 textAlign: TextAlign.start,
                               ),
 
