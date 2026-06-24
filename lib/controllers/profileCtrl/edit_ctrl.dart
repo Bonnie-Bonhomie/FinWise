@@ -119,6 +119,7 @@ class EditProfileCtrl extends GetxController{
       } else {
         final response = await repo.getReferrals(token);
 
+        print(' Referral Response: ${response.data}');
         if (response is DataSuccess) {
 
 
