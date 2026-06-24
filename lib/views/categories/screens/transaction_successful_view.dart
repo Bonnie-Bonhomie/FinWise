@@ -109,7 +109,7 @@ class _TransactionSuccessfulViewState extends State<TransactionSuccessfulView> {
               padding: const EdgeInsets.all(4.0),
               // margin: const EdgeInsets.only(right: 10),
               decoration: BoxDecoration(
-                color: AppColors.lightGreen,
+                // color: AppColors.lightGreen,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               child: Icon(icon, color: AppColors.primary),
