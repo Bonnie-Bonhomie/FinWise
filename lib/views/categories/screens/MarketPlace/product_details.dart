@@ -1,4 +1,4 @@
-import 'package:fin_wise/controllers/categoryCtrl/market_ctrl.dart';
+
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/core/validator/validator.dart';
 import 'package:fin_wise/data/models/product_model.dart';
@@ -104,16 +104,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Regular Price: ${viewModel.formatCurrency(regular)}',
+                                      'Regular Price: ${viewModel.formatCurrNoKobo(regular)}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                         decoration: TextDecoration.lineThrough
                                       ),
                                     ),
-                                    const SizedBox(width: 15),
+                                    const Spacer(),
                                     Text(
-                                      'Discount Price: ${viewModel.formatCurrency(discount)}',
+                                      'Discount: ${viewModel.formatCurrNoKobo(discount)}',
                                       style: TextStyle(fontSize: 14),
                                     ),
                                   ],
@@ -121,7 +121,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Sale Price: ${viewModel.formatCurrency(sale)}',
+                                      'Sale Price: ${viewModel.formatCurrNoKobo(sale)}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
