@@ -1,8 +1,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="fin_wise"
+        android:label="DatabootNg"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/res_notification_logo"
+            />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="basic_channel"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -16,10 +26,8 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
-            <meta-data
-              android:name="com.google.firebase.messaging.default_notification_channel_id"
-              android:value="high_importance_channel"
-              />
+
+
 
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
