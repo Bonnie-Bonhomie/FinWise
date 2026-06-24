@@ -134,19 +134,23 @@ class AuthCtrl extends GetxController {
 
   Future<void> loginUser(String mail, String password) async {
     try{
-      String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
+
       final response = await authRepo.loginUser(email: mail, password: password);
 
-      print(response.data);
+      print('Hello');
       if (response is DataSuccess) {
         final data = response.data;
 
+
         if (data['status'] == true) {
+
           if(data['data']['email_verified_at'] == null){
-            CustomSnackbar.warningSnack(data['message']);
+            CustomSnackbar.warningSnack(data['message'].toString());
             Get.offNamed(Routes.verAcc);
           }
           else{
+            String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
+
             final token = data['data']['token'];
             await storage.saveToken(token);
 
@@ -167,10 +171,6 @@ class AuthCtrl extends GetxController {
             Get.find<SharedPreferService>().saveData<bool>(PrefStoreKeys.isFirstTime, true );
             Get.offAllNamed(Routes.mainS);
           }
-        } else {
-          CustomSnackbar.showSnackbar(
-            message: 'Something went wrong. Try again later.',
-          );
         }
       } else if (response is DataFailed) {
         final err = response.exception;
@@ -201,6 +201,7 @@ class AuthCtrl extends GetxController {
         // }
       }
     }catch(e){
+      print(e);
       CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
     }
   } // Login function
@@ -237,9 +238,16 @@ class AuthCtrl extends GetxController {
   })
   async {
     try{
+
       String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
 
-      final response = await authRepo.verifyEmail(otp: otp, email: user!.email);
+      String email = '';
+      if(user?.email != null){
+        email = user!.email;
+      }else{
+        email = await store.retrieve(PrefStoreKeys.mail);
+      }
+      final response = await authRepo.verifyEmail(otp: otp, email: email);
       print(response.data);
       if (response is DataSuccess) {
         final data = response.data;
@@ -249,11 +257,14 @@ class AuthCtrl extends GetxController {
           if (token != null) {
             await storage.saveToken(token);
           }
+          final mail = response.data['data']['email'];
+          final userName = response.data['data']['name'];
+          print(mail);
 
           await authRepo.updateDeviceToken(fireToken, token);
 
-          await store.saveData<String>(PrefStoreKeys.mail, user!.email);
-          await store.saveData<String>(PrefStoreKeys.username, user!.name);
+          await store.saveData<String>(PrefStoreKeys.mail, mail);
+          await store.saveData<String>(PrefStoreKeys.username, userName);
           showCustomDiag(context);
           print('Done');
         } else {
@@ -286,6 +297,7 @@ class AuthCtrl extends GetxController {
         }
       }
     }catch(e){
+      print(e);
       CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
     }
   } //Email verification
