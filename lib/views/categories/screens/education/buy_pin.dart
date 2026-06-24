@@ -179,11 +179,9 @@ class _BuyPinViewState extends State<BuyPinView> {
                                         ),
                                       ],
                                     )
-                                  : AppText(
-                                      text: eduCtrl.verifyError.value,
-                                      textColor: AppColors.declined,
+                                  : Text(eduCtrl.verifyError.value,
+                                      style: TextStyle(color: AppColors.declined),
                                       textAlign: TextAlign.start,
-                                      maxLines: 2,
                                     ),
                             ],
                           ),
