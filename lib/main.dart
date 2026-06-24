@@ -29,5 +29,9 @@ Future<void> main() async {
     ),
   );
 
-  runApp(DismissKeyboard(child: AppLifeCycleHelper(child: const MyApp())));
+  runApp(AppLifeCycleHelper(
+    child: DismissKeyboard(
+      child: const MyApp(),
+    ),
+  ));
 }
