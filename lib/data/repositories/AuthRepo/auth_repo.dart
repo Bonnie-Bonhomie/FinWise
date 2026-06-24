@@ -42,7 +42,7 @@ class AuthRepository {
         'phone': phone,
         'username': name,
         'password': password,
-        'refer_id': referral,
+        'referid': referral,
       });
       return DataSuccess(response.data);
     } on DioException catch (e) {
