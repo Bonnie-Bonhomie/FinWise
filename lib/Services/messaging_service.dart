@@ -10,9 +10,9 @@ class FirebaseMsgService {
 
   initFCM() async {
     await msgService.requestPermission(alert: true, sound: true, badge: true,);
-    String channelKey = 'basic-channel';
+    String channelKey = 'basic_channel';
 
-    await AwesomeNotifications().initialize(null, [
+    await AwesomeNotifications().initialize('resource://drawable/res_notification_logo', [
       NotificationChannel(
         channelKey: channelKey,
         channelName: 'Basic Notifications',
@@ -35,7 +35,6 @@ class FirebaseMsgService {
     final token = await msgService.getToken();
 
     await SharedPreferService().saveData(PrefStoreKeys.fcmToken, token);
-    print('Firebase Token: $token');
 
     FirebaseMessaging.onBackgroundMessage(backMessagingHandler);
     FirebaseMessaging.onMessage.listen(foreMessagingHandler);
@@ -50,7 +49,7 @@ class FirebaseMsgService {
   }
 }
 
-String channelKey = 'basic-channel';
+String channelKey = 'basic_channel';
 
 Future<void> foreMessagingHandler(RemoteMessage message) async {
   await AwesomeNotifications().createNotification(
