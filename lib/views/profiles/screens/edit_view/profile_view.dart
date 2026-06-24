@@ -42,7 +42,7 @@ class _ProfileViewState extends State<ProfileView> {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: 260,
+              expandedHeight: 230,
               pinned: true,
               title: Text('My Profile', style: TextStyle(color: AppColors.bgColor),),
               backgroundColor: AppColors.primary,
