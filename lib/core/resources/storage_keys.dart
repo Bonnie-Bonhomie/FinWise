@@ -24,6 +24,6 @@ class PrefStoreKeys{
 
 
   static const String appName = 'DatabooNg';
-  static const String appWhiteImage = 'Assets/logos/white_logo.png';
-  static const String appImage = 'Assets/logos/green_with_text.png';
+  static const String appWhiteImage = 'assets/logos/white_logo.png';
+  static const String appImage = 'assets/logos/green_logo.png';
 }
