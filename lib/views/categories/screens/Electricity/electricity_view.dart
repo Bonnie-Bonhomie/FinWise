@@ -1,15 +1,11 @@
-import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
-import 'package:fin_wise/controllers/categoryCtrl/electricity_ctrl.dart';
-import 'package:fin_wise/controllers/loader_contrl.dart';
+
+import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/core/Routes/routes.dart';
 import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
-
-import 'package:fin_wise/views/categories/widgets/price_input_filed.dart';
-import 'package:fin_wise/views/categories/widgets/product_card.dart';
+import 'package:fin_wise/views/categories/service_export.dart';
 import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -249,9 +245,8 @@ class _ElectricityViewState extends State<ElectricityView> {
                                   ),
                                 ],
                               )
-                            : AppText(
-                                text: electCtrl.verifyErr.value,
-                                textColor: AppColors.declined,
+                            : Text(electCtrl.verifyErr.value,
+                                style: TextStyle(color: AppColors.declined),
                                 textAlign: TextAlign.start,
                               ),
 
