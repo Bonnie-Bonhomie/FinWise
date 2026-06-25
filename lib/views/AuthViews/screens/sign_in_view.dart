@@ -164,7 +164,9 @@ class _SignInViewState extends State<SignInView> {
           FormWidget(
             valController:referCtrl,
             fieldKey: referKey,
-            validator: (val) {},
+            validator: (val) {
+              return null;
+            },
             hintText: "(Optional)",
 
           ),

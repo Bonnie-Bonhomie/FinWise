@@ -164,7 +164,8 @@ class EducationController extends GetxController{
     }catch(e){
       print(e);
       verifyError.value = 'Something went wrong, try again later';
-    }finally
+    }
+    finally
     {
       verifyLoad.value = false;
     }

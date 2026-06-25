@@ -1,6 +1,4 @@
 
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:fin_wise/utils/widgets/app_btn.dart';
 import 'package:fin_wise/utils/widgets/custom_app_bar.dart';

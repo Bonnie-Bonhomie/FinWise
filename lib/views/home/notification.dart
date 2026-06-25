@@ -198,7 +198,7 @@ class ShowBottomInfo {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.green.withOpacity(0.4),
+      barrierColor: Colors.green.withValues(alpha: 0.4),
       showDragHandle: true,
       enableDrag: true,
       isScrollControlled: true,
