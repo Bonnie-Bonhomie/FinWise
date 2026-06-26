@@ -31,6 +31,8 @@ class Routes{
   static const String profileNav = '/profileNav';
   static const String editPro = '/editPro';
   static const String profileView = '/';
+  static const String refer = '/refer';
+
   //Security
   static const String security = '/security';
   static const String changePin = '/changePin';
