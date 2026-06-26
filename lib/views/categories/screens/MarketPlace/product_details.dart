@@ -112,10 +112,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       ),
                                     ),
                                     const Spacer(),
-                                    Text(
+                                    discount  != 0? Text(
                                       'Discount: ${viewModel.formatCurrNoKobo(discount)}',
                                       style: TextStyle(fontSize: 14),
-                                    ),
+                                    ): SizedBox.shrink(),
                                   ],
                                 ),
                                 Row(
