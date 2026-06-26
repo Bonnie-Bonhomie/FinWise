@@ -29,4 +29,8 @@ class AppColors{
   //transaction status color
   static const Color pending = Color(0xB0FCAC04);
   static const Color declined = Color(0xB0FA0303);
+
+  static const Color pink = Color(0xFFF840D3);
+  static const Color purple = Color(0xB0B7029F);
+  static const Color subPu = Color(0xB07F3FEE);
 }
