@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/firebase_options.dart';
@@ -30,6 +32,14 @@ class FirebaseMsgService {
 
       }
     });
+
+    if(Platform.isIOS){
+      String? apsToken;
+      while(apsToken == null){
+        apsToken = await msgService.getAPNSToken();
+        print('Ios token: $apsToken');
+      }
+    }
 
 
     final token = await msgService.getToken();
