@@ -30,7 +30,6 @@ class _ProfileViewState extends State<ProfileView> {
     Future.microtask(() async {
       await auth.getEmail();
       await editCtrl.getProfile();
-      await editCtrl.getReferrals();
     });
     super.initState();
   }
@@ -153,51 +152,22 @@ class _ProfileViewState extends State<ProfileView> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(height: 10),
-                      const Text('Referral code'),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(15)
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(editCtrl.userProfile?.username ?? ''),
-                            IconButton(
-                              onPressed: () {
-                                Clipboard.setData(ClipboardData(text: editCtrl.userProfile?.username ?? '...'));
-                                showToast();
-                              },
-                              icon: Icon(Icons.copy_rounded),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20,),
-                      const Text('Your Referral List'),
-
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(10),
-                        // alignment: Alignment.center,
-                        decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(20)),
-                        child: editCtrl.loadRef.value? Text('loading...'): editCtrl.referralList.isEmpty?  Text(editCtrl.referralErr.value):
-                        Column(
-                          children: List.generate(editCtrl.referralList.length, (index){
-                            return Text('My Referral');
-                          }),
-                        ),
-                      ),
-
                       const SizedBox(height: 30,),
                       ///Profile Lists
+                      profileTile(
+                        'Referrals',
+                        Icons.person_outline_outlined,
+                        AppColors.superBlue,
+                        () {
+                          Get.find<ProfileMainControl>().toRefer();
+                        },
+                      ),
+
                       profileTile(
                         'Edit Profile',
                         Icons.person_outline_outlined,
                         AppColors.blue,
-                        () {
+                            () {
                           Get.find<ProfileMainControl>().toEdit();
                         },
                       ),
@@ -275,7 +245,4 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  void showToast(){
-    Fluttertoast.showToast(msg: 'Copied', backgroundColor: AppColors.primaryLight, textColor: AppColors.bgColor, );
-  }
 }
