@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:nativewrappers/_internal/vm/lib/convert_patch.dart';
 
 import 'package:dio/dio.dart';
 import 'package:fin_wise/controllers/loader_contrl.dart';
@@ -45,7 +46,7 @@ class EditProfileCtrl extends GetxController{
 
   RxString referralErr = ''.obs;
   var loadRef = false.obs;
-  var referralList = [].obs;
+  var referralList = <ReferModel>[].obs;
 
   void getSavedPro() async{
     name.value =  await storage.retrieve(PrefStoreKeys.username);
@@ -127,12 +128,13 @@ class EditProfileCtrl extends GetxController{
 
             final data = response.data['data'];
             List refer = data['referrals'] as List;
+            final ref = refer.map((e)=> ReferModel.fromJson(e)).toList();
 
             print(refer);
             if(refer.isEmpty){
               referralErr.value = 'No Referrals';
             }else{
-              referralList.assignAll(refer);
+              referralList.assignAll(ref);
             }
 
 
@@ -258,5 +260,22 @@ class EditProfileCtrl extends GetxController{
     else{
       Get.snackbar("No image", "Select an Image");
     }
+  }
+}
+
+
+class ReferModel{
+  String refereeName;
+  String bonus;
+  String userId;
+
+  ReferModel({
+    required this.refereeName,
+    required this.userId,
+    required this.bonus
+});
+
+  factory ReferModel.fromJson(Map<String, dynamic> json){
+    return ReferModel(refereeName: json['referees']['name'], userId: json['user_id'], bonus: json['bonus']);
   }
 }
