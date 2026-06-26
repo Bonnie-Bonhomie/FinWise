@@ -338,10 +338,10 @@ class MarketProdCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  Text(
+                  discount != 0 ?Text(
                     'Discount: ${viewModel.formatCurrency(discount)}',
                     style: TextStyle(fontSize: 14),
-                  ),
+                  ): SizedBox.shrink(),
                 ],
               ),
               const SizedBox(height: 5.0),
