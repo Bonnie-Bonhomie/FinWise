@@ -18,6 +18,11 @@ class ProfileMainControl extends GetxController{
     GetPage(name: '/', page: () => ProfileView(), binding: EditBinding())
   ].obs;
 
+  void toRefer(){
+    pages.add(GetPage(name: Routes.refer, page: () => ReferralsView(), binding: EditBinding()));
+    update();
+  }
+
   void toEdit(){
     pages.add(GetPage(name: Routes.editPro, page: () => EditProfile(), binding: EditBinding()));
     update();
