@@ -4,7 +4,6 @@ import 'package:fin_wise/controllers/controller_exports.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../core/app_colors.dart';
@@ -18,6 +17,8 @@ class ReferralsView extends StatefulWidget {
 
 class _ReferralsViewState extends State<ReferralsView> {
   final editCtrl = Get.find<EditProfileCtrl>();
+
+  bool copied = false;
 
   @override
   void initState() {
@@ -49,6 +50,7 @@ class _ReferralsViewState extends State<ReferralsView> {
       body: PageContainer(
         topChild: Column(
           children: [
+            Image(image: AssetImage('assets/images/refer.jpg')),
             Text(
               'Earn Money By Refer',
               style: TextStyle(
@@ -76,9 +78,9 @@ class _ReferralsViewState extends State<ReferralsView> {
                               text: editCtrl.userProfile?.username ?? '...',
                             ),
                           );
-                          showToast();
+                          setState(() => copied = true);
                         },
-                        child: Text('copy'),
+                        child: Text(copied? 'copied': 'copy'),
                       ),
                     ],
                   ),
@@ -158,11 +160,4 @@ class _ReferralsViewState extends State<ReferralsView> {
     );
   }
 
-  void showToast() {
-    Fluttertoast.showToast(
-      msg: 'Copied',
-      backgroundColor: AppColors.primaryLight,
-      textColor: AppColors.bgColor,
-    );
-  }
 }
