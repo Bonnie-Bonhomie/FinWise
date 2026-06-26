@@ -17,3 +17,5 @@ export 'settings/change_password.dart';
 export 'settings/delete_account.dart';
 export 'settings/notification_settings.dart';
 export 'settings/settings.dart';
+
+export 'referrals_view.dart';
