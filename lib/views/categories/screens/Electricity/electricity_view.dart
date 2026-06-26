@@ -195,9 +195,10 @@ class _ElectricityViewState extends State<ElectricityView> {
                                                 .toLowerCase(),
                                             serviceId: select.electricCode,
                                           );
-                                          print(meterCtrl.text);
-                                          print(electType[selectPaid]);
-                                          print(select.electricCode);
+
+                                          // print(meterCtrl.text);
+                                          // print(electType[selectPaid]);
+                                          // print(select.electricCode);
                                         });
                                       },
                                       child: Text(
