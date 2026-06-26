@@ -251,7 +251,7 @@ class AccBalanceCtrl extends GetxController {
         return;
       }
 
-      final response;
+      final DataState<dynamic> response;
       if (method.toUpperCase() == 'GET') {
         response = await repo.getPaymentUrl(url, token, amount);
 

@@ -66,7 +66,7 @@ class _ProfileViewState extends State<ProfileView> {
                           height: 200,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.07),
+                            color: Colors.white.withValues(alpha: 0.07),
                           ),
                         ),
                       ),
@@ -78,7 +78,7 @@ class _ProfileViewState extends State<ProfileView> {
                           height: 160,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.05),
+                            color: Colors.white.withValues(alpha: 0.05),
                           ),
                         ),
                       ),
@@ -94,7 +94,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 height: 88,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Colors.white.withOpacity(0.2),
+                                  color: Colors.white.withValues(alpha: 0.2),
                                   border: Border.all(
                                     color: Colors.white,
                                     width: 3,
@@ -134,7 +134,7 @@ class _ProfileViewState extends State<ProfileView> {
                               const SizedBox(height: 4),
                               Text(
                                 auth.email.value,
-                                style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.7)),
+                                style: TextStyle(fontSize: 13, color: Colors.white.withValues(alpha: 0.7)),
                               ),
                               const SizedBox(height: 14),
                             ],
@@ -228,7 +228,7 @@ class _ProfileViewState extends State<ProfileView> {
                       profileTile(
                         'Logout',
                         Icons.logout_outlined,
-                        AppColors.declined.withOpacity(0.3),
+                        AppColors.declined.withValues(alpha: 0.3),
                         () {
                           logoutDialog(context, () {
                             loader.offLoading(() async {

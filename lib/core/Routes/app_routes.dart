@@ -1,5 +1,3 @@
-import 'package:fin_wise/binding/CategorieBindings/market_binding.dart';
-import 'package:fin_wise/binding/CategorieBindings/solar_binding.dart';
 import 'package:fin_wise/binding/binding_exports.dart';
 import 'package:fin_wise/views/categories/screens/MarketPlace/products_view.dart';
 import 'package:fin_wise/views/categories/screens/solar/solar_view.dart';
