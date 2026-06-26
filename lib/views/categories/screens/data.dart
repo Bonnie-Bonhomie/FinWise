@@ -3,6 +3,7 @@ import 'package:fin_wise/core/app_colors.dart';
 import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/data/models/model_export.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/categories/service_export.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _DataViewState extends State<DataView>
   final AccBalanceCtrl acc = Get.find<AccBalanceCtrl>();
   final loading = Get.find<LoaderController>();
   late TabController _tabCtrl;
+
 
   final TextEditingController numberCtrl = TextEditingController();
 
@@ -184,6 +186,7 @@ class DataCard extends StatelessWidget {
   });
 
   final loader = Get.find<LoaderController>();
+  final viewModel = HomeViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -194,6 +197,7 @@ class DataCard extends StatelessWidget {
       spacing: 15,
       children: List.generate(dataPlan.length, (index) {
         final data = dataPlan[index];
+        double price = double.parse(data.price);
         return InkWell(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -250,7 +254,7 @@ class DataCard extends StatelessWidget {
                 const SizedBox(height: 10.0),
                 AppText(text: data.frequency.name, textSize: 12.0),
                 const SizedBox(height: 10.0),
-                AppText(text: '₦${data.price.toString()}'),
+                AppText(text: viewModel.formatCurrNoKobo(price), textSize: 13,),
                 const SizedBox(height: 10.0),
                 Container(
                   // padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
