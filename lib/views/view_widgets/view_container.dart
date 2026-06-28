@@ -19,62 +19,62 @@ class PageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      padding: EdgeInsets.only(top: topPadding),
-      color: AppColors.primary,
-      child: SafeArea(
-        top: false,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(child: Stack(
+    return Stack(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height,
+          padding: EdgeInsets.only(top: topPadding),
+          color: AppColors.primary,
+          child: SafeArea(
+            top: false,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Positioned(
-                  right: -60,
-                  top: -60,
+                Container(child: topChild),
+                Expanded(
                   child: Container(
-                    width: 200,
-                    height: 200,
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.only(top: bottomPadding ?? 30),
+                    margin: EdgeInsets.only(top: topMargin ?? 60.0),
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.07),
+                      borderRadius: BorderRadiusGeometry.directional(
+                        topEnd: Radius.circular(60),
+                        topStart: Radius.circular(60),
+                      ),
+                      color: Theme.of(context).scaffoldBackgroundColor,
                     ),
+                    child: child,
                   ),
                 ),
-                Positioned(
-                  left: -40,
-                  bottom: -40,
-                  child: Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.05),
-                    ),
-                  ),
-                ),
-                topChild,
               ],
-            )),
-            Expanded(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.only(top: bottomPadding ?? 30),
-                margin: EdgeInsets.only(top: topMargin ?? 60.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadiusGeometry.directional(
-                    topEnd: Radius.circular(60),
-                    topStart: Radius.circular(60),
-                  ),
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                child: child,
-              ),
             ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          right: -60,
+          top: -10,
+          child: Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.07),
+            ),
+          ),
+        ),
+        Positioned(
+          left: -40,
+          top: -60,
+          child: Container(
+            width: 160,
+            height: 160,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.05),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
