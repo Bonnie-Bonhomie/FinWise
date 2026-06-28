@@ -48,116 +48,168 @@ class _ReferralsViewState extends State<ReferralsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageContainer(
-        topChild: Column(
-          children: [
-            Image(image: AssetImage('assets/images/refer.jpg')),
-            Text(
-              'Earn Money By Refer',
-              style: TextStyle(
-                color: AppColors.bgColor,
-                fontSize: 40,
-                fontWeight: FontWeight.bold,
+        topPadding: 10,
+        bottomPadding: 10,
+        topMargin: 3.0,
+        topChild: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image(
+                image: AssetImage('assets/images/refer.png'),
+                height: 150,
+                width: 200,
+                errorBuilder: (_, __, ___) =>
+                   const Icon(Icons.image_outlined, size: 50),
               ),
-            ),
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(editCtrl.userProfile?.username ?? ''),
-                      TextButton(
-                        onPressed: () {
-                          Clipboard.setData(
-                            ClipboardData(
-                              text: editCtrl.userProfile?.username ?? '...',
-                            ),
-                          );
-                          setState(() => copied = true);
-                        },
-                        child: Text(copied? 'copied': 'copy'),
+              const Text(
+                'Earn Money',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.bgColor,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              const Text(
+                'By Refer',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.bgColor,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                    ],
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Obx(() {
+                            return Text(editCtrl.userProfile?.username ?? '');
+                          }),
+                          InkWell(
+                            onTap: () {
+                              Clipboard.setData(
+                                ClipboardData(
+                                  text: editCtrl.userProfile?.username ?? '...',
+                                ),
+                              );
+                              setState(() => copied = true);
+                            },
+                            child: Text(copied ? 'copied' : 'copy'),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 15),
-                ElevatedButton(
-                  onPressed: () => Get.find<ProfileMainControl>().back(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pink,
-                    padding: const EdgeInsets.all(10),
+                  const SizedBox(width: 15),
+                  SizedBox(
+                    width: 80,
+                    child: ElevatedButton(
+                      onPressed: () => Get.find<ProfileMainControl>().back(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pink.shade300,
+                        padding: const EdgeInsets.all(5),
+                      ),
+                      child: const Text('Back'),
+                    ),
                   ),
-                  child: Text('Back'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
-        child: Column(
-          children: [
-            const SizedBox(height: 20,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('My Referees'),
-                const Icon(Icons.people_alt, color: AppColors.primary,)
-              ],
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('My Referees'),
+                    const Icon(Icons.people_alt, color: AppColors.primary),
+                  ],
+                ),
+              ),
 
-            const SizedBox(height: 20,),
-            Obx(() {
-              if (editCtrl.loadRef.value) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (editCtrl.referralList.isEmpty) {
-                return Center(child: Text(editCtrl.referralErr.value));
-              }
-              return Column(
-                children: List.generate(editCtrl.referralList.length, (index) {
-                  final refer = editCtrl.referralList[index];
-                  return ListTile(
-                    leading: Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          colors: [
-                            colors[ranDomIndex() + 1],
-                            colors[ranDomIndex()],
-                          ],begin: Alignment.topRight, end: Alignment.bottomLeft
+              const SizedBox(height: 10),
+              Obx(() {
+                if (editCtrl.loadRef.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (editCtrl.referralList.isEmpty) {
+                  return Center(child: Text(editCtrl.referralErr.value));
+                }
+                return Column(
+                  children: List.generate(editCtrl.referralList.length, (
+                    index,
+                  ) {
+                    final refer = editCtrl.referralList[index];
+                    return ListTile(
+                      leading: Container(
+                        height: 50,
+                        width: 50,
+                        // alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [
+                              colors[ranDomIndex() + 1],
+                              colors[ranDomIndex()],
+                            ],
+                            begin: Alignment.topRight,
+                            end: Alignment.bottomLeft,
+                          ),
                         ),
-                      ),child: Text(refer.refereeName[0].toUpperCase(), style: TextStyle(fontSize: 25, color: AppColors.bgColor),),
-                    ),
-                    title: Text(refer.refereeName),
-                    subtitle: Text('Bonus: ${refer.bonus}'),
-                    trailing: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 3,
+                        child: Center(
+                          child: Text(
+                            refer.refereeName[0].toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              color: AppColors.bgColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.pink.shade400,
+                      title: Text(refer.refereeName),
+                      subtitle: Text('Bonus: ₦${refer.bonus}'),
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.pinkAccent,
+                        ),
+                        child: const Text(
+                          'invited',
+                          style: TextStyle(color: Colors.white, fontSize: 12),
+                        ),
                       ),
-                      child: Text(
-                        'invited',
-                        style: TextStyle(color: Colors.white60, fontSize: 12),
-                      ),
-                    ),
-                  );
-                }),
-              );
-            }),
-          ],
+                    );
+                  }),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );
   }
-
 }
