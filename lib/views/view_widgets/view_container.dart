@@ -28,7 +28,35 @@ class PageContainer extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Container(child: topChild),
+            Container(child: Stack(
+              children: [
+                Positioned(
+                  right: -60,
+                  top: -60,
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.07),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: -40,
+                  bottom: -40,
+                  child: Container(
+                    width: 160,
+                    height: 160,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.05),
+                    ),
+                  ),
+                ),
+                topChild,
+              ],
+            )),
             Expanded(
               child: Container(
                 width: MediaQuery.of(context).size.width,

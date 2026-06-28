@@ -1,3 +1,4 @@
+import 'package:fin_wise/Services/local_notify_services.dart';
 import 'package:fin_wise/Services/messaging_service.dart';
 import 'package:fin_wise/app.dart';
 import 'package:fin_wise/dependencies/depend_injection.dart';
@@ -13,7 +14,9 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  await FirebaseMsgService().initFCM();
+  // await FirebaseMsgService().initFCM();
+
+  await LocalNotificationService.instance.initialize();
 
   listenToTokenRefresh();
 

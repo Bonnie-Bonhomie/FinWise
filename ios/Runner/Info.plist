@@ -25,6 +25,7 @@
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
+		<key>FirebaseAppDelegateProxyEnabled</key>
 		<true/>
 		<key>UIApplicationSceneManifest</key>
 		<dict>

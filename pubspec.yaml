@@ -46,8 +46,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   firebase_core: ^4.11.0
   firebase_messaging: ^16.4.0
-  awesome_notifications: ^0.10.1
+#  awesome_notifications: ^0.10.1
   device_info_plus: ^10.1.1
+  flutter_local_notifications: ^18.0.1
 
 dev_dependencies:
   flutter_test:
@@ -81,9 +82,8 @@ flutter_native_splash:
 
   android_12:
     image: assets/green_icon.png
-    icon_background_color: "#DFF7E2"
     image_dark: assets/green_icon.png
-    icon_background_color_dark: "#121212"
+
 
 flutter:
 
