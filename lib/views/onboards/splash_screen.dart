@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>{
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 3), ()async{ await checkingOnboardShown();});
+    Future.delayed(Duration(seconds: 1), ()async{ await checkingOnboardShown();});
     // FocusScope.of(context).unfocus();
 
   }
@@ -49,16 +49,15 @@ class _SplashScreenState extends State<SplashScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
       body: SizedBox(
         width: double.infinity,
         // color: ColorTools.primary,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(image: AssetImage('assets/logos/white_logo.png', )),
+            Image(image: AssetImage('assets/logos/green_logo.png', ), errorBuilder: (_, __, ___) => const Icon(Icons.image),),
             // SizedBox(height: 10,),
-            const AppText(text: 'DatabootNg, all service at glance', textColor: Colors.white, textSize: 12, textWeigh: FontWeight.bold),
+            const AppText(text: 'DatabootNg, all service at glance', textColor: AppColors.primary, textSize: 12, textWeigh: FontWeight.bold),
           ],
         ),
       ),
