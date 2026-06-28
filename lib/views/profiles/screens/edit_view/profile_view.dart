@@ -2,8 +2,7 @@
 import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get/get.dart';
 import '../../../../controllers/controller_exports.dart';
 import '../../../../core/app_colors.dart';
@@ -148,11 +147,10 @@ class _ProfileViewState extends State<ProfileView> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(30),
-                child: Obx(() {
-                  return Column(
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const SizedBox(height: 30,),
+                      const SizedBox(height: 10,),
                       ///Profile Lists
                       profileTile(
                         'Referrals',
@@ -209,8 +207,7 @@ class _ProfileViewState extends State<ProfileView> {
                         },
                       ),
                     ],
-                  );
-                }),
+                  ),
               ),
             ),
           ],
