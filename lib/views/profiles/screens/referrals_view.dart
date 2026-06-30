@@ -24,6 +24,7 @@ class _ReferralsViewState extends State<ReferralsView> {
   void initState() {
     // TODO: implement initState
     Future.microtask(() async {
+      await editCtrl.getProfile();
       await editCtrl.getReferrals();
     });
     super.initState();
@@ -68,17 +69,16 @@ class _ReferralsViewState extends State<ReferralsView> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.bgColor,
-                  fontSize: 40,
+                  fontSize: 45,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8.0),
               const Text(
                 'By Refer',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.bgColor,
-                  fontSize: 40,
+                  fontSize: 45,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -95,9 +95,8 @@ class _ReferralsViewState extends State<ReferralsView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Obx(() {
-                            return Text(editCtrl.userProfile?.username ?? '');
-                          }),
+
+                              Text(editCtrl.userProfile?.username ?? ''),
                           InkWell(
                             onTap: () {
                               Clipboard.setData(
@@ -187,7 +186,7 @@ class _ReferralsViewState extends State<ReferralsView> {
                         ),
                       ),
                       title: Text(refer.refereeName),
-                      subtitle: Text('Bonus: ₦${refer.bonus}'),
+                      subtitle: Text('Bonus: ${refer.status == '1' ? '₦${refer.bonus}': ' ...'}'),
                       trailing: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
@@ -197,8 +196,8 @@ class _ReferralsViewState extends State<ReferralsView> {
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.pinkAccent,
                         ),
-                        child: const Text(
-                          'invited',
+                        child:  Text(
+                          refer.status == '0'? 'pending' : 'redeem',
                           style: TextStyle(color: Colors.white, fontSize: 12),
                         ),
                       ),
