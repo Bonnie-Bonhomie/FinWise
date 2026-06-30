@@ -14,11 +14,12 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../utils/utils_export.dart';
 
-class EditProfileCtrl extends GetxController{
+class EditProfileCtrl extends GetxController {
 
   final EditProfileRepo repo;
   final StorageFile store;
   final SharedPreferService storage;
+
   EditProfileCtrl(this.repo, this.store, this.storage);
 
   @override
@@ -47,14 +48,14 @@ class EditProfileCtrl extends GetxController{
   var loadRef = false.obs;
   var referralList = <ReferModel>[].obs;
 
-  void getSavedPro() async{
-    name.value =  await storage.retrieve(PrefStoreKeys.username);
-    email.value =  await storage.retrieve(PrefStoreKeys.mail);
-    phone.value =  await storage.retrieve(PrefStoreKeys.phone);
+  void getSavedPro() async {
+    name.value = await storage.retrieve(PrefStoreKeys.username);
+    email.value = await storage.retrieve(PrefStoreKeys.mail);
+    phone.value = await storage.retrieve(PrefStoreKeys.phone);
   }
 
   Future<void> getProfile() async {
-    try{
+    try {
       loading.value = true;
       final String? token = await store.getToken();
       if (token == null) {
@@ -66,10 +67,8 @@ class EditProfileCtrl extends GetxController{
           final data = response.data;
 
           if (data['status'] == true) {
-
             userProfile = ProfileModel.fromJson(data['data']['user']);
             setProfile(userProfile);
-
           } else {
             // backend handled inside success (if API returns 200 with status false)
 
@@ -82,8 +81,9 @@ class EditProfileCtrl extends GetxController{
             if (err.type == DioExceptionType.connectionError ||
                 err.type == DioExceptionType.receiveTimeout ||
                 err.type == DioExceptionType.connectionTimeout) {
-              CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
-            return;
+              CustomSnackbar.showSnackbar(title: 'No internet connection',
+                  message: 'Check your internet connection');
+              return;
             }
 
             //  Server error
@@ -98,20 +98,22 @@ class EditProfileCtrl extends GetxController{
               return;
             }
           } else {
-            CustomSnackbar.showSnackbar(message: 'Unknown error occurred, try again later.');
+            CustomSnackbar.showSnackbar(
+                message: 'Unknown error occurred, try again later.');
           }
         }
       }
-    }catch(e){
+    } catch (e) {
       print(e);
-      CustomSnackbar.showSnackbar(message: 'Unknown error occurred, try again later.');
+      CustomSnackbar.showSnackbar(
+          message: 'Unknown error occurred, try again later.');
     }
     loading.value = false;
   }
 
 
   Future<void> getReferrals() async {
-    try{
+    try {
       loadRef.value = true;
       final String? token = await store.getToken();
       if (token == null) {
@@ -121,22 +123,18 @@ class EditProfileCtrl extends GetxController{
 
         print(' Referral Response: ${response.data}');
         if (response is DataSuccess) {
-
-
           if (response.data['status'] == true) {
-
             final data = response.data['data'];
             List refer = data['referrals'] as List;
-            final ref = refer.map((e)=> ReferModel.fromJson(e)).toList();
+            print(refer[0]);
+            final ref = refer.map((e) => ReferModel.fromJson(e)).toList();
 
-            print(refer);
-            if(refer.isEmpty){
+
+            if (refer.isEmpty) {
               referralErr.value = 'No Referrals';
-            }else{
+            } else {
               referralList.assignAll(ref);
             }
-
-
           }
         } else if (response is DataFailed) {
           final err = response.exception;
@@ -146,7 +144,7 @@ class EditProfileCtrl extends GetxController{
             if (err.type == DioExceptionType.connectionError ||
                 err.type == DioExceptionType.receiveTimeout ||
                 err.type == DioExceptionType.connectionTimeout) {
-              referralErr.value= 'No internet connection';
+              referralErr.value = 'No internet connection';
               return;
             }
 
@@ -163,11 +161,11 @@ class EditProfileCtrl extends GetxController{
           }
         }
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       referralErr.value = 'Unknown error occurred';
     }
-    finally{
+    finally {
       loadRef.value = false;
     }
   }
@@ -183,13 +181,16 @@ class EditProfileCtrl extends GetxController{
     if (token == null) {
       CustomSnackbar.showSnackbar(message: 'You are unauthorized to set pin');
     } else {
-      final response = await repo.updateProfile(name: name, phone: phone, dob: dob, mail: mail, token: token);
+      final response = await repo.updateProfile(name: name,
+          phone: phone,
+          dob: dob,
+          mail: mail,
+          token: token);
       print(response.data);
       if (response is DataSuccess) {
         final data = response.data;
 
-        if (data['status'] == true) {
-        } else {
+        if (data['status'] == true) {} else {
           // backend handled inside success (if API returns 200 with status false)
           CustomSnackbar.showSnackbar(message: data['message']);
         }
@@ -201,7 +202,8 @@ class EditProfileCtrl extends GetxController{
           if (err.type == DioExceptionType.connectionError ||
               err.type == DioExceptionType.receiveTimeout ||
               err.type == DioExceptionType.connectionTimeout) {
-            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+            CustomSnackbar.showSnackbar(title: 'No internet connection',
+                message: 'Check your internet connection');
             return;
           }
 
@@ -222,7 +224,7 @@ class EditProfileCtrl extends GetxController{
     }
   }
 
-  void setProfile(ProfileModel? user)async{
+  void setProfile(ProfileModel? user) async {
     profile.value = user;
 
     nameCtrl.text = user?.name ?? name.value;
@@ -231,6 +233,7 @@ class EditProfileCtrl extends GetxController{
     // dobCtrl.text = user.dateOfBirth;
 
   }
+
   @override
   void onClose() {
     nameCtrl.dispose();
@@ -245,36 +248,39 @@ class EditProfileCtrl extends GetxController{
   // // Image picker function and the control
   ImagePicker imagePicker = ImagePicker();
 
-  final  picked = Rx<File?>(null);
+  final picked = Rx<File?>(null);
 
   Future<void> selectImage() async {
-
     final selected = await imagePicker.pickImage(source: ImageSource.gallery);
-    if(selected != null){
+    if (selected != null) {
       LoaderController.to.show();
       Future.delayed(Duration(seconds: 1));
       picked.value = File(selected.path);
       LoaderController.to.hide();
     }
-    else{
+    else {
       Get.snackbar("No image", "Select an Image");
     }
   }
 }
 
 
-class ReferModel{
+class ReferModel {
   String refereeName;
   String bonus;
   String userId;
+  String status;
 
   ReferModel({
     required this.refereeName,
     required this.userId,
-    required this.bonus
-});
+    required this.bonus, required this.status
+  });
 
   factory ReferModel.fromJson(Map<String, dynamic> json){
-    return ReferModel(refereeName: json['referees']['name'], userId: json['user_id'], bonus: json['bonus']);
+    return ReferModel(refereeName: json['users']['name'].toString(),
+        userId: json['user_id'].toString(),
+        bonus: json['bonus'].toString(),
+        status: json['status'].toString());
   }
 }
