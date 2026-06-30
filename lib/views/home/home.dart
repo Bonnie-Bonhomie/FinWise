@@ -31,11 +31,14 @@ class _HomePageState extends State<HomePage>
   final acc = Get.find<AccBalanceCtrl>();
 
   String name = '';
+  String balance = '';
 
   void getName() async {
     final getNam =
         (await store.retrieve<String>(PrefStoreKeys.username)) ??
         'Welcome back';
+    final bal = await store.retrieve('Balance');
+    acc.accountBalance.value = bal;
     setState(() => name = getNam);
     print(name);
   }
@@ -53,7 +56,6 @@ class _HomePageState extends State<HomePage>
 
     Future.microtask(() async {
       getName();
-
       await acc.getBalance();
       await trans.loadFresh();
       await acc.getBonusBal();
