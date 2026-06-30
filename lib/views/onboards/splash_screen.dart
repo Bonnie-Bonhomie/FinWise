@@ -55,8 +55,8 @@ class _SplashScreenState extends State<SplashScreen>{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(image: AssetImage('assets/logos/green_logo.png', ), errorBuilder: (_, __, ___) => const Icon(Icons.image),),
-            // SizedBox(height: 10,),
+            Image(image: AssetImage('assets/logos/green_logo.png',),width: 200, errorBuilder: (_, __, ___) => const Icon(Icons.image),),
+            SizedBox(height: 10,),
             const AppText(text: 'DatabootNg, all service at glance', textColor: AppColors.primary, textSize: 12, textWeigh: FontWeight.bold),
           ],
         ),
