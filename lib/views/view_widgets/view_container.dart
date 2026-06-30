@@ -51,26 +51,26 @@ class PageContainer extends StatelessWidget {
           ),
         ),
         Positioned(
-          right: -60,
-          top: -10,
+          right: 100,
+          top: -60,
           child: Container(
-            width: 200,
-            height: 200,
+            width: 150,
+            height: 150,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withValues(alpha: 0.07),
+              color: Colors.white.withValues(alpha: 0.2),
             ),
           ),
         ),
         Positioned(
-          left: -40,
-          top: -60,
+          right: 100,
+          top: -80,
           child: Container(
-            width: 160,
-            height: 160,
+            width: 150,
+            height: 150,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withValues(alpha: 0.05),
+              color: AppColors.primary.withValues(alpha: 0.3),
             ),
           ),
         ),
