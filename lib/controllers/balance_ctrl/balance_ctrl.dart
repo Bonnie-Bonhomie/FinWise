@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:fin_wise/core/resources/data_state.dart';
 import 'package:fin_wise/data/dataSource/storage_file.dart';
 import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
+import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
 import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
 import 'package:fin_wise/views/home/payment_web_view.dart';
@@ -148,7 +149,9 @@ class AccBalanceCtrl extends GetxController {
           final data = response.data;
           print(data);
           if (data['status'] == true) {
+
             accountBalance.value = double.parse(data['data']['bal']);
+            SharedPreferService().saveData('Balance', accountBalance.value);
           }
         } else if (response is DataFailed) {
           final err = response.exception;
