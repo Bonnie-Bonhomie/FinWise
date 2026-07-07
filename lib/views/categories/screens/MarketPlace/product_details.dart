@@ -114,7 +114,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     const Spacer(),
                                     discount  != 0? Text(
                                       '${viewModel.calculatePercent(regular, discount)}% discounts',
-                                      style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.grey[600]),
+                                      style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: AppColors.pending, fontWeight: FontWeight.bold),
                                     ): SizedBox.shrink(),
                                   ],
                                 ),
@@ -246,6 +246,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                     },
                                                   );
                                                 });
+                                                numberCtrl.text = '';
+                                                addressCtrl.text = '';
                                               }else{
                                                 CustomSnackbar.warningSnack( 'Enter your address and phone number to continue');
                                               }
