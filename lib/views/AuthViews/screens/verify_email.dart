@@ -31,12 +31,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
   final loader = Get.find<LoaderController>();
   final TimerCtrl timer = Get.put(TimerCtrl());
 
-  void _verify()  {
+  void _verify() {
     if (pinTextCtrl.text.isNotEmpty) {
       final otp = int.parse(pinTextCtrl.text.trim());
       loader.offLoading(() async {
         await authCtrl.verifyEmail(context: context, otp: otp);
-        pinTextCtrl.text ='';
+        pinTextCtrl.text = '';
       });
     } else {
       CustomSnackbar.warningSnack('Fill all the required field to continue');
@@ -93,32 +93,35 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       ),
                       const SizedBox(height: 30),
                       AppBtn(
-                        onPressed: (){
+                        onPressed: () {
                           _verify();
                         },
                         label: "Submit",
                       ),
 
                       const SizedBox(height: 40),
-                      RichText(
-                        text: TextSpan(
-                          text: 'Don`t receive verification code ',
-                          style: Theme.of(context).textTheme.bodySmall,
-                          children: [
-                            TextSpan(
-                              text: 'Resend now',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.superBlue),
-                              recognizer: TapGestureRecognizer()..onTap = () {
-                                if (0 != timer.seconds.value) {
-                                  CustomSnackbar.warningSnack(
-                                    'Try again after ${timer.seconds.value.toString()} seconds',
-                                  );
-                                } else {
-                                  resendOtp();
-                                }
-                              },// Not yet filled
-                            ),
-                          ],
+                      Obx(
+                        () => RichText(
+                          text: TextSpan(
+                            text: 'Don`t receive verification code ',
+                            style: Theme.of(context).textTheme.bodySmall,
+                            children: [
+                              TextSpan(
+                                text: (0 != timer.seconds.value)
+                                    ? '00:${timer.seconds.value.toString()}'
+                                    : 'Resend now',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.superBlue,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    if (0 != timer.seconds.value) return;
+                                    resendOtp();
+                                  },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 60),
@@ -129,7 +132,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           children: [
                             TextSpan(
                               text: 'Log in',
-                              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Get.offNamed(Routes.login);
