@@ -208,7 +208,8 @@ class ConfirmBottomSheet {
                                     style: TextButton.styleFrom(
                                         elevation: 2,
                                         side: BorderSide(color: Colors.white),
-                                        foregroundColor: AppColors.primary),
+                                        foregroundColor: Colors.white,
+                                        backgroundColor: AppColors.primary),
                                     onPressed: () {
                                       FocusScope.of(context).unfocus();
                                       Get.back();
