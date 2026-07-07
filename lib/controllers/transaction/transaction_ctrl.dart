@@ -85,10 +85,8 @@ class TransactionCtrl extends GetxController{
 
       loadingT.value = true;
       final token = await storage.getToken();
-      if(token == null){
-        CustomSnackbar.showSnackbar(message: 'Unauthenticated');
-        return;
-      }
+      if(token != null){
+
       final receipt = await repo.getSingleTransact(token, ref);
 
       if(receipt is DataSuccess){
@@ -118,7 +116,7 @@ class TransactionCtrl extends GetxController{
           receiptErr.value = 'Something went wrong, try again later';
         }
         // return;
-      }
+      }}
     }catch(e){
       print(e);
       receiptErr.value = 'Something went wrong, try again later';
@@ -134,10 +132,8 @@ class TransactionCtrl extends GetxController{
   Future<void> getTransactions(int page) async{
     try{
     final token = await storage.getToken();
-    if(token == null){
-     CustomSnackbar.showSnackbar(message: 'User not authourized');
-      return;
-    }
+    if(token != null){
+
     final transact = await repo.getTransactPerPage(token, page);
     // transactionList.clear();
 
@@ -190,7 +186,7 @@ class TransactionCtrl extends GetxController{
         error.value = 'Something went wrong, reload page';
       }
       return ;
-    }
+    }}
     }catch(e){
       print(e);
       error.value = 'Something went wrong, reload page';
@@ -217,10 +213,7 @@ class TransactionCtrl extends GetxController{
 
       loadingDepo.value = true;
       final token = await storage.getToken();
-      if(token == null){
-        CustomSnackbar.showSnackbar(message: 'User not authourized');
-        return;
-      }
+      if(token != null){
       final deposits = await repo.getDeposits(token);
 
       if(deposits is DataSuccess){
@@ -264,7 +257,7 @@ class TransactionCtrl extends GetxController{
           errorDepo.value = 'Something went wrong, try again later';
         }
         // return;
-      }
+      }}
     }catch(e){
       print(e);
       errorDepo.value = 'Something went wrong, try again later';

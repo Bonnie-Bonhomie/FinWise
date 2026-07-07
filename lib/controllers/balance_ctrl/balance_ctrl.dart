@@ -75,9 +75,8 @@ class AccBalanceCtrl extends GetxController {
       loadingB.value = true;
       final String? token = await storage.getToken();
 
-      if (token == null) {
-        CustomSnackbar.warningSnack('Unauthenticated');
-      } else {
+      if (token != null) {
+
         final response = await repo.getBonusBal(token);
         if (response is DataSuccess) {
           if (response.data['status'] == true) {
