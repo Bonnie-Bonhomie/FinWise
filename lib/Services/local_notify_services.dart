@@ -70,6 +70,11 @@ class LocalNotificationService {
     // Listen for foreground messages
     FirebaseMessaging.onMessage.listen(_showNotification);
 
+    String? token = await getFcmToken();
+    if(token == null){
+      return;
+    }
+    await SharedPreferService().saveData(PrefStoreKeys.fcmToken, token);
     // Listen when user taps notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       print('Notification opened');
