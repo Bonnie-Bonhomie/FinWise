@@ -82,39 +82,37 @@ class _OtpScreenState extends State<OtpScreen> {
                       pinKey: pinKey,
                     ),
                     const SizedBox(height: 30),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: AppColors.lightGreen,
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      child: RichText(
-                        text: TextSpan(
-                          text: 'Don`t receive verification code ',
-                          style: Theme.of(context).textTheme.bodySmall,
-                          children: [
-                            TextSpan(
-                              text: 'Resend now',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.superBlue,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  if (0 != timer.seconds.value) {
-                                    CustomSnackbar.warningSnack(
-                                      'Try again after ${timer.seconds.value.toString()} seconds',
-                                    );
-                                  } else {
-                                    auth.resendOtp();
-                                  }
-                                }, // Not yet filled
+                    Obx(() => Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: AppColors.lightGreen,
+                              width: 1.5,
                             ),
-                          ],
-                        ),
-                      ),
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Don`t receive verification code ',
+                              style: Theme.of(context).textTheme.bodySmall,
+                              children: [
+                                TextSpan(
+                                  text: 0 != timer.seconds.value
+                                      ? '00:${timer.seconds.value.toString()}'
+                                      : 'Resend code',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: 0 != timer.seconds.value? AppColors.declined: AppColors.superBlue,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      if (0 != timer.seconds.value) return;
+                                        auth.resendOtp();
+                                    },
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
                     ),
                     const SizedBox(height: 60),
                     AppBtn(
