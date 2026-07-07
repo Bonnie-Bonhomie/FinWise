@@ -339,8 +339,9 @@ class MarketProdCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   discount != 0 ?Text(
-                    'Discount: ${viewModel.formatCurrency(discount)}',
-                    style: TextStyle(fontSize: 14),
+                    '${viewModel.calculatePercent(regular, discount)}% discounts',
+
+                    style: TextStyle(fontSize: 14,fontStyle: FontStyle.italic, color: Colors.grey[600]),
                   ): SizedBox.shrink(),
                 ],
               ),
