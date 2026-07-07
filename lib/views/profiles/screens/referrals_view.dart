@@ -59,7 +59,7 @@ class _ReferralsViewState extends State<ReferralsView> {
             children: [
               Image(
                 image: AssetImage('assets/images/refer.png'),
-                height: 150,
+                height: 200,
                 width: 200,
                 errorBuilder: (_, __, ___) =>
                    const Icon(Icons.image_outlined, size: 50),
