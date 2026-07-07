@@ -37,7 +37,7 @@ class DependencyInjection{
     Get.put<AuthCtrl>(authCtrl, permanent: true);
 
     //Pages
-    Get.put(accRepo, permanent: true);
+    Get.put<AccountRepo>(accRepo, permanent: true);
     Get.put(AccBalanceCtrl(accRepo, store), permanent: true);
     //Transaction
     Get.put(TransactionRepo(internetInfo: internetService, apiServices: apiService), permanent: true);
