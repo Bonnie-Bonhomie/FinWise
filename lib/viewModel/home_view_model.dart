@@ -167,6 +167,15 @@ class HomeViewModel {
     return half;
   }
 
+  ///Calculate percentage function
+  int calculatePercent(double amount, double discount){
+
+    int percent = 0;
+    final calc = (100 * (amount - discount)) / amount;
+    percent = calc.toInt();
+    return percent;
+  }
+
 }
 
 
