@@ -159,7 +159,7 @@ class _SignInViewState extends State<SignInView> {
           DatePicker(dateControl: dobCtrl),
 
           const SizedBox(height: 15.0),
-          labelText("Referral Link"),
+          labelText("Referral ID"),
           const SizedBox(height: 8.0),
           FormWidget(
             valController:referCtrl,
