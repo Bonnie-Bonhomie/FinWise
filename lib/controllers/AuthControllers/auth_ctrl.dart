@@ -137,7 +137,8 @@ class AuthCtrl extends GetxController {
 
       final response = await authRepo.loginUser(email: mail, password: password);
 
-      print('Hello');
+      String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
+      print('Logging in');
       if (response is DataSuccess) {
         final data = response.data;
 
@@ -149,7 +150,7 @@ class AuthCtrl extends GetxController {
             Get.offNamed(Routes.verAcc);
           }
           else{
-            String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
+
 
             final token = data['data']['token'];
             await storage.saveToken(token);
