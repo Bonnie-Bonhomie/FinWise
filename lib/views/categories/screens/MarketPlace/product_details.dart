@@ -113,15 +113,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     ),
                                     const Spacer(),
                                     discount  != 0? Text(
-                                      'Discount: ${viewModel.formatCurrNoKobo(discount)}',
-                                      style: TextStyle(fontSize: 14),
+                                      '${viewModel.calculatePercent(regular, discount)}% discounts',
+                                      style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: Colors.grey[600]),
                                     ): SizedBox.shrink(),
                                   ],
                                 ),
                                 Row(
                                   children: [
                                     Text(
-                                      'Sale Price: ${viewModel.formatCurrNoKobo(sale)}',
+                                      'Sale Price: ${viewModel.formatCurrNoKobo(sale * quantity)}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
