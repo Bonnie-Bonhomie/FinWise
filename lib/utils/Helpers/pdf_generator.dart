@@ -1,7 +1,9 @@
 import 'package:fin_wise/core/constant.dart';
 import 'package:fin_wise/core/resources/storage_keys.dart';
 import 'package:fin_wise/data/models/model_export.dart';
+import 'package:fin_wise/utils/utils_export.dart';
 import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/services.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -9,23 +11,27 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 
 class PdfGeneratorService {
-
   //Custom row tile
   pw.Widget rowTile(String title, String value) {
     return pw.Padding(
       padding: pw.EdgeInsets.only(top: 5, bottom: 5),
       child: pw.Row(
         children: [
-          pw.Text(title, style: pw.TextStyle(fontWeight: pw.FontWeight.bold, color: PdfColors.grey)),
+          pw.Text(
+            title,
+            style: pw.TextStyle(
+              fontWeight: pw.FontWeight.bold,
+              color: PdfColors.grey,
+            ),
+          ),
           pw.Spacer(),
-          pw.Text(value, style: pw.TextStyle( color: PdfColors.black)),
+          pw.Text(value, style: pw.TextStyle(color: PdfColors.black)),
         ],
       ),
     );
   }
 
   Future<void> generatePdfAndShare(TransactionModel receipt) async {
-
     final ByteData data = await rootBundle.load(PrefStoreKeys.appImage);
     final Uint8List bytes = data.buffer.asUint8List();
 
@@ -33,10 +39,7 @@ class PdfGeneratorService {
     final pdf = pw.Document();
     final viewModel = HomeViewModel();
     final roboto = pw.Font.ttf(
-      await rootBundle.load('assets/fonts/Roboto-Regular.ttf')
-    );
-    final robotoBold = pw.Font.ttf(
-        await rootBundle.load('assets/fonts/Roboto-Bold.ttf')
+      await rootBundle.load('assets/fonts/Roboto-Regular.ttf'),
     );
 
     pdf.addPage(
@@ -54,7 +57,7 @@ class PdfGeneratorService {
                 style: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold,
                   fontSize: 25,
-                    color: PdfColors.black
+                  color: PdfColors.black,
                 ),
               ),
               pw.Text(
@@ -62,18 +65,18 @@ class PdfGeneratorService {
                 style: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold,
                   fontSize: 25,
-                    color: PdfColors.black
-                ),
-              ),
-              pw.Text(
-                'Amount',
-                style: pw.TextStyle(
-                  fontWeight: pw.FontWeight.bold,
-                  fontSize: 25,
-                    color: PdfColors.black
+                  color: PdfColors.black,
                 ),
               ),
 
+              // pw.Text(
+              //   'Amount',
+              //   style: pw.TextStyle(
+              //     fontWeight: pw.FontWeight.bold,
+              //     fontSize: 25,
+              //       color: PdfColors.black
+              //   ),
+              // ),
               pw.Text(
                 viewModel.formatCurrency(receipt.amount),
                 style: pw.TextStyle(font: roboto, color: PdfColors.black),
@@ -85,12 +88,26 @@ class PdfGeneratorService {
               pw.Divider(),
               rowTile('Provider', receipt.modelableId.toUpperCase()),
               pw.Divider(),
-              receipt.category == Categories.airtime || receipt.category == Categories.data || receipt.category == Categories.fish? rowTile('Phone Number', receipt.phoneNo): pw.SizedBox.shrink(),
-              receipt.category == Categories.cable ? rowTile('Beneficiary', receipt.phoneNo): pw.SizedBox.shrink(),
-              receipt.category == Categories.fish ? rowTile('Address', receipt.productRef): pw.SizedBox.shrink(),
-              receipt.category == Categories.electricity ? rowTile('Meter Number', receipt.meterNo ?? 'null'): pw.SizedBox.shrink(),
-              receipt.category == Categories.education ? rowTile('Token', receipt.token ?? 'null'): pw.SizedBox.shrink(),
-              receipt.category == Categories.education ? rowTile('Pin', receipt.pin ?? 'null'): pw.SizedBox.shrink(),
+              receipt.category == Categories.airtime ||
+                      receipt.category == Categories.data ||
+                      receipt.category == Categories.fish
+                  ? rowTile('Phone Number', receipt.phoneNo)
+                  : pw.SizedBox.shrink(),
+              receipt.category == Categories.cable
+                  ? rowTile('Beneficiary', receipt.phoneNo)
+                  : pw.SizedBox.shrink(),
+              receipt.category == Categories.fish
+                  ? rowTile('Address', receipt.productRef)
+                  : pw.SizedBox.shrink(),
+              receipt.category == Categories.electricity
+                  ? rowTile('Meter Number', receipt.meterNo ?? 'null')
+                  : pw.SizedBox.shrink(),
+              receipt.category == Categories.education
+                  ? rowTile('Token', receipt.token ?? 'null')
+                  : pw.SizedBox.shrink(),
+              receipt.category == Categories.education
+                  ? rowTile('Pin', receipt.pin ?? 'null')
+                  : pw.SizedBox.shrink(),
               pw.Divider(),
               rowTile('Date', viewModel.formatDate(receipt.purchaseAt)),
               pw.Divider(),
@@ -102,6 +119,14 @@ class PdfGeneratorService {
       ),
     );
 
-    await Printing.sharePdf(bytes: await pdf.save(), filename: '${receipt.productRef}.pdf');
+try{
+  await Printing.sharePdf(
+    bytes: await pdf.save(),
+    filename: '${receipt.productRef}.pdf',
+  );
+}catch (e){
+  CustomSnackbar.warningSnack(e.toString());
+}
+
   }
 }
