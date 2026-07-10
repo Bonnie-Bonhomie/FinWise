@@ -11,6 +11,7 @@ import '../../utils/utils_export.dart';
 import '../view_export.dart';
 
 class SharedWidget {
+
   static Widget serviceBox({
     required BuildContext context,
     required String title,
@@ -19,6 +20,9 @@ class SharedWidget {
     String duration = '',
     IconData? icon,
   }) {
+    HomeViewModel viewModel = HomeViewModel();
+    double price = double.parse(amount);
+
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -55,7 +59,7 @@ class SharedWidget {
               padding: const EdgeInsets.only(top: 8.0),
               child: Row(
                 children: [
-                  AppText(text: amount),
+                  AppText(text: viewModel.formatCurrNoKobo(price)),
                   const Spacer(),
                   Icon(icon),
                 ],
