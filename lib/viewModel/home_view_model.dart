@@ -128,6 +128,14 @@ class HomeViewModel {
     String formatTime = DateFormat('HH:mm').format(date);
     return '$formatted ~ $formatTime';
   }
+  String formatDateAM(String value){
+
+    DateTime date =  DateTime.parse(value);
+
+    String formatted = DateFormat('MMMM dd, yyyy').format(date);
+    String formatTime = DateFormat('hh:mm a').format(date);
+    return '$formatted ~ $formatTime';
+  }
 
   double parseAmount(text){
     double amount;
