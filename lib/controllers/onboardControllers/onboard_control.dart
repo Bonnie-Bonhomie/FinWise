@@ -9,8 +9,8 @@ class OnboardControl extends GetxController{
   Rx<int> dotNumber = 0.obs;
   var loading = false.obs;
   List<String> topText =[
-    "Welcome to Expense Manager",
-    "¿Are You Ready To Take Control Of Your Finances?"
+    "Welcome to DatabootNg",
+    "¿Making Bill Payment Easier?"
   ];
   List<String> imagePath =[
     "assets/images/onboard-1.png",
