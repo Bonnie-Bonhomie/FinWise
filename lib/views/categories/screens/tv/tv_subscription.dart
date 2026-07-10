@@ -361,7 +361,7 @@ class _TvSubscriptionState extends State<TvSubscription>
         return SharedWidget.serviceBox(
           context: context,
           title: service.name,
-          amount: '₦${service.price}',
+          amount: service.price,
           // duration: '${serv.duration} Month',
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -405,7 +405,7 @@ class _TvSubscriptionState extends State<TvSubscription>
         return SharedWidget.serviceBox(
           context: context,
           title: service.cableCode,
-          amount: '₦${service.price}',
+          amount: service.price,
           // duration: '${serv.duration} Month',
           onTap: () {
             smartCardCtrl.text.isNotEmpty
