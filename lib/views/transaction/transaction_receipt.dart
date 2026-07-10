@@ -102,10 +102,10 @@ class _TransactionReceiptState extends State<TransactionReceipt> {
                               textColor: AppColors.darkGreen,
                             ),
                          ),
-                          const HeadingText(
-                            headingText: 'Amount',
-                            color: AppColors.darkGreen,
-                          ),
+                          // const HeadingText(
+                          //   headingText: 'Amount',
+                          //   color: AppColors.darkGreen,
+                          // ),
                           Center(
                             child: AppText(
                               text: viewModel.formatCurrency(receiptDet.amount),
@@ -181,8 +181,8 @@ class _TransactionReceiptState extends State<TransactionReceipt> {
                           ),
                           receiptContainer(
                             'share as pdf',
-                            () {
-                              PdfGeneratorService().generatePdfAndShare(receiptDet);
+                            () async{
+                              await PdfGeneratorService().generatePdfAndShare(receiptDet);
                             },
                             Icons.picture_as_pdf_outlined,
                             context,
