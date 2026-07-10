@@ -363,7 +363,7 @@ class _ElectricityViewState extends State<ElectricityView> {
                                 ),
                                 const SizedBox(height: 15.0),
                                 AppText(
-                                  text: 'Pay ₦${meterPrice.amount.toString()}',
+                                  text: 'Pay ${viewModel.formatCurrNoKobo(price)}',
                                   textSize: 12,
                                 ),
                               ],
