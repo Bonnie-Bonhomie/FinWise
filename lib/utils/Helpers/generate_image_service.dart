@@ -53,7 +53,7 @@ class ImageGenerationService{
   Future<void> shareImage() async{
     final file = await captureReceipt();
 
-    await Share.shareXFiles([XFile(file.path,  mimeType: 'image/png',)], text: '$receiptName.png');
+    await Share.shareXFiles([XFile(file.path,  mimeType: 'image/png',)],);
   }
 
 }
