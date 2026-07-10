@@ -129,7 +129,7 @@ class Notification extends StatelessWidget {
             color: AppColors.declined,
             size: 80,
           ),
-          content: Text(
+          content: const Text(
             'Are you sure want to delete all your notifications. Once you delete it can not be recover. Do you want to continue',
             textAlign: TextAlign.center,
           ),
@@ -219,12 +219,12 @@ class ShowBottomInfo {
                   children: [
                     Row(
                       children: [
-                        CircleAvatar(child: Icon(Icons.notifications_none)),
+                        const CircleAvatar(child: Icon(Icons.notifications_none)),
                         const SizedBox(width: 10),
 
                         Expanded(child: Text(note.title,overflow: TextOverflow.ellipsis, maxLines: 3, textAlign: TextAlign.justify, style: TextStyle(fontWeight: FontWeight.bold),)),
                         const SizedBox(width: 20,),
-                        Icon(Icons.circle, color: AppColors.primary, size: 10),
+                        const Icon(Icons.circle, color: AppColors.primary, size: 10),
                         const SizedBox(width: 10),
                         IconButton(
                           onPressed: () {
@@ -238,11 +238,11 @@ class ShowBottomInfo {
                     Row(
                       children: [
                         const SizedBox(width: 5.0),
-                        Icon(Icons.access_alarm, size: 12,),
+                        const Icon(Icons.access_alarm, size: 12,),
                         const SizedBox(width: 10),
                         AppText(
-                          text: viewModel.formatDate(note.date),
-                          textColor: AppColors.superBlue,
+                          text: viewModel.formatDateAM(note.date),
+                          textColor: AppColors.subBlue,
                           textSize: 12,
                         ),
                       ],
