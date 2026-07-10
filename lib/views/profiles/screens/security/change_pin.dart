@@ -97,15 +97,17 @@ class _ChangePinViewState extends State<ChangePinView> {
                   }),
 
                   SizedBox(height: 40,),
-                  AppBtn(onPressed: () {
-                    if (oldPin && newPin && cfmPin) {
+                  AppBtn(onPressed: () async{
+                    if (oldPin && newPin && cfmPin){
                       loader.offLoading(() async {
                         await auth.setPin(
                             oldPin: changeToInt(currentCtrl.text.trim()),
                             newPin: changeToInt(newCtrl.text.trim()),
                             cfmPin: changeToInt(confirmCtrl.text.trim()));
+
+                        // Get.find<ProfileMainControl>().back();
                       });
-                      Get.find<ProfileMainControl>().back();
+
                     } else {
                       CustomSnackbar.warningSnack(
                           'Fill all the required field to continue');
