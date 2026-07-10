@@ -80,10 +80,10 @@ class DepositsReceipt extends StatelessWidget {
                         color: AppColors.darkGreen,
                       ),
 
-                      const HeadingText(
-                        headingText: 'Amount',
-                        color: AppColors.darkGreen,
-                      ),
+                      // const HeadingText(
+                      //   headingText: 'Amount',
+                      //   color: AppColors.darkGreen,
+                      // ),
                       AppText(
                         text: viewModel.formatCurrency(receiptDet.amount),
                         textWeigh: FontWeight.bold,
