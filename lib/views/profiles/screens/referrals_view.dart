@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:fin_wise/controllers/controller_exports.dart';
+import 'package:fin_wise/views/view_widgets/empty_state.dart';
 import 'package:fin_wise/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -150,7 +151,7 @@ class _ReferralsViewState extends State<ReferralsView> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (editCtrl.referralList.isEmpty) {
-                  return Center(child: Text(editCtrl.referralErr.value));
+                  return Center(child: EmptyState(message: editCtrl.referralErr.value));
                 }
                 return Column(
                   children: List.generate(editCtrl.referralList.length, (
