@@ -116,9 +116,8 @@ class EditProfileCtrl extends GetxController {
     try {
       loadRef.value = true;
       final String? token = await store.getToken();
-      if (token == null) {
-        CustomSnackbar.showSnackbar(message: 'Unauthenticated');
-      } else {
+      if (token != null) {
+
         final response = await repo.getReferrals(token);
 
         print(' Referral Response: ${response.data}');
@@ -126,13 +125,12 @@ class EditProfileCtrl extends GetxController {
           if (response.data['status'] == true) {
             final data = response.data['data'];
             List refer = data['referrals'] as List;
-            print(refer[0]);
-            final ref = refer.map((e) => ReferModel.fromJson(e)).toList();
 
 
             if (refer.isEmpty) {
               referralErr.value = 'No Referrals';
             } else {
+              final ref = refer.map((e) => ReferModel.fromJson(e)).toList();
               referralList.assignAll(ref);
             }
           }
