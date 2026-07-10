@@ -31,28 +31,26 @@ class _MainScreenState extends State<MainScreen> {
     final controller = Get.find<NavControl>();
     return WillPopScope(
       onWillPop: () => controller.willPopHandler(),
-      child: LoaderWrapper(
-        child: Scaffold(
-          body: Obx(()=> controller.screens[controller.selectInd.value]),
-          bottomNavigationBar: ClipRRect(
-            borderRadius: BorderRadius.only(topRight: Radius.circular(60), topLeft: Radius.circular(60)),
-            child: Obx(()=> BottomAppBar(
-                color: Theme.of(context).cardColor,
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(4, (index) {
+      child: Scaffold(
+        body: Obx(()=> controller.screens[controller.selectInd.value]),
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(60), topLeft: Radius.circular(60)),
+          child: Obx(()=> BottomAppBar(
+              color: Theme.of(context).cardColor,
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(4, (index) {
 
-                    final isSelected = controller.selectInd.value == index;
-                    return IconButton(onPressed: (){
-                      controller.selectInd.value = index;
-                    },
-                        style: IconButton.styleFrom(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-                          backgroundColor: isSelected? AppColors.primary : Theme.of(context).cardColor,),
-                        icon: Icon(controller.icons[index], color: isSelected? Colors.white : Theme.of(context).colorScheme.onSurface,),);
-                  }),
-                ),
+                  final isSelected = controller.selectInd.value == index;
+                  return IconButton(onPressed: (){
+                    controller.selectInd.value = index;
+                  },
+                      style: IconButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+                        backgroundColor: isSelected? AppColors.primary : Theme.of(context).cardColor,),
+                      icon: Icon(controller.icons[index], color: isSelected? Colors.white : Theme.of(context).colorScheme.onSurface,),);
+                }),
               ),
             ),
           ),
