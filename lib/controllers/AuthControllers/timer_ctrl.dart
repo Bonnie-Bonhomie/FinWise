@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 class TimerCtrl extends GetxController{
 
-  var seconds = 30.obs;
+  var seconds = 59.obs;
   Timer? _timer;
 
   void startTimer(){
@@ -22,7 +22,7 @@ class TimerCtrl extends GetxController{
 
   void resetTimer(){
     _timer?.cancel();
-    seconds.value = 30;
+    seconds.value = 59;
     // _inCorrectCode = false;
   }
   void cancelTimer(){
