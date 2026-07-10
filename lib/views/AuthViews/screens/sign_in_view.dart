@@ -138,7 +138,7 @@ class _SignInViewState extends State<SignInView> {
             // label: '',
             valController: mailCtrl,
             fieldKey: mailKey,
-            // textType: TextInputType.emailAddress,
+            textType: TextInputType.emailAddress,
             validator: (val) => Validator.validateEmail(val!.trim()),
             onChanged: (val) => mailKey.currentState?.validate(),
             hintText: "johndue@example.com",
@@ -221,16 +221,16 @@ class _SignInViewState extends State<SignInView> {
               RichText(
                 text: TextSpan(
                   text: "Terms of Use ",
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.superBlue),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       Get.to(() => GeneralWebView(url: ApiEndpoints.terms));
                     },
                   children: [
-                    TextSpan(text: 'and ', style: TextStyle(fontSize: 14)),
+                    TextSpan(text: 'and ', style: Theme.of(context).textTheme.bodySmall),
                     TextSpan(
                       text: 'Privacy Policy.',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.superBlue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Get.to(() => GeneralWebView(url: ApiEndpoints.policy));
