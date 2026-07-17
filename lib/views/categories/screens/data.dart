@@ -1,11 +1,11 @@
-import 'package:fin_wise/controllers/controller_exports.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/utils_export.dart';
-import 'package:fin_wise/data/models/model_export.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/categories/service_export.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/controllers/controller_exports.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/utils_export.dart';
+import 'package:data_boot/data/models/model_export.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/categories/service_export.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

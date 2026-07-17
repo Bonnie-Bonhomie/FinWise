@@ -1,7 +1,7 @@
-import 'package:fin_wise/controllers/bottom_nav_ctrl.dart';
-import 'package:fin_wise/data/dataSource/api_service.dart';
-import 'package:fin_wise/data/dataSource/dio_client.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/controllers/bottom_nav_ctrl.dart';
+import 'package:data_boot/data/dataSource/api_service.dart';
+import 'package:data_boot/data/dataSource/dio_client.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
 import 'package:get/get.dart';
 
 class InitialBindings extends Bindings{

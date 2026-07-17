@@ -1,9 +1,9 @@
-import 'package:fin_wise/controllers/controller_exports.dart';
+import 'package:data_boot/controllers/controller_exports.dart';
 
-import 'package:fin_wise/core/validator/validator.dart';
-import 'package:fin_wise/utils/utils_export.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/core/validator/validator.dart';
+import 'package:data_boot/utils/utils_export.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

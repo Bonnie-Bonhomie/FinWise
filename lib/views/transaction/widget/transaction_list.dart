@@ -1,5 +1,5 @@
-import 'package:fin_wise/utils/widgets/loading_skeleton.dart';
-import 'package:fin_wise/views/view_widgets/shared_widget.dart';
+import 'package:data_boot/utils/widgets/loading_skeleton.dart';
+import 'package:data_boot/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

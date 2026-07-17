@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:fin_wise/core/app_colors.dart';
+import 'package:data_boot/core/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class GradientArcPainter extends CustomPainter {

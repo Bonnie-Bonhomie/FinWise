@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:fin_wise/data/dataSource/dio_client.dart';
+import 'package:data_boot/data/dataSource/dio_client.dart';
 
 class ApiServices {
   final Dio mDio = DioClients.dio;

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
-import 'package:fin_wise/core/connection/network.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
+import 'package:data_boot/core/Routes/Api_endpoints/api_endpoints.dart';
+import 'package:data_boot/core/connection/network.dart';
+import 'package:data_boot/core/resources/data_state.dart';
 
 import '../dataSource/api_service.dart';
 

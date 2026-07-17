@@ -1,4 +1,4 @@
-import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
 
 Future<T> runWithLoader<T>(Future<T> Function() action) async{
 

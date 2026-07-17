@@ -1,6 +1,6 @@
 
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/data/models/numbers_model.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/data/models/numbers_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

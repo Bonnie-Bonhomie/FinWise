@@ -1,17 +1,17 @@
 
-import 'package:fin_wise/controllers/controller_exports.dart';
-// import 'package:fin_wise/data/repositories/repo_exports.dart';
-import 'package:fin_wise/core/connection/network.dart';
-import 'package:fin_wise/data/dataSource/api_service.dart';
+import 'package:data_boot/controllers/controller_exports.dart';
+// import 'package:data_boot/data/repositories/repo_exports.dart';
+import 'package:data_boot/core/connection/network.dart';
+import 'package:data_boot/data/dataSource/api_service.dart';
 
-import 'package:fin_wise/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
 
-import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
-import 'package:fin_wise/data/repositories/analysis_repo.dart';
-import 'package:fin_wise/data/repositories/transacetionRepository/transact_repo.dart';
-import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
-import 'package:fin_wise/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/data/repositories/AuthRepo/auth_repo.dart';
+import 'package:data_boot/data/repositories/analysis_repo.dart';
+import 'package:data_boot/data/repositories/transacetionRepository/transact_repo.dart';
+import 'package:data_boot/data/repositories/accountRepo/virtual_repo.dart';
+import 'package:data_boot/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
 import 'package:get/get.dart';
 
 class DependencyInjection{

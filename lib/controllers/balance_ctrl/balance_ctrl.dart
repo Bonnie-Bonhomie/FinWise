@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/repositories/accountRepo/virtual_repo.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/home/payment_web_view.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/repositories/accountRepo/virtual_repo.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/home/payment_web_view.dart';
 
 import 'package:get/get.dart';
 
@@ -146,7 +146,7 @@ class AccBalanceCtrl extends GetxController {
 
         if (response is DataSuccess) {
           final data = response.data;
-          print(data);
+          // print(data);
           if (data['status'] == true) {
 
             accountBalance.value = double.parse(data['data']['bal']);
@@ -163,9 +163,6 @@ class AccBalanceCtrl extends GetxController {
 
             //  Server error
             final errData = err.response?.data;
-            print(err.response?.data);
-
-            print(errData);
             if (errData != null && errData['message'] != null) {
               balanceErr.value = 'Unable to load balance';
             } else {
@@ -195,7 +192,6 @@ class AccBalanceCtrl extends GetxController {
 
         if (response is DataSuccess) {
           final data = response.data;
-          print(data);
           if (data['status'] == true) {
             List channels = data['data'];
 
@@ -219,9 +215,7 @@ class AccBalanceCtrl extends GetxController {
 
             //  Server error
             final errData = err.response?.data;
-            print(err.response?.data);
 
-            print(errData);
             if (errData != null && errData['message'] != null) {
               balanceErr.value = errData['message'];
             } else {

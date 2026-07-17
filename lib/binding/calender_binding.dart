@@ -1,4 +1,4 @@
-import 'package:fin_wise/controllers/analysis/calender_ctrl.dart';
+import 'package:data_boot/controllers/analysis/calender_ctrl.dart';
 import 'package:get/get.dart';
 
 class CalenderBinding extends Bindings{

@@ -1,8 +1,8 @@
-import 'package:fin_wise/controllers/categoryCtrl/data_controller.dart';
-import 'package:fin_wise/core/connection/network.dart';
-import 'package:fin_wise/data/dataSource/api_service.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/repositories/CategoriesRepo/data_repository.dart';
+import 'package:data_boot/controllers/categoryCtrl/data_controller.dart';
+import 'package:data_boot/core/connection/network.dart';
+import 'package:data_boot/data/dataSource/api_service.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/repositories/CategoriesRepo/data_repository.dart';
 import 'package:get/get.dart';
 
 class DataBindings extends Bindings{

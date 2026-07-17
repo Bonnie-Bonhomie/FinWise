@@ -7,9 +7,47 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:946890937033:android:7c233fa9bcbcf089c57318",
+        "android_client_info": {
+          "package_name": "com.databootng.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs3EdYS9lFC3qXRLRLwBNDv3WzdnIKnJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:946890937033:android:756c8dce069f5c76c57318",
         "android_client_info": {
           "package_name": "com.example.fin_wise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs3EdYS9lFC3qXRLRLwBNDv3WzdnIKnJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946890937033:android:23befdb70a06868dc57318",
+        "android_client_info": {
+          "package_name": "com.karrimtech.databootng"
         }
       },
       "oauth_client": [],

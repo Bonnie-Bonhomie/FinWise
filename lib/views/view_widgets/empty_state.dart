@@ -1,4 +1,5 @@
-import 'package:fin_wise/utils/widgets/text_widget.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+
 import 'package:flutter/material.dart';
 
 

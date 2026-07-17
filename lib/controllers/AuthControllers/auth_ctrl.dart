@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/Services/biometric_serv.dart';
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/core/resources/storage_keys.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/model_export.dart';
-import 'package:fin_wise/data/repositories/AuthRepo/auth_repo.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/utils/widgets/widget.dart';
+import 'package:data_boot/Services/biometric_serv.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/model_export.dart';
+import 'package:data_boot/data/repositories/AuthRepo/auth_repo.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/utils/widgets/widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -138,7 +138,6 @@ class AuthCtrl extends GetxController {
       final response = await authRepo.loginUser(email: mail, password: password);
 
       String fireToken = await store.retrieve(PrefStoreKeys.fcmToken);
-      print('Logging in');
       if (response is DataSuccess) {
         final data = response.data;
 
@@ -330,7 +329,7 @@ class AuthCtrl extends GetxController {
 
           //  Server error
           final errData = err.response?.data;
-          print(response);
+
 
           if (errData != null && errData['message'] != null) {
             print(errData['message']);
@@ -414,7 +413,7 @@ class AuthCtrl extends GetxController {
   Future<void> logOut() async {
   try{
     final String? token = await storage.getToken();
-    print('Token: $token');
+
     if (token == null) {
       CustomSnackbar.showSnackbar(message: 'Something went wrong');
     } else {

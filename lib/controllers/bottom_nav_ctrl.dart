@@ -1,11 +1,11 @@
 
-import 'package:fin_wise/core/resources/storage_keys.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/views/categories/screens/category_page.dart';
-import 'package:fin_wise/views/home/home.dart';
-import 'package:fin_wise/views/profiles/screens/edit_view/profile.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/views/categories/screens/category_page.dart';
+import 'package:data_boot/views/home/home.dart';
+import 'package:data_boot/views/profiles/screens/edit_view/profile.dart';
 
-import 'package:fin_wise/views/transaction/transaction_view.dart';
+import 'package:data_boot/views/transaction/transaction_view.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';

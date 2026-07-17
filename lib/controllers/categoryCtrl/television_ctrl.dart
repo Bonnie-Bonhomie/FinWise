@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/core/resources/storage_keys.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/model_export.dart';
-import 'package:fin_wise/data/repositories/CategoriesRepo/television_repo.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/model_export.dart';
+import 'package:data_boot/data/repositories/CategoriesRepo/television_repo.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 class TelevisionCtrl extends GetxController {

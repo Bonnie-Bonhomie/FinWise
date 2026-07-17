@@ -1,5 +1,5 @@
-import 'package:fin_wise/data/models/product_model.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/data/models/product_model.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

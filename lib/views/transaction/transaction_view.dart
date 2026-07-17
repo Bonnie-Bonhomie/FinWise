@@ -1,7 +1,7 @@
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/transaction/widget/transaction_list.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/utils/widgets/custom_app_bar.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/transaction/widget/transaction_list.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

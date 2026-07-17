@@ -1,4 +1,4 @@
-import 'package:fin_wise/core/constant.dart';
+import 'package:data_boot/core/constant.dart';
 
 class DataApiModel {
 

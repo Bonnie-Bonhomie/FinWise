@@ -1,7 +1,8 @@
-import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
-import 'package:fin_wise/utils/widgets/app_btn.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
-import 'package:fin_wise/views/view_widgets/shared_widget.dart';
+
+import 'package:data_boot/controllers/AuthControllers/auth_ctrl.dart';
+import 'package:data_boot/utils/widgets/app_btn.dart';
+import 'package:data_boot/views/view_widgets/shared_widget.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,13 +1,13 @@
 
-import 'package:fin_wise/controllers/AuthControllers/auth_ctrl.dart';
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/utils/widgets/app_btn.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/utils/widgets/form_widget.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
-import 'package:fin_wise/views/view_widgets/shared_widget.dart';
+import 'package:data_boot/controllers/AuthControllers/auth_ctrl.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/utils/widgets/app_btn.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+import 'package:data_boot/utils/widgets/form_widget.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
+import 'package:data_boot/views/view_widgets/shared_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

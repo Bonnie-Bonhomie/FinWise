@@ -1,13 +1,14 @@
-import 'package:fin_wise/Services/local_notify_services.dart';
-import 'package:fin_wise/Services/messaging_service.dart';
-import 'package:fin_wise/app.dart';
-import 'package:fin_wise/dependencies/depend_injection.dart';
-import 'package:fin_wise/firebase_options.dart';
-import 'package:fin_wise/utils/Helpers/dismiss_keyboard.dart';
-import 'package:fin_wise/utils/Helpers/life_cycle_helper.dart';
+
+import 'package:data_boot/firebase_options.dart';
+import 'package:data_boot/utils/Helpers/life_cycle_helper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'Services/local_notify_services.dart';
+import 'app.dart';
+import 'dependencies/depend_injection.dart';
+import 'utils/Helpers/dismiss_keyboard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

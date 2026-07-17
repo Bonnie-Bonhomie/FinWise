@@ -1,4 +1,4 @@
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
+import 'package:data_boot/controllers/profileCtrl/main_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

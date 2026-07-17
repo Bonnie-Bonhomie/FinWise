@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fin_wise/core/Routes/routes.dart';
+import 'package:data_boot/core/Routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

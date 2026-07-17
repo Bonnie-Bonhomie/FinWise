@@ -1,4 +1,4 @@
-import 'package:fin_wise/utils/utils_export.dart';
+import 'package:data_boot/utils/utils_export.dart';
 import 'package:flutter/material.dart';
 
 class MarketSkeleton extends StatelessWidget {

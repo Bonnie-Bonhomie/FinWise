@@ -1,4 +1,4 @@
-import 'package:fin_wise/controllers/loader_contrl.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

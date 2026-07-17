@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/views/profiles/screens/profile_export.dart';
-import 'package:fin_wise/binding/binding_exports.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
+import 'package:data_boot/views/profiles/screens/profile_export.dart';
+import 'package:data_boot/binding/binding_exports.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

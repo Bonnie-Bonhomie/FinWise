@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/repositories/profileRepo/change_pwd_repo.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/utils/utils_export.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/repositories/profileRepo/change_pwd_repo.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/utils/utils_export.dart';
 import 'package:get/get.dart';
 
 

@@ -1,5 +1,5 @@
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/controllers/transaction/transaction_ctrl.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
+import 'package:data_boot/controllers/transaction/transaction_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

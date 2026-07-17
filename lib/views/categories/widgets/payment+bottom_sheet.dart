@@ -4,10 +4,10 @@
 /// License
 library;
 
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/widget.dart';
-import 'package:fin_wise/utils/Helpers/CustomKeyPad/custom_keyboard.dart';
-import 'package:fin_wise/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/widget.dart';
+import 'package:data_boot/utils/Helpers/CustomKeyPad/custom_keyboard.dart';
+import 'package:data_boot/utils/Helpers/CustomKeyPad/keypad_ctrl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

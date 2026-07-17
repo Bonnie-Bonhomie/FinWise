@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/repositories/CategoriesRepo/electricity_repo.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/repositories/CategoriesRepo/electricity_repo.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
 
 import '../../core/Routes/routes.dart';
@@ -44,17 +44,17 @@ class ElectricityCtrl  extends GetxController{
   Future<void> buyElectric({required String amount, required String meterNum, required String type, required String transPin, required String serviceId}) async{
     try{
 
-      // print(amount);
+      // //print(amount);
       final String? token = await store.getToken();
       if(token == null) return;
       final result = await repo.buyElect(amount: amount, meterNum: meterNum, token: token, type: type, transPin: transPin, serviceId: serviceId);
 
-      print(result);
+      //print(result);
       if(result is DataSuccess){
         if(result.data['status'] ==  true){
           /// To do
           TransactionModel receipt = TransactionModel.fromJson(result.data['data']);
-          print(result.data);
+          //print(result.data);
 
           if (receipt.apiStatus == TransactionStatus.failed) {
             CustomSnackbar.showSnackbar(
@@ -70,7 +70,7 @@ class ElectricityCtrl  extends GetxController{
         }
       }else if(result is DataFailed){
         final err =result.exception;
-        print(err);
+
         if(err is DioException){
 
           if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
@@ -78,7 +78,7 @@ class ElectricityCtrl  extends GetxController{
                 message: 'Check your internet connection');
           }
           final errData = err.response?.data;
-          print(errData);
+
           if(errData != null && errData['message'] != null){
             CustomSnackbar.showSnackbar(message: errData['message']);
           }
@@ -88,7 +88,7 @@ class ElectricityCtrl  extends GetxController{
         }
       }
     }catch(e){
-      print(e);
+
       CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
     }
 
@@ -106,7 +106,7 @@ class ElectricityCtrl  extends GetxController{
       if(result.data['status'] ==  true){
         verified.value = true;
         verifyDet = result.data['data'];
-        print(verifyDet);
+        //print(verifyDet);
       }
       else{
         verifyErr.value = 'Unable to verify meter  number';
@@ -114,7 +114,7 @@ class ElectricityCtrl  extends GetxController{
     else if(result is DataFailed){
       final err =result.exception;
       if(err is DioException){
-      print(err);
+      //print(err);
         if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
          verifyErr.value = 'No internet connection';
         }
@@ -147,13 +147,13 @@ class ElectricityCtrl  extends GetxController{
         electDiscos.addAll(disco);
 
         selectedElect.value = electDiscos[0];
-        print(electDiscos);
+        //print(electDiscos);
 
         ///Collect all the available amount
         List suggestAmount = data['suggested_amounts'];
         final amt = suggestAmount.map((e)=> ElectAmount.fromJson(e)).toList();
         availableAmount.addAll(amt);
-        print(availableAmount);
+        //print(availableAmount);
       }
       else{
         discoErr.value = 'Unable to load available Electricity';
@@ -174,7 +174,7 @@ class ElectricityCtrl  extends GetxController{
         }
       }
     }
-    print(discoLoad.value);
+    //print(discoLoad.value);
     discoLoad.value = false;
   }
 

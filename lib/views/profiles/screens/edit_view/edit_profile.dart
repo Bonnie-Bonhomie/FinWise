@@ -1,10 +1,10 @@
-import 'package:fin_wise/controllers/profileCtrl/edit_ctrl.dart';
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
-import 'package:fin_wise/utils/widgets/app_btn.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/controllers/profileCtrl/edit_ctrl.dart';
+import 'package:data_boot/controllers/profileCtrl/main_ctrl.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/utils/widgets/app_btn.dart';
+import 'package:data_boot/utils/widgets/custom_app_bar.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

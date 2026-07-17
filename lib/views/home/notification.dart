@@ -1,13 +1,13 @@
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/controllers/notificationCtrl/notify_controller.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/utils_export.dart';
-import 'package:fin_wise/data/models/notification_model.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/view_widgets/cancel_button.dart';
-import 'package:fin_wise/views/view_widgets/shared_widget.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
+import 'package:data_boot/controllers/notificationCtrl/notify_controller.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/utils_export.dart';
+import 'package:data_boot/data/models/notification_model.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/view_widgets/cancel_button.dart';
+import 'package:data_boot/views/view_widgets/shared_widget.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

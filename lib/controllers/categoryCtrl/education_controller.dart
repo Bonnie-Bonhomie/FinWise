@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/model_export.dart';
-import 'package:fin_wise/data/repositories/CategoriesRepo/education_repo.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/model_export.dart';
+import 'package:data_boot/data/repositories/CategoriesRepo/education_repo.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
 import 'package:get/get.dart';
 
 class EducationController extends GetxController{
@@ -49,7 +49,7 @@ class EducationController extends GetxController{
     if(response is DataSuccess){
       if(response.data['status'] == true || response.data['status'] == 1){
         final data = response.data['data'];
-        print(data);
+
         List list = data['educations'];
         final card = list.map((e) => ExamCardModel.fromJson(e)).toList();
         eduCards.addAll(card);
@@ -93,7 +93,7 @@ class EducationController extends GetxController{
       if(response is DataSuccess){
         if(response.data['status'] == true){
           final data = response.data['data'];
-          print(data);
+
           TransactionModel receipt = TransactionModel.fromJson(data);
 
           if(receipt.apiStatus == TransactionStatus.completed){
@@ -121,7 +121,7 @@ class EducationController extends GetxController{
       }
 
     }catch(e){
-      print(e);
+
       CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
   }
     }
@@ -131,7 +131,7 @@ class EducationController extends GetxController{
 
     try{
       verifyLoad.value = true;
-      print(verifyLoad.value);
+
       final String? token = await store.getToken();
       if(token == null) return;
       final result = await repo.verifyEduCard(type: type, profileCode: profileCode, examId: examId, token: token);
@@ -140,7 +140,7 @@ class EducationController extends GetxController{
         if(result.data['status'] ==  true){
           verified.value = true;
           verifyDet = result.data['data'];
-          print(verifyDet);
+          //////////print(verifyDet);
         }
         else{
           verifyError.value = 'Unable to verify Profile code';
@@ -148,7 +148,7 @@ class EducationController extends GetxController{
       else if(result is DataFailed){
         final err =result.exception;
         if(err is DioException){
-          print(err);
+          //////////print(err);
           if(err.type ==DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout){
             verifyError.value = 'No internet connection';
           }
@@ -162,7 +162,7 @@ class EducationController extends GetxController{
         }
       }
     }catch(e){
-      print(e);
+      //////////print(e);
       verifyError.value = 'Something went wrong, try again later';
     }
     finally

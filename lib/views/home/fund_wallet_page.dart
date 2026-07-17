@@ -1,13 +1,14 @@
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
-import 'package:fin_wise/views/view_widgets/shared_widget.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/controller_exports.dart';
 import '../../utils/utils_export.dart';
 import '../../viewModel/home_view_model.dart';
+import '../view_widgets/view_container.dart';
 
 class FundWalletPage extends StatefulWidget {
   const FundWalletPage({super.key});

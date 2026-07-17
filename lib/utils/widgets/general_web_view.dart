@@ -1,6 +1,6 @@
-import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/resources/storage_keys.dart';
+import 'package:data_boot/controllers/balance_ctrl/balance_ctrl.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/Services/device_info_service.dart';
-import 'package:fin_wise/core/connection/network.dart';
-import 'package:fin_wise/data/dataSource/api_service.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
+import 'package:data_boot/Services/device_info_service.dart';
+import 'package:data_boot/core/connection/network.dart';
+import 'package:data_boot/data/dataSource/api_service.dart';
+import 'package:data_boot/core/resources/data_state.dart';
 
 import '../../../core/Routes/Api_endpoints/api_endpoints.dart';
 

@@ -1,5 +1,5 @@
-import 'package:fin_wise/core/connection/network.dart';
-import 'package:fin_wise/data/dataSource/api_service.dart';
+import 'package:data_boot/core/connection/network.dart';
+import 'package:data_boot/data/dataSource/api_service.dart';
 
 class SolarRepo {
 

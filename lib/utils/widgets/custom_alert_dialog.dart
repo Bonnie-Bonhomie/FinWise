@@ -1,8 +1,8 @@
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/widget.dart';
-import 'package:fin_wise/views/view_widgets/cancel_button.dart';
-import 'package:fin_wise/views/view_widgets/shared_widget.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/widget.dart';
+import 'package:data_boot/views/view_widgets/cancel_button.dart';
+import 'package:data_boot/views/view_widgets/shared_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

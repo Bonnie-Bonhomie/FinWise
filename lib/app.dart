@@ -1,11 +1,12 @@
 
-import 'package:fin_wise/binding/initial_binding.dart';
-import 'package:fin_wise/core/Routes/app_routes.dart';
-import 'package:fin_wise/utils/Helpers/life_cycle_helper.dart';
-import 'package:fin_wise/utils/Theme/app_theme.dart';
+import 'package:data_boot/utils/Helpers/life_cycle_helper.dart';
+import 'package:data_boot/utils/Theme/app_theme.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'binding/initial_binding.dart';
+import 'core/Routes/app_routes.dart';
 import 'core/Routes/routes.dart';
 
 class MyApp extends StatelessWidget {

@@ -1,10 +1,10 @@
 
 import 'package:dio/dio.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/transaction_model.dart';
-import 'package:fin_wise/data/repositories/transacetionRepository/transact_repo.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/transaction_model.dart';
+import 'package:data_boot/data/repositories/transacetionRepository/transact_repo.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -146,7 +146,6 @@ class TransactionCtrl extends GetxController{
 
         List currentPage = data[0]['data'];
         List trans = currentPage;
-        print(transact.data);
         final transac = trans.map<TransactionModel>((e) =>TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList();
 
         if(page == 1){
@@ -154,8 +153,6 @@ class TransactionCtrl extends GetxController{
         }else{
           transactionList.addAll(transac);
         }
-
-        print(transactionList.length);
 
         if(transactionList.isEmpty){
           error.value = 'No transaction history';
@@ -166,7 +163,7 @@ class TransactionCtrl extends GetxController{
 
     }else if(transact is DataFailed){
       final err = transact.exception;
-      print(err);
+
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError ||
             err.type == DioExceptionType.connectionTimeout) {
@@ -188,7 +185,6 @@ class TransactionCtrl extends GetxController{
       return ;
     }}
     }catch(e){
-      print(e);
       error.value = 'Something went wrong, reload page';
     }
   }
@@ -237,7 +233,7 @@ class TransactionCtrl extends GetxController{
       }
       else if(deposits is DataFailed){
         final err = deposits.exception;
-        print(err);
+
         if (err is DioException) {
           if (err.type == DioExceptionType.connectionError ||
               err.type == DioExceptionType.connectionTimeout) {
@@ -259,7 +255,6 @@ class TransactionCtrl extends GetxController{
         // return;
       }}
     }catch(e){
-      print(e);
       errorDepo.value = 'Something went wrong, try again later';
     }finally{
       loadingDepo.value = false;

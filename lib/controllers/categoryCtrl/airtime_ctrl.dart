@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/model_export.dart';
-import 'package:fin_wise/data/repositories/CategoriesRepo/airtime_repo.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/model_export.dart';
+import 'package:data_boot/data/repositories/CategoriesRepo/airtime_repo.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -57,11 +57,11 @@ class AirtimeCtrl extends GetxController {
         networkId: netId,
         transPin: pin,
       );
-      print(result.data);
+      //print(result.data);
       if (result is DataSuccess) {
         final data = result.data;
         if (data['status'] == true) {
-          print(data);
+          //print(data);
           TransactionModel receipt = TransactionModel.fromJson(data['data']);
           if (receipt.apiStatus == TransactionStatus.failed) {
             CustomSnackbar.showSnackbar(
@@ -93,7 +93,7 @@ class AirtimeCtrl extends GetxController {
         }
       }
     }catch(e){
-      print(e);
+      //print(e);
       CustomSnackbar.showSnackbar(message: 'Something went wrong, try again later');
     }
   }
@@ -107,15 +107,13 @@ class AirtimeCtrl extends GetxController {
       final data = result.data;
       if (data['status'] == true) {
         airtimeNet.clear();
-        //To solve JsArray<dynamic> error
-        //1. Save the data from the response in a list
+
         List netw = data['data']['networks'];
         //2. Loop through the list
         final netwok = netw.map((e) => NetworksModel.fromJson(e)).toList();
 
-        //3. Then add the list in your own list
         airtimeNet.addAll(netwok);
-        print(airtimeNet);
+        //print(airtimeNet);
       } else {
         return;
       }

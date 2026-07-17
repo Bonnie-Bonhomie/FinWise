@@ -1,7 +1,7 @@
-import 'package:fin_wise/controllers/profileCtrl/fingerprint_ctrl.dart';
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/controllers/profileCtrl/fingerprint_ctrl.dart';
+import 'package:data_boot/controllers/profileCtrl/main_ctrl.dart';
+import 'package:data_boot/utils/widgets/custom_app_bar.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

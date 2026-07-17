@@ -1,12 +1,12 @@
-import 'package:fin_wise/controllers/controller_exports.dart';
-import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/data/models/faqs_model.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/view_widgets/shared_widget.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/controllers/controller_exports.dart';
+import 'package:data_boot/core/Routes/Api_endpoints/api_endpoints.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/custom_app_bar.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+import 'package:data_boot/data/models/faqs_model.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/view_widgets/shared_widget.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

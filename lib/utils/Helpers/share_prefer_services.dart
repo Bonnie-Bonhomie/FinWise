@@ -1,4 +1,4 @@
-import 'package:fin_wise/core/resources/storage_keys.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

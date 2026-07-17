@@ -1,12 +1,12 @@
-import 'package:fin_wise/controllers/balance_ctrl/balance_ctrl.dart';
-import 'package:fin_wise/controllers/categoryCtrl/category_nav_ctrl.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/app_btn.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/utils/widgets/custom_alert_dialog.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/categories/widgets/payment+bottom_sheet.dart';
+import 'package:data_boot/controllers/balance_ctrl/balance_ctrl.dart';
+import 'package:data_boot/controllers/categoryCtrl/category_nav_ctrl.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/app_btn.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+import 'package:data_boot/utils/widgets/custom_alert_dialog.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/categories/widgets/payment+bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

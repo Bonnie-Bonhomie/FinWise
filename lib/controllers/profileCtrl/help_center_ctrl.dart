@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/chat_model.dart';
-import 'package:fin_wise/data/models/faqs_model.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/chat_model.dart';
+import 'package:data_boot/data/models/faqs_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

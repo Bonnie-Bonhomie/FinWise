@@ -1,4 +1,4 @@
-import 'package:fin_wise/data/repositories/analysis_repo.dart';
+import 'package:data_boot/data/repositories/analysis_repo.dart';
 import 'package:get/get.dart';
 
 import '../../core/constant.dart';

@@ -1,10 +1,10 @@
 
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/utils/widgets/price_form_field.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/categories/widgets/confirm_bottom_sheet.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/utils/widgets/price_form_field.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/categories/widgets/confirm_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

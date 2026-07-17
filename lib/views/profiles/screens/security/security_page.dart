@@ -1,11 +1,11 @@
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/general_web_view.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/controllers/profileCtrl/main_ctrl.dart';
+import 'package:data_boot/core/Routes/Api_endpoints/api_endpoints.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/custom_app_bar.dart';
+import 'package:data_boot/utils/widgets/general_web_view.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

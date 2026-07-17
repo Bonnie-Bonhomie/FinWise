@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/Api_endpoints/api_endpoints.dart';
+import 'package:data_boot/core/Routes/Api_endpoints/api_endpoints.dart';
 
 class DioClients{
 

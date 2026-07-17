@@ -1,4 +1,4 @@
-import 'package:fin_wise/core/connection/network.dart';
+import 'package:data_boot/core/connection/network.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

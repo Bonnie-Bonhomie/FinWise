@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/model_export.dart';
-import 'package:fin_wise/data/repositories/CategoriesRepo/data_repository.dart';
-import 'package:fin_wise/utils/widgets/custom_snackbar.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/model_export.dart';
+import 'package:data_boot/data/repositories/CategoriesRepo/data_repository.dart';
+import 'package:data_boot/utils/widgets/custom_snackbar.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
 import 'package:get/get.dart';
 
 class DataController extends GetxController {
@@ -59,7 +59,7 @@ class DataController extends GetxController {
     if (response is DataSuccess) {
       if (response.data['status'] == true) {
         final data = response.data['data'];
-        print(data);
+        ////print(data);
         TransactionModel receipt = TransactionModel.fromJson(data);
           // receipt.category = Categories.data;
         if(receipt.apiStatus == TransactionStatus.failed){
@@ -78,7 +78,7 @@ class DataController extends GetxController {
           CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
         }
         final errData = err.response?.data;
-        print(errData);
+        ////print(errData);
         if (errData['message'] != null && errData != null) {
           CustomSnackbar.showSnackbar(message: errData['message'].toString());
         }
@@ -90,7 +90,7 @@ class DataController extends GetxController {
       CustomSnackbar.showSnackbar(message: err.value, title: 'Oops');
     }
    }catch(e){
-     print(e);
+     ////print(e);
      CustomSnackbar.showSnackbar(message: 'Something went wrong try again later', title: 'Oops');
    }
   }
@@ -111,7 +111,7 @@ class DataController extends GetxController {
 
         //3. Then add the list items into your own list
         dataNet.addAll(netwok);
-        // print(dataNet);
+        // ////print(dataNet);
       }
       return;
     } else if (result is DataFailed) {
@@ -145,14 +145,14 @@ class DataController extends GetxController {
         final dataPlan = plan.map((e) => DataPlan.fromJson(e)).toList();
 
         dataPlans.addAll(dataPlan);
-        print(dataPlans.length);
+        ////print(dataPlans.length);
         dailyPlan.value = dataPlans.where((e) => e.frequency == Frequency.daily).toList();
         weeklyPlan.value = dataPlans.where((e) => e.frequency == Frequency.weekly).toList();
         monthlyPlan.value = dataPlans.where((e) => e.frequency == Frequency.monthly).toList();
         hotUp.value = dataPlans.where((pl) => pl.hotPlans == '1').toList();
-        print(monthlyPlan.length);
+        ////print(monthlyPlan.length);
 
-        // print(plan);
+        // ////print(plan);
       }
     }
     else if (result is DataFailed) {
@@ -160,7 +160,7 @@ class DataController extends GetxController {
       if (err is DioException) {
         if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout) {
           planErr.value = 'No internet connection';
-          print(planErr.value);
+          ////print(planErr.value);
         }
         final errData = err.response?.data;
         if (errData != null && errData['message'] != null) {

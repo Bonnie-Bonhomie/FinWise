@@ -1,6 +1,6 @@
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/resources/storage_keys.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

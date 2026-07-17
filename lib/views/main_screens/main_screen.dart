@@ -1,6 +1,6 @@
 
-import 'package:fin_wise/controllers/controller_exports.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/loading_wrapper.dart';
+import 'package:data_boot/controllers/controller_exports.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/loading_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

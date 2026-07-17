@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/notification_model.dart';
-import 'package:fin_wise/data/repositories/notification_repo.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/notification_model.dart';
+import 'package:data_boot/data/repositories/notification_repo.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -43,7 +43,7 @@ class NotifyCtrl extends GetxController{
 
 
   Future<void> deleteNotify(id, index, List list) async {
-    print('Delete called');
+
 
     try{
       String? token = await store.getToken();
@@ -53,10 +53,10 @@ class NotifyCtrl extends GetxController{
       }
       int noteId = int.parse(id);
       final response = await repo.deleteSingleNotify(token, noteId);
-      print(response.data);
+
       if(response is DataSuccess){
         if(response.data['status'] == true){
-          print('I worked');
+
 
           list.removeAt(index);
           update();
@@ -73,7 +73,7 @@ class NotifyCtrl extends GetxController{
 
           //  Server error
           final errData = err.response?.data;
-          print(err.response?.data);
+
 
           if (errData != null && errData['message'] != null) {
             CustomSnackbar.showSnackbar(message: errData['message'].toString());
@@ -81,7 +81,7 @@ class NotifyCtrl extends GetxController{
         }
       }
     }catch(e){
-      print(e);
+
       CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
     }
 
@@ -103,7 +103,7 @@ class NotifyCtrl extends GetxController{
           if(response.data['status'] == true){
             notifications.clear();
             update();
-            print(response.data);
+
           }else{
             CustomSnackbar.showSnackbar(message: 'Unable to delete notifications');
           }
@@ -119,7 +119,7 @@ class NotifyCtrl extends GetxController{
 
             //  Server error
             final errData = err.response?.data;
-            print(err.response?.data);
+
 
             if (errData != null && errData['message'] != null) {
               CustomSnackbar.showSnackbar(message: errData['message'].toString());
@@ -131,7 +131,7 @@ class NotifyCtrl extends GetxController{
           }
         }
     }catch(e){
-      print(e);
+
       CustomSnackbar.showSnackbar(message: 'Unable to delete all notifications, try again later');
     }finally{
       deleteLoad.value = false;
@@ -151,7 +151,7 @@ class NotifyCtrl extends GetxController{
       }
 
       final response = await repo.getNotification(token);
-      print(response.data);
+
       if (response is DataSuccess) {
         final data = response.data;
 
@@ -184,7 +184,7 @@ class NotifyCtrl extends GetxController{
 
           //  Server error
           final errData = err.response?.data;
-          print(err.response?.data);
+
 
           if (errData != null && errData['message'] != null) {
             noteErr.value = errData['message'];
@@ -196,7 +196,7 @@ class NotifyCtrl extends GetxController{
         }
       }
     }catch(e){
-      print(e);
+
      noteErr.value = 'Something went wrong, reload page';
     }finally{
       loading.value = false;

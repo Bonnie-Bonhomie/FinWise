@@ -1,5 +1,5 @@
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/utils/widgets/phone_number_formatter.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/utils/widgets/phone_number_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

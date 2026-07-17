@@ -1,11 +1,11 @@
-import 'package:fin_wise/controllers/profileCtrl/main_ctrl.dart';
-import 'package:fin_wise/controllers/profileCtrl/notification_settings_ctrl.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/core/constant.dart';
-import 'package:fin_wise/core/resources/storage_keys.dart';
-import 'package:fin_wise/utils/widgets/custom_app_bar.dart';
-import 'package:fin_wise/utils/widgets/text_widget.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/controllers/profileCtrl/main_ctrl.dart';
+import 'package:data_boot/controllers/profileCtrl/notification_settings_ctrl.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/core/constant.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
+import 'package:data_boot/utils/widgets/custom_app_bar.dart';
+import 'package:data_boot/utils/widgets/text_widget.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

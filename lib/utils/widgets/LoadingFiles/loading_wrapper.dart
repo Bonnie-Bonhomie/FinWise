@@ -1,5 +1,5 @@
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/utils/widgets/LoadingFiles/rotating_animation.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
+import 'package:data_boot/utils/widgets/LoadingFiles/rotating_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

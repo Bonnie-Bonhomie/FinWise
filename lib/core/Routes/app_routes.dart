@@ -1,10 +1,10 @@
-import 'package:fin_wise/binding/binding_exports.dart';
-import 'package:fin_wise/views/categories/screens/MarketPlace/products_view.dart';
-import 'package:fin_wise/views/categories/screens/solar/solar_view.dart';
-import 'package:fin_wise/views/transaction/deposits_receipt.dart';
-import 'package:fin_wise/views/view_export.dart';
-import 'package:fin_wise/core/Routes/routes.dart';
-import 'package:fin_wise/views/analysisViews/searchView/search_view.dart';
+import 'package:data_boot/binding/binding_exports.dart';
+import 'package:data_boot/views/categories/screens/MarketPlace/products_view.dart';
+import 'package:data_boot/views/categories/screens/solar/solar_view.dart';
+import 'package:data_boot/views/transaction/deposits_receipt.dart';
+import 'package:data_boot/views/view_export.dart';
+import 'package:data_boot/core/Routes/routes.dart';
+import 'package:data_boot/views/analysisViews/searchView/search_view.dart';
 import 'package:get/get.dart';
 
 

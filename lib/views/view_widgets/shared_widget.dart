@@ -1,8 +1,8 @@
-import 'package:fin_wise/controllers/controller_exports.dart';
-import 'package:fin_wise/core/app_colors.dart';
-import 'package:fin_wise/data/models/product_model.dart';
-import 'package:fin_wise/viewModel/home_view_model.dart';
-import 'package:fin_wise/views/categories/screens/MarketPlace/product_details.dart';
+import 'package:data_boot/controllers/controller_exports.dart';
+import 'package:data_boot/core/app_colors.dart';
+import 'package:data_boot/data/models/product_model.dart';
+import 'package:data_boot/viewModel/home_view_model.dart';
+import 'package:data_boot/views/categories/screens/MarketPlace/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

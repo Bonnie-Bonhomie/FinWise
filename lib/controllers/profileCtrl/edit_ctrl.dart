@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:fin_wise/controllers/loader_contrl.dart';
-import 'package:fin_wise/core/resources/data_state.dart';
-import 'package:fin_wise/core/resources/storage_keys.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/models/profile_model.dart';
-import 'package:fin_wise/data/repositories/profileRepo/edit_profile_repo.dart';
-import 'package:fin_wise/utils/Helpers/share_prefer_services.dart';
+import 'package:data_boot/controllers/loader_contrl.dart';
+import 'package:data_boot/core/resources/data_state.dart';
+import 'package:data_boot/core/resources/storage_keys.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/models/profile_model.dart';
+import 'package:data_boot/data/repositories/profileRepo/edit_profile_repo.dart';
+import 'package:data_boot/utils/Helpers/share_prefer_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

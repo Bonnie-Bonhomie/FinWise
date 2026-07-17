@@ -1,8 +1,8 @@
-import 'package:fin_wise/controllers/notificationCtrl/notify_controller.dart';
-import 'package:fin_wise/core/connection/network.dart';
-import 'package:fin_wise/data/dataSource/api_service.dart';
-import 'package:fin_wise/data/dataSource/storage_file.dart';
-import 'package:fin_wise/data/repositories/notification_repo.dart';
+import 'package:data_boot/controllers/notificationCtrl/notify_controller.dart';
+import 'package:data_boot/core/connection/network.dart';
+import 'package:data_boot/data/dataSource/api_service.dart';
+import 'package:data_boot/data/dataSource/storage_file.dart';
+import 'package:data_boot/data/repositories/notification_repo.dart';
 import 'package:get/get.dart';
 
 class NotifyBinding extends Bindings{

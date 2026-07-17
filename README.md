@@ -1,16 +1,76 @@
-# fin_wise
+# DatabootNg
 
-Finance management mobile app
 
-## Getting Started
+DatabootNg
 
-This project is a starting point for a Flutter application.
+DatabootNg is a modern Flutter application that provides users with a convenient platform to purchase digital services and access marketplace products from a single app.
 
-A few resources to get you started if this is your first Flutter project:
+# (Features)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 📱 Data subscription for all major Nigerian networks
+- 📞 Airtime purchase
+- ⚡ Electricity bill payment
+- 📺 Cable TV subscription
+- 🎓 Education services (e.g. WAEC, NECO, JAMB, School PINs)
+- ☀️ Solar products marketplace
+- 🐟 Fish products marketplace
+- 💳 Secure wallet and transaction history
+- 🔔 Transaction notifications
+- 👤 User profile management
+- 🌙 Light and Dark mode support
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Screenshots
+
+Add screenshots of your application here.
+
+assets/screenshots/
+├── home.png
+├── data.png
+├── airtime.png
+├── marketplace.png
+└── profile.png
+
+Tech Stack
+
+- Flutter
+- Dart
+- Firebase
+- REST API (Laravel)
+- GetX (State Management)
+- SharedPreferences
+- Dio
+- Google Fonts
+
+Project Structure
+
+lib/
+├── core/
+├── data/
+├── models/
+├── services/
+├── view/
+├── viewModel/
+├── widgets/
+└── main.dart
+
+Getting Started
+
+Prerequisites
+
+- Flutter SDK 3.x or later
+- Dart SDK
+- Android Studio or VS Code
+- Git
+
+Roadmap
+- Referral system
+- Push notifications
+- Reward points
+- More marketplace categories
+
+
+Developer
+
+KarrimTech technologies
+
+For support or business inquiries, please contact the DatabootNg support team.

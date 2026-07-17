@@ -1,6 +1,6 @@
-export 'account_balance_binding.dart';
+
 export 'analysis_binding.dart';
-export 'auth_binding.dart';
+
 export 'calender_binding.dart';
 export 'initial_binding.dart';
 export 'keypad_binding.dart';

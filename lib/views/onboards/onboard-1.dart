@@ -1,6 +1,6 @@
-import 'package:fin_wise/controllers/onboardControllers/onboard_control.dart';
-import 'package:fin_wise/views/onboards/widgets/dot_file.dart';
-import 'package:fin_wise/views/view_widgets/view_container.dart';
+import 'package:data_boot/controllers/onboardControllers/onboard_control.dart';
+import 'package:data_boot/views/onboards/widgets/dot_file.dart';
+import 'package:data_boot/views/view_widgets/view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
