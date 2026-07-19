@@ -10,7 +10,7 @@ class OnboardControl extends GetxController{
   var loading = false.obs;
   List<String> topText =[
     "Welcome to DatabootNg",
-    "¿Making Bill Payment Easier?"
+    "Making Bill Payment Easier"
   ];
   List<String> imagePath =[
     "assets/images/onboard-1.png",
