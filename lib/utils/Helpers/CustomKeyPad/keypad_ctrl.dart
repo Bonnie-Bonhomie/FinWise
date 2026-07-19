@@ -31,6 +31,7 @@ class KeyPadController extends GetxController{
     if(pin.length == 4) {
       load.offLoading(() async {
       await action(pin);
+      // Get.back();
       });
     }
   }
