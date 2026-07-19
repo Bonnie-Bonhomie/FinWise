@@ -31,10 +31,7 @@ class PaymentBottomSheet {
       isDismissible: false,
 
       builder: (context) {
-        // return WillPopScope(onWillPop: () async{
-        //   Get.delete<KeyPadController>();
-        //   return false;
-        // }, child:
+
         return WillPopScope(
           onWillPop: () async {
             bool? shouldPop = await showDialog(
@@ -53,7 +50,7 @@ class PaymentBottomSheet {
 
   Container buildBottomSheet(BuildContext context, Function(String pin) action) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadiusGeometry.directional(
           topEnd: Radius.circular(30),
@@ -87,6 +84,7 @@ class PaymentBottomSheet {
             padding: const EdgeInsets.fromLTRB(40, 15, 40, 0),
             child: CustomPinCodeField(
               pinTextCtrl: controller.pinText,
+              size: 35,
               len: 4,
               obscure: true,
               readOnly: true,
@@ -106,6 +104,7 @@ class PaymentBottomSheet {
           ),
           // SizedBox(height: 15),
           Expanded(child: CustomKeyboard(controller: controller)),
+          const SizedBox(height: 20)
         ],
       ),
     );

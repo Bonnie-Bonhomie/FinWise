@@ -77,8 +77,8 @@ class LocalNotificationService {
     await SharedPreferService().saveData(PrefStoreKeys.fcmToken, token);
     // Listen when user taps notification
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('Notification opened');
-      print(message.data);
+      // print('Notification opened');
+      // print(message.data);
     });
   }
 
@@ -116,7 +116,7 @@ class LocalNotificationService {
       String? apsToken;
       while(apsToken == null){
         apsToken = await msgService.getAPNSToken();
-        print('Ios token: $apsToken');
+        // print('Ios token: $apsToken');
       }
     }
     String? token = await msgService.getToken();
