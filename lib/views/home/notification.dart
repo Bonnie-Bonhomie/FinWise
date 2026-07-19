@@ -222,7 +222,7 @@ class ShowBottomInfo {
                         const CircleAvatar(child: Icon(Icons.notifications_none)),
                         const SizedBox(width: 10),
 
-                        Expanded(child: Text(note.title,overflow: TextOverflow.ellipsis, maxLines: 3, textAlign: TextAlign.justify, style: TextStyle(fontWeight: FontWeight.bold),)),
+                        Expanded(child: Text(note.title,overflow: TextOverflow.ellipsis, maxLines: 3,  style: TextStyle(fontWeight: FontWeight.bold),)),
                         const SizedBox(width: 20,),
                         const Icon(Icons.circle, color: AppColors.primary, size: 10),
                         const SizedBox(width: 10),
