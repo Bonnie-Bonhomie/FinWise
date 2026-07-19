@@ -26,7 +26,13 @@ class AuthCtrl extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    getEmail();
+    Future.microtask(()async{
+      final bool? hasShown = await store.retrieve<bool>(PrefStoreKeys.isFirstTime);
+      if(hasShown == true){
+        await getEmail();
+      }
+    });
+
     super.onInit();
   }
 
