@@ -26,7 +26,7 @@ class CustomKeyboard extends StatelessWidget{
               childAspectRatio: 2,
           ), itemBuilder: (context, index){
         if(index == 9){
-          return keypadKeys(context: context, text: 'C', onTap: ()=> controller.clearAll(), color: Colors.grey);}
+          return keypadKeys(context: context, text: 'C', onTap: ()=> controller.clearAll(), color: Colors.grey[600]);}
         else if(index == 10){
          return  keypadKeys(context: context, text: '9', onTap: () {
            print(controller.input.value);
@@ -34,7 +34,7 @@ class CustomKeyboard extends StatelessWidget{
          });
         }
         else if(index == 11){
-         return keypadKeys(context: context, text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey, textSize: 30);
+         return keypadKeys(context: context, text: '⌫', onTap: ()=> controller.deleteValue(), color: Colors.grey[600], textSize: 30);
         }
         return keypadKeys(context: context, text: index.toString(), onTap: () => controller.addValue(index.toString(), 4));
       }, ),
@@ -45,8 +45,8 @@ class CustomKeyboard extends StatelessWidget{
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 30,
-        width: 50,
+        height: 25,
+        width: 45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: color ?? Theme.of(context).scaffoldBackgroundColor,
