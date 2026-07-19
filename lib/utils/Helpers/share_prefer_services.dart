@@ -48,7 +48,7 @@ class SharedPreferService {
       await _pref.setBool(key, value as bool);
     }
     if(kDebugMode){
-      print('Saved $key, $value');
+      // print('Saved $key, $value');
     }
   }
 
@@ -64,7 +64,7 @@ class SharedPreferService {
     await ensuredInitialized();
    final value =  _pref.get(key);
    if(kDebugMode){
-     print('Retrieved successfully $value');
+     // print('Retrieved successfully $value');
    }
    return value as T?;
   }
