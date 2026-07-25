@@ -24,6 +24,7 @@ class AccBalanceCtrl extends GetxController {
     //   getBalance();
     super.onInit();
   }
+
   final HomeViewModel viewModel = HomeViewModel();
   final AuthCtrl auth = Get.find<AuthCtrl>();
 
@@ -67,7 +68,6 @@ class AccBalanceCtrl extends GetxController {
     return formated;
   }
 
-
   //Get bonus balance function
   Future<void> getBonusBal() async {
     if (loadingB.value) return;
@@ -76,7 +76,6 @@ class AccBalanceCtrl extends GetxController {
       final String? token = await storage.getToken();
 
       if (token != null) {
-
         final response = await repo.getBonusBal(token);
         if (response is DataSuccess) {
           if (response.data['status'] == true) {
@@ -97,7 +96,9 @@ class AccBalanceCtrl extends GetxController {
           if (err is DioException) {
             print(err);
             //  Network issues
-            if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout|| err.type == DioExceptionType.receiveTimeout) {
+            if (err.type == DioExceptionType.connectionError ||
+                err.type == DioExceptionType.connectionTimeout ||
+                err.type == DioExceptionType.receiveTimeout) {
               CustomSnackbar.showSnackbar(
                 message: 'No internet connection, when loading bonus',
               );
@@ -138,18 +139,18 @@ class AccBalanceCtrl extends GetxController {
   Future<void> getBalance() async {
     if (loading.value) return;
     try {
+
       loading.value = true;
-      final String? token = await storage.getToken();
+      final token = await storage.getToken();
 
       if (token != null) {
         final response = await repo.getWallet(token);
 
         if (response is DataSuccess) {
           final data = response.data;
-          // print(data);
-          if (data['status'] == true) {
 
-            accountBalance.value = double.parse(data['data']['bal']);
+          if (data['status'] == true) {
+            accountBalance.value = double.parse(data['data']['bal'].toString());
             SharedPreferService().saveData('Balance', accountBalance.value);
           }
         } else if (response is DataFailed) {
@@ -157,7 +158,9 @@ class AccBalanceCtrl extends GetxController {
 
           if (err is DioException) {
             //  Network issues
-            if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout|| err.type == DioExceptionType.receiveTimeout) {
+            if (err.type == DioExceptionType.connectionError ||
+                err.type == DioExceptionType.connectionTimeout ||
+                err.type == DioExceptionType.receiveTimeout) {
               balanceErr.value = 'No network ';
             }
 
@@ -209,7 +212,9 @@ class AccBalanceCtrl extends GetxController {
 
           if (err is DioException) {
             //  Network issues
-            if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout|| err.type == DioExceptionType.receiveTimeout) {
+            if (err.type == DioExceptionType.connectionError ||
+                err.type == DioExceptionType.connectionTimeout ||
+                err.type == DioExceptionType.receiveTimeout) {
               channelErr.value = 'No internet connection';
             }
 
@@ -231,7 +236,9 @@ class AccBalanceCtrl extends GetxController {
     } finally {
       loading.value = false;
     }
-  }   ///get payment channels
+  }
+
+  ///get payment channels
 
   ///get payment channels
   ///
@@ -250,7 +257,6 @@ class AccBalanceCtrl extends GetxController {
       final DataState<dynamic> response;
       if (method.toUpperCase() == 'GET') {
         response = await repo.getPaymentUrl(url, token, amount);
-
       } else {
         response = await repo.postPayment(url, token, amount);
       }
@@ -263,8 +269,13 @@ class AccBalanceCtrl extends GetxController {
           String failedUrl = data['failure_url'];
           String successUrl = data['success_url'];
 
-          Get.off(() => PaymentWebView(paymentUrl: paymentUrl, failedUrl: failedUrl, successUrl: successUrl));
-
+          Get.off(
+            () => PaymentWebView(
+              paymentUrl: paymentUrl,
+              failedUrl: failedUrl,
+              successUrl: successUrl,
+            ),
+          );
 
           print(response.data);
         } else {
@@ -278,8 +289,13 @@ class AccBalanceCtrl extends GetxController {
         print(err);
         if (err is DioException) {
           //  Network issues
-          if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout|| err.type == DioExceptionType.receiveTimeout) {
-            CustomSnackbar.showSnackbar(title: 'No internet connection', message: 'Check your internet connection');
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout ||
+              err.type == DioExceptionType.receiveTimeout) {
+            CustomSnackbar.showSnackbar(
+              title: 'No internet connection',
+              message: 'Check your internet connection',
+            );
             return;
           }
 
@@ -290,7 +306,6 @@ class AccBalanceCtrl extends GetxController {
           if (errData != null && errData['message'] != null) {
             CustomSnackbar.showSnackbar(message: errData['message']);
           }
-
         } else {
           CustomSnackbar.showSnackbar(message: 'Unknown error occurred');
         }
@@ -311,8 +326,7 @@ class AccBalanceCtrl extends GetxController {
     required String phoneNumber,
     required String bvn,
     required String dob,
-  })
-  async {
+  }) async {
     try {
       final response = await repo.generateVirtual(
         fullname: fullname,
@@ -334,7 +348,9 @@ class AccBalanceCtrl extends GetxController {
 
         if (err is DioException) {
           //  Network issues
-          if (err.type == DioExceptionType.connectionError || err.type == DioExceptionType.connectionTimeout|| err.type == DioExceptionType.receiveTimeout) {
+          if (err.type == DioExceptionType.connectionError ||
+              err.type == DioExceptionType.connectionTimeout ||
+              err.type == DioExceptionType.receiveTimeout) {
             CustomSnackbar.showSnackbar(message: 'No internet connection');
             return;
           }
@@ -361,5 +377,6 @@ class AccBalanceCtrl extends GetxController {
       );
     }
   }
+
   //generate virtual account function
 }
