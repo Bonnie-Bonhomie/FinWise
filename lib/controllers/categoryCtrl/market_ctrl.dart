@@ -43,6 +43,7 @@ class MarketCtrl extends GetxController{
            productErr.value = 'Fish products is not available';
          }else{
            final prod = products.map((e) => ProductModel.fromJson(e)).toList();
+
            fishProduct.assignAll(prod);
          }
 
@@ -63,7 +64,7 @@ class MarketCtrl extends GetxController{
      }
    }catch(e) {
      print(e);
-     productErr.value = 'Unknown err occur';
+     productErr.value = 'Unknown error occur';
    }
   } ///Get available products
 
@@ -81,7 +82,7 @@ class MarketCtrl extends GetxController{
       if(response is DataSuccess){
         if(response.data['status'] == true){
           final data = response.data['data'];
-          print(data);
+          //print(data);
         }
       }else if (response is DataFailed){
         final err = response.exception;
@@ -98,7 +99,7 @@ class MarketCtrl extends GetxController{
         }
       }
     }catch(e){
-      print(e);
+      //print(e);
       productErr.value = 'Unknown err occur';
     }finally {
       loadingProd.value = false;
@@ -143,7 +144,7 @@ class MarketCtrl extends GetxController{
         }
       }
     }catch(e){
-      print(e);
+      // //print(e);
       CustomSnackbar.showSnackbar(message: 'Unknown err occur, ty again later');
     }
   }
@@ -153,7 +154,7 @@ class MarketCtrl extends GetxController{
       loadingProd.value = true;
       await getProducts();
     }catch(e){
-      print(e);
+      //print(e);
     }finally{
       loadingProd.value = false;
     }
