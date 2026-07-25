@@ -49,6 +49,8 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   Widget build(BuildContext context) {
+    // numberCtrl.text = '';
+    // addressCtrl.text = '';
 
     double regular = viewModel.parseAmount(widget.product.regularPrice);
     double sale = viewModel.parseAmount(widget.product.salePrice);
@@ -222,7 +224,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                           ),
                                           const SizedBox(height: 30,),
                                           AppBtn(
-                                            onPressed: () {
+                                            onPressed: (){
                                               double price = double.parse(
                                                 widget.product.salePrice,
                                               );
@@ -246,8 +248,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                     },
                                                   );
                                                 });
-                                                numberCtrl.text = '';
-                                                addressCtrl.text = '';
+
                                               }else{
                                                 CustomSnackbar.warningSnack( 'Enter your address and phone number to continue');
                                               }

@@ -167,6 +167,7 @@ class _FundWalletPageState extends State<FundWalletPage> {
                                   acc.selectPay.value = select;
                                   showPaymentSheet(context, index);
                                 },
+                                tileColor: Colors.transparent,
                                 leading: Container(
                                   height: 60,
                                   width: 60,
