@@ -91,7 +91,7 @@ class _ProductViewState extends State<ProductView> {
                       if (ctrl.fishProduct.isEmpty) {
                         return Column(
                           children: [
-                            Icon(Icons.not_interested_sharp, size: 40,),
+                            Icon(Icons.not_interested_sharp, size: 100,),
                             Text(ctrl.productErr.value),
                           ],
                         );
