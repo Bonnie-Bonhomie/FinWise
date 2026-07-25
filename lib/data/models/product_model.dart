@@ -55,7 +55,7 @@ class ProductModel {
         deliveryDurat: json['delivery_duration'].toString(),
         createdAt: json['created_at'].toString(),
         updatedAt: json['updated_at'].toString(),
-        soldOut: json['is_sold_out']..toString(),
+        soldOut: json['is_sold_out'].toString(),
         status: json['status'].toString(),
         isHot: json['is_hot_sale'].toString(),
 
