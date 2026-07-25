@@ -38,7 +38,8 @@ class _HomePageState extends State<HomePage>
         (await store.retrieve<String>(PrefStoreKeys.username)) ??
         'Welcome back';
     final bal = await store.retrieve('Balance');
-    acc.accountBalance.value = bal;
+
+    if(bal !=  null) {acc.accountBalance.value = bal;}
     setState(() => name = getNam);
     print(name);
   }
@@ -178,7 +179,7 @@ class _HomePageState extends State<HomePage>
     double percent,
     AccBalanceCtrl acc,
   ) {
-    final List<String> accountState = ['Good', 'Bad'];
+
     return Container(
       margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Column(
@@ -359,6 +360,7 @@ class _HomePageState extends State<HomePage>
 
   //Name and header greeting
   Widget _header(String greet) {
+    // String showName = name ?? auth.
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 15, 20, 5.0),
       child: Row(
