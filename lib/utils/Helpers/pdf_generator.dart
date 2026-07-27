@@ -86,17 +86,17 @@ class PdfGeneratorService {
               pw.Divider(),
               rowTile('Payment Type', receipt.modelableType),
               pw.Divider(),
-              rowTile('Provider', receipt.modelableId.toUpperCase()),
+              receipt.category == Categories.fish || receipt.category == Categories.solar? rowTile('Quantity', receipt.modelableId.toUpperCase()): rowTile('Provider', receipt.modelableId.toUpperCase()),
               pw.Divider(),
               receipt.category == Categories.airtime ||
                       receipt.category == Categories.data ||
-                      receipt.category == Categories.fish
+                      receipt.category == Categories.fish || receipt.category == Categories.solar
                   ? rowTile('Phone Number', receipt.phoneNo)
                   : pw.SizedBox.shrink(),
               receipt.category == Categories.cable
                   ? rowTile('Beneficiary', receipt.phoneNo)
                   : pw.SizedBox.shrink(),
-              receipt.category == Categories.fish
+              receipt.category == Categories.fish || receipt.category == Categories.solar
                   ? rowTile('Address', receipt.productRef)
                   : pw.SizedBox.shrink(),
               receipt.category == Categories.electricity
